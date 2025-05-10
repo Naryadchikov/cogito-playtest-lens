@@ -25,5 +25,7 @@ func _on_body_shape_entered(_body_rid,body,_body_shape_idx,local_shape_idx):
 func _on_body_exited(body):
 	if body.is_in_group("Player"):
 		body.on_ladder = false
+		if body.has_method("exit_ladder"):
+			body.exit_ladder()
 		if ladder_collision:
 			ladder_collision.process_mode = original_process_mode

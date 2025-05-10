@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c2kkj7vhsd1oi" path="res://addons/cogito/SceneManagement/cogito_scene.gd" id="1_kxi7f"]
 [ext_resource type="Texture2D" uid="uid://sdcljx8f5dhj" path="res://addons/cogito/Assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="2_akrjl"]
-[ext_resource type="PackedScene" uid="uid://kicjwmh02uwf" path="res://addons/cogito/PackedScenes/cogito_player.tscn" id="3_ea58p"]
+[ext_resource type="PackedScene" uid="uid://kicjwmh02uwf" path="res://addons/cogito/PackedScenes/cogito_player_default.tscn" id="3_ea58p"]
 [ext_resource type="Script" uid="uid://di15gqemrkk0x" path="res://addons/cogito/InventoryPD/CustomResources/InventorySlotPD.gd" id="4_dnxke"]
 [ext_resource type="Script" uid="uid://btnha2whsheir" path="res://addons/cogito/InventoryPD/cogito_inventory.gd" id="5_fhmwi"]
 [ext_resource type="PackedScene" uid="uid://p3f16jxrcxdt" path="res://addons/cogito/Assets/Models/Kenney/Furniture/GLTF format/floorFull.glb" id="6_p6cr3"]
@@ -4028,18 +4028,23 @@ line_spacing = -5.0
 
 [node name="TargetDestructable" parent="NavigationRegion3D/SHOOTING_RANGE/TARGETS" instance=ExtResource("25_s7t53")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, -22)
+cogito_name = ""
 
 [node name="TargetDestructable2" parent="NavigationRegion3D/SHOOTING_RANGE/TARGETS" instance=ExtResource("25_s7t53")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -22)
+cogito_name = ""
 
 [node name="TargetDestructable3" parent="NavigationRegion3D/SHOOTING_RANGE/TARGETS" instance=ExtResource("25_s7t53")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -22)
+cogito_name = ""
 
 [node name="TargetDestructable4" parent="NavigationRegion3D/SHOOTING_RANGE/TARGETS" instance=ExtResource("25_s7t53")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, -27)
+cogito_name = ""
 
 [node name="TargetDestructable5" parent="NavigationRegion3D/SHOOTING_RANGE/TARGETS" instance=ExtResource("25_s7t53")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, -27)
+cogito_name = ""
 
 [node name="pickup_pistol" parent="NavigationRegion3D/SHOOTING_RANGE" instance=ExtResource("26_gtpm7")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 4.52303, 0.813927, -15.3253)
@@ -4061,6 +4066,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, -1, -4.37114e-08, -4.37114e-08, 4.37
 
 [node name="Pickup_Pickaxe" parent="NavigationRegion3D/SHOOTING_RANGE" instance=ExtResource("29_3vl4d")]
 transform = Transform3D(0.995536, -0.0938573, -0.0099791, 0, 0.105726, -0.994395, 0.0943863, 0.989956, 0.105254, 1.44729, 0.86964, -11.7382)
+cogito_name = ""
 
 [node name="HealthPotion" parent="NavigationRegion3D/SHOOTING_RANGE" instance=ExtResource("30_gnpoe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0588015, 1.21509, -11.2257)

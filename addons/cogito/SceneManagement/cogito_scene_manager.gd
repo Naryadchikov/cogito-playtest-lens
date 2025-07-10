@@ -202,7 +202,13 @@ func load_player_state(player, passed_slot:String) -> void:
 		player.try_crouch = _player_state.player_try_crouch
 		# important: ensures the player isn't crouching on game load, regardless
 		# of whether the option "Toggle Crouching" is set to OFF or ON
-		player.is_crouching = player.try_crouch
+		if player is not CogitoPlayerStateDriven:
+			player.is_crouching = player.try_crouch
+		else:
+			if player.try_crouch:
+				player.current_body_posture_state = CogitoPlayerStateDriven.BodyPostureState.Crouching
+			else:
+				player.current_body_posture_state = CogitoPlayerStateDriven.BodyPostureState.Standing
 		
 		## Loading player sitting state
 		_player_state.load_sitting_state(player) 
@@ -215,6 +221,18 @@ func load_player_state(player, passed_slot:String) -> void:
 			for data in state_data.keys():
 				player.player_interaction_component.set(data, state_data[data])
 			player.player_interaction_component.set_state.call_deferred() # Calling this deferred as some state calls need to make sure the scene is finished loading.
+		
+		_player_state.load_state_chart(player)
+		
+		player.is_dead = false
+		player.direction = Vector3.ZERO
+		player.main_velocity = Vector3.ZERO
+		player.last_velocity = Vector3.ZERO
+		
+		if player is CogitoPlayerStateDriven:
+			player.is_movement_paused = true
+			player.was_on_ladder = _player_state.was_on_ladder
+			player._on_resume_movement()
 		
 		player.player_state_loaded.emit()
 		fade_in()
@@ -318,6 +336,11 @@ func save_player_state(player, slot:String) -> void:
 	var current_player_interaction_component = player.player_interaction_component
 	_player_state.clear_saved_interaction_component_state()
 	_player_state.add_interaction_component_state_data_to_array(current_player_interaction_component.save())
+	
+	_player_state.save_state_chart(player)
+	
+	if player is CogitoPlayerStateDriven:
+		_player_state.was_on_ladder = player.was_on_ladder
 	
 	# Write to temp directory first
 	_player_state.write_state("temp")

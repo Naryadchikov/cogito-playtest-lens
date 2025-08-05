@@ -231,7 +231,6 @@ func load_player_state(player, passed_slot:String) -> void:
 		
 		if player is CogitoPlayerStateDriven:
 			player.is_movement_paused = true
-			player.was_on_ladder = _player_state.was_on_ladder
 			player._on_resume_movement()
 		
 		player.player_state_loaded.emit()
@@ -338,9 +337,6 @@ func save_player_state(player, slot:String) -> void:
 	_player_state.add_interaction_component_state_data_to_array(current_player_interaction_component.save())
 	
 	_player_state.save_state_chart(player)
-	
-	if player is CogitoPlayerStateDriven:
-		_player_state.was_on_ladder = player.was_on_ladder
 	
 	# Write to temp directory first
 	_player_state.write_state("temp")

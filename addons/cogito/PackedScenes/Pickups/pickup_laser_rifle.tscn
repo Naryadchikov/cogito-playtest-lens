@@ -169,6 +169,7 @@ inventory_item = SubResource("Resource_f34pd")
 
 [node name="Pickup_LaserRifle" type="RigidBody3D" unique_id=461128878]
 collision_layer = 3
+mass = 3.5
 script = ExtResource("1_u4ubh")
 cogito_name = ""
 

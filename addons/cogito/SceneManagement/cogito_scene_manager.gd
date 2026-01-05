@@ -34,7 +34,7 @@ signal seat_move_requested(Node)
 enum CogitoSceneLoadMode {TEMP, LOAD_SAVE, RESET}
 @export var scene_load_mode: CogitoSceneLoadMode
 
-@export var cogito_state_dir : String = "user://"
+@export var cogito_state_dir : String = "user://saves/"
 
 @onready var cogito_scene_state_prefix : String = CogitoGlobals.scene_state_prefix
 @onready var cogito_player_state_prefix : String = CogitoGlobals.player_state_prefix
@@ -42,13 +42,24 @@ enum CogitoSceneLoadMode {TEMP, LOAD_SAVE, RESET}
 @onready var default_fade_duration : float = CogitoGlobals.default_transition_duration
 @export var fade_panel : Panel = null
 
+var saves_data_file_path : String = cogito_state_dir + "saves.data"
+
 var is_currently_loading : bool = false
+var is_loaded_from_start_new_game : bool = false
+var previous_menu = ""
+var previous_menu_button_pressed = ""
+var pause_menu
+var game_menu
+var save_load_menu
 
 
 func _ready() -> void:
 	_player_state = get_existing_player_state(_active_slot) # Setting active slot (per default it's A)
 	_scene_state = get_existing_scene_state(_active_slot)
-
+	
+	if not DirAccess.dir_exists_absolute(cogito_state_dir):
+		DirAccess.make_dir_absolute(cogito_state_dir)
+	
 	reset_scene_states()
 	instantiate_fade_panel()
 
@@ -290,16 +301,18 @@ func save_player_state(player, slot:String) -> void:
 		_player_state.add_to_world_dictionary(entry, local_dict_copy[entry])
 
 	## Adding a screenshot
-	var screenshot_path : String = str(_player_state.player_state_dir + _active_slot + ".png")
+	var screenshot_path : String = str(_player_state.player_state_dir + slot + ".png")
+	
 	if _screenshot_to_save:
-		_screenshot_to_save.save_png(screenshot_path)
-		_player_state.player_state_screenshot_file = screenshot_path
+		if slot != "temp":
+			_screenshot_to_save.save_png(screenshot_path)
+			_player_state.player_state_screenshot_file = screenshot_path
 	else:
 		CogitoGlobals.debug_log(true,"CSM","No screenshot to save was passed.")
 	
 	## Getting time of saving
 	_player_state.player_state_savetime = int(Time.get_unix_time_from_system())
-	_player_state.player_state_slot_name = _active_slot
+	_player_state.player_state_slot_name = slot
 
 	# Writing the state from current player interaction component:
 	var current_player_interaction_component = player.player_interaction_component
@@ -450,6 +463,8 @@ func delete_save(passed_slot: String) -> void:
 	# var file_to_remove = cogito_state_dir + cogito_player_state_prefix + passed_slot + ".res"
 	var dir_to_remove = cogito_state_dir + passed_slot
 	OS.move_to_trash(ProjectSettings.globalize_path(dir_to_remove))
+	var screenshot_to_remove = cogito_state_dir + CogitoGlobals.cogito_settings.player_state_prefix + passed_slot + ".png"
+	OS.move_to_trash(ProjectSettings.globalize_path(screenshot_to_remove))
 	CogitoGlobals.debug_log(true,"CSM","Save file removed: "+ dir_to_remove)
 	
 	# var scene_to_remove = cogito_state_dir + cogito_scene_state_prefix + passed_slot + ".res"
@@ -613,3 +628,96 @@ func fade_out(fade_duration:float = default_fade_duration) -> void:
 	fade_tween.tween_property(fade_panel, "modulate", Color.BLACK, fade_duration).set_trans(Tween.TRANS_CUBIC)
 	await fade_tween.finished
 	fade_finished.emit()
+
+
+func save_last_saved_slot(slot: String) -> void:
+	var saved_slots = []
+	var config = ConfigFile.new()
+	if FileAccess.file_exists(saves_data_file_path):
+		config.load(saves_data_file_path)
+		saved_slots = config.get_value("save", "slots")
+		saved_slots.erase(slot)
+		saved_slots.append(slot)
+		config.set_value("save", "slots", saved_slots)
+		config.save(saves_data_file_path)
+	else:
+		saved_slots.append(slot)
+		config.set_value("save", "slots", saved_slots)
+		config.save(saves_data_file_path)
+ 
+
+func get_last_saved_slot() -> String:
+	if FileAccess.file_exists(saves_data_file_path):
+		var config = ConfigFile.new()
+		config.load(saves_data_file_path)
+		var saved_slots = []
+		saved_slots = config.get_value("save", "slots", [])
+		if saved_slots:
+			var slot = saved_slots.back()
+			if slot:
+				return slot
+
+	return ""  # Return an empty string if no saved slot exists
+
+
+func delete_from_saved_slots(slot: String):
+	if FileAccess.file_exists(saves_data_file_path):
+		var config = ConfigFile.new()
+		config.load(saves_data_file_path)
+		var saved_slots = []
+		saved_slots = config.get_value("save", "slots")
+		saved_slots.erase(slot)
+		config.save(saves_data_file_path)
+
+
+func is_saved_slots_empty():
+	if FileAccess.file_exists(saves_data_file_path):
+		var config = ConfigFile.new()
+		config.load(saves_data_file_path)
+		var saved_slots = []
+		saved_slots = config.get_value("save", "slots")
+		if saved_slots:
+			return false
+	
+	return true
+
+
+func saved_slots_count() -> int:
+	if FileAccess.file_exists(saves_data_file_path):
+		var config = ConfigFile.new()
+		config.load(saves_data_file_path)
+		var saved_slots = []
+		saved_slots = config.get_value("save", "slots", [])
+		if saved_slots:
+			return saved_slots.size()
+
+	return 0
+
+
+func max_saved_slot_nubmer() -> int:
+	if FileAccess.file_exists(saves_data_file_path):
+		var config = ConfigFile.new()
+		config.load(saves_data_file_path)
+		var saved_slots = []
+		saved_slots = config.get_value("save", "slots", [])
+		if saved_slots:
+			var max_value = 0
+			for slot in saved_slots:
+				if int(slot) > max_value:
+					max_value = int(slot)
+			
+			return max_value
+
+	return 0
+
+
+func is_saved_slot_exist(slot: String):
+	if FileAccess.file_exists(saves_data_file_path):
+		var config = ConfigFile.new()
+		config.load(saves_data_file_path)
+		var saved_slots = []
+		saved_slots = config.get_value("save", "slots")
+		if saved_slots and slot in saved_slots:
+			return true
+	
+	return false

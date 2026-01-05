@@ -13,7 +13,7 @@ var playback : AudioStreamPlaybackPolyphonic
 var temp_screenshot : Image
 
 @onready var label_active_slot: Label = %Label_ActiveSlot
-@onready var load_button := %LoadButton
+@onready var load_button := %ReloadButton
 
 #endregion
 
@@ -54,10 +54,15 @@ func _play_pressed() -> void:
 func open_death_screen():
 	#Stops game and shows pause menu
 	get_tree().paused = true
-	label_active_slot.text = "Current Slot: " + CogitoSceneManager._active_slot
+	
+	if CogitoSceneManager.is_loaded_from_start_new_game:
+		label_active_slot.text = ""
+	else:
+		label_active_slot.text = tr("TXT_CURRENT_SLOT") + ": " + CogitoSceneManager._active_slot
+		
 	temp_screenshot = grab_temp_screenshot()
 	show()
-	if !load_current_slot_data():
+	if CogitoSceneManager.is_loaded_from_start_new_game or !load_current_slot_data():
 		#load_button.disabled = true
 		hide_saved_slot_display()
 		change_load_btn_to_new_game_btn()
@@ -68,12 +73,13 @@ func open_death_screen():
 
 
 func hide_saved_slot_display():
-	%Screenshot_Spot.visible = false
+	%Screenshot_Spot.texture = empty_slot_texture
+	#%Screenshot_Spot.visible = false
 	%Label_SaveTime2.visible = false
 	%Label_SaveTime.visible = false
 
 func show_saved_slot_display():
-	%Screenshot_Spot.visible = true
+	#%Screenshot_Spot.visible = true
 	%Label_SaveTime2.visible = true
 	%Label_SaveTime.visible = true
 
@@ -110,8 +116,8 @@ func load_current_slot_data() -> bool:
 
 func change_load_btn_to_new_game_btn() -> void:
 	print("Death Screen: chaning load button to new game button.")
-	if load_button.pressed.is_connected(_on_load_button_pressed):
-		load_button.pressed.disconnect(_on_load_button_pressed)
+	if load_button.pressed.is_connected(_on_reload_button_pressed):
+		load_button.pressed.disconnect(_on_reload_button_pressed)
 	load_button.text = tr("TXT_NEW_GAME")
 	if !load_button.pressed.is_connected(_on_new_game_button_pressed):
 		load_button.pressed.connect(_on_new_game_button_pressed)
@@ -144,7 +150,7 @@ func _on_back_to_menu_button_pressed():
 	back_to_main_pressed.emit()
 
 
-func _on_load_button_pressed() -> void:
+func _on_reload_button_pressed() -> void:
 	get_tree().paused = false
 	hide()
 	CogitoGlobals.debug_log(true,"DeathScreen","LOAD button pressed.")

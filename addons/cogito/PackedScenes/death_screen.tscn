@@ -23,7 +23,7 @@ grow_vertical = 2
 theme = ExtResource("1_t83el")
 theme_override_styles/panel = SubResource("StyleBoxFlat_t83el")
 script = ExtResource("2_iaru5")
-nodes_to_focus = [NodePath("PanelContainer/Content/GameMenu/VBoxContainer/QuitButton")]
+nodes_to_focus = [NodePath("PanelContainer/Content/GameMenu/VBoxContainer/HBoxContainer_ReloadBtn/ReloadButton")]
 sound_hover = ExtResource("3_un7fm")
 sound_click = ExtResource("4_8jkn7")
 empty_slot_texture = ExtResource("5_0gwvb")
@@ -116,16 +116,16 @@ theme_override_font_sizes/font_size = 16
 text = "YYYY-MM-DD HH:MM"
 horizontal_alignment = 1
 
-[node name="HBoxContainer_LoadBtn" type="HBoxContainer" parent="PanelContainer/Content/GameMenu/VBoxContainer"]
+[node name="HBoxContainer_ReloadBtn" type="HBoxContainer" parent="PanelContainer/Content/GameMenu/VBoxContainer"]
 layout_mode = 2
 
-[node name="LoadButton" type="Button" parent="PanelContainer/Content/GameMenu/VBoxContainer/HBoxContainer_LoadBtn"]
+[node name="ReloadButton" type="Button" parent="PanelContainer/Content/GameMenu/VBoxContainer/HBoxContainer_ReloadBtn"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 30
-text = "BTN_load"
+text = "BTN_Reload"
 script = ExtResource("6_wjvf8")
 
 [node name="Separator_PanelContainer2" type="PanelContainer" parent="PanelContainer/Content/GameMenu/VBoxContainer"]
@@ -152,6 +152,6 @@ script = ExtResource("7_rf8vv")
 main_menu_scene = "uid://c4arko3ktkygh"
 
 [connection signal="back_to_main_pressed" from="." to="MenuSceneSwitcher" method="_on_pause_menu_back_to_main_pressed"]
-[connection signal="pressed" from="PanelContainer/Content/GameMenu/VBoxContainer/HBoxContainer_LoadBtn/LoadButton" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="PanelContainer/Content/GameMenu/VBoxContainer/HBoxContainer_ReloadBtn/ReloadButton" to="." method="_on_reload_button_pressed"]
 [connection signal="pressed" from="PanelContainer/Content/GameMenu/VBoxContainer/BackToMenuButton" to="." method="_on_back_to_menu_button_pressed"]
 [connection signal="pressed" from="PanelContainer/Content/GameMenu/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

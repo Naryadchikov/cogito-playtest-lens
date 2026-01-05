@@ -28,6 +28,8 @@ var is_pausemenu_open : bool:
 @onready var label_active_slot: Label = %Label_ActiveSlot
 @onready var options_tab_menu: OptionsTabMenu = $Content/OptionsTabMenu
 @onready var game_menu: MarginContainer = $Content/GameMenu
+@onready var save_load_menu: Control = $Content/SaveLoadMenu
+
 #endregion
 
 
@@ -72,17 +74,58 @@ func open_pause_menu():
 	
 	is_pausemenu_open = true
 	
-	label_active_slot.text = "Current Slot: " + CogitoSceneManager._active_slot
+	CogitoSceneManager.switch_active_slot_to(CogitoSceneManager._active_slot)
+	if CogitoSceneManager._player_state:
+		label_active_slot.text = tr("TXT_CURRENT_SLOT") + ": " + CogitoSceneManager._active_slot
+	else:
+		label_active_slot.visible = false
+		
 	temp_screenshot = grab_temp_screenshot()
 	show()
 	game_menu.show()
 	options_tab_menu.hide()
-	if load_current_slot_data(): # If slot save data found
+	
+	update_load_related_gui()
+	
+	nodes_to_focus[0].grab_focus.call_deferred()
+
+
+func update_load_related_gui():
+	if CogitoSceneManager.is_loaded_from_start_new_game:
+		CogitoSceneManager._active_slot = ""
+		%Screenshot_Spot.texture = empty_slot_texture
+		%Label_SaveTime.text = ""
+		%Label_SaveTime2.visible = false
+		%Label_SaveTime.visible = false
+	
+	if CogitoSceneManager.is_loaded_from_start_new_game or CogitoSceneManager.is_saved_slots_empty() or CogitoSceneManager.is_saved_slot_exist(CogitoSceneManager._active_slot):
+		%ReloadButton.disabled = false
+	else:
+		%ReloadButton.disabled = true
+	
+	if not CogitoSceneManager.is_saved_slots_empty():
 		load_button.disabled = false
-	else: # If no slot save data found
+		if load_current_slot_data(): # If slot save data found
+			label_active_slot.visible = true
+		else:
+			label_active_slot.visible = false
+			%Label_SaveTime.text = ""
+			%Label_SaveTime2.visible = false
+			%Label_SaveTime.visible = false
+	else:
+		%Screenshot_Spot.texture = empty_slot_texture
+		%Label_SaveTime.text = ""
+		%Label_SaveTime2.visible = false
+		%Label_SaveTime.visible = false
 		load_button.disabled = true
 		label_active_slot.visible = false
-		
+
+
+func load_slot_data():
+	label_active_slot.text = tr("TXT_CURRENT_SLOT") + ": " + CogitoSceneManager._active_slot
+	
+	update_load_related_gui()
+	
 	resume_game_button.grab_focus.call_deferred()
 
 
@@ -116,6 +159,8 @@ func load_current_slot_data() -> bool:
 		%Screenshot_Spot.texture = texture
 	else:
 		%Screenshot_Spot.texture = empty_slot_texture
+		%Label_SaveTime2.visible = false
+		%Label_SaveTime.visible = false
 		CogitoGlobals.debug_log(true,"pause_menu_controller.gd", "No screenshot for slot " + CogitoSceneManager._active_slot + " found.")
 		return false
 		
@@ -124,11 +169,14 @@ func load_current_slot_data() -> bool:
 	if CogitoSceneManager._player_state:
 		savetime = CogitoSceneManager._player_state.player_state_savetime
 	if savetime == null or typeof(savetime) != TYPE_INT or savetime == 0:
-		%Label_SaveTime.text = ""
+		%Label_SaveTime2.visible = false
+		%Label_SaveTime.visible = false
 		return false
 	else:
 		var timeoffset = Time.get_time_zone_from_system().bias*60
 		var save_time_string = Time.get_datetime_string_from_unix_time(savetime+timeoffset,true)
+		%Label_SaveTime2.visible = true
+		%Label_SaveTime.visible = true
 		%Label_SaveTime.text = save_time_string
 		return true
 
@@ -160,7 +208,12 @@ func _input(event):
 		accept_event()
 		options_tab_menu.hide()
 		options_tab_menu.load_options()
+		CogitoSceneManager.previous_menu_button_pressed = ""
+		save_load_menu.hide()
 		game_menu.show()
+		
+		update_load_related_gui()
+		
 		resume_game_button.grab_focus.call_deferred()
 		return
 		
@@ -170,19 +223,37 @@ func _input(event):
 
 
 func _on_save_button_pressed() -> void:
-	CogitoSceneManager._current_scene_name = get_tree().get_current_scene().get_name()
-	CogitoSceneManager._current_scene_path = get_tree().current_scene.scene_file_path
 	CogitoSceneManager._screenshot_to_save = temp_screenshot
-	CogitoSceneManager.save_player_state(CogitoSceneManager._current_player_node,CogitoSceneManager._active_slot)
-	#CogitoSceneManager.save_scene_state(CogitoSceneManager._current_scene_name,CogitoSceneManager._active_slot)
-	CogitoSceneManager.save_scene_state(CogitoSceneManager._current_scene_name,"temp")
-	CogitoSceneManager.copy_temp_saves_to_slot(CogitoSceneManager._active_slot)
-	
-	_on_resume_game_button_pressed()
+	save_load_menu.initialize()
+	save_load_menu.show()
+	save_load_menu.focus_slot_on_save()
+	game_menu.hide()
+	CogitoSceneManager.previous_menu = "pause_menu"
+	CogitoSceneManager.previous_menu_button_pressed = "save"
+	CogitoSceneManager.pause_menu = self
+	CogitoSceneManager.save_load_menu = save_load_menu
+	CogitoSceneManager.game_menu = game_menu
 
 
 func _on_load_button_pressed() -> void:
 	CogitoGlobals.debug_log(true,"pause_menu_controller.gd","LOAD button pressed.")
+	save_load_menu.initialize()
+	save_load_menu.show()
+	save_load_menu.focus_slot_on_load()
+	game_menu.hide()
+	CogitoSceneManager.previous_menu = "pause_menu"
+	CogitoSceneManager.previous_menu_button_pressed = "load"
+	CogitoSceneManager.pause_menu = self
+	CogitoSceneManager.save_load_menu = save_load_menu
+	CogitoSceneManager.game_menu = game_menu
+
+
+func _on_reload_button_pressed() -> void:
+	CogitoGlobals.debug_log(true,"pause_menu_controller.gd","RELOAD button pressed.")
+	if CogitoSceneManager.is_loaded_from_start_new_game or CogitoSceneManager.is_saved_slots_empty():
+		start_new_game()
+		return
+	
 	CogitoSceneManager._current_scene_name = get_tree().get_current_scene().get_name()
 	CogitoSceneManager._current_scene_path = get_tree().current_scene.scene_file_path
 	CogitoSceneManager.delete_temp_saves()
@@ -190,3 +261,15 @@ func _on_load_button_pressed() -> void:
 	#CogitoSceneManager.loading_saved_game(CogitoSceneManager._active_slot)
 	
 	_on_resume_game_button_pressed()
+
+
+func start_new_game():
+	if CogitoGlobals.cogito_settings.new_game_start_scene:
+		var path_to_scene = CogitoGlobals.cogito_settings.new_game_start_scene.resource_path
+		CogitoSceneManager.load_next_scene(path_to_scene, "", "temp", CogitoSceneManager.CogitoSceneLoadMode.RESET) #Load_mode 2 means there's no attempt to load a state.
+		#Setting new game world state:
+		CogitoSceneManager._current_world_dict = CogitoGlobals.cogito_settings.new_game_world_state.get_world_dict()
+	#if start_game_scene: 
+		#CogitoSceneManager.load_next_scene(start_game_scene, "", "temp", CogitoSceneManager.CogitoSceneLoadMode.RESET) #Load_mode 2 means there's no attempt to load a state.
+	else:
+		print("ISSUE: No start game scene set.")

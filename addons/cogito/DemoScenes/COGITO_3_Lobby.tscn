@@ -143,7 +143,6 @@ albedo = Color(0.694118, 0.694118, 0.694118, 1)
 resource_local_to_scene = true
 script = ExtResource("4_0kggm")
 grid = true
-starter_inventory = Array[ExtResource("4_g5h7u")]([])
 inventory_size = Vector2i(6, 3)
 inventory_slots = Array[ExtResource("4_g5h7u")]([null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null])
 
@@ -2530,7 +2529,6 @@ data = PackedVector3Array(0.6928, 0.0903, -1.6, 0, 0.0903, -1.2, 0.6128, 0.0903,
 resource_local_to_scene = true
 script = ExtResource("4_0kggm")
 grid = true
-starter_inventory = Array[ExtResource("4_g5h7u")]([])
 inventory_size = Vector2i(4, 2)
 inventory_slots = Array[ExtResource("4_g5h7u")]([null, null, null, null, null, null, null, null])
 
@@ -2735,10 +2733,10 @@ noise_type = 3
 fractal_type = 2
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xty2f"]
+noise = SubResource("FastNoiseLite_rb24w")
 seamless = true
 as_normal_map = true
 bump_strength = 1.5
-noise = SubResource("FastNoiseLite_rb24w")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_mu74q"]
 noise_type = 3
@@ -2746,10 +2744,10 @@ seed = 10
 fractal_type = 2
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_acxul"]
+noise = SubResource("FastNoiseLite_mu74q")
 seamless = true
 as_normal_map = true
 bump_strength = 1.5
-noise = SubResource("FastNoiseLite_mu74q")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wu1y3"]
 render_priority = 0

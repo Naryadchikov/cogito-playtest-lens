@@ -342,6 +342,7 @@ func slide_audio_init():
 func swim_audio_init():
 	#setup sound effect for swimming
 	swim_under_water_audio_player = Audio.play_sound_3d(swim_under_water_sound, false)
+	swim_under_water_audio_player.bus = "SFX"
 	swim_under_water_audio_player.reparent(self, false)
 
 
@@ -2016,7 +2017,10 @@ func _handle_water_physics(delta) -> void:
 	
 	if is_moving and main_velocity.length() >= 0.2:
 		if can_play_swim_movement && wiggle_vector.y > 0.9:
-			Audio.play_sound_3d(swim_movement_sound)
+			var audio_player := Audio.play_sound_3d(swim_movement_sound, false)
+			audio_player.reparent(self, false)
+			audio_player.bus = "SFX"
+			audio_player.play()
 			can_play_swim_movement = false
 		
 		if !can_play_swim_movement && wiggle_vector.y < 0.9:

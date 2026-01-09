@@ -993,7 +993,9 @@ func _jump(_jump_target_speed) -> void:
 		decrease_attribute("stamina",stamina_attribute.jump_exhaustion)
 	
 	animationPlayer.play("jump")
-	Audio.play_sound(jump_sound)
+	var audio_player := Audio.play_sound(jump_sound, false)
+	audio_player.bus = "SFX"
+	audio_player.play()
 	
 	if current_moving_state != MovingState.LadderClimbing:
 		main_velocity.y = jump_vel

@@ -190,6 +190,7 @@ var config = ConfigFile.new()
 var current_speed : float = 5.0
 var current_lerp_speed : float = LERP_SPEED
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+var gravity_vector = ProjectSettings.get_setting("physics/3d/default_gravity_vector")
 var main_velocity : Vector3 = Vector3.ZERO
 var last_velocity : Vector3= Vector3.ZERO
 var direction : Vector3 = Vector3.ZERO
@@ -206,6 +207,8 @@ var standing_height : float
 var crouching_height : float
 var ledge_climbing_shapecast_height : float
 var ledge_climbing_shapecast_initial_position : Vector3
+
+#var external_gravity_force : Vector3 = Vector3.ZERO
 
 # Node caching
 @onready var player_interaction_component: PlayerInteractionComponent = $PlayerInteractionComponent
@@ -718,6 +721,17 @@ func apply_external_force(force_vector: Vector3):
 		CogitoGlobals.debug_log(is_logging, "cogito_player.gd", "Applying external force " + str(force_vector))
 		velocity += force_vector
 		move_and_slide()
+
+
+func override_gravity(_external_gravity_force : float, _external_gravity_vector: Vector3):
+	CogitoGlobals.debug_log(true, "cogito_player.gd", "override gravity with " + str(_external_gravity_force) + ", " + str(_external_gravity_vector))
+	gravity = _external_gravity_force
+	gravity_vector = _external_gravity_vector
+	
+#	Forcing a move and slide with new gravity
+	gravity_vec = gravity_vector * gravity
+	velocity += gravity_vec
+	move_and_slide()
 
 
 func _calculate_player_radius():
@@ -1726,7 +1740,7 @@ func _on_airborne_state_physics_processing(delta: float) -> void:
 	if is_on_ceiling():
 		main_velocity.y = 0
 	
-	gravity_vec = Vector3.DOWN * gravity * delta
+	gravity_vec = gravity_vector * gravity * delta
 
 	if was_sprinting and Input.is_action_pressed("sprint"):
 		is_sprinting_in_airborne = true

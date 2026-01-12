@@ -986,7 +986,7 @@ func _jump(_jump_target_speed) -> void:
 	is_in_air = false
 	jumped_from_crouch = current_body_posture_state == BodyPostureState.Crouching
 	
-	var jump_vel = CROUCH_JUMP_VELOCITY if current_body_posture_state == BodyPostureState.Crouching else JUMP_VELOCITY
+	var jump_vel = CROUCH_JUMP_VELOCITY if jumped_from_crouch else JUMP_VELOCITY
 	
 	# If Stamina Component is used, this checks if there's enough stamina to jump and denies it if not.
 	if stamina_attribute:
@@ -1207,7 +1207,7 @@ func _footstep_sounds_system():
 				#dynamic volume for footsteps
 				if current_moving_state == MovingState.Walking:
 					footstep_player.volume_db = walk_volume_db
-				elif current_body_posture_state == BodyPostureState.Crouching:
+				elif current_moving_state == MovingState.Sneaking:
 					footstep_player.volume_db = crouch_volume_db
 				elif current_moving_state == MovingState.Sprinting:
 					footstep_player.volume_db = sprint_volume_db

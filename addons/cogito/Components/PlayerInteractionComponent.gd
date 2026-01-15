@@ -60,7 +60,10 @@ var equipped_wieldable_node = null
 var wieldable_was_on: bool = false
 var is_wielding: bool:
 	get: return equipped_wieldable_item != null
-	
+# Used to reequip the last wieldable automatically after carrying
+var last_equipped_wieldable_item: WieldableItemPD = null
+var reequip_wieldable_after_carrying: bool = false
+
 var player_rid
 # Briefly interrupt quickslot cycling after an interactable is unseen
 var can_cycle_quickslots: bool = true
@@ -78,7 +81,39 @@ func exclude_player(rid: RID):
 
 
 func _process(_delta):
-	pass
+	_update_reequip_wieldable_item()
+
+
+func _update_reequip_wieldable_item() -> void:
+	if is_carrying and !carried_object.is_carryable_while_wielding:
+		if equipped_wieldable_node != null:
+			if equipped_wieldable_node.animation_player.current_animation == equipped_wieldable_node.anim_unequip:
+				reequip_wieldable_after_carrying = true
+				return
+			change_wieldable_to(null)
+		elif last_equipped_wieldable_item != null:
+			reequip_wieldable_after_carrying = true
+	elif reequip_wieldable_after_carrying and last_equipped_wieldable_item != null:
+		if equipped_wieldable_node != null:
+			if equipped_wieldable_node.animation_player.is_playing():
+				return
+		
+		reequip_wieldable_after_carrying = false
+		
+		if equipped_wieldable_node != null:
+			equipped_wieldable_node.queue_free()
+		equipped_wieldable_node = null
+		
+		is_changing_wieldables = false
+		var temp_wieldable : WieldableItemPD = last_equipped_wieldable_item
+		equipped_wieldable_item = null
+		
+		temp_wieldable.is_being_wielded = false
+		temp_wieldable.use(get_parent())
+		
+		if equipped_wieldable_node and equipped_wieldable_node.has_method("toggle_on_off") and wieldable_was_on:
+			equipped_wieldable_node.is_on = !wieldable_was_on
+			equipped_wieldable_node.toggle_on_off()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -213,6 +248,16 @@ func stop_carrying():
 ### Wieldable Management
 func equip_wieldable(wieldable_item: WieldableItemPD):
 	if wieldable_item != null:
+		
+		#if last_equipped_wieldable_item != null and wieldable_item != null:
+			#if last_equipped_wieldable_item.name == wieldable_item.name:
+				#if wieldable_container.get_child_count() == 1: # This will be queued free at the end of the frame
+					## If the next wieldable matches the current one, it will be named @Node...
+					#if wieldable_container.get_child(0).name == wieldable_item.name:
+						#print("PIC: Don't change wieldable if they're the same, as this duplicates signals, breaking hud functionality")
+						#is_changing_wieldables = false
+						#return
+		
 		equipped_wieldable_item = wieldable_item #Set Inventory Item reference
 		# Set Wieldable node reference
 		var wieldable_node = wieldable_item.build_wieldable_scene()
@@ -473,3 +518,15 @@ func get_carried_object_mass(carried_object) -> float:
 ## This prevents incidental quickslot cycling when only attempting to interact with an item in the world that uses the same input action
 func _on_can_cycle_quickslots_timeout() -> void:
 	can_cycle_quickslots = true
+
+
+# Called by CarryableComponent just before carrying an object
+func setup_wieldable_auto_reequipping() -> void:
+	if is_wielding:
+		last_equipped_wieldable_item = equipped_wieldable_node.item_reference
+		reequip_wieldable_after_carrying = true
+		
+		if equipped_wieldable_node.has_method("toggle_on_off"):
+			wieldable_was_on = equipped_wieldable_node.is_on
+	else:
+		last_equipped_wieldable_item = null

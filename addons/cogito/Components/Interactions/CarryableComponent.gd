@@ -53,13 +53,22 @@ func interact(_player_interaction_component:PlayerInteractionComponent):
 
 func carry(_player_interaction_component:PlayerInteractionComponent):
 	player_interaction_component = _player_interaction_component
-	if player_interaction_component.is_wielding and not is_carryable_while_wielding:
-		player_interaction_component.send_hint(null, tr("HINT_cant_carry") )
-		return
-
+	#if player_interaction_component.is_wielding and not is_carryable_while_wielding:
+		#player_interaction_component.send_hint(null, tr("HINT_cant_carry") )
+		#return
+	
 	if is_being_carried:
 		leave()
-	else:
+	elif player_interaction_component.is_wielding:
+		if is_carryable_while_wielding:
+			hold()
+		elif !player_interaction_component.is_changing_wieldables:
+			# Unequip and store the current wieldable when carrying, and automatically reequip it after carrying
+			player_interaction_component.setup_wieldable_auto_reequipping()
+			hold()
+	elif !player_interaction_component.is_changing_wieldables:
+		# Call setup here to ensure the last wieldable is set to null
+		player_interaction_component.setup_wieldable_auto_reequipping()
 		hold()
 
 

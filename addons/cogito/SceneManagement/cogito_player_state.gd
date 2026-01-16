@@ -60,7 +60,7 @@ var player_state_dir : String = CogitoSceneManager.cogito_state_dir + CogitoScen
 @export var standing_collision_shape_enabled : bool = true
 @export var crouching_collision_shape_enabled : bool = false
 
-
+@export var player_transform: Transform3D
 @export var body_transform: Transform3D
 @export var neck_transform: Transform3D
 @export var head_transform: Transform3D
@@ -95,6 +95,7 @@ func load_state_chart(player):
 
 
 func save_node_transforms(player):
+	player_transform = player.transform
 	body_transform = player.get_node("Body").transform
 	neck_transform = player.get_node("Body/Neck").transform
 	head_transform = player.get_node("Body/Neck/Head").transform
@@ -103,6 +104,7 @@ func save_node_transforms(player):
 
 
 func load_node_transforms(player):
+	player.transform = player_transform
 	player.get_node("Body").transform = body_transform
 	player.get_node("Body/Neck").transform = neck_transform
 	player.get_node("Body/Neck/Head").transform = head_transform

@@ -2,3 +2,7 @@
 ## The player class controls movement from input from the mouse, keyboard, and gamepad, as well as behavior parameters like stair and ladder handling.
 class_name CogitoPlayer
 extends CharacterBody3D
+
+
+func get_new_state() -> CogitoPlayerState:
+	return null

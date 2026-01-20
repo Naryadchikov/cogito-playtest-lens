@@ -270,6 +270,10 @@ func _ready():
 	call_deferred("slide_audio_init")
 
 
+func get_new_state() -> CogitoPlayerState:
+	return CogitoDefaultPlayerState.new()
+
+
 func slide_audio_init():
 	#setup sound effect for sliding
 	slide_audio_player = Audio.play_sound_3d(slide_sound, false)

@@ -127,7 +127,7 @@ func loading_saved_game(passed_slot: String, current_scene_name: String = "") ->
 func load_player_state(player, passed_slot:String) -> void:
 	CogitoGlobals.debug_log(true,"CSM","Loading player state...")
 	if !_player_state:
-		_player_state = CogitoPlayerState.new()
+		_player_state = player.get_new_state()
 	if _player_state and _player_state.state_exists(passed_slot):
 		CogitoGlobals.debug_log(true,"CSM","Player State in slot " + passed_slot + " exists. Loading " + str(_player_state))
 		_player_state = _player_state.load_state(passed_slot) as CogitoPlayerState
@@ -202,13 +202,6 @@ func load_player_state(player, passed_slot:String) -> void:
 		player.try_crouch = _player_state.player_try_crouch
 		# important: ensures the player isn't crouching on game load, regardless
 		# of whether the option "Toggle Crouching" is set to OFF or ON
-		if player is not CogitoPlayerStateDriven:
-			player.is_crouching = player.try_crouch
-		else:
-			if player.try_crouch:
-				player.current_body_posture_state = CogitoPlayerStateDriven.BodyPostureState.Crouching
-			else:
-				player.current_body_posture_state = CogitoPlayerStateDriven.BodyPostureState.Standing
 		
 		## Loading player sitting state
 		_player_state.load_sitting_state(player) 
@@ -229,17 +222,8 @@ func load_player_state(player, passed_slot:String) -> void:
 		player.direction = _player_state.direction
 		
 		player.current_speed = _player_state.current_speed
-
-		_player_state.load_state_chart(player)
 		
-		if player is CogitoPlayerStateDriven:
-			player.jump_target_speed = _player_state.jump_target_speed
-			
-			player.swimming_head_shapecast.global_position = _player_state.swimming_head_shapecast_position
-			player.under_water_effect.visible = _player_state.is_under_water_effect_visible
-			
-			player.is_movement_paused = true
-			player._on_resume_movement()
+		_player_state.load_additional_states(player)
 		
 		player.player_state_loaded.emit()
 		fade_in()
@@ -251,7 +235,7 @@ func load_player_state(player, passed_slot:String) -> void:
 func save_player_state(player, slot:String) -> void:
 	if !_player_state:
 		CogitoGlobals.debug_log(true,"CSM","State doesn't exist. Creating for slot " + slot + "...")
-		_player_state = CogitoPlayerState.new()
+		_player_state = player.get_new_state()
 	
 	# Writing the save state from current player node.
 	_player_state.player_inventory = player.inventory_data # Saving player inventory
@@ -350,13 +334,7 @@ func save_player_state(player, slot:String) -> void:
 	
 	_player_state.current_speed = player.current_speed
 	
-	if player is CogitoPlayerStateDriven:
-		_player_state.jump_target_speed = player.jump_target_speed
-		
-		_player_state.swimming_head_shapecast_position = player.swimming_head_shapecast.global_position
-		_player_state.is_under_water_effect_visible = player.under_water_effect.visible
-	
-	_player_state.save_state_chart(player)
+	_player_state.save_additional_states(player)
 	
 	# Write to temp directory first
 	_player_state.write_state("temp")

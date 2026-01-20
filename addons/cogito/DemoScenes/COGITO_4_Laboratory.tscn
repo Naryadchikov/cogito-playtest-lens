@@ -98,7 +98,6 @@ volumetric_fog_temporal_reprojection_amount = 0.85
 resource_local_to_scene = true
 script = ExtResource("5_fhmwi")
 grid = true
-starter_inventory = Array[ExtResource("4_dnxke")]([])
 inventory_size = Vector2i(6, 3)
 inventory_slots = Array[ExtResource("4_dnxke")]([null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null])
 
@@ -572,10 +571,6 @@ agent_radius = 0.6
 
 [sub_resource type="Resource" id="Resource_srp2h"]
 script = ExtResource("5_fhmwi")
-grid = false
-starter_inventory = Array[ExtResource("4_dnxke")]([])
-inventory_size = Vector2i(4, 1)
-inventory_slots = Array[ExtResource("4_dnxke")]([])
 metadata/_custom_type_script = "uid://btnha2whsheir"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gwkb2"]

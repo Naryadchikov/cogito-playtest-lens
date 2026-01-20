@@ -87,6 +87,12 @@ func _on_btn_reset_input_map_pressed() -> void:
 	gamepad_button.button_index = JOY_BUTTON_A
 	save_input_action_to_settings("inventory_use_item",mouse_button,gamepad_button)
 	
+	mouse_button.button_index = MOUSE_BUTTON_MIDDLE
+	gamepad_button = InputEventJoypadButton.new()
+	gamepad_button.device = -1
+	gamepad_button.button_index = JOY_BUTTON_RIGHT_STICK
+	save_input_action_to_settings("inventory_assign_item",keyboard_key,gamepad_button)
+	
 	mouse_button.button_index = MOUSE_BUTTON_WHEEL_UP
 	save_input_action_to_settings("quickslot_prev_wieldable",mouse_button,null)
 	

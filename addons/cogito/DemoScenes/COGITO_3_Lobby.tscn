@@ -1,4 +1,4 @@
-[gd_scene load_steps=379 format=4 uid="uid://e31n36p8i6an"]
+[gd_scene load_steps=381 format=4 uid="uid://e31n36p8i6an"]
 
 [ext_resource type="Script" uid="uid://c2kkj7vhsd1oi" path="res://addons/cogito/SceneManagement/cogito_scene.gd" id="1_dracg"]
 [ext_resource type="Texture2D" uid="uid://sdcljx8f5dhj" path="res://addons/cogito/Assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="2_a8imk"]
@@ -33,6 +33,7 @@
 [ext_resource type="PackedScene" uid="uid://poem1yjtmt3n" path="res://addons/cogito/Components/Interactions/HoldInteraction.tscn" id="24_7t6yl"]
 [ext_resource type="PackedScene" uid="uid://dkundghktg5ol" path="res://addons/cogito/DemoScenes/DemoPrefabs/lamp_round_floor.tscn" id="25_ohpwf"]
 [ext_resource type="FontFile" uid="uid://bu5on5evfoljs" path="res://addons/cogito/Assets/Fonts/Montserrat/Montserrat-Bold.ttf" id="26_bxlmn"]
+[ext_resource type="PackedScene" uid="uid://c826hdmv23gt6" path="res://addons/cogito/Components/Interactions/LockpickInteraction.tscn" id="27_8mfm7"]
 [ext_resource type="PackedScene" uid="uid://c37aefrimpe1e" path="res://addons/cogito/DemoScenes/DemoPrefabs/lamp_square_ceiling.tscn" id="27_sff27"]
 [ext_resource type="PackedScene" uid="uid://cml4428ohsdq0" path="res://addons/cogito/DemoScenes/DemoPrefabs/lounge_sofa_corner.tscn" id="28_jqaqs"]
 [ext_resource type="PackedScene" uid="uid://dlhq2nipwygty" path="res://addons/cogito/DemoScenes/DemoPrefabs/bookcase_closed_wide.tscn" id="29_rqlpo"]
@@ -109,6 +110,7 @@
 [ext_resource type="PackedScene" uid="uid://dpuhybufkdmcf" path="res://addons/cogito/DemoScenes/DemoPrefabs/bear_trap.tscn" id="96_vec6d"]
 [ext_resource type="Script" uid="uid://bwlxff3xp451k" path="res://addons/cogito/SceneManagement/world_property_setter.gd" id="103_1du1g"]
 [ext_resource type="PackedScene" uid="uid://cuwptpgheq4l5" path="res://addons/cogito/PackedScenes/inventory_bag.tscn" id="104_mm36t"]
+[ext_resource type="PackedScene" uid="uid://8va0ffbjsvjp" path="res://addons/cogito/PackedScenes/Pickups/pickup_lockpick.tscn" id="108_h5cwc"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_wjbty"]
 panorama = ExtResource("2_a8imk")
@@ -2525,7 +2527,7 @@ shadow_mesh = SubResource("ArrayMesh_3ecdw")
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_upcaa"]
 data = PackedVector3Array(0.6928, 0.0903, -1.6, 0, 0.0903, -1.2, 0.6128, 0.0903, -0.88, 0.6128, 0.0903, -0.88, 0.7728, 0.0903, -0.88, 0.6928, 0.0903, -1.6, 0.7728, 0.0903, -0.88, 1.3856, 0.0903, -1.2, 0.6928, 0.0903, -1.6, 0.7728, 0.0903, -0.88, 0.7728, 0.0903, -0.72, 1.3856, 0.0903, -1.2, 0.6128, 0.0903, -0.72, 0.6128, 0.0903, -0.88, 0, 0.0903, -1.2, 0.6928, 0.0903, 0, 0.6128, 0.0903, -0.72, 0, 0.0903, -1.2, 0.6928, 0.0903, 0, 0.7728, 0.0903, -0.72, 0.6128, 0.0903, -0.72, 0, 0.0903, -0.4, 0.6928, 0.0903, 0, 0, 0.0903, -1.2, 0, 0.0903, -1.2, 0, 0.0903, -0.8, 0, 0.0903, -0.4, 0.6928, 0.0903, 0, 1.3856, 0.0903, -0.4, 0.7728, 0.0903, -0.72, 1.3856, 0.0903, -0.4, 1.3856, 0.0903, -1.2, 0.7728, 0.0903, -0.72, 1.3856, 0.0903, -0.4, 1.3856, 0.0903, -0.8, 1.3856, 0.0903, -1.2, 0.6928, 0.1935, 0, 0, 0.1935, -0.4, 0, 0.1935, -1.2, 0, 0.1935, -1.2, 0.6928, 0.1935, -1.6, 0.6928, 0.1935, 0, 0.6928, 0.1935, -1.6, 1.3856, 0.1935, -0.4, 0.6928, 0.1935, 0, 0.6928, 0.1935, -1.6, 1.3856, 0.1935, -1.2, 1.3856, 0.1935, -0.4, 0.6928, 0.1935, -1.6, 0.6928, 0.0903, -1.6, 1.3856, 0.0903, -1.2, 1.3856, 0.0903, -1.2, 1.3856, 0.1935, -1.2, 0.6928, 0.1935, -1.6, 1.3856, 0.0903, -0.8, 1.3856, 0.0903, -0.4, 1.3856, 0.1935, -0.4, 1.3856, 0.1935, -0.4, 1.3856, 0.1935, -1.2, 1.3856, 0.0903, -0.8, 1.3856, 0.1935, -1.2, 1.3856, 0.0903, -1.2, 1.3856, 0.0903, -0.8, 1.3856, 0.1935, -0.4, 1.3856, 0.0903, -0.4, 0.6928, 0.0903, 0, 0.6928, 0.0903, 0, 0.6928, 0.1935, 0, 1.3856, 0.1935, -0.4, 0.6928, 0.1935, 0, 0.6928, 0.0903, 0, 0, 0.0903, -0.4, 0, 0.0903, -0.4, 0, 0.1935, -0.4, 0.6928, 0.1935, 0, 0, 0.1935, -1.2, 0, 0.1935, -0.4, 0, 0.0903, -0.4, 0, 0.0903, -0.4, 0, 0.0903, -0.8, 0, 0.1935, -1.2, 0, 0.0903, -0.8, 0, 0.0903, -1.2, 0, 0.1935, -1.2, 0, 0.1935, -1.2, 0, 0.0903, -1.2, 0.6928, 0.0903, -1.6, 0.6928, 0.0903, -1.6, 0.6928, 0.1935, -1.6, 0, 0.1935, -1.2, 0.7728, 0.0903, -0.72, 0.7728, -0.4, -0.72, 0.6128, -0.4, -0.72, 0.6128, -0.4, -0.72, 0.6128, 0.0903, -0.72, 0.7728, 0.0903, -0.72, 0.6128, 0.0903, -0.88, 0.6128, 0.0903, -0.72, 0.6128, -0.4, -0.72, 0.6128, -0.4, -0.72, 0.6128, -0.4, -0.88, 0.6128, 0.0903, -0.88, 0.6128, 0.0903, -0.88, 0.6128, -0.4, -0.88, 0.7728, -0.4, -0.88, 0.7728, -0.4, -0.88, 0.7728, 0.0903, -0.88, 0.6128, 0.0903, -0.88, 0.7728, -0.4, -0.88, 0.7728, -0.4, -0.72, 0.7728, 0.0903, -0.72, 0.7728, 0.0903, -0.72, 0.7728, 0.0903, -0.88, 0.7728, -0.4, -0.88, 0.8128, -0.4, -0.68, 0.8128, -0.44, -0.68, 0.5728, -0.44, -0.68, 0.5728, -0.44, -0.68, 0.5728, -0.4, -0.68, 0.8128, -0.4, -0.68, 0.5728, -0.4, -0.92, 0.5728, -0.4, -0.68, 0.5728, -0.44, -0.68, 0.5728, -0.44, -0.68, 0.5728, -0.44, -0.92, 0.5728, -0.4, -0.92, 0.8128, -0.44, -0.92, 0.8128, -0.44, -0.68, 0.8128, -0.4, -0.68, 0.8128, -0.4, -0.68, 0.8128, -0.4, -0.92, 0.8128, -0.44, -0.92, 0.5728, -0.4, -0.68, 0.5728, -0.4, -0.92, 0.6128, -0.4, -0.72, 0.6128, -0.4, -0.72, 0.8128, -0.4, -0.68, 0.5728, -0.4, -0.68, 0.6128, -0.4, -0.72, 0.7728, -0.4, -0.72, 0.8128, -0.4, -0.68, 0.7728, -0.4, -0.72, 0.7728, -0.4, -0.88, 0.8128, -0.4, -0.68, 0.6128, -0.4, -0.88, 0.6128, -0.4, -0.72, 0.5728, -0.4, -0.92, 0.5728, -0.4, -0.92, 0.8128, -0.4, -0.92, 0.6128, -0.4, -0.88, 0.8128, -0.4, -0.92, 0.7728, -0.4, -0.88, 0.6128, -0.4, -0.88, 0.8128, -0.4, -0.92, 0.8128, -0.4, -0.68, 0.7728, -0.4, -0.88, 0.4928, -0.44, -1, 0.4928, -0.44, -0.6, 0.4928, -0.5, -0.6, 0.4928, -0.5, -0.6, 0.4928, -0.5, -1, 0.4928, -0.44, -1, 0.4928, -0.44, -1, 0.4928, -0.5, -1, 0.8928, -0.5, -1, 0.8928, -0.5, -1, 0.8928, -0.44, -1, 0.4928, -0.44, -1, 0.8928, -0.44, -0.6, 0.8928, -0.5, -0.6, 0.4928, -0.5, -0.6, 0.4928, -0.5, -0.6, 0.4928, -0.44, -0.6, 0.8928, -0.44, -0.6, 0.8928, -0.5, -1, 0.8928, -0.5, -0.6, 0.8928, -0.44, -0.6, 0.8928, -0.44, -0.6, 0.8928, -0.44, -1, 0.8928, -0.5, -1, 0.4928, -0.44, -0.6, 0.4928, -0.44, -1, 0.5728, -0.44, -0.68, 0.5728, -0.44, -0.68, 0.8928, -0.44, -0.6, 0.4928, -0.44, -0.6, 0.5728, -0.44, -0.68, 0.8128, -0.44, -0.68, 0.8928, -0.44, -0.6, 0.8128, -0.44, -0.68, 0.8128, -0.44, -0.92, 0.8928, -0.44, -0.6, 0.5728, -0.44, -0.92, 0.5728, -0.44, -0.68, 0.4928, -0.44, -1, 0.4928, -0.44, -1, 0.8928, -0.44, -1, 0.5728, -0.44, -0.92, 0.8928, -0.44, -1, 0.8128, -0.44, -0.92, 0.5728, -0.44, -0.92, 0.8928, -0.44, -1, 0.8928, -0.44, -0.6, 0.8128, -0.44, -0.92, 0.9128, -0.54, -1.02, 0.4728, -0.54, -1.02, 0.4728, -0.54, -0.58, 0.4728, -0.54, -0.58, 0.9128, -0.54, -0.58, 0.9128, -0.54, -1.02, 0.4928, -0.5, -1, 0.4728, -0.54, -1.02, 0.9128, -0.54, -1.02, 0.9128, -0.54, -1.02, 0.8928, -0.5, -1, 0.4928, -0.5, -1, 0.9128, -0.54, -1.02, 0.9128, -0.54, -0.58, 0.8928, -0.5, -0.6, 0.8928, -0.5, -0.6, 0.8928, -0.5, -1, 0.9128, -0.54, -1.02, 0.8928, -0.5, -0.6, 0.9128, -0.54, -0.58, 0.4728, -0.54, -0.58, 0.4728, -0.54, -0.58, 0.4928, -0.5, -0.6, 0.8928, -0.5, -0.6, 0.4928, -0.5, -0.6, 0.4728, -0.54, -0.58, 0.4728, -0.54, -1.02, 0.4728, -0.54, -1.02, 0.4928, -0.5, -1, 0.4928, -0.5, -0.6, 0.5728, -0.4, -0.92, 0.5728, -0.44, -0.92, 0.8128, -0.44, -0.92, 0.8128, -0.44, -0.92, 0.8128, -0.4, -0.92, 0.5728, -0.4, -0.92)
 
-[sub_resource type="Resource" id="Resource_8mfm7"]
+[sub_resource type="Resource" id="Resource_h5cwc"]
 resource_local_to_scene = true
 script = ExtResource("4_0kggm")
 grid = true
@@ -6316,6 +6318,10 @@ hold_node = NodePath("../LockInteraction")
 hold_time = 1.0
 input_map_action = "interact"
 
+[node name="LockpickInteraction" parent="UPPER_OFFICE_CEO/WindowedDoor/FrontDoor" index="7" node_paths=PackedStringArray("door_to_unlock") instance=ExtResource("27_8mfm7")]
+door_to_unlock = NodePath("..")
+input_map_action = "interact2"
+
 [node name="SecretAreaDoor" type="Node3D" parent="UPPER_OFFICE_CEO"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1, 0.029, -4.15)
 
@@ -7124,7 +7130,7 @@ shape = SubResource("ConcavePolygonShape3D_upcaa")
 [node name="kitchenFridgeContainer2" parent="BREAK_ROOM" instance=ExtResource("57_fdyfl")]
 transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 3.65301, -4.84288e-08, 6.17191)
 display_name = "Fridge"
-inventory_data = SubResource("Resource_8mfm7")
+inventory_data = SubResource("Resource_h5cwc")
 
 [node name="kitchenMicrowave2" parent="BREAK_ROOM" instance=ExtResource("61_1x4um")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.98491, 0.84, 6.39503)
@@ -8005,6 +8011,15 @@ transform = Transform3D(0.999299, 0, 0.0374286, 0, 1, 0, -0.0374286, 0, 0.999299
 
 [node name="BearTrap" parent="." instance=ExtResource("96_vec6d")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.58288, 0.921004, 12.0337)
+
+[node name="PickupLockpick" parent="." instance=ExtResource("108_h5cwc")]
+transform = Transform3D(-0.29820797, 0.9545009, -5.475765e-08, 4.37114e-08, -4.371139e-08, -1, -0.9545009, -0.29820797, -2.8687484e-08, 5.4670005, 0.46390635, -11.179549)
+
+[node name="PickupLockpick2" parent="." instance=ExtResource("108_h5cwc")]
+transform = Transform3D(-0.29820797, 0.9545009, -5.475765e-08, 4.37114e-08, -4.371139e-08, -1, -0.9545009, -0.29820797, -2.8687484e-08, 5.475696, 0.46390635, -11.341561)
+
+[node name="PickupLockpick3" parent="." instance=ExtResource("108_h5cwc")]
+transform = Transform3D(-0.29820797, 0.9545009, -5.475765e-08, 4.37114e-08, -4.371139e-08, -1, -0.9545009, -0.29820797, -2.8687484e-08, 5.4860573, 0.46390635, -11.544348)
 
 [node name="Coins" parent="." instance=ExtResource("93_phwoo")]
 transform = Transform3D(0.225393, 0, -0.974268, 0, 1, 0, 0.974268, 0, 0.225393, -1.03416, 0.88054, -11.2766)

@@ -1,21 +1,31 @@
 extends InteractionComponent
 class_name LockpickInteraction
 
-@onready var parent_node = get_parent() #Grabbing reference to parent
+## Gets emitted when the lockpick interaction succeeds
+signal lockpick_success
 
+## PackedScene reference to the lockpick minigame. Uses its signals to control cancel / success / lockpick breaking.
 @export var lockpick_minigame : PackedScene
+## Item that is required to initialize the interaction. Will check player inventory for it.
 @export var required_lockpick_item : InventoryItemPD
+## Reference to doors (if not/additionally to parent)
+@export var doors_to_unlock : Array[CogitoDoor]
+
+
+@export_subgroup("Hint messages")
 ## Hint message if player has no lockpicks. Leave blank to not send one.
-@export var lockpick_item_hint : String
-
-@export var door_to_unlock : CogitoDoor
-
-@onready var lockpick_ui: Control = $LockpickUI
+@export var lockpick_item_hint : String = "HINT_item_required"
+## Hint message when the lockpick breaks, displays the item name first (eg. "[ITEM NAME] broke!" )
+@export var lockpick_item_breaks_hint : String = "HINT_item_broke"
+## Hint message when succeeding the interaction
+@export var lockpick_success_hint : String = "HINT_lockpick_success"
 
 var spawned_lockpick_game
 var player_interaction_component : PlayerInteractionComponent
 
+@onready var lockpick_ui: Control = $LockpickUI
 @onready var label_amount_lockpicks: Label = $LockpickUI/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/AmountLockpicks
+@onready var item_icon_texture: TextureRect = $LockpickUI/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/MarginContainer/ItemIconTexture
 
 
 func _ready() -> void:	
@@ -25,8 +35,9 @@ func _ready() -> void:
 	
 	#await get_parent().ready
 	
-	if door_to_unlock:
-		door_to_unlock.lock_state_changed.connect(on_door_lock_state_change)
+	if doors_to_unlock:
+		for door in doors_to_unlock:
+			door.lock_state_changed.connect(on_door_lock_state_change)
 
 
 func interact(_player_interaction_component: PlayerInteractionComponent) -> void:
@@ -47,24 +58,36 @@ func interact(_player_interaction_component: PlayerInteractionComponent) -> void
 	spawned_lockpick_game.cancelled.connect(on_cancel)
 	spawned_lockpick_game.lockpick_broke.connect(discard_lockpick)
 	
-	# Set the UI to show how many lockpicks the player is carrying:
+	# Pass player attribute if attribute check is not NONE
+	if attribute_check != AttributeCheck.NONE:
+		var fetched_attribute : CogitoAttribute
+		fetched_attribute = player_interaction_component.player.player_attributes.get(attribute_to_check)
+		spawned_lockpick_game.pass_player_attribute(fetched_attribute)
+	
+	# Set the UI to show the lockpick item icon and how many lockpicks the player is carrying:
+	item_icon_texture.texture = required_lockpick_item.icon
 	label_amount_lockpicks.text = str(get_lockpick_amount_in_inventory(required_lockpick_item.name))
 	
 	lockpick_ui.show()
 
 
 func on_lock_picked() -> void:
-	print("Lock was picked!")
+	if lockpick_success_hint:
+		player_interaction_component.send_hint(null, tr(lockpick_success_hint))
+		
 	lockpick_ui.hide()
 	player_interaction_component.get_parent().toggled_interface.emit(false)
 	
-	if door_to_unlock:
-		door_to_unlock.unlock_door()
+	if doors_to_unlock:
+		for door in doors_to_unlock:
+			door.unlock_door()
 
+	lockpick_success.emit()
 	spawned_lockpick_game.queue_free()
+	player_interaction_component._rebuild_interaction_prompts()
+
 
 func on_cancel() -> void:
-	print("Cancelled!")
 	player_interaction_component.get_parent().toggled_interface.emit(false)
 	spawned_lockpick_game.queue_free()
 	lockpick_ui.hide()
@@ -83,7 +106,7 @@ func discard_lockpick() -> void:
 	var inventory = player_interaction_component.get_parent().inventory_data
 	for slot_data in inventory.inventory_slots:
 		if slot_data != null and slot_data.inventory_item == required_lockpick_item:
-			player_interaction_component.send_hint(null, tr(required_lockpick_item.name) + " " + tr("HINT_SWITCH_item_used") )
+			player_interaction_component.send_hint(null, tr(required_lockpick_item.name) + " " + tr(lockpick_item_breaks_hint) )
 			inventory.remove_item_from_stack(slot_data)
 	
 	var lockpicks_left : int = get_lockpick_amount_in_inventory(required_lockpick_item.name)
@@ -108,7 +131,6 @@ func get_lockpick_amount_in_inventory(item_name_to_check_for: String) -> int:
 
 
 func on_door_lock_state_change(is_locked: bool) -> void:
-	print("LockpickInteraction: linked door is_locked=", is_locked)
 	if is_locked:
 		self.is_disabled = false
 	else:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c36qe573mrl5e"]
+[gd_scene load_steps=19 format=3 uid="uid://c36qe573mrl5e"]
 
 [ext_resource type="Script" uid="uid://csbq1parqsxxa" path="res://addons/cogito/PackedScenes/cogito_lockpick_minigame.gd" id="1_nyp7g"]
 [ext_resource type="AudioStream" uid="uid://btoufmp0rtgi" path="res://addons/cogito/Assets/Audio/Kenney/beltHandle2.ogg" id="2_nvjsh"]
@@ -30,6 +30,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0, 0, 2.2985113)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CameraOffset:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, -0.5)]
 }
 
 [sub_resource type="Animation" id="Animation_nvjsh"]
@@ -64,11 +76,28 @@ tracks/0/keys = {
 "values": [Vector3(0, 0, 2.2985113), Vector3(0, -0.12217305, 2.2985985), Vector3(0, 0, 2.2985113), Vector3(0, -0.12217305, 2.2985985), Vector3(0, 0, 2.2985113)]
 }
 
+[sub_resource type="Animation" id="Animation_yoo14"]
+resource_name = "unlocking"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CameraOffset:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, -0.5), Vector3(0, -1, -0.5)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_cseyh"]
 _data = {
 &"RESET": SubResource("Animation_m2nmj"),
 &"grab_new_lockpick": SubResource("Animation_nvjsh"),
-&"jiggle_lock": SubResource("Animation_cseyh")
+&"jiggle_lock": SubResource("Animation_cseyh"),
+&"unlocking": SubResource("Animation_yoo14")
 }
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f8sxr"]
@@ -118,9 +147,8 @@ radial_segments = 32
 script = ExtResource("1_nyp7g")
 lockpick_pivot = NodePath("CameraOffset/LockpickPivot")
 keyhole_pivot = NodePath("CameraOffset/Keyhole")
-lockpick_health_max = 3.0
 lockpick_damage_per_second_min = 4.0
-lockpick_damage_per_second_max = 10.0
+lockpick_damage_per_second_max = 9.0
 unlock_sound = ExtResource("2_nvjsh")
 jiggle_sound = ExtResource("3_m2nmj")
 lockpick_break_sound = ExtResource("4_cseyh")

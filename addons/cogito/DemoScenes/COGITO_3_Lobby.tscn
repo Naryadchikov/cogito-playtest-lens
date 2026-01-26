@@ -6318,9 +6318,13 @@ hold_node = NodePath("../LockInteraction")
 hold_time = 1.0
 input_map_action = "interact"
 
-[node name="LockpickInteraction" parent="UPPER_OFFICE_CEO/WindowedDoor/FrontDoor" index="7" node_paths=PackedStringArray("door_to_unlock") instance=ExtResource("27_8mfm7")]
-door_to_unlock = NodePath("..")
+[node name="LockpickInteraction" parent="UPPER_OFFICE_CEO/WindowedDoor/FrontDoor" index="7" node_paths=PackedStringArray("doors_to_unlock") instance=ExtResource("27_8mfm7")]
+doors_to_unlock = [NodePath("..")]
 input_map_action = "interact2"
+attribute_check = 1
+attribute_to_check = "strength"
+min_value_to_pass = 1.0
+message_on_fail = "I don't have the skill."
 
 [node name="SecretAreaDoor" type="Node3D" parent="UPPER_OFFICE_CEO"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1, 0.029, -4.15)
@@ -7904,7 +7908,7 @@ transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 
 sync_to_physics = false
 interaction_text_when_on = "Lower platform"
 interaction_text_when_off = "Lift platform"
-objects_call_interact = Array[NodePath]([NodePath("..")])
+objects_call_interact = [NodePath("..")]
 
 [node name="floorFull(Clone)" type="MeshInstance3D" parent="Platform"]
 mesh = SubResource("ArrayMesh_4aqfb")

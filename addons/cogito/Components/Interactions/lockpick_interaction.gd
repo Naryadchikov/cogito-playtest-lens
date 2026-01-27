@@ -11,7 +11,6 @@ signal lockpick_success
 ## Reference to doors (if not/additionally to parent)
 @export var doors_to_unlock : Array[CogitoDoor]
 
-
 @export_subgroup("Hint messages")
 ## Hint message if player has no lockpicks. Leave blank to not send one.
 @export var lockpick_item_hint : String = "HINT_item_required"
@@ -32,8 +31,6 @@ func _ready() -> void:
 	# Precache lockpick minigame:
 	spawned_lockpick_game = lockpick_minigame.instantiate()
 	lockpick_ui.hide()
-	
-	#await get_parent().ready
 	
 	if doors_to_unlock:
 		for door in doors_to_unlock:
@@ -116,7 +113,9 @@ func discard_lockpick() -> void:
 	
 	# Quit the minigame if the player runs out of lockpicks.
 	if lockpicks_left <= 0:
-		spawned_lockpick_game.cancelled.emit()
+		spawned_lockpick_game.exit_game()
+	else:
+		spawned_lockpick_game.grab_new_lockpick()
 
 
 func get_lockpick_amount_in_inventory(item_name_to_check_for: String) -> int:

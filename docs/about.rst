@@ -73,6 +73,7 @@ Contributors
 * `QuickAudio by Bryce Dixon <https://github.com/BtheDestroyer/Godot_QuickAudio>`_
 * Stairs handling based on `GodotStairs by elvisish <https://github.com/elvisish/GodotStairs>`_
 * Cogito Quest System based on `shomykohai's Godot 4 quest system. <https://github.com/shomykohai/quest-system>`_
+* Lockpick Minigame adapted from code by `thelastflapjack <https://github.com/thelastflapjack>`_ and `Hexadots <https://github.com/Hexadotz>`_
 
 
 Credits

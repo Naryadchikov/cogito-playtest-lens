@@ -1057,6 +1057,16 @@ msgstr "NEUES SPIEL"
 msgid "TXT_SLOT"
 msgstr "SLOT"
 
+#. TRANSLATORS: item name
+#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
+msgid "Lockpick"
+msgstr "Dietrich"
+
+#. TRANSLATORS: item description
+#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
+msgid "Breaks easily but can come in handy."
+msgstr "Sehr nützlich aber ist zerbrechlich."
+
 #~ msgid "LAB_RENDER_SCALE"
 #~ msgstr "Renderskalierung"
 

@@ -24,8 +24,10 @@ signal lockpick_broke # Emitted when a lockpick breaks.
 @export var attribute_influences_lockpick_health : bool = true
 
 @export_subgroup("Animations")
+@export var start_animation : String = "start"
+@export var grab_new_lockpick_animation : String = "grab_new_lockpick"
 @export var jiggle_animation : String = "jiggle_lock"
-@export var lockpick_break_animation : String = "grab_new_lockpick"
+@export var lockpick_break_animation : String = "lockpick_breaks"
 @export var unlock_animation : String = "unlocking"
 
 @export_subgroup("Audio")
@@ -57,7 +59,8 @@ var joystick_h_event
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 const MIN_RANGE: float = 0.0 # i'm not sure why would you change this
-const LOCKPICK_SUCCSESS_ZONE: float = -90.0 # the degree in which, the keyhole rotate to considers it has been unlocked
+const LOCKPICK_SUCCESS_ZONE : float = -90.0 
+var unlock_difficulty_modifier: float = 0 # Used if attribute influences difficulty. This gets added to the lockpick success zone, making the lock unlock on a smaller angle and thus easier to pick.
 
 
 func _ready() -> void:
@@ -66,9 +69,13 @@ func _ready() -> void:
 	sweet_spot_range = default_sweet_spot_range
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED) # capture the mosue (NOTE: you can remove this)
+	
+	animation_player.play(start_animation)
+	await animation_player.animation_finished
+	
 	place_sweetspot(max_range)
 
-	
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		# if the keyhole isn't turning and we haven't unlocked it yet
@@ -105,7 +112,7 @@ func place_sweetspot(sweetspot_range: float) -> void:
 
 
 func _handle_keyhole(delta: float) -> void:
-	if is_jiggling:
+	if is_jiggling or is_changing_lockpicks:
 		return
 		
 	if joystick_h_event and not is_turning_keyhole and not is_changing_lockpicks:
@@ -125,12 +132,12 @@ func _handle_keyhole(delta: float) -> void:
 	# gradually block the keyhole rotation depenting on the distance to the sweetspot
 	var distance: float = abs(lockpick_spot - sweet_spot) # the distance to the sweet spot acording to the lockpick position
 	# we remap that distance to be in the range from 0 to the success degree, we also snap it for convience
-	var grad_lock: float = snappedf(remap(distance, sweet_spot_range, 0, 0, LOCKPICK_SUCCSESS_ZONE), 0.1)
+	var grad_lock: float = snappedf(remap(distance, sweet_spot_range, 0, 0, LOCKPICK_SUCCESS_ZONE), 0.1)
 	# clamping the rotation so we don't go beyond LOCKPICK_SUCCSESS_ZONE
 	keyhole_pivot.rotation_degrees.z = clamp(keyhole_pivot.rotation_degrees.z, grad_lock, 0)
 	
 	# Unlock the lock when the keyhole has turned 90 degrees
-	if rad_to_deg(keyhole_pivot.rotation.z) <= LOCKPICK_SUCCSESS_ZONE:
+	if rad_to_deg(keyhole_pivot.rotation.z) <= LOCKPICK_SUCCESS_ZONE + unlock_difficulty_modifier:
 		unlock_lock()
 	elif is_turning_keyhole :
 		if distance <= 1: # Within range where keyhole turns
@@ -154,7 +161,7 @@ func jiggle_lock(delta: float, distance_to_unlock: float) -> void:
 	lockpick_health = lockpick_health - ( lockpick_damage * delta )
 	
 	if lockpick_health == 0:
-		grab_new_lockpick()
+		on_lockpick_break()
 	else:
 		animation_player.play(jiggle_animation)
 		await animation_player.animation_finished
@@ -171,7 +178,8 @@ func set_attribute_dependencies() -> void:
 	
 	if attribute_influences_difficulty:
 		sweet_spot_range = normalized_lockpick_attribute * default_sweet_spot_range
-		CogitoGlobals.debug_log(true, "CogitoLockpickGame", "Player attribute " + lockpick_attribute.name + "=" + str(lockpick_attribute.value_current) + ". Setting sweetspot range to " + str(sweet_spot_range) )
+		unlock_difficulty_modifier = (normalized_lockpick_attribute * 10)
+		CogitoGlobals.debug_log(true, "CogitoLockpickGame", "Player attribute " + lockpick_attribute.name + "=" + str(lockpick_attribute.value_current) + ". Setting sweetspot range to " + str(sweet_spot_range) + ". unlock_difficulty_modifier=" + str(unlock_difficulty_modifier) )
 	
 	if attribute_influences_lockpick_health:
 		var adjusted_lockpick_health = lockpick_health_max * normalized_lockpick_attribute
@@ -192,17 +200,33 @@ func unlock_lock() -> void:
 	unlocked.emit()
 
 
-func grab_new_lockpick() -> void:
+func on_lockpick_break() -> void:
 	is_changing_lockpicks = true
 	
-#	Play Lockpick break sound
-	Audio.play_sound(unlock_sound)
-	
-	lockpick_broke.emit()
+	Audio.play_sound(lockpick_break_sound)
 	
 	if lockpick_break_animation:
 		animation_player.play(lockpick_break_animation)
 		await animation_player.animation_finished
+	
+	lockpick_broke.emit()
+
+
+
+func grab_new_lockpick() -> void:
+	is_changing_lockpicks = true
+	
+	if grab_new_lockpick_animation:
+		animation_player.play(grab_new_lockpick_animation)
+		await animation_player.animation_finished
 
 	lockpick_health = lockpick_health_max
 	is_changing_lockpicks = false
+
+
+func exit_game() -> void:
+	if start_animation:
+		animation_player.play_backwards(start_animation)
+		await animation_player.animation_finished
+		
+	cancelled.emit()

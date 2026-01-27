@@ -41,6 +41,7 @@
 # res://addons/cogito/Localization/translation_keys_resources/loc_keys_comon_hints.tres
 # res://addons/cogito/EasyMenus/Scenes/main_menu.tscn
 # res://addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+# res://addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
 #
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -632,6 +633,7 @@ msgstr ""
 #: addons/cogito/InventoryPD/Items/Cogito_Pickaxe.tres
 #: addons/cogito/InventoryPD/Items/Cogito_Pistol.tres
 #: addons/cogito/InventoryPD/Items/Cogito_UselessItem.tres
+#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
 msgid ""
 msgstr ""
 
@@ -1083,4 +1085,14 @@ msgstr ""
 #. TRANSLATORS: translation_key_dict entry
 #: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
 msgid "TXT_SLOT"
+msgstr ""
+
+#. TRANSLATORS: item name
+#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
+msgid "Lockpick"
+msgstr ""
+
+#. TRANSLATORS: item description
+#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
+msgid "Breaks easily but can come in handy."
 msgstr ""

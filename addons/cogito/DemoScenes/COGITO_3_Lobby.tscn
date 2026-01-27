@@ -7609,6 +7609,9 @@ transform = Transform3D(0.374526, 0, -0.927217, 0, 1, 0, 0.927217, 0, 0.374526, 
 
 [node name="lampRoundFloor" parent="ENTRANCE_AREA" instance=ExtResource("25_ohpwf")]
 
+[node name="lampRoundFloor2" parent="ENTRANCE_AREA" instance=ExtResource("25_ohpwf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.6196346, 2.6661499, 4.365829)
+
 [node name="trashcan" parent="ENTRANCE_AREA" instance=ExtResource("58_no7q4")]
 transform = Transform3D(0.771402, 0, 0.636348, 0, 1, 0, -0.636348, 0, 0.771402, 0.403079, 0.4, -15.5926)
 
@@ -8017,13 +8020,13 @@ transform = Transform3D(0.999299, 0, 0.0374286, 0, 1, 0, -0.0374286, 0, 0.999299
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.58288, 0.921004, 12.0337)
 
 [node name="PickupLockpick" parent="." instance=ExtResource("108_h5cwc")]
-transform = Transform3D(-0.29820797, 0.9545009, -5.475765e-08, 4.37114e-08, -4.371139e-08, -1, -0.9545009, -0.29820797, -2.8687484e-08, 5.4670005, 0.46390635, -11.179549)
+transform = Transform3D(-0.29820797, 0.9545009, -5.475765e-08, 4.37114e-08, -4.371139e-08, -1, -0.9545009, -0.29820797, -2.8687484e-08, -2.2968736, 0.46390635, -15.255223)
 
 [node name="PickupLockpick2" parent="." instance=ExtResource("108_h5cwc")]
-transform = Transform3D(-0.29820797, 0.9545009, -5.475765e-08, 4.37114e-08, -4.371139e-08, -1, -0.9545009, -0.29820797, -2.8687484e-08, 5.475696, 0.46390635, -11.341561)
+transform = Transform3D(-0.29820797, 0.9545009, -5.475765e-08, 4.37114e-08, -4.371139e-08, -1, -0.9545009, -0.29820797, -2.8687484e-08, -0.64103746, 0.46390635, -8.753587)
 
 [node name="PickupLockpick3" parent="." instance=ExtResource("108_h5cwc")]
-transform = Transform3D(-0.29820797, 0.9545009, -5.475765e-08, 4.37114e-08, -4.371139e-08, -1, -0.9545009, -0.29820797, -2.8687484e-08, 5.4860573, 0.46390635, -11.544348)
+transform = Transform3D(-0.29820797, 0.9545009, -5.475765e-08, 4.37114e-08, -4.371139e-08, -1, -0.9545009, -0.29820797, -2.8687484e-08, -1.4355593, 0.46390647, -15.278831)
 
 [node name="Coins" parent="." instance=ExtResource("93_phwoo")]
 transform = Transform3D(0.225393, 0, -0.974268, 0, 1, 0, 0.974268, 0, 0.225393, -1.03416, 0.88054, -11.2766)

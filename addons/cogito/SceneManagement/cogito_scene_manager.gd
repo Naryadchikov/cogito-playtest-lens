@@ -127,7 +127,7 @@ func loading_saved_game(passed_slot: String, current_scene_name: String = "") ->
 func load_player_state(player, passed_slot:String) -> void:
 	CogitoGlobals.debug_log(true,"CSM","Loading player state...")
 	if !_player_state:
-		_player_state = player.get_new_state()
+		_player_state = player.create_new_state()
 	if _player_state and _player_state.state_exists(passed_slot):
 		CogitoGlobals.debug_log(true,"CSM","Player State in slot " + passed_slot + " exists. Loading " + str(_player_state))
 		_player_state = _player_state.load_state(passed_slot) as CogitoPlayerState
@@ -235,7 +235,7 @@ func load_player_state(player, passed_slot:String) -> void:
 func save_player_state(player, slot:String) -> void:
 	if !_player_state:
 		CogitoGlobals.debug_log(true,"CSM","State doesn't exist. Creating for slot " + slot + "...")
-		_player_state = player.get_new_state()
+		_player_state = player.create_new_state()
 	
 	# Writing the save state from current player node.
 	_player_state.player_inventory = player.inventory_data # Saving player inventory

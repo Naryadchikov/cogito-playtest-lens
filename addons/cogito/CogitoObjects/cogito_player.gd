@@ -4,5 +4,5 @@ class_name CogitoPlayer
 extends CharacterBody3D
 
 
-func get_new_state() -> CogitoPlayerState:
+func create_new_state() -> CogitoPlayerState:
 	return null

@@ -333,7 +333,7 @@ func _ready():
 	call_deferred("swim_audio_init")
 
 
-func get_new_state() -> CogitoPlayerState:
+func create_new_state() -> CogitoPlayerState:
 	return CogitStateDrivenPlayerState.new()
 
 

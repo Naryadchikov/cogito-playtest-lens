@@ -270,7 +270,7 @@ func _ready():
 	call_deferred("slide_audio_init")
 
 
-func get_new_state() -> CogitoPlayerState:
+func create_new_state() -> CogitoPlayerState:
 	return CogitoDefaultPlayerState.new()
 
 

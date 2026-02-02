@@ -93,8 +93,6 @@ radius = 0.05
 resource_local_to_scene = true
 script = ExtResource("4_axham")
 inventory_item = ExtResource("3_gx5o5")
-quantity = 1
-origin_index = -1
 
 [node name="Pickup_Dart_Fire" type="RigidBody3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
@@ -103,6 +101,7 @@ continuous_cd = true
 contact_monitor = true
 max_contacts_reported = 10
 script = ExtResource("1_bxu6r")
+cogito_name = ""
 custom_aabb = AABB(0, 0, 0, 0.2, 0.3, 0.2)
 
 [node name="foamBulletB" type="MeshInstance3D" parent="."]

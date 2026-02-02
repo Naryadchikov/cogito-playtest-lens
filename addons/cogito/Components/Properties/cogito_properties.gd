@@ -277,7 +277,7 @@ func spawn_elemental_vfx(vfx_packed_scene:PackedScene):
 		clear_spawned_effects()
 		
 	spawned_effects.append(spawned_object)
-	spawned_object.position = Vector3(0,0,0)
+	#spawned_object.position = Vector3(0,0,0)
 
 
 func add_systemic_body(body: Node3D):

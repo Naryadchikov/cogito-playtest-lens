@@ -206,7 +206,8 @@ func set_on_fire():
 		is_on_fire = true
 		if spawn_on_ignite:
 			spawn_elemental_vfx(spawn_on_ignite) 
-			Audio.play_sound_3d(audio_igniting).position = self.position
+			var audio_player: AudioStreamPlayer3D = Audio.play_sound_3d(audio_igniting)
+			audio_player.reparent(self)
 		has_ignited.emit()
 		
 		if burn_damage_amount > 0:
@@ -270,14 +271,14 @@ func loose_electricity():
 
 func spawn_elemental_vfx(vfx_packed_scene:PackedScene):
 	var spawned_object = vfx_packed_scene.instantiate()
-	get_parent().add_child.call_deferred(spawned_object)
+	await get_tree().process_frame
+	get_parent().add_child(spawned_object)
 	
 	# If max spawned vfx is reached, all spawned vfx will be cleared.
 	if spawned_effects.size() <= max_spawned_vfx + 1:
 		clear_spawned_effects()
 		
 	spawned_effects.append(spawned_object)
-	#spawned_object.position = Vector3(0,0,0)
 
 
 func add_systemic_body(body: Node3D):

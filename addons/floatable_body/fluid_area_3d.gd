@@ -27,12 +27,12 @@ func _physics_process(delta: float) -> void:
 	time += delta
 
 
-func body_enter(body: PhysicsBody3D) -> void:
+func body_enter(body: Node3D) -> void:
 	if body.has_method("fluid_area_enter"):
 		body.fluid_area_enter(self)
 
 
-func body_exit(body: PhysicsBody3D) -> void:
+func body_exit(body: Node3D) -> void:
 	if body.has_method("fluid_area_exit"):
 		body.fluid_area_exit(self)
 

@@ -128,108 +128,17 @@ func load_player_state(player, passed_slot:String) -> void:
 	CogitoGlobals.debug_log(true,"CSM","Loading player state...")
 	if !_player_state:
 		_player_state = player.create_new_state()
+	
 	if _player_state and _player_state.state_exists(passed_slot):
 		CogitoGlobals.debug_log(true,"CSM","Player State in slot " + passed_slot + " exists. Loading " + str(_player_state))
 		_player_state = _player_state.load_state(passed_slot) as CogitoPlayerState
 		
 		# Applying the save state to player node.
-		player.inventory_data = _player_state.player_inventory # Loading inventory data from saved player state to current player inventory.
-		player.inventory_data.assigned_quickslots = _player_state.player_quickslots
-		
-		# Loading quests from player state with proper initialization:
-		CogitoQuestManager.active.clear_group()
-		for quest in _player_state.player_active_quests:
-			quest.start(true)  # Initialize active quests (mute audio)
-			CogitoQuestManager.active.add_quest(quest)
-		
-		var _temp_active_quest_dir = _player_state.player_active_quest_progression
-		for entry in _temp_active_quest_dir:
-			for quest in CogitoQuestManager.active.quests:
-				if quest.quest_name == entry:
-					quest.quest_counter = _temp_active_quest_dir[entry]
-					CogitoGlobals.debug_log(true,"CSM", "Loading active quests. Quest " + quest.quest_name + " found. Setting progression to " + str(_temp_active_quest_dir[entry]) )
-
-		
-		CogitoQuestManager.completed.clear_group()
-		for quest in _player_state.player_completed_quests:
-			quest.complete(true)  # Initialize completed quests (mute audio)
-			CogitoQuestManager.completed.add_quest(quest)
-		
-		CogitoQuestManager.failed.clear_group()
-		for quest in _player_state.player_failed_quests:
-			quest.failed(true)  # Initialize failed quests (mute audio)
-			CogitoQuestManager.failed.add_quest(quest)
-		
-		
-		# Loading saved charges of wieldables
-		var array_of_wieldable_charges = _player_state.saved_wieldable_charges
-		for data in array_of_wieldable_charges:
-			if data == null:
-				continue
-			else:
-				for slot in player.inventory_data.inventory_slots:
-					if slot and slot.inventory_item and slot.inventory_item == data["resource"]:
-						CogitoGlobals.debug_log(true,"CSM","Match found: " + str(slot.inventory_item))
-						slot.inventory_item.charge_current = data["charge_current"]
-						
-		player.inventory_data.force_inventory_update()
-		
-		# New way of loading player attributes:
-		var loaded_attribute_data = _player_state.player_attributes
-		for attribute in loaded_attribute_data:
-			var attribute_data: Vector2 = loaded_attribute_data[attribute]
-			var cur_value = attribute_data.x
-			var max_value = attribute_data.y
-			player.player_attributes[attribute].set_attribute(cur_value, max_value)
-
-		# Loading player currencies
-		var loaded_currency_data = _player_state.player_currencies
-		for currency in loaded_currency_data:
-			var currency_data: Vector2 = loaded_currency_data[currency]
-			var cur_value = currency_data.x
-			var max_value = currency_data.y
-			player.player_currencies[currency].set_currency(cur_value, max_value)
-
-		# Loading world dictionary
-		var local_dict_copy : Dictionary = _player_state.world_dictionary.duplicate(true)
-		_current_world_dict.clear()
-		for entry in local_dict_copy:
-			_current_world_dict.get_or_add(entry, local_dict_copy[entry])
-
-
-		player.global_position = _player_state.player_position
-		player.body.global_rotation = _player_state.player_rotation
-		player.try_crouch = _player_state.player_try_crouch
-		# important: ensures the player isn't crouching on game load, regardless
-		# of whether the option "Toggle Crouching" is set to OFF or ON
-		
-		## Loading player sitting state
-		_player_state.load_sitting_state(player) 
-		_player_state.load_collision_shapes(player)
-		_player_state.load_node_transforms(player)
-		
-		# Loading player interaction component state
-		var player_interaction_component_state = _player_state.interaction_component_state
-		for state_data in player_interaction_component_state:
-			for data in state_data.keys():
-				player.player_interaction_component.set(data, state_data[data])
-			player.player_interaction_component.set_state.call_deferred() # Calling this deferred as some state calls need to make sure the scene is finished loading.
-		
-		player.is_dead = false
-		
-		player.main_velocity = _player_state.main_velocity
-		player.last_velocity = _player_state.last_velocity
-		player.direction = _player_state.direction
-		
-		player.current_speed = _player_state.current_speed
-		
-		_player_state.load_additional_states(player)
-		
+		_player_state.populate_player_data(player)
 		player.player_state_loaded.emit()
 		fade_in()
 	else:
 		CogitoGlobals.debug_log(true,"CSM","Player state of slot " + passed_slot + " doesn't exist.")
-		
 
 
 func save_player_state(player, slot:String) -> void:
@@ -238,104 +147,8 @@ func save_player_state(player, slot:String) -> void:
 		_player_state = player.create_new_state()
 	
 	# Writing the save state from current player node.
-	_player_state.player_inventory = player.inventory_data # Saving player inventory
-	_player_state.player_quickslots = player.inventory_data.assigned_quickslots # Saving assigned quickslots
-	
-	# Saving current quests to player state.
-	_player_state.player_active_quests.clear()
-	for quest in CogitoQuestManager.active.quests:
-		_player_state.player_active_quests.append(quest)
-		
-	_player_state.player_completed_quests.clear()
-	for quest in CogitoQuestManager.completed.quests:
-		_player_state.player_completed_quests.append(quest)
-		
-	_player_state.player_failed_quests.clear()
-	for quest in CogitoQuestManager.failed.quests:
-		_player_state.player_failed_quests.append(quest)  # FIXED: Save failed quests to correct list
-	
-	# Saving active quests with progression counter
-	_player_state.player_active_quest_progression.clear()
-	for quest in CogitoQuestManager.active.quests:
-		_player_state.add_to_active_quest_dictionary(quest.quest_name, quest.quest_counter_current)
-	
-	
-	_player_state.clear_saved_wieldable_charges()
-	for item_slot in player.inventory_data.inventory_slots:
-		if item_slot and item_slot.inventory_item and item_slot.inventory_item.has_method("update_wieldable_data"): # Checking for wieldables.
-			var item_save_data = item_slot.inventory_item.save()
-			_player_state.append_saved_wieldable_charges(item_save_data)
-			CogitoGlobals.debug_log(true,"CSM","Saved charge for " + str(item_slot.inventory_item) )
-	
-	_player_state.player_current_scene = _current_scene_name
-	CogitoGlobals.debug_log(true,"CSM","Save_player_state(): setting player_current_scene to " + _current_scene_name)
-	_player_state.player_current_scene_path = _current_scene_path
-	_player_state.player_position = player.global_position
-	_player_state.player_rotation = player.body.global_rotation
-	_player_state.player_try_crouch = player.try_crouch
-	
-	## New way of saving attributes:
-	_player_state.clear_saved_attribute_data()
-	for attribute in player.player_attributes:
-		var cur_value
-		if !player.player_attributes[attribute].dont_save_current_value:
-			cur_value = player.player_attributes[attribute].value_current
-		else:
-			cur_value = 0
-		var max_value = player.player_attributes[attribute].value_max
-		var attribute_data := Vector2(cur_value, max_value)
-		_player_state.add_player_attribute_to_state_data(attribute, attribute_data)
-	
-	## Save player sitting state
-	_player_state.save_sitting_state(player)
-	_player_state.save_collision_shapes(player)
-	_player_state.save_node_transforms(player)
-	
-	_player_state.clear_saved_currency_data()
-	for currency in player.player_currencies:
-		var cur_value
-		if !player.player_currencies[currency].dont_save_current_value:
-			cur_value = player.player_currencies[currency].value_current
-		else:
-			cur_value = 0
-		var max_value = player.player_currencies[currency].value_max
-		var currency_data := Vector2(cur_value, max_value)
-		_player_state.add_player_currency_to_state_data(currency, currency_data)
-	
-	## Saving world dictionary
-	var local_dict_copy : Dictionary = _current_world_dict.duplicate(true)
-	_player_state.clear_world_dictionary()
-	for entry in local_dict_copy:
-		CogitoGlobals.debug_log(true,"CSM", "World Dict: attemtping to save key: " + str(entry) )
-		_player_state.add_to_world_dictionary(entry, local_dict_copy[entry])
+	_player_state.populate_save_data(player, slot)
 
-	## Adding a screenshot
-	var screenshot_path : String = str(_player_state.player_state_dir + slot + ".png")
-	
-	if _screenshot_to_save:
-		if slot != "temp":
-			_screenshot_to_save.save_png(screenshot_path)
-			_player_state.player_state_screenshot_file = screenshot_path
-	else:
-		CogitoGlobals.debug_log(true,"CSM","No screenshot to save was passed.")
-	
-	## Getting time of saving
-	_player_state.player_state_savetime = int(Time.get_unix_time_from_system())
-	_player_state.player_state_slot_name = slot
-
-	# Writing the state from current player interaction component:
-	var current_player_interaction_component = player.player_interaction_component
-	_player_state.clear_saved_interaction_component_state()
-	_player_state.add_interaction_component_state_data_to_array(current_player_interaction_component.save())
-	
-	_player_state.main_velocity = player.main_velocity
-	_player_state.last_velocity = player.last_velocity
-	_player_state.direction = player.direction
-	
-	_player_state.current_speed = player.current_speed
-	
-	_player_state.save_additional_states(player)
-	
 	# Write to temp directory first
 	_player_state.write_state("temp")
 #endregion
@@ -353,6 +166,7 @@ func load_scene_state(_scene_name_to_load:String, slot:String) -> void:
 	CogitoGlobals.debug_log(true,"CSM","Load scene state for:"+ _scene_name_to_load+ ". Slot: "+ slot)
 	if !_scene_state:
 		_scene_state = CogitoSceneState.new()
+	
 	if _scene_state and _scene_state.state_exists(slot, _scene_name_to_load):
 		CogitoGlobals.debug_log(true,"CSM","Scene state exists. Loading " + str(_scene_state))
 		_scene_state = _scene_state.load_state(slot,_scene_name_to_load) as CogitoSceneState
@@ -511,9 +325,8 @@ func copy_slot_saves_to_temp(passed_slot:String) -> bool:
 	
 	loading_saved_game("temp") # This loads the temp save states after moving them from the slot.
 	return true
-	
-	
-	
+
+
 func copy_temp_saves_to_slot(passed_slot:String) -> bool:
 	CogitoGlobals.debug_log(true,"CSM","Attempting to copy files from temp to slot " + passed_slot)
 	var temp_dir = DirAccess.open(cogito_state_dir + "temp")
@@ -542,7 +355,7 @@ func delete_temp_saves() -> void:
 	CogitoGlobals.debug_log(true,"CSM","Attempting to delete temp saves...")
 	
 	var dir = DirAccess.open(cogito_state_dir + "temp/")
-
+	
 	if dir:
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
@@ -573,7 +386,7 @@ func delete_temp_saves() -> void:
 func reset_scene_states() -> void:
 	# TODO: CREATE FUNCTION THAT DELETES SCENE STATE FILES.
 	var scene_state_files : Dictionary
-
+	
 	var dir = DirAccess.open(cogito_state_dir)
 	if dir:
 		dir.list_dir_begin()
@@ -707,7 +520,7 @@ func saved_slots_count() -> int:
 		saved_slots = config.get_value("save", "slots", [])
 		if saved_slots:
 			return saved_slots.size()
-
+	
 	return 0
 
 
@@ -724,7 +537,7 @@ func max_saved_slot_nubmer() -> int:
 					max_value = int(slot)
 			
 			return max_value
-
+	
 	return 0
 
 

@@ -3,6 +3,14 @@ extends Resource
 
 var player_state_dir : String = CogitoSceneManager.cogito_state_dir + CogitoSceneManager.cogito_player_state_prefix
 
+@export var player_current_scene : String
+@export var player_current_scene_path : String
+
+#Saving some extra data for save game management/UI
+@export var player_state_screenshot_file : String
+@export var player_state_savetime : int
+@export var player_state_slot_name : String
+
 
 func populate_player_data(player):
 	pass

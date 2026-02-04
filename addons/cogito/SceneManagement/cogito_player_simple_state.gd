@@ -9,8 +9,6 @@ extends CogitoPlayerState
 
 @export var saved_wieldable_charges : Array
 
-@export var player_current_scene : String
-@export var player_current_scene_path : String
 @export var player_position : Vector3
 @export var player_rotation : Vector3
 @export var player_try_crouch : bool
@@ -37,11 +35,6 @@ extends CogitoPlayerState
 @export var player_active_quest_progression : Dictionary
 @export var player_completed_quests : Array[CogitoQuest]
 @export var player_failed_quests : Array[CogitoQuest]
-
-#Saving some extra data for save game management/UI
-@export var player_state_screenshot_file : String
-@export var player_state_savetime : int
-@export var player_state_slot_name : String
 
 # Sitting vars
 @export var is_sitting: bool = false

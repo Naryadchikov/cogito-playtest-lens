@@ -79,7 +79,7 @@ func open_inventory():
 
 		for slot_panel in inventory_ui.slot_array:
 			if !slot_panel.mouse_exited.is_connected(_slot_on_mouse_exit):
-				slot_panel.mouse_exited.connect(_slot_on_mouse_exit)
+				slot_panel.mouse_exited.connect(_slot_on_mouse_exit.bind(slot_panel.item_data, slot_panel.origin_index))
 	hot_bar_inventory.hide()
 
 
@@ -125,6 +125,7 @@ func _on_focus_changed(control: Control):
 	if control_in_focus.has_method("update_quickslot_data"):
 		return
 	
+	# This shows the info panel for an item when highlighted
 	if control_in_focus.item_data and !grabbed_slot_node.visible:
 		item_name.text = control_in_focus.item_data.name
 		item_description.text = control_in_focus.item_data.description
@@ -140,10 +141,14 @@ func _on_focus_changed(control: Control):
 			use_prompt.show()
 
 		info_panel.show()
+		# Highlight all the slots that occupy the size of the item
+		inventory_ui.highlight_item(control_in_focus.item_data, control_in_focus.origin_index, true)
+
 		if !control.mouse_exited.is_connected(_slot_on_mouse_exit):
-			control.mouse_exited.connect(_slot_on_mouse_exit)
+			control.mouse_exited.connect(_slot_on_mouse_exit.bind(control.item_data, control.origin_index))
 		
 	else:
+		inventory_ui.highlight_item(null, control_in_focus.get_index(), false)
 		info_panel.hide()
 	
 	# Updating the currently focused slot in the inventory_ui
@@ -157,8 +162,11 @@ func _on_focus_changed(control: Control):
 			update_grabbed_slot_position()
 
 
-func _slot_on_mouse_exit():
-	info_panel.hide()
+func _slot_on_mouse_exit(item_data, origin_index:int):
+	# De-highlight the slots and hide the info panel
+	if control_in_focus.item_data != item_data:
+		inventory_ui.highlight_item(item_data, origin_index, false)
+		info_panel.hide()
 
 
 func update_grabbed_slot_position():

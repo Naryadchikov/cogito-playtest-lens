@@ -1,4 +1,4 @@
-class_name CogitoDefaultPlayerState
+class_name CogitoPlayerSimpleState
 extends CogitoPlayerState
 
 

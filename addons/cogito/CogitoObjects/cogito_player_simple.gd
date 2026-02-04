@@ -1,6 +1,6 @@
 @icon("res://addons/cogito/Assets/Graphics/Editor/Icon_CogitoPlayer.svg")
 ## The player class controls movement from input from the mouse, keyboard, and gamepad, as well as behavior parameters like stair and ladder handling.
-class_name CogitoPlayerDefault
+class_name CogitoPlayerSimple
 extends CogitoPlayer
 
 ## Emits when ESC/Menu input map action is pressed. Can be used to exit out other interfaces, etc.
@@ -271,7 +271,7 @@ func _ready():
 
 
 func create_new_state() -> CogitoPlayerState:
-	return CogitoDefaultPlayerState.new()
+	return CogitoPlayerSimpleState.new()
 
 
 func slide_audio_init():

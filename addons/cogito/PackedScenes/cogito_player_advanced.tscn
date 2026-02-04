@@ -1,6 +1,6 @@
 [gd_scene load_steps=131 format=4 uid="uid://otv80grtivvc"]
 
-[ext_resource type="Script" uid="uid://5genc2h8jull" path="res://addons/cogito/CogitoObjects/cogito_player_state_driven.gd" id="1_87we8"]
+[ext_resource type="Script" uid="uid://5genc2h8jull" path="res://addons/cogito/CogitoObjects/cogito_player_advanced.gd" id="1_87we8"]
 [ext_resource type="Resource" uid="uid://ll11y3yjbqt" path="res://addons/cogito/InventoryPD/Inventories/PlayerInventory_FIXED.tres" id="2_0xklh"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://addons/cogito/Assets/Audio/Kenney/cloth2.ogg" id="3_7ds3n"]
 [ext_resource type="AudioStream" uid="uid://b7wmxwvtbpfu1" path="res://addons/cogito/Assets/Audio/537275__laughingfish78__dirt-sliding.ogg" id="4_1i2kv"]

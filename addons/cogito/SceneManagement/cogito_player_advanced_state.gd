@@ -1,4 +1,4 @@
-class_name CogitStateDrivenPlayerState
+class_name CogitPlayerAdvancedState
 extends CogitoPlayerState
 
 
@@ -169,9 +169,9 @@ func populate_player_data(player):
 	player.current_speed = self.current_speed
 	
 	if player.try_crouch:
-		player.current_body_posture_state = CogitoPlayerStateDriven.BodyPostureState.Crouching
+		player.current_body_posture_state = CogitoPlayerAdvanced.BodyPostureState.Crouching
 	else:
-		player.current_body_posture_state = CogitoPlayerStateDriven.BodyPostureState.Standing
+		player.current_body_posture_state = CogitoPlayerAdvanced.BodyPostureState.Standing
 	
 	_load_state_chart(player)
 	

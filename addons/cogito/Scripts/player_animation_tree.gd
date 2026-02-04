@@ -1,6 +1,6 @@
 extends AnimationTree
 
-@onready var cogito_player_state_driven : CogitoPlayerStateDriven = get_parent()
+@onready var cogito_player_state_driven : CogitoPlayerAdvanced = get_parent()
 
 @export var rig_node : Node3D
 @export var process_animations : bool = true

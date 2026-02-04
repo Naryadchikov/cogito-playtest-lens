@@ -1,7 +1,7 @@
 [gd_scene load_steps=37 format=3 uid="uid://dsy656cbv0ceu"]
 
 [ext_resource type="Material" uid="uid://dkbgl3p3ffd1" path="res://addons/cogito/Assets/Materials/Prototype_DarkGrey.tres" id="1_xlgi6"]
-[ext_resource type="PackedScene" uid="uid://otv80grtivvc" path="res://addons/cogito/PackedScenes/cogito_player_state_driven.tscn" id="1_ywbwp"]
+[ext_resource type="PackedScene" uid="uid://otv80grtivvc" path="res://addons/cogito/PackedScenes/cogito_player_advanced.tscn" id="1_ywbwp"]
 [ext_resource type="Script" uid="uid://di15gqemrkk0x" path="res://addons/cogito/InventoryPD/CustomResources/InventorySlotPD.gd" id="2_dscd4"]
 [ext_resource type="Material" uid="uid://dhg1uhiq7ywn2" path="res://addons/cogito/Assets/Materials/Prototype_Green.tres" id="2_pwdxr"]
 [ext_resource type="Script" uid="uid://be6kbvjw1rm7x" path="res://addons/cogito/DynamicFootstepSystem/Scripts/footstep_surface.gd" id="3_f002f"]

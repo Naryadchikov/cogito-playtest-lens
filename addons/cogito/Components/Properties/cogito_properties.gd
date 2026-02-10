@@ -212,8 +212,9 @@ func set_on_fire():
 		if burn_damage_amount > 0:
 			start_burn_damage_timer()
 			
-		audio_stream_player_3d.stream = audio_burning
-		audio_stream_player_3d.play()
+		if audio_stream_player_3d and audio_burning:
+			audio_stream_player_3d.stream = audio_burning
+			audio_stream_player_3d.play()
 	else:
 		CogitoGlobals.debug_log(is_logging, "cogito_properties.gd", get_parent().name + " is not FLAMMABLE.")
 

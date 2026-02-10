@@ -55,8 +55,10 @@ func _physics_process(_delta: float) -> void:
 			hit_scan_collision(_camera_collision) #Do the hitscan
 		
 			animation_player.play(anim_action_primary)
-			audio_stream_player_3d.stream = sound_primary_use
-			audio_stream_player_3d.play()
+			
+			if audio_stream_player_3d and sound_primary_use:
+				audio_stream_player_3d.stream = sound_primary_use
+				audio_stream_player_3d.play()
 			
 			inventory_item_reference.subtract(1) # Reduce ammo
 			
@@ -141,8 +143,10 @@ func hit_scan_scene(bullet_collision):
 # Function called when wieldable reload is attempted
 func reload():
 	animation_player.play(anim_reload)
-	audio_stream_player_3d.stream = sound_reload
-	audio_stream_player_3d.play()
+	
+	if audio_stream_player_3d and sound_reload:
+		audio_stream_player_3d.stream = sound_reload
+		audio_stream_player_3d.play()
 
 
 # Function called when wieldable is equipped.

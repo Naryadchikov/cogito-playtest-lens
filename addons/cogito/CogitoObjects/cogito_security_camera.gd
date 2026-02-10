@@ -110,7 +110,7 @@ func detecting(delta: float):
 		CogitoGlobals.debug_log(true,"cogito_security_camera.gd", "Detected!")
 		current_state = DetectorState.DETECTED
 		start_alarm_light()
-		if !audio_stream_player_3d.playing:
+		if audio_stream_player_3d and !audio_stream_player_3d.playing:
 			audio_stream_player_3d.play()
 			
 		send_detected_object.emit(detected_objects[0])

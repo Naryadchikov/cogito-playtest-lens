@@ -53,8 +53,9 @@ func action_primary(_passed_item_reference : InventoryItemPD, _is_released: bool
 	
 	# Sound and animation
 	animation_player.play(anim_action_primary)
-	audio_stream_player_3d.stream = sound_primary_use
-	audio_stream_player_3d.play()
+	if audio_stream_player_3d and sound_primary_use:
+		audio_stream_player_3d.stream = sound_primary_use
+		audio_stream_player_3d.play()
 	
 	_passed_item_reference.subtract(1) #Reducing ammo count
 	
@@ -98,5 +99,6 @@ func action_secondary(is_released:bool):
 # Function called when wieldable reload is attempted
 func reload():
 	animation_player.play(anim_reload)
-	audio_stream_player_3d.stream = sound_reload
-	audio_stream_player_3d.play()
+	if audio_stream_player_3d and sound_reload:
+		audio_stream_player_3d.stream = sound_reload
+		audio_stream_player_3d.play()

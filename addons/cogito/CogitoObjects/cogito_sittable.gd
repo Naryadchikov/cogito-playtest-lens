@@ -194,9 +194,10 @@ func _sit_down():
 		animation_player.play(animation_on_enter)
 	
 	#sit down audio
-	audio_stream_player_3d.stream = sit_sound
-	audio_stream_player_3d.pitch_scale = sit_pitch
-	audio_stream_player_3d.play()
+	if audio_stream_player_3d and sit_sound:
+		audio_stream_player_3d.stream = sit_sound
+		audio_stream_player_3d.pitch_scale = sit_pitch
+		audio_stream_player_3d.play()
 	
 	#update interaction text
 	interaction_text = tr(interaction_text_when_on)
@@ -226,9 +227,10 @@ func _stand_up():
 		animation_player.play(animation_on_leave)
 	
 	#stand up audio
-	audio_stream_player_3d.stream = stand_sound
-	audio_stream_player_3d.pitch_scale = stand_pitch
-	audio_stream_player_3d.play()
+	if audio_stream_player_3d and stand_sound:
+		audio_stream_player_3d.stream = stand_sound
+		audio_stream_player_3d.pitch_scale = stand_pitch
+		audio_stream_player_3d.play()
 	
 	#update interaction text
 	interaction_text = tr(interaction_text_when_off)

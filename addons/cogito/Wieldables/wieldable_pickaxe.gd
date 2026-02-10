@@ -51,8 +51,10 @@ func action_primary(_passed_item_reference:InventoryItemPD, _is_released: bool):
 			player_stamina.subtract(stamina_cost)
 	
 	animation_player.play(anim_action_primary)
-	audio_stream_player_3d.stream = swing_sound
-	audio_stream_player_3d.play()
+	
+	if audio_stream_player_3d and swing_sound:
+		audio_stream_player_3d.stream = swing_sound
+		audio_stream_player_3d.play()
 
 
 func _on_body_entered(collider):

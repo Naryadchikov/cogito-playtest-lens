@@ -116,7 +116,7 @@ func interact(_player_interaction_component):
 
 
 func switch():
-	audio_stream_player_3d.play()
+	if audio_stream_player_3d: audio_stream_player_3d.play()
 	if needs_item_to_operate and !is_holding_item:
 		if !check_for_item():
 			return

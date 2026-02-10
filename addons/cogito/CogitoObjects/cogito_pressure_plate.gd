@@ -38,7 +38,7 @@ func _ready():
 
 
 func weigh_down():
-	audio_stream_player_3d.play()
+	if audio_stream_player_3d: audio_stream_player_3d.play()
 	
 	is_activated = true
 	plate_activated.emit()

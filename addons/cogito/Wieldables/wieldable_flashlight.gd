@@ -108,5 +108,6 @@ func toggle_flashlight(new_state: bool):
 
 # Function to play a sound
 func play_sound(sound: AudioStream):
+	if !audio_stream_player_3d or !sound: return
 	audio_stream_player_3d.stream = sound
 	audio_stream_player_3d.play()

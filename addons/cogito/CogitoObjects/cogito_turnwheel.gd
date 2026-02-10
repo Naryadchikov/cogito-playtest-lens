@@ -43,7 +43,7 @@ func _ready():
 
 
 func _is_being_turned(_time_remaining:float):
-	if !audio_stream_player_3d.playing:
+	if audio_stream_player_3d and !audio_stream_player_3d.playing:
 		audio_stream_player_3d.play()
 		
 	if has_been_turned:
@@ -53,7 +53,7 @@ func _is_being_turned(_time_remaining:float):
 	
 
 func interact(_player_interaction_component):
-	audio_stream_player_3d.stop()
+	if audio_stream_player_3d: audio_stream_player_3d.stop()
 	has_been_turned = !has_been_turned
 	CogitoGlobals.debug_log(true,"cogito_turnwheel.gd", "Turnwheel has been turned: " + str(has_been_turned) )
 	for node in nodes_to_trigger:

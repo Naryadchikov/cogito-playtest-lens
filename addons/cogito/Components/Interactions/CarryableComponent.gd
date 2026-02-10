@@ -115,7 +115,7 @@ func hold():
 	player_interaction_component.interaction_raycast.add_exception(parent_object)
 	
 	# Play Pick up sound.
-	if pick_up_sound != null:
+	if audio_stream_player_3d and pick_up_sound != null:
 		audio_stream_player_3d.stream = pick_up_sound
 		audio_stream_player_3d.play()
 	
@@ -139,7 +139,7 @@ func leave():
 
 func throw(power):
 	leave()
-	if drop_sound:
+	if audio_stream_player_3d and drop_sound:
 		audio_stream_player_3d.stream = drop_sound
 		audio_stream_player_3d.play()
 	var impulse = player_interaction_component.Get_Look_Direction() * power

@@ -22,7 +22,7 @@ func _ready() -> void:
 
 
 func _on_parent_node_collision(_collided_node):
-	if !audio_stream_player_3d.playing and !is_delaying:
+	if audio_stream_player_3d and !audio_stream_player_3d.playing and !is_delaying:
 		audio_stream_player_3d.play()
 		impact_time_delay()
 

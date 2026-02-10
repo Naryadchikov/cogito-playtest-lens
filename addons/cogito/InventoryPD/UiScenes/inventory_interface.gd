@@ -47,7 +47,6 @@ func _ready():
 	
 	grabbed_slot_node.set_mouse_filter(2) # Setting mouse filter to ignore.
 	grabbed_slot_node.set_focus_mode(0) # Setting focus mode to none.
-	grabbed_slot_node.visibility_changed.connect(update_grabbed_slot_position)
 
 
 func _on_input_device_change(_device, _device_index):
@@ -163,8 +162,21 @@ func _slot_on_mouse_exit():
 
 
 func update_grabbed_slot_position():
+	if control_in_focus == null:
+		return
 	# print("Inventory interface: update grabbed slot position to ", control_in_focus, " at ", control_in_focus.global_position)
 	grabbed_slot_node.global_position = control_in_focus.global_position + (control_in_focus.size / 2)
+
+
+func _apply_grabbed_slot_position_after_layout():
+	if control_in_focus == null:
+		return
+	# Wait for the next frame to ensure layout is complete
+	await get_tree().process_frame
+	if control_in_focus != null and grabbed_slot_node.visible:
+		grabbed_slot_node.global_position = control_in_focus.global_position + (control_in_focus.size / 2)
+		# Now make it visible
+		grabbed_slot_node.modulate.a = 1
 
 
 func _physics_process(_delta):
@@ -233,6 +245,9 @@ func set_player_inventory_data(inventory_data : CogitoInventory):
 
 # Inventory handling on gamepad buttons
 func on_inventory_button_press(inventory_data: CogitoInventory, index: int, action: String, local_inventory_ui):
+	# Update control_in_focus immediately to ensure grabbed slot positioning is correct
+	control_in_focus = local_inventory_ui.slot_array[index]
+	
 	match [grabbed_slot_data, action]:
 		[null, "inventory_move_item"]:
 			# Check if item is being wielded before grabbing it.
@@ -293,14 +308,21 @@ func on_inventory_button_press(inventory_data: CogitoInventory, index: int, acti
 
 func update_grabbed_slot():
 	if grabbed_slot_data:
+		# For gamepad users, hide with alpha to avoid flicker while we position
+		if InputHelper.device_index != -1:
+			grabbed_slot_node.modulate.a = 0
 		grabbed_slot_node.show()
 		grabbed_slot_node.set_slot_data(grabbed_slot_data, grabbed_slot_node.get_index(), true, 0)
 		inventory_ui.grabbed_slot = grabbed_slot_node
 		if external_inventory_ui.visible:
 			external_inventory_ui.grabbed_slot = grabbed_slot_node
 		grabbed_slot_node.set_grabbed_dimensions()
+		# Position and reveal after layout is ready
+		if InputHelper.device_index != -1:
+			_apply_grabbed_slot_position_after_layout.call_deferred()
 	else:
 		grabbed_slot_node.hide()
+		grabbed_slot_node.modulate.a = 1
 		inventory_ui.detach_grabbed_slot()
 		external_inventory_ui.detach_grabbed_slot()
 

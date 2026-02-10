@@ -60,7 +60,10 @@ var equipped_wieldable_node = null
 var wieldable_was_on: bool = false
 var is_wielding: bool:
 	get: return equipped_wieldable_item != null
-	
+# Used to auto equip the last, or just selected, wieldable automatically after or while carrying
+var wieldable_item_to_auto_equip: WieldableItemPD = null
+var auto_equip_wieldable_after_carrying: bool = false
+
 var player_rid
 # Briefly interrupt quickslot cycling after an interactable is unseen
 var can_cycle_quickslots: bool = true
@@ -473,3 +476,45 @@ func get_carried_object_mass(carried_object) -> float:
 ## This prevents incidental quickslot cycling when only attempting to interact with an item in the world that uses the same input action
 func _on_can_cycle_quickslots_timeout() -> void:
 	can_cycle_quickslots = true
+
+
+# Called by CarryableComponent just before carrying an object
+func setup_wieldable_to_auto_equip(next_wieldable: WieldableItemPD = null) -> void:
+	if equipped_wieldable_node != null:
+		wieldable_item_to_auto_equip = equipped_wieldable_node.item_reference
+	elif equipped_wieldable_item != null:
+		wieldable_item_to_auto_equip = equipped_wieldable_item
+	elif next_wieldable != null: # Called when using quickslots to assign a wieldable while carrying an object
+		wieldable_item_to_auto_equip = next_wieldable
+	elif wieldable_item_to_auto_equip == null:
+		print("PIC: can't set up auto reequip as none of equipped_wieldable_node, equipped_wieldable_item, nor wieldable_to_auto_equip exist")
+		return
+	
+	if equipped_wieldable_node != null:
+		if equipped_wieldable_node.has_method("toggle_on_off"):
+			wieldable_was_on = equipped_wieldable_node.is_on
+		change_wieldable_to(null)
+	
+	auto_equip_wieldable_after_carrying = true
+
+
+func auto_equip_last_wieldable() -> void:
+	if auto_equip_wieldable_after_carrying and wieldable_item_to_auto_equip != null:
+		if equipped_wieldable_node != null:
+			equipped_wieldable_node.queue_free()
+			await get_tree().create_timer(equipped_wieldable_node.animation_player.current_animation_length).timeout
+			if equipped_wieldable_node != null:
+				equipped_wieldable_node.free()
+		equipped_wieldable_node = null
+		equipped_wieldable_item = null
+		is_changing_wieldables = false
+		
+		var temp_wieldable : WieldableItemPD = wieldable_item_to_auto_equip
+		temp_wieldable.is_being_wielded = false
+		# Failing to reequip the wieldable, such as in carry->drop->carry scenarios, preserves the reequip status until it succeeds
+		if temp_wieldable.use(get_parent()):
+			auto_equip_wieldable_after_carrying = false
+		
+		if equipped_wieldable_node and equipped_wieldable_node.has_method("toggle_on_off") and wieldable_was_on:
+			equipped_wieldable_node.is_on = !wieldable_was_on
+			equipped_wieldable_node.toggle_on_off()

@@ -342,7 +342,8 @@ func set_state():
 		lock_interaction_text = interaction_text_when_locked
 	else:
 		lock_interaction_text = interaction_text_when_unlocked
-		
+	
+	lock_state_changed.emit(is_locked)
 	object_state_updated.emit(interaction_text)
 	lock_state_updated.emit(lock_interaction_text)
 

@@ -19,7 +19,7 @@ extends CogitoWieldable
 @export var decal_spawn : bool = true
 ## Hit decal texture, if blank will be set to default bullet decal texture
 @export var decal_texture : Texture2D
-## Scene that spawns when a bullet of the weapon collides with anything
+## Scene that spawns when a bullet of the weapon collides with anything. Used for impact vfx.
 @export var collision_scene : PackedScene
 
 @export_group("Audio")
@@ -115,8 +115,10 @@ func hit_scan_collision(collision_point:Vector3):
 	if bullet_collision:
 		hit_scan_damage(bullet_collision.collider, bullet_direction, bullet_collision.position)
 		
-		if collision_scene !=null:
-			hit_scan_scene(bullet_collision)
+		if collision_scene !=null: # Spawning impact particle effects
+			var spawned_impact_scene = collision_scene.instantiate()
+			add_child(spawned_impact_scene)
+			spawned_impact_scene.global_position = collision_point
 		
 		if decal_spawn == true:
 			var bullet_collider = bullet_collision.collider
@@ -130,14 +132,6 @@ func hit_scan_collision(collision_point:Vector3):
 func hit_scan_damage(collider, bullet_direction, bullet_position):
 	if collider.has_signal("damage_received"):
 		collider.damage_received.emit(item_reference.wieldable_damage,bullet_direction,bullet_position)
-
-
-func hit_scan_scene(bullet_collision):
-	if collision_scene !=null:
-		var hit_indicator = collision_scene.instantiate()
-		var world = get_tree().get_root().get_child(0)
-		world.add_child(hit_indicator)
-		hit_indicator.global_translate(bullet_collision.position)
 
 
 # Function called when wieldable reload is attempted

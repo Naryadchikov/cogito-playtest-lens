@@ -27,18 +27,25 @@ signal charge_changed()
 var wieldable_data_text : String
 
 func use(target) -> bool:
-	if target.is_in_group("external_inventory"):
-		CogitoGlobals.debug_log(true,"WieldableItemPD.gd", "Can't use wieldable that is not in your inventory." )
-		return false
-		
 	# Target should always be player? Null check to override using the CogitoSceneManager, which stores a reference to current player node
 	if target == null:
 		CogitoGlobals.debug_log(true,"WieldableItemPD.gd", "Bad target pass. Setting target to " + CogitoSceneManager._current_player_node.name )
 		target = CogitoSceneManager._current_player_node
-
-		
+	# Call after assigning a null target to avoid throwing a null ref
+	if target.is_in_group("external_inventory"):
+		CogitoGlobals.debug_log(true,"WieldableItemPD.gd", "Can't use wieldable that is not in your inventory." )
+		return false
+	
 	player_interaction_component = target.player_interaction_component
-	if player_interaction_component.carried_object != null:
+	if player_interaction_component.carried_object != null and !player_interaction_component.carried_object.is_carryable_while_wielding:
+		# Automatically drop the carried object when selecting a wieldable via quickslot, or inventory
+		if !player_interaction_component.is_wielding:
+			CogitoGlobals.debug_log(true,"WieldableItemPD.gd", player_interaction_component.name + " is dropping " + (player_interaction_component.carried_object.get_parent() as CogitoObject).cogito_name + " to take out wieldable " + name )
+			player_interaction_component.setup_wieldable_to_auto_equip(self)
+			player_interaction_component._drop_carried_object()
+			take_out()
+			return true
+		
 		player_interaction_component.send_hint(null,"Can't equip item while carrying.")
 		return false
 	if is_being_wielded:

@@ -41,6 +41,7 @@
 # res://addons/cogito/Localization/translation_keys_resources/loc_keys_comon_hints.tres
 # res://addons/cogito/EasyMenus/Scenes/main_menu.tscn
 # res://addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+# res://addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
 #
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -73,11 +74,11 @@ msgid "LAB_MOUSE_SENS"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
-msgid "Inverts looking up and down direction."
+msgid "BTN_INVERT_Y"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
-msgid "BTN_INVERT_Y"
+msgid "Inverts looking up and down direction."
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
@@ -98,6 +99,10 @@ msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
 msgid "LAB_RESOLUTION"
+msgstr ""
+
+#: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
+msgid "100% - 1920x1080"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
@@ -137,7 +142,7 @@ msgid "Smooths out edges of 3D objects"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
-msgid "LAB_RENDER_SCALE"
+msgid "LAB_UI_SCALE"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
@@ -145,15 +150,11 @@ msgid "1"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
-msgid "LAB_UI_SCALE"
+msgid "BTN_VSYNC"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
 msgid "Syncs Games Frame Rate with Displays Refresh Rate"
-msgstr ""
-
-#: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
-msgid "BTN_VSYNC"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
@@ -572,6 +573,11 @@ msgstr ""
 msgid "UI_BTN_take_all"
 msgstr ""
 
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_common_interactions.tres
+msgid "INTERACT_pick_lock"
+msgstr ""
+
 #. TRANSLATORS: item name
 #. item ammo item name
 #: addons/cogito/InventoryPD/Items/Cogito_Battery.tres
@@ -627,6 +633,7 @@ msgstr ""
 #: addons/cogito/InventoryPD/Items/Cogito_Pickaxe.tres
 #: addons/cogito/InventoryPD/Items/Cogito_Pistol.tres
 #: addons/cogito/InventoryPD/Items/Cogito_UselessItem.tres
+#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
 msgid ""
 msgstr ""
 
@@ -1043,12 +1050,27 @@ msgstr ""
 msgid "HINT_SWITCH_battery"
 msgstr ""
 
-#: addons/cogito/EasyMenus/Scenes/main_menu.tscn
-msgid "Legacy Demo Scene"
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_comon_hints.tres
+msgid "HINT_item_required"
+msgstr ""
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_comon_hints.tres
+msgid "HINT_item_broke"
+msgstr ""
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_comon_hints.tres
+msgid "HINT_lockpick_success"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/main_menu.tscn
 msgid "Options"
+msgstr ""
+
+#: addons/cogito/EasyMenus/Scenes/main_menu.tscn
+msgid "Credits"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/main_menu.tscn
@@ -1063,4 +1085,14 @@ msgstr ""
 #. TRANSLATORS: translation_key_dict entry
 #: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
 msgid "TXT_SLOT"
+msgstr ""
+
+#. TRANSLATORS: item name
+#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
+msgid "Lockpick"
+msgstr ""
+
+#. TRANSLATORS: item description
+#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
+msgid "Breaks easily but can come in handy."
 msgstr ""

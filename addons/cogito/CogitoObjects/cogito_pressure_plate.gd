@@ -7,13 +7,13 @@ signal plate_activated()
 signal plate_deactivated()
 signal damage_received(damage_value:float)
 
-@onready var audio_stream_player_3d = $AudioStreamPlayer3D
 @onready var base: StaticBody3D = $Base
 
 ## Sets this pressure plate as active (can be activated etc)
 @export var is_usable : bool = true
 ## Toggle if switchable can be interacted with repeatedly or not.
 @export var allows_repeated_interaction : bool = true
+@export var audio_stream_player_3d: AudioStreamPlayer3D
 ## Sound that plays when weighed down.
 @export var activation_sound : AudioStream
 
@@ -34,7 +34,12 @@ var player_interaction_component : PlayerInteractionComponent
 
 func _ready():
 	add_to_group("save_object_state")
-	audio_stream_player_3d.stream = activation_sound
+	if not audio_stream_player_3d:
+		var players: Array[Node] = find_children("", "AudioStreamPlayer3D")
+		if len(players) > 0: audio_stream_player_3d = players[0]
+	
+	if audio_stream_player_3d:
+		audio_stream_player_3d.stream = activation_sound
 
 
 func weigh_down():

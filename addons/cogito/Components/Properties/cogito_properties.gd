@@ -21,7 +21,6 @@ enum MaterialProperties{
 	SOFT = 1,
 }
 
-@onready var audio_stream_player_3d: AudioStreamPlayer3D = $AudioStreamPlayer3D
 @onready var damage_timer: Timer = $DamageTimer
 @onready var reaction_timer: Timer = $ReactionTimer
 
@@ -59,6 +58,7 @@ enum MaterialProperties{
 
 
 @export_group("Audio")
+@export var audio_stream_player_3d: AudioStreamPlayer3D
 @export var audio_igniting : AudioStream
 @export var audio_burning : AudioStream
 @export var audio_extinguishing : AudioStream
@@ -78,6 +78,10 @@ var reaction_bodies : Array[Node3D] #Used to keep track of bodies with systemic 
 
 
 func _ready():
+	if !audio_stream_player_3d:
+		var players: Array[Node] = find_children("", "AudioStreamPlayer3D")
+		if len(players): audio_stream_player_3d = players[0]
+		
 	reaction_timer.timeout.connect(check_for_systemic_reactions)
 	damage_timer.timeout.connect(apply_burn_damage)
 	

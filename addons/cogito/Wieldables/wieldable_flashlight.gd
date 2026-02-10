@@ -32,6 +32,7 @@ var can_toggle: bool = true  # If the flashlight can be toggled
 var cooldown_timer: float = 0.0
 
 func _ready():
+	super._ready()
 	# Hide the wieldable mesh if it exists
 	if wieldable_mesh:
 		wieldable_mesh.hide()

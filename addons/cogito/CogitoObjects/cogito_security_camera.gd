@@ -8,7 +8,8 @@ signal send_detected_object(object: Node3D)
 signal object_no_longer_detected
 signal turned_off
 
-@onready var audio_stream_player_3d: AudioStreamPlayer3D = $AudioStreamPlayer3D
+@export var audio_stream_player_3d: AudioStreamPlayer3D
+
 @onready var lightmeter:CogitoAttribute
 @onready var detected_light_level: float
 
@@ -63,7 +64,12 @@ func _ready() -> void:
 	detection_area.body_entered.connect(on_body_entered_detection)
 	detection_area.body_exited.connect(on_body_left_detection)
 	
-	audio_stream_player_3d.stream = alarm_sound
+	if !audio_stream_player_3d:
+		var players = find_children("", "AudioStreamPlayer3D")
+		if len(players) > 0: audio_stream_player_3d = players[0]
+	
+	if audio_stream_player_3d:
+		audio_stream_player_3d.stream = alarm_sound
 	
 	current_state = start_state
 	update_indicator_mesh()

@@ -5,6 +5,7 @@ signal carry_state_changed(is_being_carried : bool)
 signal thrown(impulse)
 
 @export_group("Carriable Settings")
+@export var audio_stream_player_3d: AudioStreamPlayer3D
 @export var pick_up_sound : AudioStream
 @export var drop_sound : AudioStream
 ##Sets whether the object can be carried while wielding a weapon
@@ -22,8 +23,6 @@ signal thrown(impulse)
 ## How fast the object rotates (in degrees per second)
 @export var rotation_speed : float = 2.0
 
-@onready var audio_stream_player_3d = $AudioStreamPlayer3D
-
 var camera : Camera3D
 var parent_object
 var is_being_carried : bool
@@ -33,6 +32,10 @@ var carry_position : Vector3 #Position the carriable "floats towards".
 
 
 func _ready():
+	if !audio_stream_player_3d:
+		var players: Array[Node] = find_children("", "AudioStreamPlayer3D")
+		if len(players): audio_stream_player_3d = players[0]
+	
 	parent_object = get_parent()
 	if parent_object.has_signal("body_entered"):
 		parent_object.body_entered.connect(_on_body_entered) #Connecting to body entered signal

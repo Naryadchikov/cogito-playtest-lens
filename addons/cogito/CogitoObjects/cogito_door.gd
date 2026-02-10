@@ -29,6 +29,7 @@ enum PromptPositionMode{
 @export var prompt_marker : Marker3D
 
 @export_group("Audio")
+@export var audio_player: AudioStreamPlayer3D
 @export var open_sound : AudioStream
 @export var close_sound : AudioStream
 ## Sound that plays when attempting to open while locked.
@@ -125,13 +126,14 @@ var close_timer : Timer #Used for auto-close
 var interaction_nodes : Array[Node]
 var cogito_properties : CogitoProperties = null
 var player_interaction_component : PlayerInteractionComponent
-
-@onready var audio_stream_player_3d = $AudioStreamPlayer3D
-
 #endregion
 
 
 func _ready():
+	if !audio_player:
+		var players: Array[Node] = find_children("", "AudioStreamPlayer3D")
+		if len(players): audio_player = players[0]
+		
 	if !ignore_interaction_raycast:
 		add_to_group("interactable")
 	add_to_group("save_object_state")
@@ -176,9 +178,9 @@ func interact(interactor: Node3D):
 
 
 func door_rattle(interactor):
-	if audio_stream_player_3d and rattle_sound:
-		audio_stream_player_3d.stream = rattle_sound
-		audio_stream_player_3d.play()
+	if audio_player and rattle_sound:
+		audio_player.stream = rattle_sound
+		audio_player.play()
 	interactor.send_hint(null, tr("DOOR_locked_hint") )
 
 
@@ -232,9 +234,9 @@ func lock_unlock_switch():
 
 
 func unlock_door():
-	if audio_stream_player_3d and unlock_sound:
-		audio_stream_player_3d.stream = unlock_sound
-		audio_stream_player_3d.play()
+	if audio_player and unlock_sound:
+		audio_player.stream = unlock_sound
+		audio_player.play()
 	is_locked = false
 	
 #	Key Discard Logic
@@ -251,9 +253,9 @@ func unlock_door():
 
 
 func lock_door():
-	if audio_stream_player_3d and lock_sound:
-		audio_stream_player_3d.stream = lock_sound
-		audio_stream_player_3d.play()
+	if audio_player and lock_sound:
+		audio_player.stream = lock_sound
+		audio_player.play()
 		
 	is_locked = true
 	lock_interaction_text = interaction_text_when_locked	
@@ -262,9 +264,9 @@ func lock_door():
 
 
 func open_door(interactor: Node3D):
-	if audio_stream_player_3d and open_sound:
-		audio_stream_player_3d.stream = open_sound
-		audio_stream_player_3d.play()
+	if audio_player and open_sound:
+		audio_player.stream = open_sound
+		audio_player.play()
 
 	if door_type == DoorType.ANIMATED:
 		anim_player.play(opening_animation)
@@ -305,9 +307,9 @@ func close_door(_interactor: Node3D):
 	if close_timer: #If there's an auto_close_timer, destroy it.
 		close_timer.queue_free()
 	
-	if audio_stream_player_3d and close_sound:
-		audio_stream_player_3d.stream = close_sound
-		audio_stream_player_3d.play()
+	if audio_player and close_sound:
+		audio_player.stream = close_sound
+		audio_player.play()
 	
 	if door_type == DoorType.ANIMATED:
 		if reverse_opening_anim_for_close:

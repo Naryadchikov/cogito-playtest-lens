@@ -3,7 +3,7 @@ extends AnimatableBody3D
 
 signal object_state_updated(interaction_text : String)
 
-@onready var audio_stream_player_3d = $AudioStreamPlayer3D
+@export var audio_stream_player_3d: AudioStreamPlayer3D
 
 ## Name that will displayed when interacting. Leave blank to hide
 @export var display_name : String
@@ -35,7 +35,13 @@ func _ready():
 	self.add_to_group("interactable")
 	
 	interaction_nodes = find_children("","InteractionComponent",true) #Grabs all attached interaction components
-	audio_stream_player_3d.stream = hold_audio_stream
+	
+	if !audio_stream_player_3d:
+		var players = find_children("", "AudioStreamPlayer3D")
+		if len(players) > 0: audio_stream_player_3d = players[0]
+	
+	if audio_stream_player_3d:
+		audio_stream_player_3d.stream = hold_audio_stream
 	
 	for node in interaction_nodes:
 		if node and node.has_signal("is_being_held"):

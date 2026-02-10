@@ -25,6 +25,7 @@ var inventory_item_reference : WieldableItemPD
 
 
 func _ready() -> void:
+	super._ready()
 	# Here, we pre-instantiate `POOL_SIZE` bullets and store them in the `bullets` array.
 	for i in POOL_SIZE:
 		projectile_pool.append(projectile_prefab.instantiate())

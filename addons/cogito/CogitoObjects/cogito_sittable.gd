@@ -66,6 +66,7 @@ enum PromptPositionMode{
 @export var animation_on_leave: String
 
 @export_group("Audio")
+@export var audio_stream_player_3d = $AudioStreamPlayer3D
 @export var sit_sound : AudioStream
 @export var stand_sound : AudioStream
 @export var sit_pitch : float = 0.5
@@ -109,7 +110,6 @@ enum PlacementOnLeave {
 	DISPLACEMENT	## The displacement between player and Sittable is taken on sit down, and used on standup relative to Sittables new location
 }
 
-@onready var audio_stream_player_3d = $AudioStreamPlayer3D
 @onready var BasicInteraction = $BasicInteraction
 
 var is_occupied: bool = false
@@ -130,6 +130,10 @@ var interaction_component_state:bool = false
 
 
 func _ready():
+	if !audio_stream_player_3d:
+		var players = find_children("", "AudioStreamPlayer3D")
+		if len(players) > 0: audio_stream_player_3d = players[0]
+	
 	#find player node
 	player_node = CogitoSceneManager._current_player_node
 	self.add_to_group("interactable")
@@ -222,7 +226,6 @@ func _sit_down():
 
 
 func _stand_up():
-	
 	if animation_player:
 		animation_player.play(animation_on_leave)
 	

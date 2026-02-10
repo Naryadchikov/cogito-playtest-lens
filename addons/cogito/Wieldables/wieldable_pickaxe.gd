@@ -15,6 +15,7 @@ var player_stamina : CogitoAttribute = null
 
 
 func _ready():
+	super._ready()
 	if wieldable_mesh:
 		wieldable_mesh.hide()
 		

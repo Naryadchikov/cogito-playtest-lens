@@ -18,11 +18,16 @@ func _ready() -> void:
 	else:
 		parent_node.body_entered.connect(_on_parent_node_collision)
 
-	audio_stream_player_3d.stream = impact_sounds
+	if !audio_stream_player_3d:
+		var players: Array[Node] = find_children("", "AudioStreamPlayer3D")
+		if len(players): audio_stream_player_3d = players[0]
+		
+	if audio_stream_player_3d:
+		audio_stream_player_3d.stream = impact_sounds
 
 
 func _on_parent_node_collision(_collided_node):
-	if !audio_stream_player_3d.playing and !is_delaying:
+	if audio_stream_player_3d and !audio_stream_player_3d.playing and !is_delaying:
 		audio_stream_player_3d.play()
 		impact_time_delay()
 

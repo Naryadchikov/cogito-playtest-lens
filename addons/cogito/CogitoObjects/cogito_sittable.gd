@@ -66,7 +66,7 @@ enum PromptPositionMode{
 @export var animation_on_leave: String
 
 @export_group("Audio")
-@export var audio_stream_player_3d = $AudioStreamPlayer3D
+@export var audio_stream_player_3d : AudioStreamPlayer3D
 @export var sit_sound : AudioStream
 @export var stand_sound : AudioStream
 @export var sit_pitch : float = 0.5

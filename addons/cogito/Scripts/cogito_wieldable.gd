@@ -9,8 +9,7 @@ var item_reference : WieldableItemPD
 @export var audio_stream_player_3d: AudioStreamPlayer3D
 
 @export_group("Animations")
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
-
+@export var animation_player: AnimationPlayer
 @export var anim_equip: String = "equip"
 @export var anim_unequip: String = "unequip"
 @export var anim_action_primary: String = "action_primary"
@@ -26,6 +25,10 @@ func _ready():
 	if !audio_stream_player_3d:
 		var players: Array[Node] = find_children("", "AudioStreamPlayer3D")
 		if len(players): audio_stream_player_3d = players[0]
+	
+	if !animation_player:
+		var anim_players: Array[Node] = find_children("", "AnimationPlayer")
+		if len(anim_players): animation_player = anim_players[0]
 		
 	if wieldable_mesh:
 		wieldable_mesh.hide()

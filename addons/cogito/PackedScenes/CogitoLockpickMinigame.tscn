@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c36qe573mrl5e"]
+[gd_scene load_steps=22 format=3 uid="uid://c36qe573mrl5e"]
 
 [ext_resource type="Script" uid="uid://csbq1parqsxxa" path="res://addons/cogito/PackedScenes/cogito_lockpick_minigame.gd" id="1_nyp7g"]
 [ext_resource type="AudioStream" uid="uid://btoufmp0rtgi" path="res://addons/cogito/Assets/Audio/Kenney/beltHandle2.ogg" id="2_nvjsh"]
@@ -76,22 +76,6 @@ tracks/0/keys = {
 "values": [Vector3(0, 0, 2.2985113), Vector3(0, -0.12217305, 2.2985985), Vector3(0, 0, 2.2985113), Vector3(0, -0.12217305, 2.2985985), Vector3(0, 0, 2.2985113)]
 }
 
-[sub_resource type="Animation" id="Animation_yoo14"]
-resource_name = "unlocking"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CameraOffset:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, 0, -0.5), Vector3(0, -1, -0.5)]
-}
-
 [sub_resource type="Animation" id="Animation_gyyii"]
 resource_name = "grab_new_lock"
 length = 0.8
@@ -124,6 +108,22 @@ tracks/0/keys = {
 "values": [Vector3(0, -1, -0.5), Vector3(0, 0, -0.5)]
 }
 
+[sub_resource type="Animation" id="Animation_yoo14"]
+resource_name = "unlocking"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CameraOffset:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, -0.5), Vector3(0, -1, -0.5)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_cseyh"]
 _data = {
 &"RESET": SubResource("Animation_m2nmj"),
@@ -138,6 +138,8 @@ _data = {
 albedo_color = Color(0.6542321, 0.6542321, 0.654232, 1)
 metallic = 1.0
 metallic_specular = 1.0
+use_z_clip_scale = true
+z_clip_scale = 0.9
 
 [sub_resource type="BoxMesh" id="BoxMesh_nyp7g"]
 material = SubResource("StandardMaterial3D_f8sxr")
@@ -149,6 +151,8 @@ size = Vector3(0.01, 0.03, 0.05)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nyp7g"]
 albedo_color = Color(0.7246427, 0.7246425, 0.7246429, 1)
+use_z_clip_scale = true
+z_clip_scale = 0.9
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_nyp7g"]
 material = SubResource("StandardMaterial3D_nyp7g")
@@ -166,12 +170,22 @@ radial_segments = 16
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nvjsh"]
 albedo_color = Color(0, 0, 0, 1)
+use_z_clip_scale = true
+z_clip_scale = 0.9
 
 [sub_resource type="BoxMesh" id="BoxMesh_m2nmj"]
 material = SubResource("StandardMaterial3D_nvjsh")
 size = Vector3(0.06, 0.05, 0.1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m2nmj"]
+albedo_color = Color(0.60933006, 0.6093301, 0.60933006, 1)
+metallic = 1.0
+metallic_specular = 1.0
+use_z_clip_scale = true
+z_clip_scale = 0.9
+
 [sub_resource type="CylinderMesh" id="CylinderMesh_t5mda"]
+material = SubResource("StandardMaterial3D_m2nmj")
 top_radius = 0.17
 bottom_radius = 0.2
 height = 0.1

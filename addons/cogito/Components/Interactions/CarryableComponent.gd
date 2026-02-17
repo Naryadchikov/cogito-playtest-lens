@@ -37,6 +37,7 @@ func _ready():
 		if len(players): audio_stream_player_3d = players[0]
 	
 	parent_object = get_parent()
+	
 	if parent_object.has_signal("body_entered"):
 		parent_object.body_entered.connect(_on_body_entered) #Connecting to body entered signal
 	else:
@@ -146,6 +147,9 @@ func leave():
 		player_interaction_component.interaction_raycast.remove_exception(parent_object)
 	is_being_carried = false
 	carry_state_changed.emit(is_being_carried)
+	
+	if parent_object is CogitoBodyDrag:
+		parent_object.cogito_ragdoll.save_bone_root_position()
 
 
 func throw(power):

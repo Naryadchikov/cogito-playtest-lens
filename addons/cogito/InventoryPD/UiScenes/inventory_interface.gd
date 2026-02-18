@@ -114,6 +114,18 @@ func close_inventory():
 			hot_bar_inventory.show()
 
 
+## When the info panel is visible, this will check that if the mouse goes off the grid, 
+## it will unhighlight the previously hovered item and hide the info box.
+func out_of_bounds_check_mouse():
+	var slot_size = 32
+	var grid = inventory_ui.grid_container
+	var ui_rect = Rect2(grid.global_position - Vector2(0, slot_size), grid.size + Vector2(slot_size/4,slot_size/2))
+	var mouse_rect = Rect2(get_global_mouse_position(), Vector2(1,1))
+	if !ui_rect.encloses(mouse_rect):
+		inventory_ui.highlight_item(control_in_focus, false)
+		info_panel.hide()
+
+
 func _on_focus_changed(control: Control):
 	if !control.has_method("set_slot_data"):
 		CogitoGlobals.debug_log(true,"inventory_interface.gd", "_on_focus_changed: Not a slot. returning.")
@@ -172,7 +184,7 @@ func _slot_on_mouse_entered():
 	if !control_in_focus or !previously_focused_control:
 		return
 	unhighlight_slots_if_moving_between()
-	
+
 
 ## Remove an existing highlighted item if focus shifts to another item or a blank slot
 func unhighlight_slots_if_moving_between():
@@ -208,6 +220,7 @@ func _physics_process(_delta):
 			
 		if info_panel.visible:
 			info_panel.global_position = get_global_mouse_position() + Vector2(5, 5)
+			out_of_bounds_check_mouse()
 
 
 func set_external_inventory(_external_inventory_owner):

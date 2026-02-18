@@ -15,6 +15,14 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 
+[sub_resource type="Gradient" id="Gradient_303ij"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 1, 1, 0.4)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_scuyj"]
+gradient = SubResource("Gradient_303ij")
+width = 64
+
 [sub_resource type="LabelSettings" id="LabelSettings_c2nn1"]
 font_size = 20
 
@@ -55,10 +63,15 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_35t0l")
 layout_mode = 2
 mouse_filter = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer" unique_id=1614587178]
+[node name="Icon" type="TextureRect" parent="MarginContainer" unique_id=1614587178]
 layout_mode = 2
 mouse_filter = 2
 expand_mode = 1
+
+[node name="Backlight" type="TextureRect" parent="MarginContainer" unique_id=330393763]
+visible = false
+layout_mode = 2
+texture = SubResource("GradientTexture1D_scuyj")
 
 [node name="QuantityLabel" type="Label" parent="." unique_id=714336464]
 visible = false

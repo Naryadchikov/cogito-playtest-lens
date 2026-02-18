@@ -120,11 +120,12 @@ func detach_grabbed_slot():
 	grabbed_slot = null
 
 ## Highlight all the slots an item occupies when hovered over.
-func highlight_item(item_data, origin_index: int, highlight: bool):
+func highlight_item(focused_slot, highlight: bool):
+	if InputHelper.device_index != -1: # Don't highlight for gamepad
+		return
+	var item_data = focused_slot.item_data
+	var origin_index = focused_slot.origin_index
 	if !item_data:
-		for slot in slot_array:
-			if slot.get_index() != origin_index:
-				slot.highlight_panel.hide()
 		return
 	# No need to highlight more slots if an item is 1x1
 	var highlight_size = item_data.item_size
@@ -144,7 +145,6 @@ func highlight_item(item_data, origin_index: int, highlight: bool):
 func highlight_slots_if_grabbed(index: int, highlight: bool):
 	if !grabbed_slot or !grabbed_slot.item_data or !grabbed_slot.grid:
 		return false # Let the slot know it should reset its fill
-	
 	var highlight_size : Vector2i = grabbed_slot.item_data.item_size if grabbed_slot.grid else Vector2i(1,1)
 	var item_intersections = count_intersecting_items(index, highlight_size)
 	for x in highlight_size.x:

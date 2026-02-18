@@ -1,6 +1,6 @@
 class_name SlotPanel extends PanelContainer
 
-@onready var texture_rect = $MarginContainer/TextureRect
+@onready var icon_texture = $MarginContainer/Icon
 @onready var quantity_label = $QuantityLabel
 @onready var charge_label = $ChargeLabel
 @onready var selection_panel = $Selected
@@ -35,11 +35,11 @@ func using_grid(using_grid: bool):
 
 func set_icon_region(x, y):
 	var region = item_data.get_region(x, y)
-	texture_rect.texture = ImageTexture.create_from_image(region)
+	icon_texture.texture = ImageTexture.create_from_image(region)
 
 
 func set_hotbar_icon():
-	texture_rect.texture = item_data.icon
+	icon_texture.texture = item_data.icon
 
 
 func set_slot_data(slot_data: InventorySlotPD, index: int, moving: bool, x_size: int):
@@ -103,6 +103,7 @@ func _on_gui_input(event: InputEvent):
 		get_viewport().set_input_as_handled()
 	if event.is_action_pressed("inventory_drop_item"):
 		slot_pressed.emit(get_index(), "inventory_drop_item")
+		highlight_slot.emit(get_index(), false)
 		get_viewport().set_input_as_handled()
 	if event.is_action_pressed("inventory_assign_item"):
 		slot_pressed.emit(get_index(), "inventory_assign_item")

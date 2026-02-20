@@ -357,7 +357,7 @@ func load_scene_state(_scene_name_to_load:String, slot:String) -> void:
 			if new_object.has_method("update_wieldable_data"): # Check if item is wieldable
 				CogitoGlobals.debug_log(true,"CSM","Setting charge of "+ new_object+ " to "+ node_data["item_charge"])
 				new_object.slot_data.inventory_item.charge_current = node_data["item_charge"]
-				
+			
 			# Call set_state only if the method exists
 			if new_object.has_method("set_state"):
 				new_object.set_state.call_deferred()

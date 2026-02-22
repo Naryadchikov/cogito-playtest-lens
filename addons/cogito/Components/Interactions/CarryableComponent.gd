@@ -147,9 +147,6 @@ func leave():
 		player_interaction_component.interaction_raycast.remove_exception(parent_object)
 	is_being_carried = false
 	carry_state_changed.emit(is_being_carried)
-	
-	if parent_object is CogitoBodyDrag:
-		parent_object.cogito_ragdoll.save_bone_root_position()
 
 
 func throw(power):

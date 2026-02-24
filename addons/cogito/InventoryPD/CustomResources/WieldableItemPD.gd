@@ -40,7 +40,13 @@ func use(target) -> bool:
 	if player_interaction_component.carried_object != null and !player_interaction_component.carried_object.is_carryable_while_wielding:
 		# Automatically drop the carried object when selecting a wieldable via quickslot, or inventory
 		if !player_interaction_component.is_wielding:
-			CogitoGlobals.debug_log(true,"WieldableItemPD.gd", player_interaction_component.name + " is dropping " + (player_interaction_component.carried_object.get_parent() as CogitoObject).cogito_name + " to take out wieldable " + name )
+			var parent = player_interaction_component.carried_object.get_parent()
+			var object_name = ""
+			if parent as CogitoObject:
+				object_name = (parent as CogitoObject).cogito_name
+			if not object_name:
+				object_name = parent.name
+			CogitoGlobals.debug_log(true,"WieldableItemPD.gd", player_interaction_component.name + " is dropping " + object_name + " to take out wieldable " + name )
 			player_interaction_component.setup_wieldable_to_auto_equip(self)
 			player_interaction_component._drop_carried_object()
 			take_out()

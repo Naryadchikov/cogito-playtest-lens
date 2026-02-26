@@ -27,6 +27,11 @@ func _ready() -> void:
 
 
 func _on_parent_node_collision(_collided_node):
+	var parent = get_parent()
+	if parent is RigidBody3D:
+		if parent.linear_velocity.length() < 0.5:
+			return
+	
 	if audio_stream_player_3d and !audio_stream_player_3d.playing and !is_delaying:
 		audio_stream_player_3d.play()
 		impact_time_delay()

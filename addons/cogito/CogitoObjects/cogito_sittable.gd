@@ -192,13 +192,13 @@ func displace_sit_marker():
 		sit_position_node.transform = adjusted_transform
 
 
-func _sit_down():
+func _sit_down(play_sound: bool = true):
 	
 	if animation_player:
 		animation_player.play(animation_on_enter)
 	
 	#sit down audio
-	if audio_stream_player_3d and sit_sound:
+	if play_sound and audio_stream_player_3d and sit_sound:
 		audio_stream_player_3d.stream = sit_sound
 		audio_stream_player_3d.pitch_scale = sit_pitch
 		audio_stream_player_3d.play()
@@ -225,12 +225,12 @@ func _sit_down():
 	is_occupied = true
 
 
-func _stand_up():
+func _stand_up(play_sound: bool = true):
 	if animation_player:
 		animation_player.play(animation_on_leave)
 	
 	#stand up audio
-	if audio_stream_player_3d and stand_sound:
+	if play_sound and audio_stream_player_3d and stand_sound:
 		audio_stream_player_3d.stream = stand_sound
 		audio_stream_player_3d.pitch_scale = stand_pitch
 		audio_stream_player_3d.play()
@@ -281,9 +281,9 @@ func set_state():
 		BasicInteraction.is_disabled = false
 		
 	if is_occupied:
-		_sit_down()
+		_sit_down(false)
 	else:
-		_stand_up()
+		_stand_up(false)
 
 
 func _on_sit_area_body_entered(body):

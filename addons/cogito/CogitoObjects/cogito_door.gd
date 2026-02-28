@@ -248,8 +248,8 @@ func unlock_door():
 				inventory.remove_item_from_stack(slot_data)
 	
 	lock_interaction_text = interaction_text_when_unlocked	
-	lock_state_updated.emit(lock_interaction_text)
 	lock_state_changed.emit(is_locked)
+	lock_state_updated.emit(lock_interaction_text)
 
 
 func lock_door():
@@ -258,9 +258,10 @@ func lock_door():
 		audio_player.play()
 		
 	is_locked = true
-	lock_interaction_text = interaction_text_when_locked	
-	lock_state_updated.emit(lock_interaction_text)
+	lock_interaction_text = interaction_text_when_locked
 	lock_state_changed.emit(is_locked)
+	lock_state_updated.emit(lock_interaction_text)
+
 
 
 func open_door(interactor: Node3D):

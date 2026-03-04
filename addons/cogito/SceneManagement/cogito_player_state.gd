@@ -1,5 +1,8 @@
-class_name CogitoPlayerState
+@abstract class_name CogitoPlayerState
 extends Resource
+
+@abstract func populate_player_data(player)
+@abstract func populate_save_data(player, slot)
 
 var player_state_dir : String = CogitoSceneManager.cogito_state_dir + CogitoSceneManager.cogito_player_state_prefix
 
@@ -10,14 +13,6 @@ var player_state_dir : String = CogitoSceneManager.cogito_state_dir + CogitoScen
 @export var player_state_screenshot_file : String
 @export var player_state_savetime : int
 @export var player_state_slot_name : String
-
-
-func populate_player_data(player):
-	pass
-
-
-func populate_save_data(player, slot):
-	pass
 
 
 func write_state(state_slot : String) -> void:

@@ -4253,23 +4253,18 @@ cogito_name = ""
 
 [node name="Pickup_Dart_Fire" parent="NavigationRegion3D/SYSTEMIC_PROPERTIES" instance=ExtResource("46_g5jp6")]
 transform = Transform3D(0.670944, 0, -0.741508, 7.90309e-15, 1, 7.15102e-15, 0.741508, -1.06581e-14, 0.670944, -12.7269, 0.750406, -30.2153)
-cogito_name = ""
 
 [node name="Pickup_Dart_Fire2" parent="NavigationRegion3D/SYSTEMIC_PROPERTIES" instance=ExtResource("46_g5jp6")]
 transform = Transform3D(0.237499, 0, -0.971388, 1.03532e-14, 1, 2.5313e-15, 0.971388, -1.06581e-14, 0.237499, -12.9278, 0.750406, -30.2086)
-cogito_name = ""
 
 [node name="Pickup_Dart_Fire3" parent="NavigationRegion3D/SYSTEMIC_PROPERTIES" instance=ExtResource("46_g5jp6")]
 transform = Transform3D(-0.404535, 0, -0.914522, 9.74711e-15, 1, -4.31159e-15, 0.914522, -1.06581e-14, -0.404535, -13.1656, 0.750406, -30.2269)
-cogito_name = ""
 
 [node name="Pickup_Dart_Fire4" parent="NavigationRegion3D/SYSTEMIC_PROPERTIES" instance=ExtResource("46_g5jp6")]
 transform = Transform3D(-0.118803, -3.12308e-15, -0.992918, 9.74711e-15, 1, -4.31159e-15, 0.992918, -1.01903e-14, -0.118803, -13.3797, 0.750406, -30.2269)
-cogito_name = ""
 
 [node name="Pickup_Dart_Fire5" parent="NavigationRegion3D/SYSTEMIC_PROPERTIES" instance=ExtResource("46_g5jp6")]
 transform = Transform3D(-0.888953, 1.06394e-14, 0.457998, 9.74711e-15, 1, -4.31159e-15, -0.457998, 6.31354e-16, -0.888953, -13.6313, 0.750406, -30.2269)
-cogito_name = ""
 
 [node name="SnapSlotMetalbar" parent="NavigationRegion3D/SYSTEMIC_PROPERTIES" instance=ExtResource("47_72xwo")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -11.071, 0.613, -25.1811)

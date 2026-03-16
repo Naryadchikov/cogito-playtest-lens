@@ -3,7 +3,7 @@ extends AnimatableBody3D
 
 signal object_state_updated(interaction_text : String)
 
-@onready var audio_stream_player_3d = $AudioStreamPlayer3D
+@export var audio_stream_player_3d: AudioStreamPlayer3D
 
 ## Name that will displayed when interacting. Leave blank to hide
 @export var display_name : String
@@ -35,7 +35,13 @@ func _ready():
 	self.add_to_group("interactable")
 	
 	interaction_nodes = find_children("","InteractionComponent",true) #Grabs all attached interaction components
-	audio_stream_player_3d.stream = hold_audio_stream
+	
+	if !audio_stream_player_3d:
+		var players = find_children("", "AudioStreamPlayer3D")
+		if len(players) > 0: audio_stream_player_3d = players[0]
+	
+	if audio_stream_player_3d:
+		audio_stream_player_3d.stream = hold_audio_stream
 	
 	for node in interaction_nodes:
 		if node and node.has_signal("is_being_held"):
@@ -43,7 +49,7 @@ func _ready():
 
 
 func _is_being_turned(_time_remaining:float):
-	if !audio_stream_player_3d.playing:
+	if audio_stream_player_3d and !audio_stream_player_3d.playing:
 		audio_stream_player_3d.play()
 		
 	if has_been_turned:
@@ -53,7 +59,7 @@ func _is_being_turned(_time_remaining:float):
 	
 
 func interact(_player_interaction_component):
-	audio_stream_player_3d.stop()
+	if audio_stream_player_3d: audio_stream_player_3d.stop()
 	has_been_turned = !has_been_turned
 	CogitoGlobals.debug_log(true,"cogito_turnwheel.gd", "Turnwheel has been turned: " + str(has_been_turned) )
 	for node in nodes_to_trigger:

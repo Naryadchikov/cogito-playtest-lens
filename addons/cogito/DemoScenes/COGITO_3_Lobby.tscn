@@ -6173,10 +6173,11 @@ surface_material_override/0 = SubResource("StandardMaterial3D_b48nm")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="UPPER_OFFICE_CEO/deskCorner/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_wj1ho")
 
-[node name="Drawer" type="AnimatableBody3D" parent="UPPER_OFFICE_CEO/deskCorner"]
+[node name="Drawer" type="AnimatableBody3D" parent="UPPER_OFFICE_CEO/deskCorner" node_paths=PackedStringArray("audio_player")]
 collision_layer = 3
 script = ExtResource("13_5x4ip")
 prompt_pos_mode = 2
+audio_player = NodePath("AudioStreamPlayer3D")
 open_sound = ExtResource("15_078vp")
 close_sound = ExtResource("16_py2k0")
 interaction_text_when_locked = "Unlock"
@@ -6223,11 +6224,12 @@ shape = SubResource("ConvexPolygonShape3D_t6pb3")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="UPPER_OFFICE_CEO/wallWindowSlide"]
 shape = SubResource("ConcavePolygonShape3D_jq13r")
 
-[node name="Window_Openable" type="AnimatableBody3D" parent="UPPER_OFFICE_CEO/wallWindowSlide"]
+[node name="Window_Openable" type="AnimatableBody3D" parent="UPPER_OFFICE_CEO/wallWindowSlide" node_paths=PackedStringArray("audio_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.625, 0.785, -0.03)
 collision_layer = 3
 script = ExtResource("13_5x4ip")
 prompt_pos_mode = 2
+audio_player = NodePath("AudioStreamPlayer3D")
 open_sound = ExtResource("15_078vp")
 close_sound = ExtResource("16_py2k0")
 door_type = 1
@@ -6299,7 +6301,8 @@ shape = SubResource("BoxShape3D_ecok4")
 
 [node name="WindowedDoor" parent="UPPER_OFFICE_CEO" instance=ExtResource("17_2lcsn")]
 
-[node name="FrontDoor" parent="UPPER_OFFICE_CEO/WindowedDoor" index="0"]
+[node name="FrontDoor" parent="UPPER_OFFICE_CEO/WindowedDoor" index="0" node_paths=PackedStringArray("audio_player")]
+audio_player = NodePath("AudioStreamPlayer3D")
 unlock_sound = ExtResource("18_sk7n4")
 lock_sound = ExtResource("18_sk7n4")
 is_locked = true
@@ -6317,6 +6320,7 @@ is_disabled = true
 hold_node = NodePath("../LockInteraction")
 hold_time = 1.0
 input_map_action = "interact"
+ignore_open_gui = false
 
 [node name="LockpickInteraction" parent="UPPER_OFFICE_CEO/WindowedDoor/FrontDoor" index="7" node_paths=PackedStringArray("doors_to_unlock") instance=ExtResource("27_8mfm7")]
 doors_to_unlock = [NodePath("..")]
@@ -6329,8 +6333,9 @@ message_on_fail = "I don't have the skill."
 [node name="SecretAreaDoor" type="Node3D" parent="UPPER_OFFICE_CEO"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1, 0.029, -4.15)
 
-[node name="HiddenDoor" type="AnimatableBody3D" parent="UPPER_OFFICE_CEO/SecretAreaDoor"]
+[node name="HiddenDoor" type="AnimatableBody3D" parent="UPPER_OFFICE_CEO/SecretAreaDoor" node_paths=PackedStringArray("audio_player")]
 script = ExtResource("13_5x4ip")
+audio_player = NodePath("AudioStreamPlayer3D")
 interaction_text_when_locked = "Unlock"
 interaction_text_when_unlocked = "Lock"
 interaction_text_when_closed = "Open"
@@ -6508,7 +6513,8 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -3.1, 
 [node name="ArchiveDoor" parent="ARCHIVE" instance=ExtResource("17_2lcsn")]
 transform = Transform3D(7.54979e-08, 0, -1, 0, 1, 0, 1, 0, 7.54979e-08, -3.04332, 0, -2.53017)
 
-[node name="FrontDoor" parent="ARCHIVE/ArchiveDoor" index="0"]
+[node name="FrontDoor" parent="ARCHIVE/ArchiveDoor" index="0" node_paths=PackedStringArray("audio_player")]
+audio_player = NodePath("AudioStreamPlayer3D")
 is_locked = true
 
 [node name="Wall81" type="StaticBody3D" parent="ARCHIVE"]
@@ -6896,6 +6902,9 @@ transform = Transform3D(-0.607514, 0, 0.794309, 0, 1, 0, -0.794309, 0, -0.607514
 
 [node name="ConferenceDoor" parent="MEETING_ROOM" instance=ExtResource("17_2lcsn")]
 transform = Transform3D(1, 0, 1.19209e-07, 0, 1, 0, -1.19209e-07, 0, 1, -5.92048, 0, -20.9787)
+
+[node name="FrontDoor" parent="MEETING_ROOM/ConferenceDoor" index="0" node_paths=PackedStringArray("audio_player")]
+audio_player = NodePath("AudioStreamPlayer3D")
 
 [node name="LockInteraction" parent="MEETING_ROOM/ConferenceDoor/FrontDoor" index="4" instance=ExtResource("22_2fd6x")]
 
@@ -7287,10 +7296,11 @@ shape = SubResource("ConcavePolygonShape3D_mja1u")
 [node name="DoorBasic" type="Node3D" parent="BATHROOM_STALL2/wallDoorway2"]
 transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, 0.471676, 0, -0.0540001)
 
-[node name="Door" type="AnimatableBody3D" parent="BATHROOM_STALL2/wallDoorway2/DoorBasic"]
+[node name="Door" type="AnimatableBody3D" parent="BATHROOM_STALL2/wallDoorway2/DoorBasic" node_paths=PackedStringArray("audio_player")]
 collision_layer = 3
 script = ExtResource("13_5x4ip")
 prompt_pos_mode = 2
+audio_player = NodePath("AudioStreamPlayer3D")
 open_sound = ExtResource("49_uekwd")
 close_sound = ExtResource("50_air2v")
 open_rotation = Vector3(0, 95, 0)
@@ -7357,10 +7367,11 @@ surface_material_override/2 = SubResource("StandardMaterial3D_cibll")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BATHROOM_STALL2/wallHalf3"]
 shape = SubResource("ConvexPolygonShape3D_3vij5")
 
-[node name="DuctDoor" type="AnimatableBody3D" parent="BATHROOM_STALL2"]
+[node name="DuctDoor" type="AnimatableBody3D" parent="BATHROOM_STALL2" node_paths=PackedStringArray("audio_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4688, -2.57192, -1.98452)
 collision_layer = 3
 script = ExtResource("13_5x4ip")
+audio_player = NodePath("AudioStreamPlayer3D")
 open_rotation = Vector3(0, 92, 0)
 door_speed = 2.0
 
@@ -7844,11 +7855,12 @@ shape = SubResource("SphereShape3D_n25yf")
 
 [node name="Note_Welcome" parent="." instance=ExtResource("80_g3r0x")]
 
-[node name="FrontDoor" type="AnimatableBody3D" parent="."]
+[node name="FrontDoor" type="AnimatableBody3D" parent="." node_paths=PackedStringArray("audio_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.57, 0, -20)
 collision_layer = 3
 script = ExtResource("13_5x4ip")
 prompt_pos_mode = 2
+audio_player = NodePath("AudioStreamPlayer3D")
 rattle_sound = ExtResource("65_cw5kp")
 interaction_text_when_locked = "Unlock"
 interaction_text_when_unlocked = "Lock"
@@ -7893,9 +7905,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.01842, 2.68, -4.93023)
 [node name="pillowBlue" parent="." instance=ExtResource("71_7r41f")]
 transform = Transform3D(0.985497, 0, 0.169694, 0, 1, 0, -0.169694, 0, 0.985497, -7.65849, 3.1652, -5.6038)
 
-[node name="Platform" type="AnimatableBody3D" parent="."]
+[node name="Platform" type="AnimatableBody3D" parent="." node_paths=PackedStringArray("audio_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.017, 0, 7.568)
 script = ExtResource("13_5x4ip")
+audio_player = NodePath("GenericSwitch/AudioStreamPlayer3D")
 interaction_text_when_locked = "Unlock"
 interaction_text_when_unlocked = "Lock"
 interaction_text_when_closed = "Open"

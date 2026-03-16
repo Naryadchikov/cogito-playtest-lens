@@ -43,9 +43,6 @@ var properties : int
 var spawned_loot_item: bool = false
 
 
-
-
-
 func _ready():
 	self.add_to_group("interactable")
 	self.add_to_group("Persist") #Adding object to group for persistence

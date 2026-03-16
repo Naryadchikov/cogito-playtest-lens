@@ -354,7 +354,7 @@ _data = {
 &"RESET": SubResource("Animation_unao5")
 }
 
-[node name="Laser Rifle" type="Node3D" node_paths=PackedStringArray("wieldable_mesh")]
+[node name="Laser Rifle" type="Node3D" node_paths=PackedStringArray("wieldable_mesh", "audio_stream_player_3d", "animation_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.329, -0.264, -0.535)
 script = ExtResource("1_2rut3")
 laser_ray_prefab = ExtResource("2_ic084")
@@ -363,6 +363,8 @@ default_position = Vector3(0.329, -0.264, -0.535)
 collision_scene = ExtResource("3_w07do")
 sound_primary_use = ExtResource("2_f7ale")
 wieldable_mesh = NodePath("LaserRifleMesh")
+audio_stream_player_3d = NodePath("AudioStreamPlayer3D")
+animation_player = NodePath("AnimationPlayer")
 anim_equip = "LaserRifle/equip"
 anim_unequip = "LaserRifle/unequip"
 anim_action_primary = "LaserRifle/shoot"
@@ -387,7 +389,7 @@ process_material = SubResource("ParticleProcessMaterial_d1eos")
 draw_pass_1 = SubResource("BoxMesh_rxstj")
 
 [node name="LaserRifleMesh" type="Node3D" parent="." node_paths=PackedStringArray("tracked_nodes")]
-transform = Transform3D(1, 0, 0, 0, 0.5403022, 0.84147084, 0, -0.84147084, 0.5403022, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.54030216, 0.8414708, 0, -0.8414708, 0.54030216, 0, 0, 0)
 visible = false
 script = ExtResource("5_fa3wp")
 tracked_nodes = [NodePath("blasterA"), NodePath("clipA")]

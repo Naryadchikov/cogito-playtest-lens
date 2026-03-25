@@ -7,6 +7,8 @@ signal switched(is_on: bool)
 signal damage_received(damage_value:float)
 
 #region Variables
+@export var audio_stream_player_3d: AudioStreamPlayer3D
+
 ## Name that will displayed when interacting. Leave blank to hide
 @export var display_name : String
 
@@ -58,7 +60,6 @@ var player_interaction_component : PlayerInteractionComponent
 var interaction_nodes : Array[Node]
 var cogito_properties : CogitoProperties = null
 
-@onready var audio_stream_player_3d = $AudioStreamPlayer3D
 var is_holding_item : bool
 
 #endregion
@@ -69,7 +70,12 @@ func _ready():
 	add_to_group("save_object_state")
 	interaction_nodes = find_children("","InteractionComponent",true) #Grabs all attached interaction components
 	
-	audio_stream_player_3d.stream = switch_sound
+	if !audio_stream_player_3d:
+		var players = find_children("", "AudioStreamPlayer3D")
+		if len(players) > 0: audio_stream_player_3d = players[0]
+	
+	if audio_stream_player_3d:
+		audio_stream_player_3d.stream = switch_sound
 	
 	if is_on:
 		switch_on()
@@ -116,7 +122,7 @@ func interact(_player_interaction_component):
 
 
 func switch():
-	audio_stream_player_3d.play()
+	if audio_stream_player_3d: audio_stream_player_3d.play()
 	if needs_item_to_operate and !is_holding_item:
 		if !check_for_item():
 			return

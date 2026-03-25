@@ -19,6 +19,7 @@ enum PromptPositionMode{
 @export var prompt_pos_mode : PromptPositionMode = PromptPositionMode.ORIGIN
 @export var prompt_marker : Marker3D
 
+@export var cogito_ragdoll : CogitoRagdoll
 
 @export_group("Object Size and Shape")
 ## Set a custom shape used for calculating object size when dropping.
@@ -41,9 +42,6 @@ var interaction_nodes : Array[Node]
 var cogito_properties : CogitoProperties = null
 var properties : int
 var spawned_loot_item: bool = false
-
-
-
 
 
 func _ready():

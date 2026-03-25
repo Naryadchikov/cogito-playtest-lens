@@ -83,16 +83,17 @@ stream_0/stream = ExtResource("4_tg5yq")
 [sub_resource type="BoxShape3D" id="BoxShape3D_ktfpt"]
 size = Vector3(1.40192, 1.05004, 1.21932)
 
-[node name="stoolBarSquare" type="RigidBody3D"]
+[node name="stoolBarSquare" type="RigidBody3D" node_paths=PackedStringArray("audio_stream_player_3d")]
 collision_layer = 3
 mass = 2.0
-max_contacts_reported = 6
 contact_monitor = true
+max_contacts_reported = 6
 script = ExtResource("1_sr3ae")
 physics_sittable = true
 sit_area_behaviour = 2
 placement_on_leave = 2
 eject_on_fall = true
+audio_stream_player_3d = NodePath("AudioStreamPlayer3D")
 sit_sound = ExtResource("6_w4le7")
 stand_sound = ExtResource("6_w4le7")
 sit_position_node_path = NodePath("Sit Marker")

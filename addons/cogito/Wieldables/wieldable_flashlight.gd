@@ -32,6 +32,7 @@ var can_toggle: bool = true  # If the flashlight can be toggled
 var cooldown_timer: float = 0.0
 
 func _ready():
+	super._ready()
 	# Hide the wieldable mesh if it exists
 	if wieldable_mesh:
 		wieldable_mesh.hide()
@@ -108,5 +109,6 @@ func toggle_flashlight(new_state: bool):
 
 # Function to play a sound
 func play_sound(sound: AudioStream):
+	if !audio_stream_player_3d or !sound: return
 	audio_stream_player_3d.stream = sound
 	audio_stream_player_3d.play()

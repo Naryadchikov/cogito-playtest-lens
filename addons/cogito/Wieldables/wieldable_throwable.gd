@@ -47,8 +47,10 @@ func action_primary(_passed_item_reference : InventoryItemPD, _is_released: bool
 	
 	# Sound and animation
 	animation_player.play(anim_action_primary)
-	audio_stream_player_3d.stream = sound_primary_use
-	audio_stream_player_3d.play()
+	
+	if audio_stream_player_3d and sound_primary_use:
+		audio_stream_player_3d.stream = sound_primary_use
+		audio_stream_player_3d.play()
 	
 	unequip()
 	

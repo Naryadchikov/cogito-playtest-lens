@@ -18,8 +18,10 @@ height = 0.4
 radial_segments = 8
 rings = 1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hfu1g"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yn8tq"]
 albedo_color = Color(1, 0.419608, 0, 1)
+use_z_clip_scale = true
+z_clip_scale = 0.6
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_eljvy"]
 top_radius = 0.025
@@ -28,11 +30,13 @@ height = 0.5
 radial_segments = 8
 rings = 1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3ivdm"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hd55u"]
 transparency = 1
 blend_mode = 1
 cull_mode = 1
 albedo_color = Color(0.815686, 1, 1, 0.196078)
+use_z_clip_scale = true
+z_clip_scale = 0.6
 
 [node name="DrinkingHealthExtension" type="Node3D" node_paths=PackedStringArray("wieldable_mesh")]
 transform = Transform3D(-3.61999e-06, 0, 1, 0, 1, 0, -1, 0, -3.61999e-06, 0.325805, -0.279839, -0.531526)
@@ -51,7 +55,7 @@ bus = &"SFX"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": ExtResource("3_ls8cp")
+&"": ExtResource("3_ls8cp")
 }
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
@@ -61,14 +65,14 @@ spot_range = 8.0
 spot_angle = 30.0
 
 [node name="PotionMesh" type="Node3D" parent="."]
-transform = Transform3D(0.733741, -0.679428, -8.38609e-07, 0.679428, 0.733741, 2.31695e-06, -9.5888e-07, -2.26982e-06, 1, 0.267942, -0.522989, -0.532988)
+transform = Transform3D(0.7337407, -0.6794283, -8.38609e-07, 0.6794283, 0.7337407, 2.31695e-06, -9.588798e-07, -2.2698152e-06, 1, 0.267942, -0.522989, -0.532988)
 script = ExtResource("4_djm27")
 
 [node name="CSGMesh3D2" type="CSGMesh3D" parent="PotionMesh"]
 transform = Transform3D(0.685, 0, 0, 0, 0.685, 0, 0, 0, 0.685, 0, -0.1043, 0)
 mesh = SubResource("CylinderMesh_ag0uf")
-material = SubResource("StandardMaterial3D_hfu1g")
+material = SubResource("StandardMaterial3D_yn8tq")
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="PotionMesh"]
 mesh = SubResource("CylinderMesh_eljvy")
-material = SubResource("StandardMaterial3D_3ivdm")
+material = SubResource("StandardMaterial3D_hd55u")

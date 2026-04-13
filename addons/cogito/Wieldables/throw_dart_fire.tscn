@@ -3,15 +3,19 @@
 [ext_resource type="Script" uid="uid://buju8e0w08ct6" path="res://addons/cogito/Wieldables/wieldable_throwable.gd" id="1_b7yfm"]
 [ext_resource type="AnimationLibrary" uid="uid://ddo1rrwrgerw0" path="res://addons/cogito/Wieldables/Animations/Wieldable_Dart.res" id="2_kwxxb"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_halr6"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k7cwp"]
 resource_name = "yellow"
 albedo_color = Color(0.996078, 0.776471, 0.219608, 1)
 metallic = 1.0
+use_z_clip_scale = true
+z_clip_scale = 0.6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kpapf"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6tabf"]
 resource_name = "pink"
 albedo_color = Color(0.996078, 0.219608, 0.411765, 1)
 metallic = 1.0
+use_z_clip_scale = true
+z_clip_scale = 0.6
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_10yrw"]
 _surfaces = [{
@@ -45,7 +49,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 210,
 "index_data": PackedByteArray("AgAAAAEAAQADAAIAAQAEAAMABAAFAAMABAAGAAUABgAHAAUABgAIAAcACAAJAAcACAAKAAkACgALAAkACgAMAAsADAANAAsADAAOAA0ADgAPAA0ADwAQAA0ADwARABAADwASABEAEgATABEAEgAUABMAFAAVABMAFAAWABUAFgAXABUAGgAYABkAGQAbABoAHgAcAB0AHQAfAB4AIgAgACEAIQAjACIAJgAkACUAJQAnACYAKgAoACkAKQArACoALgAsAC0ALQAvAC4AMgAwADEAMQAzADIANgA0ADUANQA3ADYAOgA4ADkAOQA7ADoAPgA8AD0APQA/AD4AQgBAAEEAQQBDAEIARgBEAEUARQBHAEYASgBIAEkASQBLAEoATgBMAE0ATQBPAE4AUgBQAFEAUQBTAFIAVgBUAFUAVQBXAFYAWgBYAFkAWQBbAFoAXgBcAF0AXQBfAF4AYgBgAGEAYQBjAGIAZgBkAGUAZQBnAGYAagBoAGkAaQBrAGoAbgBsAG0AbQBvAG4AcgBwAHEAcQBzAHIAdgB0AHUAdQB3AHYA"),
-"material": SubResource("StandardMaterial3D_halr6"),
+"material": SubResource("StandardMaterial3D_k7cwp"),
 "name": "yellow",
 "primitive": 3,
 "uv_scale": Vector4(0.787402, 4.3622, 0, 0),
@@ -57,7 +61,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 210,
 "index_data": PackedByteArray("egB4AHkAeQB7AHoAeQB8AHsAfAB9AHsAfAB+AH0AfgB/AH0AfgCAAH8AgACBAH8AgACCAIEAggCDAIEAggCEAIMAhACFAIMAhACGAIUAhgCHAIUAhgCIAIcAiACJAIcAiACKAIkAigCLAIkAigCMAIsAjACNAIsAjACOAI0AjgCPAI0AkgCQAJEAkQCTAJIAlgCUAJUAlQCXAJYAmgCYAJkAmQCbAJoAngCcAJ0AnQCfAJ4AogCgAKEAoQCjAKIApgCkAKUApQCnAKYAqgCoAKkAqQCrAKoArgCsAK0ArQCvAK4AsgCwALEAsQCzALIAtgC0ALUAtQC3ALYAugC4ALkAuQC7ALoAvgC8AL0AvQC/AL4AwgDAAMEAwQDDAMIAxgDEAMUAxQDHAMYAygDIAMkAyQDLAMoAzgDMAM0AzQDPAM4A0gDQANEA0QDTANIA1gDUANUA1QDXANYA2gDYANkA2QDbANoA3gDcAN0A3QDfAN4A4gDgAOEA4QDjAOIA5gDkAOUA5QDnAOYA6gDoAOkA6QDrAOoA7gDsAO0A7QDvAO4A"),
-"material": SubResource("StandardMaterial3D_kpapf"),
+"material": SubResource("StandardMaterial3D_6tabf"),
 "name": "pink",
 "primitive": 3,
 "uv_scale": Vector4(0.787402, 4.3622, 0, 0),
@@ -67,10 +71,12 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_10yrw")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b3sdm"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g3hts"]
 resource_name = "yellow"
 albedo_color = Color(0.772549, 0.184314, 0.0509804, 1)
 metallic = 1.0
+use_z_clip_scale = true
+z_clip_scale = 0.6
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_umdyn"]
 resource_name = "yellow"
@@ -92,7 +98,7 @@ anim_action_primary = "throw"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": ExtResource("2_kwxxb")
+&"": ExtResource("2_kwxxb")
 }
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
@@ -100,13 +106,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.365219, 0, -0.153825)
 bus = &"SFX"
 
 [node name="DartMesh" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.3, -0.2, -0.4)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.3, -0.2, -0.4)
 
 [node name="foamBulletB" type="MeshInstance3D" parent="DartMesh"]
 transform = Transform3D(2, 0, 0, 0, 4.8, 0, 0, 0, 2, 0, 0.140953, 0)
 mesh = SubResource("ArrayMesh_k56w0")
 skeleton = NodePath("")
-surface_material_override/0 = SubResource("StandardMaterial3D_b3sdm")
+surface_material_override/0 = SubResource("StandardMaterial3D_g3hts")
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="DartMesh"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0, 0.01)

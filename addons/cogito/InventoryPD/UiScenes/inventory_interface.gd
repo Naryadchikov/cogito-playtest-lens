@@ -6,7 +6,6 @@ signal inventory_open(is_true: bool)
 @export var inventory_ui : Control
 @onready var grabbed_slot_node = $GrabbedSlot
 @onready var external_inventory_ui = $ExternalInventoryUI
-@onready var hot_bar_inventory = $HotBarInventory
 @onready var quick_slots : CogitoQuickslots = $QuickSlots
 @onready var info_panel = $InfoPanel
 @onready var item_name = $InfoPanel/MarginContainer/VBoxContainer/ItemName
@@ -19,7 +18,6 @@ signal inventory_open(is_true: bool)
 
 ## Sound that plays as a generic error.
 @export var sound_error : AudioStream
-@export var is_using_hotbar: bool = true
 
 @export_group("Inventory Screen")
 @export var nodes_to_show : Array[Node]
@@ -80,7 +78,6 @@ func open_inventory():
 		for slot_panel in inventory_ui.slot_array:
 			if !slot_panel.mouse_exited.is_connected(_slot_on_mouse_exit):
 				slot_panel.mouse_exited.connect(_slot_on_mouse_exit)
-	hot_bar_inventory.hide()
 
 
 func close_inventory():
@@ -109,8 +106,6 @@ func close_inventory():
 		info_panel.hide()
 		external_inventory_ui.hide()
 
-		if is_using_hotbar:
-			hot_bar_inventory.show()
 
 
 func _on_focus_changed(control: Control):
@@ -164,7 +159,6 @@ func _slot_on_mouse_exit():
 func update_grabbed_slot_position():
 	if control_in_focus == null:
 		return
-	# print("Inventory interface: update grabbed slot position to ", control_in_focus, " at ", control_in_focus.global_position)
 	grabbed_slot_node.global_position = control_in_focus.global_position + (control_in_focus.size / 2)
 
 
@@ -217,7 +211,6 @@ func clear_external_inventory():
 	if external_inventory_owner:
 		var inventory_data = external_inventory_owner.inventory_data
 		
-#		inventory_data.inventory_interact.disconnect(on_inventory_interact)
 		inventory_data.inventory_button_press.disconnect(on_inventory_button_press)
 		external_inventory_ui.inventory_name = ""
 		external_inventory_ui.clear_inventory_data(inventory_data)
@@ -228,16 +221,12 @@ func clear_external_inventory():
 func set_player_inventory_data(inventory_data : CogitoInventory):
 	inventory_data.owner = CogitoSceneManager._current_player_node  # Setting player inventory owner reference to player node
 	
-#	inventory_data.inventory_interact.connect(on_inventory_interact)
 	if !inventory_data.inventory_button_press.is_connected(on_inventory_button_press):
 		inventory_data.inventory_button_press.connect(on_inventory_button_press.bind(inventory_ui))
 	inventory_ui.set_inventory_data(inventory_data)
-	if !is_using_hotbar:
-		quick_slots.show()
-		# Quickslots need reference to inventory when quickslot buttons are pressed
-		quick_slots.inventory_reference = inventory_data
-	else:
-		quick_slots.hide()
+
+	quick_slots.inventory_reference = inventory_data
+
 	if !inventory_open.is_connected(quick_slots.update_inventory_status):
 		inventory_open.connect(quick_slots.update_inventory_status)
 	grabbed_slot_node.using_grid(inventory_data.grid)

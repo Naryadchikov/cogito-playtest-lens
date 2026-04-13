@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://0c32kepv0ahx"]
+[gd_scene load_steps=40 format=3 uid="uid://0c32kepv0ahx"]
 
 [ext_resource type="Script" uid="uid://dc3bukoacyq60" path="res://addons/cogito/Scripts/player_hud_manager.gd" id="1_0wdkf"]
 [ext_resource type="PackedScene" uid="uid://dhlrhobg5d4dj" path="res://addons/cogito/Components/UI/UI_PromptComponent.tscn" id="3_06ipe"]
@@ -9,7 +9,6 @@
 [ext_resource type="Script" uid="uid://y8g8ja6bydr0" path="res://addons/cogito/InventoryPD/UiScenes/inventory_interface.gd" id="3_lyywb"]
 [ext_resource type="Theme" uid="uid://by44nnjeu6u4n" path="res://addons/cogito/Theme/Cogito_Theme_A.tres" id="5_j6s1a"]
 [ext_resource type="PackedScene" uid="uid://cg41w2fijcp4q" path="res://addons/cogito/InventoryPD/UiScenes/Slot.tscn" id="5_juyvt"]
-[ext_resource type="PackedScene" uid="uid://bf2qmquc7ys81" path="res://addons/cogito/InventoryPD/UiScenes/HotBarInventoryUi.tscn" id="6_8odro"]
 [ext_resource type="PackedScene" uid="uid://c3ti1cb2o1a11" path="res://addons/cogito/Components/UI/UI_CurrencyComponent.tscn" id="6_kmqyf"]
 [ext_resource type="Texture2D" uid="uid://b66g1sdiunpqk" path="res://addons/cogito/Assets/Graphics/Crosshair_Kenney/crosshair001.png" id="7_eu3l5"]
 [ext_resource type="Script" uid="uid://bc82t4m5e83s5" path="res://addons/cogito/Components/UI/Ui_StaminaAttribute.gd" id="7_gti6b"]
@@ -492,20 +491,6 @@ self_modulate = Color(1, 1, 1, 0.498039)
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
-
-[node name="HotBarInventory" parent="InventoryInterface" instance=ExtResource("6_8odro")]
-visible = false
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 5.0
-offset_top = -37.0
-offset_right = 255.0
-offset_bottom = -5.0
-grow_vertical = 0
-theme = ExtResource("5_j6s1a")
-theme_type_variation = &"HUDPanel"
 
 [node name="InfoPanel" type="PanelContainer" parent="InventoryInterface"]
 custom_minimum_size = Vector2(200, 10)

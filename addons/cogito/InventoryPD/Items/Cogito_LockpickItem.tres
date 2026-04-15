@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="KeyItemPD" load_steps=4 format=3 uid="uid://b4cp7acepe2t7"]
+[gd_resource type="Resource" script_class="KeyItemPD" format=3 uid="uid://b4cp7acepe2t7"]
 
 [ext_resource type="Texture2D" uid="uid://dgd5v02sty4cd" path="res://addons/cogito/Assets/Graphics/ItemIcons/Cogito_LockpickItem.png" id="1_ntbuw"]
 [ext_resource type="Script" uid="uid://bs12ghpa142vt" path="res://addons/cogito/InventoryPD/CustomResources/KeyItemPD.gd" id="1_psl6a"]

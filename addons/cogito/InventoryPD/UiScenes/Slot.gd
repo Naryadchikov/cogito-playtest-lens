@@ -1,9 +1,8 @@
-class_name SlotPanel extends PanelContainer
+class_name InventorySlot extends SlotPanel
 
 @onready var icon_texture = $MarginContainer/Icon
 @onready var quantity_label = $QuantityLabel
 @onready var charge_label = $ChargeLabel
-@onready var selection_panel = $Selected
 @onready var highlight_panel = $Highlight
 @onready var slot_border = $SlotBorder
 
@@ -15,9 +14,8 @@ class_name SlotPanel extends PanelContainer
 @export var enable_grid_texture:bool
 @export var highlight_color : Color
 ## AudioStream that plays when slot gets highlighted.
-@export var sound_highlight : AudioStream
 
-var item_data = null
+var item_data: InventoryItemPD = null
 var origin_index : int = -1
 var grid : bool
 var ammo_slot : bool
@@ -26,6 +24,9 @@ var quantity_slot : bool
 signal slot_clicked(index: int, mouse_button: int)
 signal slot_pressed(index: int, action: String)
 signal highlight_slot(index: int, highlight: bool)
+
+func get_item() -> InventoryItemPD:
+	return item_data
 
 
 func using_grid(using_grid: bool):
@@ -118,6 +119,11 @@ func set_grabbed_dimensions():
 	size = Vector2i(64 * item_size.x, 64 * item_size.y)
 	set_hotbar_icon()
 
+## Rotate the item by flipping its item size x,y and rotate the icon texture 90 degrees.
+## Rotating again will revert the state back to its original form.
+func rotate():
+	item_data.rotate()
+	set_grabbed_dimensions()
 
 func set_selection(is_selected : bool):
 	print(name, ": set_selection called. selection panel should be visible. (is_selected = ", is_selected, ")")

@@ -1,4 +1,4 @@
-extends Control
+extends SlotPanel
 class_name CogitoQuickslotContainer
 
 signal quickslot_pressed(quickslot_container: CogitoQuickslotContainer)
@@ -10,9 +10,7 @@ var inventory_slot_reference : InventorySlotPD
 @export var input_action : String = "quickslot_1"
 
 ## AudioStream that plays when slot gets highlighted.
-@export var sound_highlight : AudioStream
 
-@onready var selection_panel = $Selected
 @onready var item_texture: TextureRect = $MarginContainer/ItemTexture
 @onready var label_stack_amount: Label = $MarginContainer/LabelStackAmount
 @onready var dynamic_input_icon: DynamicInputIcon = $MarginContainerInputIcon/DynamicInputIcon
@@ -91,8 +89,10 @@ func update_quickslot_data(slot_data: InventorySlotPD) -> void:
 		if !inventory_slot_reference.stack_has_changed.is_connected(update_quickslot_stack):
 			inventory_slot_reference.stack_has_changed.connect(update_quickslot_stack)
 
+func get_item() -> InventoryItemPD:
+	return item_reference
 
-func set_slot_data() -> void:
+func set_slot_data(_a, _b, _c, _d) -> void:
 	# Adding this method so the control node focus management of inventory_interface.gd
 	# will treat this like a regular inventory slot.
 	pass

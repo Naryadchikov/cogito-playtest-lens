@@ -22,7 +22,7 @@ class_name InventoryItemPD
 @export var hint_icon_on_use : Texture2D
 ## Hint that is displayed when used. For example "Potion replenished 10 HP!"
 @export var hint_text_on_use : String
-@export var item_size : Vector2 = Vector2(1,1)
+@export var item_size : Vector2i = Vector2i(1,1)
 
 @export_subgroup("Audio")
 ## Audio that plays when item is used.
@@ -37,9 +37,18 @@ class_name InventoryItemPD
 @export var slot_number: int = -1
 
 # Variables for Wielded Items
-var player_interaction_component
+var player_interaction_component : PlayerInteractionComponent
 var is_being_wielded : bool
 var wielded_item
+
+var rotated: bool = false
+
+func rotate():
+	rotated = !rotated
+	item_size = Vector2i(item_size.y, item_size.x) # why does godot not have orthogonal for vec2is????
+	var rotated_image = icon.get_image()
+	rotated_image.rotate_90(CLOCKWISE if rotated else COUNTERCLOCKWISE)
+	icon = ImageTexture.create_from_image(rotated_image)
 
 func get_region(x, y):
 	var image = icon.get_image()

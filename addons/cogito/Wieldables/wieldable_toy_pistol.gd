@@ -2,7 +2,7 @@ extends CogitoWieldable
 
 @export_group("Pistol Settings")
 ## Path to the projectile prefab scene
-@export var projectile_prefab : PackedScene
+@export var projectile_prefab : Array[PackedScene]
 ## Speed the projectile spawns with
 @export var projectile_velocity : float
 ## Node the projectile spawns at
@@ -23,15 +23,19 @@ var _last_index := -1
 
 var inventory_item_reference : WieldableItemPD
 
-
 func _ready() -> void:
 	super._ready()
 	# Here, we pre-instantiate `POOL_SIZE` bullets and store them in the `bullets` array.
+	build_projectile_pool()
+
+
+func build_projectile_pool():
+	projectile_pool.clear()
 	for i in POOL_SIZE:
-		projectile_pool.append(projectile_prefab.instantiate())
+		projectile_pool.append(projectile_prefab[current_ammo_type].instantiate())
 
 
-func get_projectile() -> Node3D:
+func get_projectile() -> CogitoProjectile:
 	# Cycle the index between `0` (included) and `POOL_SIZE` (excluded).
 	_last_index = wrapi(_last_index + 1, 0, POOL_SIZE)
 	return projectile_pool[_last_index]
@@ -61,18 +65,18 @@ func action_primary(_passed_item_reference : InventoryItemPD, _is_released: bool
 	_passed_item_reference.subtract(1) #Reducing ammo count
 	
 	# Gettting camera_collision pos from player interaction component:
-	var _camera_collision = player_interaction_component.Get_Camera_Collision()
-	var Direction = (_camera_collision - bullet_point.get_global_transform().origin).normalized()
+	var _camera_collision = player_interaction_component.get_camera_collision()
+	var direction = (_camera_collision - bullet_point.get_global_transform().origin).normalized()
 	
 	# Spawning projectile
-	var Projectile = get_projectile()
-	bullet_point.add_child(Projectile)
-	Projectile.set_global_position(Vector3(bullet_point.global_position.x,bullet_point.global_position.y,bullet_point.global_position.z))
-	Projectile.global_transform.basis = bullet_point.global_transform.basis
-	Projectile.damage_amount = _passed_item_reference.wieldable_damage
-	Projectile.set_linear_velocity(Direction * projectile_velocity)
-	Projectile.Direction = Direction
-	Projectile.reparent(get_tree().get_current_scene())
+	var projectile = get_projectile()
+	bullet_point.add_child(projectile)
+	projectile.set_global_position(Vector3(bullet_point.global_position.x,bullet_point.global_position.y,bullet_point.global_position.z))
+	projectile.global_transform.basis = bullet_point.global_transform.basis
+	projectile.damage_amount = _passed_item_reference.wieldable_damage
+	projectile.set_linear_velocity(direction * projectile_velocity)
+	projectile.direction = direction
+	projectile.reparent(get_tree().get_current_scene())
 
 
 func action_secondary(is_released:bool):
@@ -103,3 +107,9 @@ func reload():
 	if audio_stream_player_3d and sound_reload:
 		audio_stream_player_3d.stream = sound_reload
 		audio_stream_player_3d.play()
+
+
+# Function called when wieldable change ammo is attempted
+func change_ammo(index: int) -> void:
+	current_ammo_type = index
+	build_projectile_pool()

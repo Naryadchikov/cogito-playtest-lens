@@ -21,7 +21,7 @@ var damage_amount : int = 0
 @export_range(0.1, 3.0, 0.1, "or_greater") var pick_up_delay: float = 0.5
 var can_pick_up: bool = false
 
-var Direction
+var direction
 
 func _ready():
 	add_to_group("interactable")
@@ -107,7 +107,7 @@ func stick_to_object(collider: Node):
 
 func deal_damage(collider: Node,bullet_direction,bullet_position):
 	# bullet_direction = Direction
-	CogitoGlobals.debug_log(true, "CogitoProjectile", self.name + ": dealing damage amount " + str(damage_amount) + " on collider " + collider.name + " at " + str(bullet_position) + " in direction " + str(Direction) )
+	CogitoGlobals.debug_log(true, "CogitoProjectile", self.name + ": dealing damage amount " + str(damage_amount) + " on collider " + collider.name + " at " + str(bullet_position) + " in direction " + str(direction) )
 
 	collider.damage_received.emit(damage_amount,bullet_direction,bullet_position)
 	if destroy_on_impact:

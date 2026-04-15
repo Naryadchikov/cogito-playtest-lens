@@ -3,8 +3,8 @@ extends Control
 signal drop_slot_data(slot_data : InventorySlotPD)
 signal inventory_open(is_true: bool)
 
-@export var inventory_ui : Control
-@onready var grabbed_slot_node = $GrabbedSlot
+@export var inventory_ui : InventoryUI
+@onready var grabbed_slot_node: SlotPanel = $GrabbedSlot
 @onready var external_inventory_ui = $ExternalInventoryUI
 @onready var quick_slots : CogitoQuickslots = $QuickSlots
 @onready var info_panel = $InfoPanel
@@ -14,7 +14,6 @@ signal inventory_open(is_true: bool)
 @onready var assign_prompt: Control = $InfoPanel/MarginContainer/VBoxContainer/HBoxAssign
 @onready var use_prompt: Control = $InfoPanel/MarginContainer/VBoxContainer/HBoxUse
 @onready var cogito_tab_menu: CogitoTabMenu = $CogitoTabMenu
-
 
 ## Sound that plays as a generic error.
 @export var sound_error : AudioStream
@@ -31,8 +30,8 @@ var is_inventory_open : bool:
 var grabbed_slot_data: InventorySlotPD
 var external_inventory_owner : Node
 
-var previously_focused_control
-var control_in_focus
+var previously_focused_slot: SlotPanel
+var slot_in_focus: SlotPanel
 
 func _ready():
 	# Connect to signal that detects change of input device
@@ -88,8 +87,8 @@ func close_inventory():
 			grabbed_slot_data = null
 		is_inventory_open = false
 		get_viewport().gui_focus_changed.disconnect(_on_focus_changed)
-		if control_in_focus:
-			control_in_focus.release_focus()
+		if slot_in_focus:
+			slot_in_focus.release_focus()
 		
 		# Clearing out UI grabbed slot
 		if inventory_ui.grabbed_slot:
@@ -116,43 +115,43 @@ func out_of_bounds_check_mouse():
 	var ui_rect = Rect2(grid.global_position - Vector2(0, slot_size), grid.size + Vector2(slot_size/4,slot_size/2))
 	var mouse_rect = Rect2(get_global_mouse_position(), Vector2(1,1))
 	if !ui_rect.encloses(mouse_rect):
-		inventory_ui.highlight_item(control_in_focus, false)
+		inventory_ui.highlight_item(slot_in_focus, false)
 		info_panel.hide()
 
 
 func _on_focus_changed(control: Control):
-	if !control.has_method("set_slot_data"):
+	if control is not SlotPanel:
 		CogitoGlobals.debug_log(true,"inventory_interface.gd", "_on_focus_changed: Not a slot. returning.")
 		return
 	
 	# Keep a hold of the previously focused control to compare with the current
 	if control != null:
-		previously_focused_control = control_in_focus if control_in_focus else control
-		control_in_focus = control
+		previously_focused_slot = slot_in_focus if slot_in_focus else control
+		slot_in_focus = control
 	
 	# Quick check to see if this is a quickslot
-	if control_in_focus.has_method("update_quickslot_data"):
+	if slot_in_focus is CogitoQuickslotContainer:
 		return
 	
 	# This shows the info panel for an item when highlighted
-	if control_in_focus.item_data and !grabbed_slot_node.visible:
-		item_name.text = control_in_focus.item_data.name
-		item_description.text = control_in_focus.item_data.description
+	if slot_in_focus.item_data and !grabbed_slot_node.visible:
+		item_name.text = slot_in_focus.item_data.name
+		item_description.text = slot_in_focus.item_data.description
 		if InputHelper.device_index != -1:
-			info_panel.global_position = control_in_focus.global_position + Vector2(0,control_in_focus.size.y)
+			info_panel.global_position = slot_in_focus.global_position + Vector2(0,slot_in_focus.size.y)
 		
-		if control_in_focus.item_data.is_droppable:
+		if slot_in_focus.item_data.is_droppable:
 			drop_prompt.show()
 		else: drop_prompt.hide()
 		
-		if !control_in_focus.item_data.has_method("use"):
+		if !slot_in_focus.item_data.has_method("use"):
 			use_prompt.hide()
 		else:
 			use_prompt.show()
 
 		info_panel.show()
 		# Highlight all the slots that occupy the size of the item
-		inventory_ui.highlight_item(control_in_focus, true)
+		inventory_ui.highlight_item(slot_in_focus, true)
 		unhighlight_slots_if_moving_between()
 
 		if !control.mouse_entered.is_connected(_slot_on_mouse_entered):
@@ -163,7 +162,7 @@ func _on_focus_changed(control: Control):
 		info_panel.hide()
 	
 	# Updating the currently focused slot in the inventory_ui
-	inventory_ui.currently_focused_slot = control_in_focus
+	inventory_ui.currently_focused_slot = slot_in_focus
 	
 	# How a grabbed item gets displayed.
 	if grabbed_slot_node.visible:
@@ -175,33 +174,33 @@ func _on_focus_changed(control: Control):
 
 
 func _slot_on_mouse_entered():
-	if !control_in_focus or !previously_focused_control:
+	if !slot_in_focus or !previously_focused_slot:
 		return
 	unhighlight_slots_if_moving_between()
 
 
 ## Remove an existing highlighted item if focus shifts to another item or a blank slot
 func unhighlight_slots_if_moving_between():
-	if previously_focused_control is CogitoQuickslotContainer or control_in_focus is CogitoQuickslotContainer:
+	if previously_focused_slot is CogitoQuickslotContainer or slot_in_focus is CogitoQuickslotContainer:
 		return
-	if control_in_focus.origin_index != previously_focused_control.origin_index:
-		inventory_ui.highlight_item(previously_focused_control, false)
+	if slot_in_focus.origin_index != previously_focused_slot.origin_index:
+		inventory_ui.highlight_item(previously_focused_slot, false)
 
 
 func update_grabbed_slot_position():
-	if control_in_focus == null:
+	if slot_in_focus == null:
 		return
-	# print("Inventory interface: update grabbed slot position to ", control_in_focus, " at ", control_in_focus.global_position)
-	grabbed_slot_node.global_position = control_in_focus.global_position + (control_in_focus.size / 2)
+	# print("Inventory interface: update grabbed slot position to ", slot_in_focus, " at ", slot_in_focus.global_position)
+	grabbed_slot_node.global_position = slot_in_focus.global_position + (slot_in_focus.size / 2)
 
 
 func _apply_grabbed_slot_position_after_layout():
-	if control_in_focus == null:
+	if slot_in_focus == null:
 		return
 	# Wait for the next frame to ensure layout is complete
 	await get_tree().process_frame
-	if control_in_focus != null and grabbed_slot_node.visible:
-		grabbed_slot_node.global_position = control_in_focus.global_position + (control_in_focus.size / 2)
+	if slot_in_focus != null and grabbed_slot_node.visible:
+		grabbed_slot_node.global_position = slot_in_focus.global_position + (slot_in_focus.size / 2)
 		# Now make it visible
 		grabbed_slot_node.modulate.a = 1
 
@@ -261,11 +260,11 @@ func set_player_inventory_data(inventory_data : CogitoInventory):
 	if !inventory_data.inventory_button_press.is_connected(on_inventory_button_press):
 		inventory_data.inventory_button_press.connect(on_inventory_button_press.bind(inventory_ui))
 	inventory_ui.set_inventory_data(inventory_data)
-
+	
 	quick_slots.show()
 	# Quickslots need reference to inventory when quickslot buttons are pressed
 	quick_slots.inventory_reference = inventory_data
-
+		
 	if !inventory_open.is_connected(quick_slots.update_inventory_status):
 		inventory_open.connect(quick_slots.update_inventory_status)
 	grabbed_slot_node.using_grid(inventory_data.grid)
@@ -273,10 +272,12 @@ func set_player_inventory_data(inventory_data : CogitoInventory):
 
 # Inventory handling on gamepad buttons
 func on_inventory_button_press(inventory_data: CogitoInventory, index: int, action: String, local_inventory_ui):
-	# Update control_in_focus immediately to ensure grabbed slot positioning is correct
-	control_in_focus = local_inventory_ui.slot_array[index]
+	# Update slot_in_focus immediately to ensure grabbed slot positioning is correct
+	slot_in_focus = local_inventory_ui.slot_array[index]
 	
 	match [grabbed_slot_data, action]:
+		[_, "inventory_rotate_item"]:
+			rotate_item()
 		[null, "inventory_move_item"]:
 			# Check if item is being wielded before grabbing it.
 			var temp_slot_data = inventory_data.get_slot_data(index)
@@ -354,8 +355,8 @@ func update_grabbed_slot():
 		inventory_ui.detach_grabbed_slot()
 		external_inventory_ui.detach_grabbed_slot()
 		# Focus callback to show info box after placing the item when using mouse
-		if control_in_focus and InputHelper.device_index == -1:
-			_on_focus_changed(control_in_focus)
+		if slot_in_focus and InputHelper.device_index == -1:
+			_on_focus_changed(slot_in_focus)
 
 
 func _on_bind_grabbed_slot_to_quickslot(quickslotcontainer: CogitoQuickslotContainer):
@@ -371,49 +372,41 @@ func _on_bind_grabbed_slot_to_quickslot(quickslotcontainer: CogitoQuickslotConta
 		CogitoGlobals.debug_log(true, "inventory_interface.gd", "No grabbed slot data.")
 
 
-# Grabbed slot data handling for mouse buttons
+# Grabbed slot data handling for mouse and keyboard
 func _on_gui_input(event):
 	if event is InputEventMouseButton \
 		and event.is_pressed() \
 		and grabbed_slot_data:
-			match event.button_index:
-				MOUSE_BUTTON_LEFT:
-					if !grabbed_slot_data.inventory_item.is_droppable:
-						Audio.play_sound(sound_error)
-						CogitoGlobals.debug_log(true, "inventory_interface.gd", "This item isn't droppable.")
-						return
-					if grabbed_slot_data.inventory_item.has_method("update_wieldable_data") and grabbed_slot_data.inventory_item.is_being_wielded:
-					#if grabbed_slot_data.inventory_item.ItemType.WIELDABLE and grabbed_slot_data.inventory_item.is_being_wielded:
-						Audio.play_sound(sound_error)
-						CogitoGlobals.debug_log(true, "inventory_interface.gd", "Can't drop while wielding this item.")
-					else:
-						if not _drop_item(grabbed_slot_data):
-							Audio.play_sound(sound_error)
-							get_parent().player.player_interaction_component.send_hint(null, "Not enough space to drop item.")
-							CogitoGlobals.debug_log(true, "inventory_interface.gd", "Can't drop because there isn't enough space.")
-						else:
-							grabbed_slot_data.create_single_slot_data(grabbed_slot_data.origin_index)
-							if grabbed_slot_data.quantity < 1:
-								grabbed_slot_data = null
-					
-				MOUSE_BUTTON_RIGHT:
-					if !grabbed_slot_data.inventory_item.is_droppable:
-						CogitoGlobals.debug_log(true, "inventory_interface.gd", "This item isn't droppable.")
-						return
-					if grabbed_slot_data.inventory_item.has_method("update_wieldable_data") and grabbed_slot_data.inventory_item.is_being_wielded:
-						Audio.play_sound(sound_error)
-						CogitoGlobals.debug_log(true, "inventory_interface.gd", "Can't drop while wielding this item.")
-					else:
-						if not _drop_item(grabbed_slot_data):
-							Audio.play_sound(sound_error)
-							get_parent().player.player_interaction_component.send_hint(null, "Not enough space to drop item.")
-							CogitoGlobals.debug_log(true, "inventory_interface.gd", "Can't drop because there isn't enough space.")
-						else:
-							grabbed_slot_data.create_single_slot_data(grabbed_slot_data.origin_index)
-							if grabbed_slot_data.quantity < 1:
-								grabbed_slot_data = null
-					
+			mouse_button_check(event)
 			update_grabbed_slot()
+
+# Rotating the item using the keyboard
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("inventory_rotate_item") and grabbed_slot_data:
+		rotate_item()
+
+
+func mouse_button_check(event):
+	match event.button_index:
+		MOUSE_BUTTON_LEFT or MOUSE_BUTTON_RIGHT:
+			if !grabbed_slot_data.inventory_item.is_droppable:
+				error_log("This item isn't droppable.")
+				return
+			if grabbed_slot_data.inventory_item.has_method("update_wieldable_data") and grabbed_slot_data.inventory_item.is_being_wielded:
+				error_log("Can't drop while wielding this item.")
+			else:
+				if not _drop_item(grabbed_slot_data):
+					error_log("Can't drop because there isn't enough space.")
+					get_parent().player.player_interaction_component.send_hint(null, "Not enough space to drop item.")
+				else:
+					grabbed_slot_data.create_single_slot_data(grabbed_slot_data.origin_index)
+					if grabbed_slot_data.quantity < 1:
+						grabbed_slot_data = null
+
+
+func error_log(error: String):
+	Audio.play_sound(sound_error)
+	CogitoGlobals.debug_log(true, "inventory_interface.gd", error)
 
 
 func _on_visibility_changed():
@@ -426,6 +419,20 @@ func _on_visibility_changed():
 func _on_inventory_ui_hidden() -> void:
 	# Hides item info panel if the inventory UI screen gets hidden.
 	info_panel.hide()
+
+
+func rotate_item() -> void:
+	# Don't bother rotating if the items x and y size are equivalent
+	var item_size = grabbed_slot_node.get_item().item_size
+	if item_size.x == item_size.y:
+		return
+	# Unhighlight all slots first
+	inventory_ui.unhighlight_all_slots()
+	# Rotate the slot and item texture
+	grabbed_slot_node.rotate()
+	# Call the highlight slots method using the index of the hovered slot
+	inventory_ui.highlight_slots_if_grabbed(slot_in_focus.get_index(), true)
+	update_grabbed_slot()
 
 
 func _drop_item(slot_data: InventorySlotPD) -> bool:

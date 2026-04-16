@@ -39,20 +39,22 @@ class_name InventoryItemPD
 # Variables for Wielded Items
 var player_interaction_component : PlayerInteractionComponent
 var is_being_wielded : bool
-var wielded_item
+var wielded_item 
 
+## Item rotation variables
 var rotated: bool = false
+var rotated_texture: Texture2D
 
 func rotate():
 	rotated = !rotated
 	item_size = Vector2i(item_size.y, item_size.x) # why does godot not have orthogonal for vec2is????
 	var rotated_image = icon.get_image()
 	rotated_image.rotate_90(CLOCKWISE if rotated else COUNTERCLOCKWISE)
-	icon = ImageTexture.create_from_image(rotated_image)
+	rotated_texture = ImageTexture.create_from_image(rotated_image)
 
-func get_region(x, y):
-	var image = icon.get_image()
-	var x_chunk = icon.get_width() / item_size.x
-	var y_chunk = icon.get_height() / item_size.y
+func get_region(x, y) -> Image:
+	var image: Image = rotated_texture.get_image() if rotated else icon.get_image()
+	var x_chunk = image.get_width() / item_size.x
+	var y_chunk = image.get_height() / item_size.y
 	var region = Rect2i(Vector2i(x * x_chunk, y * y_chunk), Vector2i(x_chunk, y_chunk))
 	return image.get_region(region)

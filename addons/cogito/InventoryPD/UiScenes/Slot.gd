@@ -40,7 +40,7 @@ func set_icon_region(x, y):
 
 
 func set_hotbar_icon():
-	icon_texture.texture = item_data.icon
+	icon_texture.texture = item_data.rotated_texture if item_data.rotated else item_data.icon
 
 
 func set_slot_data(slot_data: InventorySlotPD, index: int, moving: bool, x_size: int):

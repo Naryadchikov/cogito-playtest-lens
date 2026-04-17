@@ -148,22 +148,24 @@ func unload_wieldable():
 		inventory.pick_up_slot_data(unloaded_ammo)
 		charge_current = 0
 
-## Attempts a switch to another available ammo type. Will send a hint if it is successful or not.
-func switch_to_next_ammo_type() -> String:
+## Attempts a switch to another available ammo type. Returns true if it was successful.
+func switch_to_next_ammo_type() -> bool:
 	if len(ammo_types) <= 1:
-		return "There are no other ammo types for this weapon."
+		player_interaction_component.send_hint(icon, "There are no other ammo types for this weapon.")
+		return false
 	var inventory = player_interaction_component.get_inventory()
-	var previous_ammo = current_ammo_type
-
-	# Unload the Wieldable if it is currently loaded
-	unload_wieldable()
-
+	var next_type = current_ammo_type
 	for _i in range(len(ammo_types)):
-		current_ammo_type = wrapi(current_ammo_type+1, 0, len(ammo_types))
-		print("Current ammo type is %s" % [current_ammo_type])
-		if get_ammo_item(ammo_types[current_ammo_type]) and current_ammo_type != previous_ammo:
-			return "Switched to %s" % [ammo_types[current_ammo_type].name]
-	return "No other ammo types found."
+		next_type = wrapi(next_type+1, 0, len(ammo_types))
+		var next_ammo = get_ammo_item(ammo_types[next_type])
+		if next_ammo and next_type != current_ammo_type:
+			# Unload the Wieldable if it is currently loaded, change ammo type to next
+			unload_wieldable()
+			current_ammo_type = next_type
+			player_interaction_component.send_hint(next_ammo.icon, "Switched to %s" % [next_ammo.name])
+			return true
+	player_interaction_component.send_hint(icon, "No other ammo types found.")
+	return false
 
 func save():
 	var saved_item_data = {

@@ -270,9 +270,7 @@ func attempt_change_ammo():
 	if equipped_wieldable_node.animation_player.is_playing():
 		send_hint(null, "Can't change ammo type at the moment.")
 		return
-	var hint:String = equipped_wieldable_item.switch_to_next_ammo_type()
-	if !hint.is_empty():
-		send_hint(null, hint)
+	if(equipped_wieldable_item.switch_to_next_ammo_type()):
 		equipped_wieldable_node.change_ammo(equipped_wieldable_item.current_ammo_type)
 		equipped_wieldable_item.update_wieldable_data(self)
 		attempt_reload()

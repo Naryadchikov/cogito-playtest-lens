@@ -26,6 +26,12 @@ signal charge_changed()
 ## Used for weapons
 @export var wieldable_damage : float
 
+@export_group("Hints")
+## Hint that gets displayed when changing ammo types
+@export var hint_changed_ammo_type : String = "HINT_changed_ammo_type"
+## Hint that gets displayed when attempting to change ammo types but none are available.
+@export var hint_no_other_ammo_types : String = "HINT_no_other_ammo_type"
+
 #var wieldable_data_text : String
 
 func use(target) -> bool:
@@ -162,9 +168,9 @@ func switch_to_next_ammo_type() -> bool:
 			# Unload the Wieldable if it is currently loaded, change ammo type to next
 			unload_wieldable()
 			current_ammo_type = next_type
-			player_interaction_component.send_hint(next_ammo.icon, "Switched to %s" % [next_ammo.name])
+			player_interaction_component.send_hint(next_ammo.icon, tr(hint_changed_ammo_type) + " " + tr(next_ammo.name) )
 			return true
-	player_interaction_component.send_hint(icon, "No other ammo types found.")
+	player_interaction_component.send_hint(icon, tr(hint_no_other_ammo_types) )
 	return false
 
 func save():

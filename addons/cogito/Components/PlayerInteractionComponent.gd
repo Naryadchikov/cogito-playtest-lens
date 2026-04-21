@@ -268,7 +268,7 @@ func attempt_action_secondary(is_released: bool):
 
 func attempt_change_ammo():
 	if equipped_wieldable_node.animation_player.is_playing():
-		send_hint(null, "Can't change ammo type at the moment.")
+		send_hint(null, tr("HINT_ammo_change_blocked"))
 		return
 	if(equipped_wieldable_item.switch_to_next_ammo_type()):
 		equipped_wieldable_node.change_ammo(equipped_wieldable_item.current_ammo_type)

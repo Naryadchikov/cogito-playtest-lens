@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://mlw0ed3wtbt0"
-path="res://.godot/imported/COGITO_Card_2025.png-ed70f3a136a8f9c76466cd64fdff206b.ctex"
+uid="uid://ba066ltlqn7w2"
+path="res://.godot/imported/COGITO_Card_2026.png-325bc998325575ae3bf8899de38e7674.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/cogito/COGITO_Card_2025.png"
-dest_files=["res://.godot/imported/COGITO_Card_2025.png-ed70f3a136a8f9c76466cd64fdff206b.ctex"]
+source_file="res://addons/cogito/COGITO_Card_2026.png"
+dest_files=["res://.godot/imported/COGITO_Card_2026.png-325bc998325575ae3bf8899de38e7674.ctex"]
 
 [params]
 

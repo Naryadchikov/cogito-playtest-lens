@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ConsumableItemPD" format=3 uid="uid://b4jf372h4li0b"]
+[gd_resource type="Resource" script_class="ConsumableItemPD" load_steps=8 format=3 uid="uid://b4jf372h4li0b"]
 
 [ext_resource type="Script" uid="uid://dd216g7cnupju" path="res://addons/cogito/InventoryPD/CustomResources/ConsumableEffect.gd" id="1_cok0t"]
 [ext_resource type="Texture2D" uid="uid://sv8b0kbpm17t" path="res://addons/cogito/Assets/Graphics/UiIcons/Ui_Icon_Health.png" id="2_cok0t"]

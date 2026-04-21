@@ -78,13 +78,13 @@ func _on_btn_reset_input_map_pressed() -> void:
 	mouse_button.button_index = MOUSE_BUTTON_LEFT
 	gamepad_button = InputEventJoypadButton.new()
 	gamepad_button.device = -1
-	gamepad_button.button_index = JOY_BUTTON_X
+	gamepad_button.button_index = JOY_BUTTON_A
 	save_input_action_to_settings("inventory_move_item",mouse_button,gamepad_button)
 	
 	mouse_button.button_index = MOUSE_BUTTON_RIGHT
 	gamepad_button = InputEventJoypadButton.new()
 	gamepad_button.device = -1
-	gamepad_button.button_index = JOY_BUTTON_A
+	gamepad_button.button_index = JOY_BUTTON_Y
 	save_input_action_to_settings("inventory_use_item",mouse_button,gamepad_button)
 	
 	mouse_button.button_index = MOUSE_BUTTON_MIDDLE
@@ -189,8 +189,15 @@ func _on_btn_reset_input_map_pressed() -> void:
 	keyboard_key.physical_keycode = KEY_G
 	gamepad_button = InputEventJoypadButton.new()
 	gamepad_button.device = -1
-	gamepad_button.button_index = JOY_BUTTON_Y
+	gamepad_button.button_index = JOY_BUTTON_B
 	save_input_action_to_settings("inventory_drop_item",keyboard_key,gamepad_button)
+	
+	keyboard_key = InputEventKey.new()
+	keyboard_key.physical_keycode = KEY_R
+	gamepad_button = InputEventJoypadButton.new()
+	gamepad_button.device = -1
+	gamepad_button.button_index = JOY_BUTTON_X
+	save_input_action_to_settings("inventory_rotate_item",keyboard_key,gamepad_button)
 	
 	keyboard_key = InputEventKey.new()
 	keyboard_key.physical_keycode = KEY_R

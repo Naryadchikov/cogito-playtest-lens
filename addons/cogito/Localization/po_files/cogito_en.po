@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
 msgid "TAB_GAMEPLAY"
@@ -313,6 +313,16 @@ msgid "SEPARATOR_MENUES"
 msgstr "MENUS"
 
 #. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_keybindings.tres
+msgid "INPUT_item_rotate"
+msgstr "Rotate item"
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_keybindings.tres
+msgid "INPUT_change_ammo_type"
+msgstr "Change ammo type"
+
+#. TRANSLATORS: translation_key_dict entry
 #: addons/cogito/Components/Interactions/CarryableComponent.tscn
 #: addons/cogito/Localization/translation_keys_resources/loc_keys_common_interactions.tres
 msgid "INTERACT_carry"
@@ -547,9 +557,7 @@ msgid "INTERACT_pick_lock"
 msgstr "Pick lock"
 
 #. TRANSLATORS: item name
-#. item ammo item name
 #: addons/cogito/InventoryPD/Items/Cogito_Battery.tres
-#: addons/cogito/InventoryPD/Items/Cogito_Flashlight.tres
 msgid "Battery"
 msgstr "Battery"
 
@@ -577,39 +585,6 @@ msgstr "It's spare change but can add up."
 #: addons/cogito/InventoryPD/Items/Cogito_Coins.tres
 msgid "Added 5 credits to wallet."
 msgstr "Added 5 credits to wallet."
-
-#. TRANSLATORS: item name
-#. item ammo item name
-#: addons/cogito/InventoryPD/Items/Cogito_Dart.tres
-msgid "Dart"
-msgstr "Dart"
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_Dart.tres
-msgid "A simple foam dart. Squishy."
-msgstr "A simple foam dart. Squishy."
-
-#. TRANSLATORS: item name
-#. item ammo item name
-#: addons/cogito/InventoryPD/Items/Cogito_Dart_Fire.tres
-msgid "Fire Dart"
-msgstr "Fire Dart"
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_Dart_Fire.tres
-msgid "Who needs matches if you got these."
-msgstr "Who needs matches if you got these."
-
-#. TRANSLATORS: item name
-#. item ammo item name
-#: addons/cogito/InventoryPD/Items/Cogito_Dart_Water.tres
-msgid "Water Dart"
-msgstr "Water Dart"
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_Dart_Water.tres
-msgid "Perpetually dripping water."
-msgstr "Perpetually dripping water."
 
 #. TRANSLATORS: item name
 #: addons/cogito/InventoryPD/Items/Cogito_DiamondKey_A.tres
@@ -654,29 +629,7 @@ msgid "Now where does this fit?"
 msgstr "Now where does this fit?"
 
 #. TRANSLATORS: item name
-#: addons/cogito/InventoryPD/Items/Cogito_Flashlight.tres
-msgid "Flashlight"
-msgstr "Flashlight"
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_Flashlight.tres
-msgid "Eats batteries like it's its job."
-msgstr "Eats batteries like it's its job."
-
-#. TRANSLATORS: item hint on use
-#: addons/cogito/InventoryPD/Items/Cogito_Flashlight.tres
-msgid "hint_flashlight"
-msgstr ""
-
-#. TRANSLATORS: item hint on empty
-#: addons/cogito/InventoryPD/Items/Cogito_Flashlight.tres
-msgid "Out of battery."
-msgstr "Out of battery"
-
-#. TRANSLATORS: item name
-#. item ammo item name
 #: addons/cogito/InventoryPD/Items/Cogito_FoamBullets.tres
-#: addons/cogito/InventoryPD/Items/Cogito_Pistol.tres
 msgid "Foam Bullets"
 msgstr "Foam Bullets"
 
@@ -684,16 +637,6 @@ msgstr "Foam Bullets"
 #: addons/cogito/InventoryPD/Items/Cogito_FoamBullets.tres
 msgid "Very visible but not very dangerous. Have a tendency to vanish."
 msgstr "Very visible but not very dangerous. Have a tendency to vanish."
-
-#. TRANSLATORS: item name
-#: addons/cogito/InventoryPD/Items/Cogito_HealthExtension.tres
-msgid "Health Extension"
-msgstr "Health Extension"
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_HealthExtension.tres
-msgid "Better than red bull."
-msgstr "Better than red bull."
 
 #. TRANSLATORS: item name
 #: addons/cogito/InventoryPD/Items/Cogito_HealthPotion.tres
@@ -761,9 +704,7 @@ msgid "I was supposed to do somoething with this."
 msgstr "I was supposed to do something with this."
 
 #. TRANSLATORS: item name
-#. item ammo item name
 #: addons/cogito/InventoryPD/Items/Cogito_LaserAmmo.tres
-#: addons/cogito/InventoryPD/Items/Cogito_LaserRifle.tres
 msgid "Laser Ammo"
 msgstr "Laser Ammo"
 
@@ -771,21 +712,6 @@ msgstr "Laser Ammo"
 #: addons/cogito/InventoryPD/Items/Cogito_LaserAmmo.tres
 msgid "Tends to get hot. One clip has a charge of 50."
 msgstr "Tends to get hot. One clip has a charge of 50."
-
-#. TRANSLATORS: item name
-#: addons/cogito/InventoryPD/Items/Cogito_LaserRifle.tres
-msgid "Laser Rifle"
-msgstr "Laser Rifle"
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_LaserRifle.tres
-msgid "Goes pew pew pew. Needs Laser Ammo to reload."
-msgstr "Goes pew pew pew. Needs Laser Ammo to reload."
-
-#. TRANSLATORS: item hint on empty
-#: addons/cogito/InventoryPD/Items/Cogito_LaserRifle.tres
-msgid "Out of ammo."
-msgstr "Out of ammo."
 
 #. TRANSLATORS: item name
 #: addons/cogito/InventoryPD/Items/Cogito_PageCombined.tres
@@ -803,31 +729,6 @@ msgstr ""
 #: addons/cogito/InventoryPD/Items/Cogito_PageCombined.tres
 msgid "I should probably read this."
 msgstr "I should probably read this."
-
-#. TRANSLATORS: item name
-#: addons/cogito/InventoryPD/Items/Cogito_Pickaxe.tres
-msgid "Pickaxe"
-msgstr "Pickaxe"
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_Pickaxe.tres
-msgid "Don't go digging for diamonds now."
-msgstr "Don't go digging for diamonds now."
-
-#. TRANSLATORS: item name
-#: addons/cogito/InventoryPD/Items/Cogito_Pistol.tres
-msgid "Foam Pistol"
-msgstr "Foam Pistol"
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_Pistol.tres
-msgid "There's a reason it looks like a toy. Shoots foam bullets."
-msgstr "There's a reason it looks like a toy. Shoots foam bullets."
-
-#. TRANSLATORS: item hint on empty
-#: addons/cogito/InventoryPD/Items/Cogito_Pistol.tres
-msgid "Out of bullets."
-msgstr "Out of ammo."
 
 #. TRANSLATORS: item name
 #: addons/cogito/InventoryPD/Items/Cogito_RippedPage_A.tres
@@ -1033,6 +934,21 @@ msgstr "broke"
 msgid "HINT_lockpick_success"
 msgstr "Lock successfully picked."
 
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_comon_hints.tres
+msgid "HINT_no_other_ammo_type"
+msgstr "No other ammo available."
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_comon_hints.tres
+msgid "HINT_changed_ammo_type"
+msgstr "Changed ammo to"
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_comon_hints.tres
+msgid "HINT_ammo_change_blocked"
+msgstr "Can't change ammo at the moment."
+
 #: addons/cogito/EasyMenus/Scenes/main_menu.tscn
 msgid "Options"
 msgstr "Options"
@@ -1064,6 +980,63 @@ msgstr "Lockpick"
 #: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
 msgid "Breaks easily but can come in handy."
 msgstr "Breaks easily but can come in handy."
+
+#~ msgid "Dart"
+#~ msgstr "Dart"
+
+#~ msgid "A simple foam dart. Squishy."
+#~ msgstr "A simple foam dart. Squishy."
+
+#~ msgid "Fire Dart"
+#~ msgstr "Fire Dart"
+
+#~ msgid "Who needs matches if you got these."
+#~ msgstr "Who needs matches if you got these."
+
+#~ msgid "Water Dart"
+#~ msgstr "Water Dart"
+
+#~ msgid "Perpetually dripping water."
+#~ msgstr "Perpetually dripping water."
+
+#~ msgid "Flashlight"
+#~ msgstr "Flashlight"
+
+#~ msgid "Eats batteries like it's its job."
+#~ msgstr "Eats batteries like it's its job."
+
+#~ msgid "Out of battery."
+#~ msgstr "Out of battery"
+
+#~ msgid "Health Extension"
+#~ msgstr "Health Extension"
+
+#~ msgid "Better than red bull."
+#~ msgstr "Better than red bull."
+
+#~ msgid "Laser Rifle"
+#~ msgstr "Laser Rifle"
+
+#~ msgid "Goes pew pew pew. Needs Laser Ammo to reload."
+#~ msgstr "Goes pew pew pew. Needs Laser Ammo to reload."
+
+#~ msgid "Out of ammo."
+#~ msgstr "Out of ammo."
+
+#~ msgid "Pickaxe"
+#~ msgstr "Pickaxe"
+
+#~ msgid "Don't go digging for diamonds now."
+#~ msgstr "Don't go digging for diamonds now."
+
+#~ msgid "Foam Pistol"
+#~ msgstr "Foam Pistol"
+
+#~ msgid "There's a reason it looks like a toy. Shoots foam bullets."
+#~ msgstr "There's a reason it looks like a toy. Shoots foam bullets."
+
+#~ msgid "Out of bullets."
+#~ msgstr "Out of ammo."
 
 #~ msgid "LAB_RENDER_SCALE"
 #~ msgstr "Render Scale"

@@ -15,8 +15,10 @@ signal charge_changed()
 @export var hint_on_empty: String
 ## The maximum charge of the item (this equals fully charged battery in a flashlight or magazine size in guns)
 @export var charge_max : float
-## Name of the item this item uses as Ammo. Needs to match exactly.
-@export var ammo_item_name : String
+## Index of the ammo_types array that is currently selected.
+@export var current_ammo_type : int
+## Accepted ammo types that can be switched between
+@export var ammo_types : Array[AmmoItemPD]
 ## Current charge of item (aka how much is in the magazine).
 @export var charge_current : float
 ## Used for weapons
@@ -24,7 +26,7 @@ signal charge_changed()
 ## Used for weapons
 @export var wieldable_damage : float
 
-var wieldable_data_text : String
+#var wieldable_data_text : String
 
 func use(target) -> bool:
 	# Target should always be player? Null check to override using the CogitoSceneManager, which stores a reference to current player node
@@ -40,13 +42,7 @@ func use(target) -> bool:
 	if player_interaction_component.carried_object != null and !player_interaction_component.carried_object.is_carryable_while_wielding:
 		# Automatically drop the carried object when selecting a wieldable via quickslot, or inventory
 		if !player_interaction_component.is_wielding:
-			var parent = player_interaction_component.carried_object.get_parent()
-			var object_name = ""
-			if parent as CogitoObject:
-				object_name = (parent as CogitoObject).cogito_name
-			if not object_name:
-				object_name = parent.name
-			CogitoGlobals.debug_log(true,"WieldableItemPD.gd", player_interaction_component.name + " is dropping " + object_name + " to take out wieldable " + name )
+			CogitoGlobals.debug_log(true,"WieldableItemPD.gd", player_interaction_component.name + " is dropping " + (player_interaction_component.carried_object.get_parent() as CogitoObject).cogito_name + " to take out wieldable " + name )
 			player_interaction_component.setup_wieldable_to_auto_equip(self)
 			player_interaction_component._drop_carried_object()
 			take_out()
@@ -84,15 +80,15 @@ func put_away():
 
 
 func update_wieldable_data(_player_interaction_component : PlayerInteractionComponent):
+	var current_ammo : AmmoItemPD = get_current_ammo()
 	if _player_interaction_component: #Only update if something get's passed
 		if is_being_wielded:
 			if !no_reload:
-				_player_interaction_component.updated_wieldable_data.emit(self,get_item_amount_in_inventory(ammo_item_name),get_ammo_item(ammo_item_name))
+				_player_interaction_component.updated_wieldable_data.emit(self,get_item_amount_in_inventory(current_ammo),get_ammo_item(current_ammo))
 			else:
 				_player_interaction_component.updated_wieldable_data.emit(self,0,null)
 		else:
 			_player_interaction_component.updated_wieldable_data.emit(null, 0, null)
-
 
 func subtract(amount):
 	charge_current -= amount
@@ -120,33 +116,62 @@ func add(amount):
 
 
 # Function to get the AmmoItemPD
-func get_ammo_item(item_name_to_check_for: String) -> InventoryItemPD:
-	var ammo_item : InventoryItemPD
-	if player_interaction_component.get_parent().inventory_data != null:
-		var inventory_to_check = player_interaction_component.get_parent().inventory_data
-		for slot in inventory_to_check.inventory_slots:
-			if slot != null and slot.inventory_item.name == item_name_to_check_for:
-				ammo_item = slot.inventory_item
-				
-	return ammo_item
-
+func get_ammo_item(item_to_check_for: AmmoItemPD) -> InventoryItemPD:
+	var inventory = player_interaction_component.get_inventory()
+	if inventory:
+		var matched = inventory.find_slots(item_to_check_for.name)
+		return matched.front().inventory_item if not matched.is_empty() else null
+	return null
 
 # Function to get the amount of ammo in the player inventory
-func get_item_amount_in_inventory(item_name_to_check_for: String) -> int:
+func get_item_amount_in_inventory(item_to_check_for: AmmoItemPD) -> int:
 	var item_count : int = 0
-	if player_interaction_component.get_parent().inventory_data != null:
-		var inventory_to_check = player_interaction_component.get_parent().inventory_data
-		for slot in inventory_to_check.inventory_slots:
-			if slot != null and slot.inventory_item.name == item_name_to_check_for:
-				item_count += slot.quantity
-				
+	var inventory = player_interaction_component.get_inventory()
+	if inventory:
+		for slot in inventory.find_slots(item_to_check_for.name):
+			item_count += slot.quantity
 	return item_count
+	
+# Get the current ammo for the item, if this item has no ammo types returns a null item
+func get_current_ammo() -> AmmoItemPD:
+	if ammo_types.is_empty():
+		var null_item = AmmoItemPD.new()
+		null_item.name = "null"
+		return null_item
+	return ammo_types[current_ammo_type]
 
+func unload_wieldable():
+	var inventory = player_interaction_component.get_inventory()
+	if charge_current > 0:
+		var unloaded_ammo = InventorySlotPD.new()
+		unloaded_ammo.create(get_current_ammo(), int(charge_current))
+		inventory.pick_up_slot_data(unloaded_ammo)
+		charge_current = 0
+
+## Attempts a switch to another available ammo type. Returns true if it was successful.
+func switch_to_next_ammo_type() -> bool:
+	if len(ammo_types) <= 1:
+		player_interaction_component.send_hint(icon, "There are no other ammo types for this weapon.")
+		return false
+	var inventory = player_interaction_component.get_inventory()
+	var next_type = current_ammo_type
+	for _i in range(len(ammo_types)):
+		next_type = wrapi(next_type+1, 0, len(ammo_types))
+		var next_ammo = get_ammo_item(ammo_types[next_type])
+		if next_ammo and next_type != current_ammo_type:
+			# Unload the Wieldable if it is currently loaded, change ammo type to next
+			unload_wieldable()
+			current_ammo_type = next_type
+			player_interaction_component.send_hint(next_ammo.icon, "Switched to %s" % [next_ammo.name])
+			return true
+	player_interaction_component.send_hint(icon, "No other ammo types found.")
+	return false
 
 func save():
 	var saved_item_data = {
 		"resource" : self,
-		"charge_current" : charge_current
+		"charge_current" : charge_current,
+		"current_ammo_type" : current_ammo_type
 	}
 	return saved_item_data
 

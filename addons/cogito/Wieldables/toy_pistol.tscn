@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=4 uid="uid://dgtjml2t3hdvx"]
+[gd_scene format=4 uid="uid://dgtjml2t3hdvx"]
 
 [ext_resource type="Script" uid="uid://hif5sm107p01" path="res://addons/cogito/Wieldables/wieldable_toy_pistol.gd" id="1_o04qd"]
 [ext_resource type="PackedScene" uid="uid://c1umit2vtv22v" path="res://addons/cogito/PackedScenes/projectile_pistol.tscn" id="2_l6tt4"]
+[ext_resource type="PackedScene" uid="uid://cftyn7vkpfufy" path="res://addons/cogito/PackedScenes/projectile_pistol_stone.tscn" id="3_1jevy"]
 [ext_resource type="AudioStream" uid="uid://clsajk36s7luk" path="res://addons/cogito/Assets/Audio/Kenney/error_004.ogg" id="3_vdfq8"]
 [ext_resource type="AnimationLibrary" uid="uid://bbnpn3wqqoj7l" path="res://addons/cogito/Wieldables/Animations/Wieldable_ToyPistol.res" id="5_fkf6b"]
 
@@ -51,32 +52,30 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_gcevq")
 
-[node name="Toy Pistol" type="Node3D" node_paths=PackedStringArray("wieldable_mesh")]
+[node name="Toy Pistol" type="Node3D" unique_id=1511320523 node_paths=PackedStringArray("wieldable_mesh")]
 transform = Transform3D(-3.61999e-06, 0, 0.999999, 0, 1, 0, -1, 0, -3.61999e-06, 0.328536, -0.26394, -0.53488)
 script = ExtResource("1_o04qd")
-projectile_prefab = ExtResource("2_l6tt4")
+projectile_prefab = Array[PackedScene]([ExtResource("2_l6tt4"), ExtResource("3_1jevy")])
 projectile_velocity = 50.0
 default_position = Vector3(0.329, -0.264, -0.535)
 sound_primary_use = ExtResource("3_vdfq8")
 wieldable_mesh = NodePath("ToyPistol_mesh")
 anim_action_primary = "shoot"
 
-[node name="ToyPistol_mesh" type="Node3D" parent="."]
+[node name="ToyPistol_mesh" type="Node3D" parent="." unique_id=1494597593]
 visible = false
 
-[node name="pistol_mesh" type="MeshInstance3D" parent="ToyPistol_mesh"]
+[node name="pistol_mesh" type="MeshInstance3D" parent="ToyPistol_mesh" unique_id=2035353534]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 mesh = SubResource("ArrayMesh_gjvni")
 skeleton = NodePath("")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=2107202477]
 bus = &"SFX"
 
-[node name="Bullet_Point" type="Node3D" parent="."]
+[node name="Bullet_Point" type="Node3D" parent="." unique_id=802040266]
 unique_name_in_owner = true
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.277335, 0.0601448, 0.00182778)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": ExtResource("5_fkf6b")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1740655752]
+libraries/ = ExtResource("5_fkf6b")

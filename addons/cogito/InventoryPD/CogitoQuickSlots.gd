@@ -20,6 +20,7 @@ var player_interaction_component: PlayerInteractionComponent
 		inventory_reference.unbind_quickslot_by_index.connect(on_unbind_quickslot_by_index)
 		inventory_reference.picked_up_new_inventory_item.connect(on_auto_quickslot_new_item)
 		
+		
 		set_inventory_quickslots(inventory_reference)
 		
 var inventory_is_open : bool

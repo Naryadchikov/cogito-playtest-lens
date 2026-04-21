@@ -56,7 +56,7 @@ var player: CogitoPlayer
 var is_changing_wieldables: bool = false # Used to avoid any input acitons while wieldables are being swapped
 # Various variables used for wieldable handling
 var equipped_wieldable_item: WieldableItemPD = null
-var equipped_wieldable_node = null
+var equipped_wieldable_node: CogitoWieldable = null
 var wieldable_was_on: bool = false
 var is_wielding: bool:
 	get: return equipped_wieldable_item != null
@@ -90,6 +90,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		_handle_interaction(action)
 	
 	if is_wielding and !get_parent().is_movement_paused and not interactable:
+		if event.is_action_pressed("change_ammo_type"):
+			attempt_change_ammo()
 		if event.is_action_pressed("reload"):
 			attempt_reload()
 
@@ -202,7 +204,6 @@ func get_carryable_destination_point(distance_offset: float) -> Vector3:
 	return destination_point
 
 
-
 ### Carryable Management
 func start_carrying(_carried_object):
 	carried_object = _carried_object
@@ -221,6 +222,7 @@ func equip_wieldable(wieldable_item: WieldableItemPD):
 		var wieldable_node = wieldable_item.build_wieldable_scene()
 		wieldable_container.add_child(wieldable_node)
 		equipped_wieldable_node = wieldable_node
+		equipped_wieldable_node.change_ammo(equipped_wieldable_item.current_ammo_type)
 		equipped_wieldable_node.item_reference = wieldable_item
 		print("PIC: Found ", equipped_wieldable_item.name, " in wieldable node array: ", wieldable_node.name)
 		equipped_wieldable_node.equip(self)
@@ -251,8 +253,6 @@ func attempt_action_primary(is_released: bool):
 	if equipped_wieldable_node == null:
 		print("Nothing equipped, but is_wielding was true. This shouldn't happen!")
 		return
-
-	#else:
 	equipped_wieldable_node.action_primary(equipped_wieldable_item, is_released)
 
 
@@ -266,8 +266,18 @@ func attempt_action_secondary(is_released: bool):
 		equipped_wieldable_node.action_secondary(is_released)
 
 
+func attempt_change_ammo():
+	if equipped_wieldable_node.animation_player.is_playing():
+		send_hint(null, "Can't change ammo type at the moment.")
+		return
+	if(equipped_wieldable_item.switch_to_next_ammo_type()):
+		equipped_wieldable_node.change_ammo(equipped_wieldable_item.current_ammo_type)
+		equipped_wieldable_item.update_wieldable_data(self)
+		attempt_reload()
+
+
 func attempt_reload():
-	var inventory: CogitoInventory = get_parent().inventory_data
+	var inventory = get_inventory()
 	# Some safety checks if reload should even be triggered.
 	if inventory == null:
 		print("Player inventory was null!")
@@ -286,7 +296,7 @@ func attempt_reload():
 		print("Wieldable is fully charged.")
 		return
 
-	if equipped_wieldable_item.get_item_amount_in_inventory(equipped_wieldable_item.ammo_item_name) <= 0:
+	if equipped_wieldable_item.get_item_amount_in_inventory(equipped_wieldable_item.get_current_ammo()) <= 0:
 		CogitoGlobals.debug_log(true,"PIC", "You have no ammo for this wieldable.")
 		return
 
@@ -298,7 +308,7 @@ func attempt_reload():
 	for slot: InventorySlotPD in inventory.inventory_slots:
 		if ammo_needed <= 0:
 			break
-		if slot == null or slot.inventory_item.name != equipped_wieldable_item.ammo_item_name:
+		if slot == null or slot.inventory_item.name != equipped_wieldable_item.get_current_ammo().name:
 			continue
 
 		var ammo_used: int
@@ -333,36 +343,34 @@ func send_hint(hint_icon: Texture2D, hint_text: String):
 
 
 # Function to get a normalised vector3 in direction the player is looking.
-func Get_Look_Direction() -> Vector3:
+func get_look_direction() -> Vector3:
 	var viewport = get_viewport().get_visible_rect().size
 	var camera = get_viewport().get_camera_3d()
 	return camera.project_ray_normal(viewport/2)
-	
+
 
 # This gets a world space collision point of whatever the camera is pointed at, depending on the equipped wieldable range.
-func Get_Camera_Collision() -> Vector3:
+func get_camera_collision() -> Vector3:
 	var viewport = get_viewport().get_visible_rect().size
 	var camera = get_viewport().get_camera_3d()
 	
-	var Ray_Origin = camera.project_ray_origin(viewport/2)
-	var Ray_End = Ray_Origin + camera.project_ray_normal(viewport/2)*equipped_wieldable_item.wieldable_range
+	var ray_origin = camera.project_ray_origin(viewport/2)
+	var ray_end = ray_origin + camera.project_ray_normal(viewport/2)*equipped_wieldable_item.wieldable_range
 	
-	var New_Intersection = PhysicsRayQueryParameters3D.create(Ray_Origin, Ray_End)
-	New_Intersection.exclude = [player_rid]
-	var Intersection = get_world_3d().direct_space_state.intersect_ray(New_Intersection)
+	var new_intersection = PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
+	new_intersection.exclude = [player_rid]
+	var intersection = get_world_3d().direct_space_state.intersect_ray(new_intersection)
 	
-	if not Intersection.is_empty():
-		var Col_Point = Intersection.position
-		return Col_Point
+	if not intersection.is_empty():
+		var col_point = intersection.position
+		return col_point
 	else:
-		return Ray_End
+		return ray_end
 
 
 func save():
 	if equipped_wieldable_node and equipped_wieldable_node.has_method("toggle_on_off"):
 		wieldable_was_on = equipped_wieldable_node.is_on
-	
-	
 	var interaction_component_data = {
 	"equipped_wieldable_item": equipped_wieldable_item,
 	#"equipped_wieldable_node": equipped_wieldable_node,
@@ -400,7 +408,7 @@ func set_state():
 
 func _on_interaction_raycast_interactable_seen(new_interactable) -> void:
 	interactable = new_interactable
-	
+
 
 func _on_interaction_raycast_interactable_unseen() -> void:
 	interactable = null
@@ -518,3 +526,7 @@ func auto_equip_last_wieldable() -> void:
 		if equipped_wieldable_node and equipped_wieldable_node.has_method("toggle_on_off") and wieldable_was_on:
 			equipped_wieldable_node.is_on = !wieldable_was_on
 			equipped_wieldable_node.toggle_on_off()
+
+
+func get_inventory() -> CogitoInventory:
+	return get_parent().inventory_data

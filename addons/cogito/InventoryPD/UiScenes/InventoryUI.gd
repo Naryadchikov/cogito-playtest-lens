@@ -1,4 +1,5 @@
 extends PanelContainer
+class_name InventoryUI
 
 const Slot = preload("./Slot.tscn")
 
@@ -12,7 +13,7 @@ const Slot = preload("./Slot.tscn")
 @onready var label = $MarginContainer/VBoxContainer/Label
 @onready var button_take_all: Button = $MarginContainer/VBoxContainer/Button_TakeAll
 
-var slot_array = []
+var slot_array: Array[InventorySlot] = []
 var first_slot : InventorySlotPD
 var grabbed_slot : SlotPanel
 var loaded_inventory_data : CogitoInventory
@@ -114,9 +115,13 @@ func apply_item_icons(item_data : InventoryItemPD, origin_index: int):
 			slot_array[origin_index + x + (y*grid_container.columns)].set_icon_region(x, y)
 
 
-func detach_grabbed_slot():
+func unhighlight_all_slots():
 	for slot in slot_array:
+		slot.highlight_panel.hide()
 		slot.selection_panel.hide()
+
+func detach_grabbed_slot():
+	unhighlight_all_slots()
 	grabbed_slot = null
 
 ## Highlight all the slots an item occupies when hovered over.
@@ -129,7 +134,7 @@ func highlight_item(focused_slot, highlight: bool):
 		return
 	# No need to highlight more slots if an item is 1x1
 	var highlight_size = item_data.item_size
-	if highlight_size == Vector2(1,1):
+	if highlight_size == Vector2i(1,1):
 		return
 	# Highlight the origin point (top-left) first:
 	slot_array[origin_index].highlight_panel.set_visible(highlight)

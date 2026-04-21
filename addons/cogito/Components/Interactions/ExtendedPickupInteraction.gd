@@ -102,7 +102,7 @@ func consume(consumable: ConsumableItemPD) -> void:
 func cant_reload_current_wieldable() -> bool:
 	if player_interaction_component.equipped_wieldable_node.animation_player.is_playing():
 		return true
-	if player_interaction_component.equipped_wieldable_item.ammo_item_name != pickup.slot_data.inventory_item.name:
+	if player_interaction_component.equipped_wieldable_item.get_current_ammo().name != pickup.slot_data.inventory_item.name:
 		return true
 	if player_interaction_component.equipped_wieldable_item.no_reload:
 		return true
@@ -116,7 +116,7 @@ func cant_reload_current_wieldable() -> bool:
 func attempt_reload_current_wieldable(ammo: AmmoItemPD) -> void:
 	if player_interaction_component.equipped_wieldable_node.animation_player.is_playing():
 		return
-	if player_interaction_component.equipped_wieldable_item.ammo_item_name != ammo.name:
+	if player_interaction_component.equipped_wieldable_item.get_current_ammo().name != ammo.name:
 		return
 	if player_interaction_component.equipped_wieldable_item.no_reload:
 		return

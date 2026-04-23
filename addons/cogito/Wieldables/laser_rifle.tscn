@@ -1,11 +1,10 @@
-[gd_scene load_steps=26 format=4 uid="uid://bb8pm2nk8hwon"]
+[gd_scene load_steps=25 format=4 uid="uid://bb8pm2nk8hwon"]
 
 [ext_resource type="Script" uid="uid://dvqmxegk58dhe" path="res://addons/cogito/Wieldables/wieldable_laser_rifle.gd" id="1_2rut3"]
 [ext_resource type="AudioStream" uid="uid://clsajk36s7luk" path="res://addons/cogito/Assets/Audio/Kenney/error_004.ogg" id="2_f7ale"]
 [ext_resource type="PackedScene" uid="uid://dnauxhdncgngx" path="res://addons/cogito/PackedScenes/laser_ray.tscn" id="2_ic084"]
-[ext_resource type="PackedScene" uid="uid://bc2hryr610vgo" path="res://addons/cogito/PackedScenes/simple_particle_puff.tscn" id="3_aueyu"]
 [ext_resource type="AnimationLibrary" uid="uid://c1du0rcgmr542" path="res://addons/cogito/Wieldables/Animations/Wieldable_LaserRifle.res" id="3_fjq23"]
-[ext_resource type="Script" uid="uid://b361n7ae3ixmn" path="res://addons/cogito/Assets/Shader/ViewmodelSpace.gd" id="5_fa3wp"]
+[ext_resource type="PackedScene" uid="uid://0sgkovmwf71d" path="res://addons/cogito/PackedScenes/particles_impact_sparks.tscn" id="3_w07do"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kk8qb"]
 emission_enabled = true
@@ -30,25 +29,33 @@ scale_curve = SubResource("CurveTexture_kkwew")
 [sub_resource type="BoxMesh" id="BoxMesh_rxstj"]
 size = Vector3(0.1, 0.1, 0.1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g84md"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qk163"]
 resource_name = "metal"
 albedo_color = Color(0.796078, 0.815686, 0.878431, 1)
 metallic = 1.0
+use_z_clip_scale = true
+z_clip_scale = 0.6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5h0cy"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w07do"]
 resource_name = "dark"
 albedo_color = Color(0.196244, 0.237565, 0.283019, 1)
 metallic = 1.0
+use_z_clip_scale = true
+z_clip_scale = 0.6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6w8jn"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0hh5f"]
 resource_name = "darkMetal"
 albedo_color = Color(0.592157, 0.635294, 0.768627, 1)
 metallic = 1.0
+use_z_clip_scale = true
+z_clip_scale = 0.6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0lywg"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3qjco"]
 resource_name = "purple"
 albedo_color = Color(0.618066, 0.429245, 1, 1)
 metallic = 1.0
+use_z_clip_scale = true
+z_clip_scale = 0.6
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_6cre2"]
 _surfaces = [{
@@ -102,7 +109,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 420,
 "index_data": PackedByteArray("AgAAAAEAAwACAAEABAADAAEAAQAFAAQACAAGAAcABwAJAAgACQAKAAgACgALAAgADgAMAA0ADQAPAA4AEgAQABEAEQATABIAFgAUABUAFQAXABYAGgAYABkAGQAbABoAHgAcAB0AHQAfAB4AIgAgACEAIQAjACIAJgAkACUAJQAnACYAJwAoACYAKwApACoAKgAsACsALwAtAC4ALgAwAC8AMwAxADIAMgA0ADMANwA1ADYANgA4ADcANgA5ADgAPAA6ADsAOwA9ADwAPQA+ADwAQQA/AEAAQABCAEEAQABDAEIARgBEAEUARQBHAEYASgBIAEkASQBLAEoASwBMAEoATABNAEoATQBOAEoATgBPAEoAUABLAEkAUABJAFEAUABRAFIAUwBQAFIAVABTAFIAVQBUAFIAVgBVAFIAUgBXAFYAWgBYAFkAWQBbAFoAXgBcAF0AXgBdAF8AXgBfAGAAYQBeAGAAYgBhAGAAYgBgAGMAZABiAGMAYwBlAGQAZgBkAGUAZgBlAGcAZgBnAGgAZgBoAGkAagBmAGkAaQBrAGoAbgBsAG0AbQBvAG4AcgBwAHEAcQBzAHIAdgB0AHUAdQB3AHYAegB4AHkAeQB7AHoAfgB8AH0AfQB/AH4AggCAAIEAgQCDAIIAhgCEAIUAhQCHAIYAigCIAIkAiQCLAIoAjgCMAI0AjQCPAI4AkgCQAJEAkQCTAJIAlgCUAJUAlQCXAJYAmgCYAJkAmQCbAJoAngCcAJ0AnQCfAJ4AogCgAKEAoQCjAKIApgCkAKUApQCnAKYAqgCoAKkAqQCrAKoArgCsAK0ArQCvAK4AsgCwALEAsQCzALIAtgC0ALUAtQC3ALYAugC4ALkAuQC7ALoAvgC8AL0AvQC/AL4AvwDAAL4AvwDBAMAAwQDCAMAAwQDDAMIAxgDEAMUAxgDFAMcAxwDIAMYAyQDGAMgAzADKAMsAywDNAMwAywDOAM0AzgDPAM0A0gDQANEA0gDTANAA1ADSANEA1ADRANUA1QDWANQA1gDXANQA0gDYANMA2ADZANMA2gDYANIA2QDYANsA1gDZANsA2gDSANwA2wDdANYA3QDXANYA3ADXAN0A3QDaANwA"),
-"material": SubResource("StandardMaterial3D_g84md"),
+"material": SubResource("StandardMaterial3D_qk163"),
 "name": "metal",
 "primitive": 3,
 "uv_scale": Vector4(32.2835, 34.2835, 0, 0),
@@ -114,7 +121,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 192,
 "index_data": PackedByteArray("4ADeAN8A4QDgAN8A4gDhAN8A3wDjAOIA5gDkAOUA5QDnAOYA6gDoAOkA6QDrAOoA6wDsAOoA7ADtAOoA8ADuAO8A7wDxAPAA9ADyAPMA8wD1APQA+AD2APcA9wD5APgA/AD6APsA+wD9APwAAAH+AP8A/wABAQABBAECAQMBAwEFAQQBCAEGAQcBBwEJAQgBDAEKAQsBCwENAQwBEAEOAQ8BDwERARABEwESAc8AzwDOABMBzgAUARMBFAEVARMBxAAWARcBFwHFAMQAFwEYAcUAFwEZARgBFwEaARkBHQEbARwBHAEeAR0BIQEfASABIAEiASEBJQEjASQBJAEmASUBKQEnASgBKAEqASkBKgErASkBLgEsAS0BLQEvAS4BMgEwATEBMQEzATIBMAE0ATEBMwExATUBMAE2ATQBNQE3ATMBNQE2ATcBNgEwATcBOgE4ATkBOQE7AToBPAE5ATgBOQE9ATsBOAE+ATwBPQE/ATsBPgE/ATwBPgE7AT8B"),
-"material": SubResource("StandardMaterial3D_5h0cy"),
+"material": SubResource("StandardMaterial3D_w07do"),
 "name": "dark",
 "primitive": 3,
 "uv_scale": Vector4(32.2835, 34.2835, 0, 0),
@@ -126,7 +133,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 294,
 "index_data": PackedByteArray("QgFAAUEBQQFDAUIBRAFCAUMBRAFFAUIBRAFGAUUBRAFHAUYBSAFEAUMBQwFJAUgBTAFKAUsBSwFNAUwBUAFOAU8BTwFRAVABUQFSAVABUQFTAVIBUwFUAVIBVAFVAVIBVgFUAVMBUwFXAVYBWgFYAVkBWQFbAVoBXgFcAV0BXQFfAV4BXwFgAV4BYwFhAWIBYgFkAWMBZwFlAWYBZgFoAWcBaAFpAWcBbAFqAWsBawFtAWwBcAFuAW8BbwFxAXABdAFyAXMBcwF1AXQBeAF2AXcBdwF5AXgBegF4AXkBAwB6AXkBAgADAHkBeQF7AQIAfgF8AX0BfQF/AX4BgAF/AX0BgAGBAX8BggGAAX0BgwF/AYEBgwGEAX8BgwGBAYUBhgGDAYUBhQGCAYYBhgGCAX0BfQGHAYYBigGIAYkBiQGLAYoBjgGMAY0BjQGPAY4BkAGPAY0BjQGRAZABlAGSAZMBkwGVAZQBmAGWAZcBlwGZAZgBlwGaAZkBmgGbAZkBngGcAZ0BnQGfAZ4BogGgAaEBoQGjAaIBpgGkAaUBpQGnAaYBqgGoAakBqQGrAaoBrgGsAa0BrQGvAa4BrwGwAa4BrwGxAbABtAGyAbMBswG1AbQBuAG2AbcBtwG5AbgBugEXABUAFQC7AboBuwG8AboB0AC9AdEAvgHRAL0BvgG9ARsAvQG/ARsAvgEbABkAGQDAAb4BwQEIAAsACwDCAcEBwgHDAcEBwwHEAcEBwwHFAcQBxQHGAcQBxwEfAB0AHQDIAccByAHJAccB"),
-"material": SubResource("StandardMaterial3D_6w8jn"),
+"material": SubResource("StandardMaterial3D_0hh5f"),
 "name": "darkMetal",
 "primitive": 3,
 "uv_scale": Vector4(32.2835, 34.2835, 0, 0),
@@ -138,7 +145,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 240,
 "index_data": PackedByteArray("zAHKAcsBywHNAcwB0AHOAc8BzwHRAdAB1AHSAdMB1QHUAdMB1QHWAdQB1wHVAdMB2AHUAdYB1wHTAcEBwQHEAdcBxgHYAdYBxAHZAdcB2gHXAdkB2wHZAcQBxAHGAdsB2QHcAdoB3AHWAdoBxgHdAdsB3AHdAdYB3QHGAdYB4AHeAd8B4QHgAd8B4gHhAd8B4wHhAeIB5AHiAd8B4gHlAeMB5gHjAeUB5wHmAeUB6AHkAd8B5QHoAecB6AHfAekB6QHnAegB7AHqAesB6wHtAewB8AHuAe8B7wHxAfAB9AHyAfMB8wH1AfQB+AH2AfcB9wH5AfgB+gH5AfcB9wH7AfoB/gH8Af0B/QH/Af4BAgIAAgECAQIDAgICBgIEAgUCBQIHAgYCCgIIAgkCCQILAgoCDgIMAg0CDQIPAg4CEgIQAhECEQITAhICFALJAcgByAEVAhQCGAIWAhcCFwIZAhgCHAIaAhsCGwIdAhwCIAIeAh8CIAIfAiECIQIfAiICIAIhAiMCJAIhAiICegEgAiMCJAIiAnYBIwIlAnoBIwImAiUCJwIlAiYCJgIkAicCJAIoAicCJAJ2ASgCegElAikCKQIoAnYBeAF6ASkCKQJ2AXgBKgK6AbwBvAErAioC"),
-"material": SubResource("StandardMaterial3D_0lywg"),
+"material": SubResource("StandardMaterial3D_3qjco"),
 "name": "purple",
 "primitive": 3,
 "uv_scale": Vector4(32.2835, 34.2835, 0, 0),
@@ -148,20 +155,26 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_6cre2")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_biddi"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5wo8v"]
 resource_name = "metal"
 albedo_color = Color(0.796078, 0.815686, 0.878431, 1)
 metallic = 1.0
+use_z_clip_scale = true
+z_clip_scale = 0.6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iemqb"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ls25w"]
 resource_name = "darkMetal"
 albedo_color = Color(0.592157, 0.635294, 0.768627, 1)
 metallic = 1.0
+use_z_clip_scale = true
+z_clip_scale = 0.6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x0vlt"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mgyw1"]
 resource_name = "yellow"
 albedo_color = Color(0.996078, 0.776471, 0.219608, 1)
 metallic = 1.0
+use_z_clip_scale = true
+z_clip_scale = 0.6
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_k03ik"]
 _surfaces = [{
@@ -205,7 +218,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 168,
 "index_data": PackedByteArray("AgAAAAEAAQADAAIABgAEAAUABQAHAAYACgAIAAkACQALAAoADgAMAA0ADQAPAA4AEgAQABEAEQATABIAFgAUABUAFQAXABYAGgAYABkAGQAbABoAHgAcAB0AHQAfAB4AIgAgACEAIQAjACIAJgAkACUAJQAnACYAKgAoACkAKQArACoALgAsAC0ALQAvAC4AMgAwADEAMQAzADIANgA0ADUANQA3ADYAOgA4ADkAOQA7ADoAPAA5ADgAOQA9ADsAOAA+ADwAPQA/ADsAPgBAADwAQQA7AD8APgBBAEAAQQA/AEAARABCAEMAQwBFAEQARgBDAEIAQwBHAEUAQgBIAEYASABJAEYARwBKAEUASABKAEkARwBLAEoASwBJAEoATgBMAE0ATABPAE0ATgBNAFAAUQBNAE8AUABSAE4AUQBPAFMAUgBRAFMAUwBOAFIA"),
-"material": SubResource("StandardMaterial3D_biddi"),
+"material": SubResource("StandardMaterial3D_5wo8v"),
 "name": "metal",
 "primitive": 3,
 "uv_scale": Vector4(5.90551, 11.4488, 0, 0),
@@ -217,7 +230,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 18,
 "index_data": PackedByteArray("VgBUAFUAVQBXAFYAVwBYAFYAWwBZAFoAWgBcAFsAXABdAFsA"),
-"material": SubResource("StandardMaterial3D_iemqb"),
+"material": SubResource("StandardMaterial3D_ls25w"),
 "name": "darkMetal",
 "primitive": 3,
 "uv_scale": Vector4(5.90551, 11.4488, 0, 0),
@@ -229,7 +242,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 138,
 "index_data": PackedByteArray("YABeAF8AXwBhAGAAYQBiAGAAYQBjAGIAYwBkAGIAZABlAGIAZABmAGUAZABnAGYAZwBoAGYAZwBpAGgAaQBqAGgAbQBrAGwAbABuAG0AcQBvAHAAcAByAHEAdQBzAHQAdAB2AHUAdgB3AHUAdgB4AHcAeAB5AHcAeAB6AHkAegB7AHkAegB8AHsAfAB9AHsAfAB+AH0AfgB/AH0AggCAAIEAgQCDAIIAhgCEAIUAhQCHAIYAigCIAIkAiQCLAIoAjgCMAI0AjQCPAI4AkgCQAJEAkQCTAJIAlgCUAJUAlQCXAJYAmgCYAJkAmQCbAJoAngCcAJ0AnQCfAJ4AogCgAKEAoQCjAKIApgCkAKUApQCnAKYA"),
-"material": SubResource("StandardMaterial3D_x0vlt"),
+"material": SubResource("StandardMaterial3D_mgyw1"),
 "name": "yellow",
 "primitive": 3,
 "uv_scale": Vector4(5.90551, 11.4488, 0, 0),
@@ -239,11 +252,13 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_k03ik")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lb5c8"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rx74e"]
 albedo_color = Color(1, 0.266667, 1, 1)
 emission_enabled = true
 emission = Color(1, 0.384314, 1, 1)
 emission_energy_multiplier = 2.0
+use_z_clip_scale = true
+z_clip_scale = 0.6
 
 [sub_resource type="Animation" id="Animation_unao5"]
 length = 0.001
@@ -354,15 +369,17 @@ _data = {
 &"RESET": SubResource("Animation_unao5")
 }
 
-[node name="Laser Rifle" type="Node3D" node_paths=PackedStringArray("wieldable_mesh")]
+[node name="Laser Rifle" type="Node3D" node_paths=PackedStringArray("wieldable_mesh", "audio_stream_player_3d", "animation_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.329, -0.264, -0.535)
 script = ExtResource("1_2rut3")
 laser_ray_prefab = ExtResource("2_ic084")
 ray_lifespan = 3.0
 default_position = Vector3(0.329, -0.264, -0.535)
-collision_scene = ExtResource("3_aueyu")
+collision_scene = ExtResource("3_w07do")
 sound_primary_use = ExtResource("2_f7ale")
 wieldable_mesh = NodePath("LaserRifleMesh")
+audio_stream_player_3d = NodePath("AudioStreamPlayer3D")
+animation_player = NodePath("AnimationPlayer")
 anim_equip = "LaserRifle/equip"
 anim_unequip = "LaserRifle/unequip"
 anim_action_primary = "LaserRifle/shoot"
@@ -386,11 +403,9 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_d1eos")
 draw_pass_1 = SubResource("BoxMesh_rxstj")
 
-[node name="LaserRifleMesh" type="Node3D" parent="." node_paths=PackedStringArray("tracked_nodes")]
-transform = Transform3D(1, 0, 0, 0, 0.540302, 0.841471, 0, -0.841471, 0.540302, 0, 0, 0)
+[node name="LaserRifleMesh" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.54030216, 0.8414708, 0, -0.8414708, 0.54030216, 0, 0, 0)
 visible = false
-script = ExtResource("5_fa3wp")
-tracked_nodes = [NodePath("blasterA"), NodePath("clipA")]
 
 [node name="blasterA" type="MeshInstance3D" parent="LaserRifleMesh"]
 transform = Transform3D(-0.8, 0, 1.20797e-07, 0, 0.8, 0, -1.20797e-07, 0, -0.8, 0, 0, 0)
@@ -405,7 +420,7 @@ transform = Transform3D(1, 0, -1.81899e-12, 0, 1, 0, 0, 0, 1, 0.00251591, 0.0906
 transform = Transform3D(-1, -6.0536e-09, 1.3411e-07, -5.12227e-09, 1, 0, -1.49012e-07, 1.86265e-09, -1, 0, -0.1, -0.164193)
 mesh = SubResource("ArrayMesh_7s5kr")
 skeleton = NodePath("")
-surface_material_override/2 = SubResource("StandardMaterial3D_lb5c8")
+surface_material_override/2 = SubResource("StandardMaterial3D_rx74e")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

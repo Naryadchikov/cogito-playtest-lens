@@ -357,7 +357,7 @@ func load_scene_state(_scene_name_to_load:String, slot:String) -> void:
 			if new_object.has_method("update_wieldable_data"): # Check if item is wieldable
 				CogitoGlobals.debug_log(true,"CSM","Setting charge of "+ new_object+ " to "+ node_data["item_charge"])
 				new_object.slot_data.inventory_item.charge_current = node_data["item_charge"]
-				
+			
 			# Call set_state only if the method exists
 			if new_object.has_method("set_state"):
 				new_object.set_state.call_deferred()
@@ -388,12 +388,12 @@ func save_scene_state(_scene_name_to_save, slot: String) -> void:
 		CogitoGlobals.debug_log(true,"CSM","CSM: Save doesn't exist. Creating...")
 		_scene_state = CogitoSceneState.new()
 		
+	_scene_state.clear_saved_nodes() # Clearing out old saved nodes
+	
 	var save_nodes = get_tree().get_nodes_in_group("Persist")
 	if !save_nodes:
 		CogitoGlobals.debug_log(true,"CSM","No nodes in Persist group!")
 	else:
-		_scene_state.clear_saved_nodes() # Clearing out old saved nodes
-	
 		for node in save_nodes:
 			if node.scene_file_path.is_empty(): # Check the node is an instanced scene so it can be instanced again during load.
 				CogitoGlobals.debug_log(true,"CSM","persistent node '%s' is not an instanced scene, skipped" % node.name)
@@ -416,14 +416,13 @@ func save_scene_state(_scene_name_to_save, slot: String) -> void:
 			else:
 				_scene_state.add_node_data_to_array(node.save())
 		
+	_scene_state.clear_saved_states()
 	
 	# Saving states of objects
 	var state_nodes = get_tree().get_nodes_in_group("save_object_state")
 	if !state_nodes:
 		CogitoGlobals.debug_log(true,"CSM","No nodes in save_object_state group!")
 	else:
-		_scene_state.clear_saved_states()
-		
 		for node in state_nodes:
 			if !node.has_method("save"): # Check the node has a save function.
 				CogitoGlobals.debug_log(true,"CSM","persistent node '%s' is missing a save() function, skipped" % node.name)

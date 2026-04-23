@@ -14,9 +14,14 @@ signal stack_has_changed
 	
 @export var origin_index = -1
 
+func create(item: InventoryItemPD, quantity: int):
+	inventory_item = item
+	set_quantity(quantity)
+
 
 func is_origin(index):
 	return origin_index == index
+
 
 func set_quantity(value: int):
 	quantity = value

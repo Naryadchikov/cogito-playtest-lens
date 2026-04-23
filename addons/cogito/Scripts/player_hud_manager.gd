@@ -103,7 +103,7 @@ func _setup_player():
 	
 	# Fill inventory HUD with player inventory
 	inventory_interface.set_player_inventory_data(player.inventory_data)
-	inventory_interface.hot_bar_inventory.set_inventory_data(player.inventory_data)
+	#inventory_interface.hot_bar_inventory.set_inventory_data(player.inventory_data)
 
 
 func connect_to_player_signals():
@@ -171,7 +171,7 @@ func connect_to_external_inventories(): # Grabbing external inventories in scene
 
 func _on_player_state_load():
 	inventory_interface.set_player_inventory_data(player.inventory_data)
-	inventory_interface.hot_bar_inventory.set_inventory_data(player.inventory_data)
+	#inventory_interface.hot_bar_inventory.set_inventory_data(player.inventory_data)
 	connect_to_external_inventories()
 	player.inventory_data.inventory_updated.emit(player.inventory_data)
 	damage_overlay.modulate = Color.TRANSPARENT # Hide damage overlay when loading after death

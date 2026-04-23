@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://hif5sm107p01" path="res://addons/cogito/Wieldables/wieldable_toy_pistol.gd" id="1_o04qd"]
 [ext_resource type="PackedScene" uid="uid://c1umit2vtv22v" path="res://addons/cogito/PackedScenes/projectile_pistol.tscn" id="2_l6tt4"]
+[ext_resource type="PackedScene" uid="uid://cftyn7vkpfufy" path="res://addons/cogito/PackedScenes/projectile_pistol_stone.tscn" id="3_1jevy"]
 [ext_resource type="AudioStream" uid="uid://clsajk36s7luk" path="res://addons/cogito/Assets/Audio/Kenney/error_004.ogg" id="3_vdfq8"]
-[ext_resource type="Script" uid="uid://b361n7ae3ixmn" path="res://addons/cogito/Assets/Shader/ViewmodelSpace.gd" id="5_1h55s"]
 [ext_resource type="AnimationLibrary" uid="uid://bbnpn3wqqoj7l" path="res://addons/cogito/Wieldables/Animations/Wieldable_ToyPistol.res" id="5_fkf6b"]
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_r6lnb"]
@@ -11,12 +11,14 @@ _data = PackedByteArray("AgAAAAUAAAAEAAAACAAAAAgAAAACAAAAc0ITAE0ASHPMAAAA0eIEAAA
 size_override = Vector2(8, 8)
 keep_compressed_buffer = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pqf4l"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n6bcp"]
 resource_name = "pistol"
 vertex_color_use_as_albedo = true
 albedo_texture = SubResource("PortableCompressedTexture2D_r6lnb")
 roughness = 0.5
 texture_filter = 0
+use_z_clip_scale = true
+z_clip_scale = 0.6
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_gcevq"]
 _surfaces = [{
@@ -40,7 +42,7 @@ _surfaces = [{
 "format": 34359742487,
 "index_count": 1512,
 "index_data": PackedByteArray("AgAAAAEAAQADAAIAAQAAAAQABAAFAAEABgACAAMAAwAHAAYACAAGAAcABwAJAAgABQAEAAoACgALAAUACwAKAAwADAANAAsADQAMAA4ADgAPAA0ADwAOABAAEAARAA8AEQAQABIAEgATABEAFAATABIAEgAVABQAFgAUABUAFQAXABYAGAAWABcAFwAZABgAHAAaABsAGwAdABwAGwAeAB0AGwAfAB4AGwAgAB8AGwAhACAAGwAiACEAGwAjACIAGwAkACMAGwAlACQAGwAmACUAGwAnACYAGwAoACcAKwApACoAKgAsACsALwAtAC4ALgAwAC8AMwAxADIAMgA0ADMANAA1ADMANQA2ADMANgA3ADMANwA4ADMAOAA5ADMAOQA6ADMAOgA7ADMAOwA8ADMAPAA9ADMAPQA+ADMAPgA/ADMAQgBAAEEAQQBDAEIARgBEAEUARQBHAEYARwBIAEYASwBJAEoASgBMAEsATwBNAE4ATgBQAE8AUwBRAFIAUgBUAFMAUgBVAFQAWABWAFcAVwBZAFgAXABaAFsAWwBdAFwAYABeAF8AXwBhAGAAZABiAGMAYwBlAGQAZQBmAGQAaQBnAGgAaABqAGkAaABrAGoAbgBsAG0AbQBvAG4AcgBwAHEAcQBzAHIAdgB0AHUAdQB3AHYAegB4AHkAeQB7AHoAfgB8AH0AfQB/AH4AggCAAIEAgQCDAIIAgwCEAIIAhwCFAIYAhgCIAIcAhgCJAIgAjACKAIsAiwCNAIwAkACOAI8AjwCRAJAAlACSAJMAkwCVAJQAmACWAJcAlwCZAJgAnACaAJsAmwCdAJwAgACeAJ8AnwCBAIAAogCgAKEAoQCjAKIApgCkAKUApQCnAKYAqQCoAIoAigCMAKkAqwCqAIUAhQCHAKsArgCsAK0ArQCvAK4AngCwALEAsQCfAJ4AtACyALMAswC1ALQAuAC2ALcAtwC5ALgAuwC6AKgAqACpALsAvQC8AKoAqgCrAL0ArwCtAL4AvgC/AK8AsADAAMEAwQCxALAAxADCAMMAwwDFAMQAyADGAMcAxwDJAMgAywDKALoAugC7AMsAzQDMALwAvAC9AM0AvwC+AM4AzgDPAL8AwADQANEA0QDBAMAA1ADSANMA0wDVANQA2ADWANcA1wDZANgA2wDaAMoAygDLANsA3QDcAMwAzADNAN0AzwDOAN4A3gDfAM8A0ADgAOEA4QDRANAA5ADiAOMA4wDlAOQA6ADmAOcA5wDpAOgA6wDqANoA2gDbAOsA7QDsANwA3ADdAO0A3wDeAO4A7gDvAN8A4ADwAPEA8QDhAOAA9ADyAPMA8wD1APQA+AD2APcA9wD5APgA+wD6AOoA6gDrAPsA/QD8AOwA7ADtAP0A7wDuAP4A/gD/AO8A8AAAAQEBAQHxAPAABAECAQMBAwEFAQQBCAEGAQcBBwEJAQgBCwEKAfoA+gD7AAsBDQEMAfwA/AD9AA0B/wD+AA4BDgEPAf8AAAEQAREBEQEBAQABFAESARMBEwEVARQBGAEWARcBFwEZARgBGwEaAQoBCgELARsBHQEcAQwBDAENAR0BDwEOAR4BHgEfAQ8BEAEgASEBIQEiARABIgERARABJQEjASQBJAEmASUBKQEnASgBKAEqASkBLAErARwBHAEtASwBHAEdAS0BLwEuARoBGgEbAS8BMgEwATEBMQEzATIBNgE0ATUBNQE3ATYBOgE4ATkBOQE7AToBPgE8AT0BPQE/AT4BPQFAAT8BQwFBAUIBQgFEAUMBRwFFAUYBRgFIAUcBSAFJAUcBTAFKAUsBSwFNAUwBUAFOAU8BTwFRAVABVAFSAVMBUwFVAVQBWAFWAVcBVwFZAVgBPgFaAVsBWwE8AT4BXgFcAV0BXQFfAV4BYgFgAWEBYQFjAWIBZQFkAUYBRgFFAWUBVQFTAWYBZgFnAVUBagFoAWkBaQFrAWoBWgFsAW0BbQFbAVoBbwFuAVwBXAFeAW8BcgFwAXEBcQFzAXIBdQF0AWQBZAFlAXUBZwFmAXYBdgF3AWcBegF4AXkBeQF7AXoBbAF8AX0BfQFtAWwBfwF+AW4BbgFvAX8BggGAAYEBgQGDAYIBhQGEAXQBdAF1AYUBdwF2AYYBhgGHAXcBigGIAYkBiQGLAYoBfAGMAY0BjQF9AXwBjwGOAX4BfgF/AY8BkgGQAZEBkQGTAZIBlQGUAYQBhAGFAZUBhwGGAZYBlgGXAYcBmgGYAZkBmQGbAZoBjAGcAZ0BnQGNAYwBnwGeAY4BjgGPAZ8BogGgAaEBoQGjAaIBpQGkAZQBlAGVAaUBlwGWAaYBpgGnAZcBqgGoAakBqQGrAaoBnAGsAa0BrQGdAZwBrwGuAZ4BngGfAa8BsgGwAbEBsQGzAbIBtQG0AaQBpAGlAbUBpwGmAbYBtgG3AacBugG4AbkBuQG7AboBrAG8Ab0BvQGtAawBvwG+Aa4BrgGvAb8BwgHAAcEBwQHDAcIBxQHEAbQBtAG1AcUBtwG2AcYBxgHHAbcBygHIAckByQHLAcoBvAHMAc0BzQG9AbwBzwHOAb4BvgG/Ac8B0gHQAdEB0QHTAdIB1QHUAcQBxAHFAdUBxwHGAdYB1gHXAccB2gHYAdkB2QHbAdoB1QHcAd0B3QHeAdUB3gHUAdUB1wHWAd8B3wHgAdcB4wHhAeIB4gHkAeMB5wHlAeYB5gHoAecB6wHpAeoB6gHNAesBzQHMAesB7gHsAe0B7QHvAe4B8gHwAfEB8QHzAfIB9gH0AfUB9QH3AfYB+gH4AfkB+QH7AfoB/gH8Af0B/QH/Af4BAgIAAgECAQIDAgICBgIEAgUCBQIHAgYC8AEIAgkCCQLxAfABDAIKAgsCCwINAgwCEAIOAg8CDwIRAhACEwISAvwB/AH+ARMCFQIUAgACAAICAhUCBwIFAhYCFgIXAgcCGgIYAhkCGQIbAhoCHALwAfIB8gEdAhwC8gEeAh0CHwL2AfcB9wEgAh8CAQIAAiECIQIiAgECIgIjAgECJAL6AfsB+wElAiQCKAImAicCJwIpAigCLAIqAisCKwItAiwCLgIQAhECEQIvAi4CHAIwAggCCALwARwCMwIxAjICMgI0AjMCNQIMAg0CDQI2AjUCFAI3AiECIQIAAhQCLQIrAjgCOAI5Ai0CPAI6AjsCOwI9AjwCQAI+Aj8CPwJBAkACRAJCAkMCQwJFAkQCRQJGAkQCSQJHAkgCSAJKAkkCTQJLAkwCTAJOAk0CUQJPAlACUAJSAlECVQJTAlQCVAJWAlUCVAJXAlYCWgJYAlkCWQJbAloCXgJcAl0CXQJfAl4CXwJgAl4CYwJhAmICYgJkAmMCZwJlAmYCZgJoAmcCawJpAmoCagJsAmsCbwJtAm4CbgJwAm8CcAJxAm8CdAJyAnMCcwJ1AnQCeAJ2AncCdwJ5AngCfAJ6AnsCewJ9AnwCewJ+An0CgQJ/AoACgAKCAoEChQKDAoQChAKGAoUChgKHAoUCigKIAokCiQKLAooCjgKMAo0CjQKPAo4CkgKQApECkQKTApICiAJyAHMAcwCJAogClgKUApUClQKXApYCcAJ6AmIAYgBGAHACUgBnAIMCgwJeAlIAmgKYApkCmQKbApoCZQJgAGEAYQBmAmUCngKcAp0CnQKfAp4CbwBtAFYAVgBYAG8ARABkAGYAZgBFAEQAUwBrAGgAaABRAFMAWwBaAHQAdAB2AFsAogKgAqECoQKjAqICpgKkAqUCpQKnAqYCjQKMAmkCaQJrAo0CbQJ+AnsCewJuAm0CXAKFAocChwJdAlwCZAJiApACkAKSAmQCqgKoAqkCqQKrAqoCrgKsAq0CrQKvAq4CsgKwArECsQKzArICtgK0ArUCtQK3ArYCugK4ArkCuQK7AroCvgK8Ar0CvQK/Ar4CwgLAAsECwQLDAsIC2AEpASoBKgHZAdgBxgLEAsUCxQLHAsYCPQHqASABIAGCAD0BhgArAdwB3AFHAYYAygLIAskCyQLLAsoCQQGcAJ0AnQBCAUEB"),
-"material": SubResource("StandardMaterial3D_pqf4l"),
+"material": SubResource("StandardMaterial3D_n6bcp"),
 "name": "pistol",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -50,19 +52,25 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_gcevq")
 
-[node name="Toy Pistol" type="Node3D" node_paths=PackedStringArray("wieldable_mesh")]
+[node name="Toy Pistol" type="Node3D" node_paths=PackedStringArray("wieldable_mesh", "audio_stream_player_3d", "animation_player")]
 transform = Transform3D(-3.61999e-06, 0, 0.999999, 0, 1, 0, -1, 0, -3.61999e-06, 0.328536, -0.26394, -0.53488)
 script = ExtResource("1_o04qd")
-projectile_prefab = ExtResource("2_l6tt4")
+projectile_prefab = Array[PackedScene]([ExtResource("2_l6tt4"), ExtResource("3_1jevy")])
 projectile_velocity = 50.0
 default_position = Vector3(0.329, -0.264, -0.535)
 sound_primary_use = ExtResource("3_vdfq8")
 wieldable_mesh = NodePath("ToyPistol_mesh")
-anim_action_primary = "shoot"
+audio_stream_player_3d = NodePath("AudioStreamPlayer3D")
+animation_player = NodePath("AnimationPlayer")
+anim_equip = "Wieldable_ToyPistol/equip"
+anim_unequip = "Wieldable_ToyPistol/unequip"
+anim_action_primary = "Wieldable_ToyPistol/shoot"
+anim_action_secondary = "Wieldable_ToyPistol/action_secondary"
+anim_reload = "Wieldable_ToyPistol/reload"
 
 [node name="ToyPistol_mesh" type="Node3D" parent="."]
+transform = Transform3D(-2.809714e-08, 0.64278764, 0.76604444, -1, -4.371139e-08, 0, 3.3484866e-08, -0.76604444, 0.64278764, 0, -0.5, 0)
 visible = false
-script = ExtResource("5_1h55s")
 
 [node name="pistol_mesh" type="MeshInstance3D" parent="ToyPistol_mesh"]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
@@ -78,5 +86,5 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.2773
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-&"": ExtResource("5_fkf6b")
+&"Wieldable_ToyPistol": ExtResource("5_fkf6b")
 }

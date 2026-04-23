@@ -21,7 +21,6 @@ enum MaterialProperties{
 	SOFT = 1,
 }
 
-@onready var audio_stream_player_3d: AudioStreamPlayer3D = $AudioStreamPlayer3D
 @onready var damage_timer: Timer = $DamageTimer
 @onready var reaction_timer: Timer = $ReactionTimer
 
@@ -59,6 +58,7 @@ enum MaterialProperties{
 
 
 @export_group("Audio")
+@export var audio_stream_player_3d: AudioStreamPlayer3D
 @export var audio_igniting : AudioStream
 @export var audio_burning : AudioStream
 @export var audio_extinguishing : AudioStream
@@ -78,6 +78,10 @@ var reaction_bodies : Array[Node3D] #Used to keep track of bodies with systemic 
 
 
 func _ready():
+	if !audio_stream_player_3d:
+		var players: Array[Node] = find_children("", "AudioStreamPlayer3D")
+		if len(players): audio_stream_player_3d = players[0]
+		
 	reaction_timer.timeout.connect(check_for_systemic_reactions)
 	damage_timer.timeout.connect(apply_burn_damage)
 	
@@ -206,14 +210,16 @@ func set_on_fire():
 		is_on_fire = true
 		if spawn_on_ignite:
 			spawn_elemental_vfx(spawn_on_ignite) 
-			Audio.play_sound_3d(audio_igniting).position = self.position
+			var audio_player: AudioStreamPlayer3D = Audio.play_sound_3d(audio_igniting)
+			audio_player.reparent(self)
 		has_ignited.emit()
 		
 		if burn_damage_amount > 0:
 			start_burn_damage_timer()
 			
-		audio_stream_player_3d.stream = audio_burning
-		audio_stream_player_3d.play()
+		if audio_stream_player_3d and audio_burning:
+			audio_stream_player_3d.stream = audio_burning
+			audio_stream_player_3d.play()
 	else:
 		CogitoGlobals.debug_log(is_logging, "cogito_properties.gd", get_parent().name + " is not FLAMMABLE.")
 
@@ -270,14 +276,14 @@ func loose_electricity():
 
 func spawn_elemental_vfx(vfx_packed_scene:PackedScene):
 	var spawned_object = vfx_packed_scene.instantiate()
-	get_parent().add_child.call_deferred(spawned_object)
+	await get_tree().process_frame
+	get_parent().add_child(spawned_object)
 	
 	# If max spawned vfx is reached, all spawned vfx will be cleared.
 	if spawned_effects.size() <= max_spawned_vfx + 1:
 		clear_spawned_effects()
 		
 	spawned_effects.append(spawned_object)
-	spawned_object.position = Vector3(0,0,0)
 
 
 func add_systemic_body(body: Node3D):

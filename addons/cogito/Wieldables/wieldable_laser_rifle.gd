@@ -19,7 +19,7 @@ extends CogitoWieldable
 @export var decal_spawn : bool = true
 ## Hit decal texture, if blank will be set to default bullet decal texture
 @export var decal_texture : Texture2D
-## Scene that spawns when a bullet of the weapon collides with anything
+## Scene that spawns when a bullet of the weapon collides with anything. Used for impact vfx.
 @export var collision_scene : PackedScene
 
 @export_group("Audio")
@@ -37,6 +37,7 @@ var inventory_item_reference : WieldableItemPD
 
 
 func _ready():
+	super._ready()
 	wieldable_mesh.hide()
 	firing_cooldown = 0
 	player_rid = CogitoSceneManager._current_player_node.get_rid()
@@ -51,12 +52,14 @@ func _physics_process(_delta: float) -> void:
 			if animation_player.is_playing():
 				return
 			# Gettting camera_collision pos from player interaction component:
-			var _camera_collision = player_interaction_component.Get_Camera_Collision()
+			var _camera_collision = player_interaction_component.get_camera_collision()
 			hit_scan_collision(_camera_collision) #Do the hitscan
 		
 			animation_player.play(anim_action_primary)
-			audio_stream_player_3d.stream = sound_primary_use
-			audio_stream_player_3d.play()
+			
+			if audio_stream_player_3d and sound_primary_use:
+				audio_stream_player_3d.stream = sound_primary_use
+				audio_stream_player_3d.play()
 			
 			inventory_item_reference.subtract(1) # Reduce ammo
 			
@@ -113,8 +116,10 @@ func hit_scan_collision(collision_point:Vector3):
 	if bullet_collision:
 		hit_scan_damage(bullet_collision.collider, bullet_direction, bullet_collision.position)
 		
-		if collision_scene !=null:
-			hit_scan_scene(bullet_collision)
+		if collision_scene !=null: # Spawning impact particle effects
+			var spawned_impact_scene = collision_scene.instantiate()
+			add_child(spawned_impact_scene)
+			spawned_impact_scene.global_position = collision_point
 		
 		if decal_spawn == true:
 			var bullet_collider = bullet_collision.collider
@@ -130,19 +135,13 @@ func hit_scan_damage(collider, bullet_direction, bullet_position):
 		collider.damage_received.emit(item_reference.wieldable_damage,bullet_direction,bullet_position)
 
 
-func hit_scan_scene(bullet_collision):
-	if collision_scene !=null:
-		var hit_indicator = collision_scene.instantiate()
-		var world = get_tree().get_root().get_child(0)
-		world.add_child(hit_indicator)
-		hit_indicator.global_translate(bullet_collision.position)
-
-
 # Function called when wieldable reload is attempted
 func reload():
 	animation_player.play(anim_reload)
-	audio_stream_player_3d.stream = sound_reload
-	audio_stream_player_3d.play()
+	
+	if audio_stream_player_3d and sound_reload:
+		audio_stream_player_3d.stream = sound_reload
+		audio_stream_player_3d.play()
 
 
 # Function called when wieldable is equipped.

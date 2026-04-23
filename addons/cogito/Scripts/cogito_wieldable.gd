@@ -6,11 +6,13 @@ class_name CogitoWieldable
 var item_reference : WieldableItemPD
 ## Visible parts of the wieldable. Used to hide/show on equip/unequip.
 @export var wieldable_mesh : Node3D
+## Which ammo type the Wieldable is currently using. Set by the WieldableItemPD
+@export var current_ammo_type : int = 0
+@export var audio_stream_player_3d: AudioStreamPlayer3D
+@export var show_debug: bool = false
 
 @export_group("Animations")
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var audio_stream_player_3d = $AudioStreamPlayer3D
-
+@export var animation_player: AnimationPlayer
 @export var anim_equip: String = "equip"
 @export var anim_unequip: String = "unequip"
 @export var anim_action_primary: String = "action_primary"
@@ -23,6 +25,14 @@ var player_interaction_component : PlayerInteractionComponent
 ### equip(_player_interaction_component), unequip(), action_primary(), action_secondary(), reload()
 
 func _ready():
+	if !audio_stream_player_3d:
+		var players: Array[Node] = find_children("", "AudioStreamPlayer3D")
+		if len(players): audio_stream_player_3d = players[0]
+	
+	if !animation_player:
+		var anim_players: Array[Node] = find_children("", "AnimationPlayer")
+		if len(anim_players): animation_player = anim_players[0]
+		
 	if wieldable_mesh:
 		wieldable_mesh.hide()
 
@@ -51,3 +61,12 @@ func action_secondary(_is_released: bool):
 # Function called when wieldable reload is attempted
 func reload():
 	pass
+
+# Function called when wieldable ammo change is attempted
+func change_ammo(index: int):
+	pass
+	
+# Override this with your debug stats
+func debug(id, data):
+	if player_interaction_component:
+		player_interaction_component.player.debug(id, data)

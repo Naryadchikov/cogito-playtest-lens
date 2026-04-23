@@ -52,6 +52,16 @@ func null_out_slots(slot_data):
 			inventory_slots[slot_data.origin_index + x + (y*inventory_size.x)] = null
 
 
+func find_slots(target: String) -> Array[InventorySlotPD]:
+	var matched_slots: Array[InventorySlotPD] = []
+	for index in range(inventory_slots.size()):
+		var slot = inventory_slots[index] 
+		if slot == null or slot.origin_index != index:
+			continue
+		if slot.inventory_item.name == target:
+			matched_slots.append(slot)
+	return matched_slots
+
 # Returns slot data without actually changing the slot
 func get_slot_data(index: int) -> InventorySlotPD:
 	var slot_data = inventory_slots[index]

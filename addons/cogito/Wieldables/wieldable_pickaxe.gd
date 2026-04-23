@@ -15,6 +15,7 @@ var player_stamina : CogitoAttribute = null
 
 
 func _ready():
+	super._ready()
 	if wieldable_mesh:
 		wieldable_mesh.hide()
 		
@@ -51,8 +52,10 @@ func action_primary(_passed_item_reference:InventoryItemPD, _is_released: bool):
 			player_stamina.subtract(stamina_cost)
 	
 	animation_player.play(anim_action_primary)
-	audio_stream_player_3d.stream = swing_sound
-	audio_stream_player_3d.play()
+	
+	if audio_stream_player_3d and swing_sound:
+		audio_stream_player_3d.stream = swing_sound
+		audio_stream_player_3d.play()
 
 
 func _on_body_entered(collider):
@@ -63,7 +66,7 @@ func _on_body_entered(collider):
 
 		if use_camera_collision:
 			#Camera-Collider raycast
-			hit_position = player_interaction_component.Get_Camera_Collision()
+			hit_position = player_interaction_component.get_camera_collision()
 			bullet_direction = (hit_position - player.get_global_transform().origin).normalized()
 		else:
 			#Hitbox-Collider raycast

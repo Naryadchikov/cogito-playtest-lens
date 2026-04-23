@@ -6,14 +6,6 @@
 
 [resource]
 script = ExtResource("1_usejk")
-is_logging = false
 new_game_start_scene = ExtResource("1_xsjm0")
 new_game_world_state = ExtResource("2_d7g0j")
-scene_state_prefix = "COGITO_scene_state_"
-player_state_prefix = "COGITO_player_state_"
-auto_save_name = "autosave"
 default_transition_duration = 0.4
-loot_component_debug = false
-loot_generator_debug = false
-loot_drop_container_debug = false
-lootable_container_debug = false

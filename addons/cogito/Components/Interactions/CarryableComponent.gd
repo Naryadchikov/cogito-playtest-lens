@@ -5,6 +5,7 @@ signal carry_state_changed(is_being_carried : bool)
 signal thrown(impulse)
 
 @export_group("Carriable Settings")
+@export var audio_stream_player_3d: AudioStreamPlayer3D
 @export var pick_up_sound : AudioStream
 @export var drop_sound : AudioStream
 ##Sets whether the object can be carried while wielding a weapon
@@ -22,8 +23,6 @@ signal thrown(impulse)
 ## How fast the object rotates (in degrees per second)
 @export var rotation_speed : float = 2.0
 
-@onready var audio_stream_player_3d = $AudioStreamPlayer3D
-
 var camera : Camera3D
 var parent_object
 var is_being_carried : bool
@@ -33,7 +32,12 @@ var carry_position : Vector3 #Position the carriable "floats towards".
 
 
 func _ready():
+	if !audio_stream_player_3d:
+		var players: Array[Node] = find_children("", "AudioStreamPlayer3D")
+		if len(players): audio_stream_player_3d = players[0]
+	
 	parent_object = get_parent()
+	
 	if parent_object.has_signal("body_entered"):
 		parent_object.body_entered.connect(_on_body_entered) #Connecting to body entered signal
 	else:
@@ -53,12 +57,19 @@ func interact(_player_interaction_component:PlayerInteractionComponent):
 
 func carry(_player_interaction_component:PlayerInteractionComponent):
 	player_interaction_component = _player_interaction_component
-	if player_interaction_component.is_wielding and not is_carryable_while_wielding:
-		player_interaction_component.send_hint(null, tr("HINT_cant_carry") )
-		return
-
+	#if player_interaction_component.is_wielding and not is_carryable_while_wielding:
+		#player_interaction_component.send_hint(null, tr("HINT_cant_carry") )
+		#return
+	
 	if is_being_carried:
 		leave()
+	elif player_interaction_component.is_wielding:
+		if is_carryable_while_wielding:
+			hold()
+		elif !player_interaction_component.is_changing_wieldables:
+			# Unequip and store the current wieldable when carrying, and automatically reequip it after carrying
+			player_interaction_component.setup_wieldable_to_auto_equip()
+			hold()
 	else:
 		hold()
 
@@ -115,7 +126,7 @@ func hold():
 	player_interaction_component.interaction_raycast.add_exception(parent_object)
 	
 	# Play Pick up sound.
-	if pick_up_sound != null:
+	if audio_stream_player_3d and pick_up_sound != null:
 		audio_stream_player_3d.stream = pick_up_sound
 		audio_stream_player_3d.play()
 	
@@ -132,6 +143,7 @@ func leave():
 		parent_object.set_lock_rotation_enabled(false)
 	if player_interaction_component and is_instance_valid(player_interaction_component):
 		player_interaction_component.stop_carrying()
+		player_interaction_component.auto_equip_last_wieldable()
 		player_interaction_component.interaction_raycast.remove_exception(parent_object)
 	is_being_carried = false
 	carry_state_changed.emit(is_being_carried)
@@ -139,9 +151,9 @@ func leave():
 
 func throw(power):
 	leave()
-	if drop_sound:
+	if audio_stream_player_3d and drop_sound:
 		audio_stream_player_3d.stream = drop_sound
 		audio_stream_player_3d.play()
-	var impulse = player_interaction_component.Get_Look_Direction() * power
+	var impulse = player_interaction_component.get_look_direction() * power
 	parent_object.apply_central_impulse(impulse)
 	thrown.emit(impulse)

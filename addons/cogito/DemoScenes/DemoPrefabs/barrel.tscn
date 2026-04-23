@@ -126,6 +126,11 @@ elemental_properties = 2
 [node name="ImpactSounds" parent="." instance=ExtResource("11_q2obl")]
 impact_sounds = SubResource("AudioStreamRandomizer_lpphm")
 
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.47422796, 0)
+radius = 0.5
+use_3d_avoidance = true
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
 [connection signal="deal_burn_damage" from="CogitoProperties" to="HealthAttribute" method="subtract"]

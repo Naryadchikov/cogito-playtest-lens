@@ -41,6 +41,7 @@
 # res://addons/cogito/Localization/translation_keys_resources/loc_keys_comon_hints.tres
 # res://addons/cogito/EasyMenus/Scenes/main_menu.tscn
 # res://addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+# res://addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
 #
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -73,11 +74,11 @@ msgid "LAB_MOUSE_SENS"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
-msgid "Inverts looking up and down direction."
+msgid "BTN_INVERT_Y"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
-msgid "BTN_INVERT_Y"
+msgid "Inverts looking up and down direction."
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
@@ -98,6 +99,10 @@ msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
 msgid "LAB_RESOLUTION"
+msgstr ""
+
+#: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
+msgid "100% - 1920x1080"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
@@ -137,7 +142,7 @@ msgid "Smooths out edges of 3D objects"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
-msgid "LAB_RENDER_SCALE"
+msgid "LAB_UI_SCALE"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
@@ -145,15 +150,11 @@ msgid "1"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
-msgid "LAB_UI_SCALE"
+msgid "BTN_VSYNC"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
 msgid "Syncs Games Frame Rate with Displays Refresh Rate"
-msgstr ""
-
-#: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
-msgid "BTN_VSYNC"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
@@ -343,6 +344,16 @@ msgstr ""
 #. TRANSLATORS: translation_key_dict entry
 #: addons/cogito/Localization/translation_keys_resources/loc_keys_keybindings.tres
 msgid "SEPARATOR_MENUES"
+msgstr ""
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_keybindings.tres
+msgid "INPUT_item_rotate"
+msgstr ""
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_keybindings.tres
+msgid "INPUT_change_ammo_type"
 msgstr ""
 
 #. TRANSLATORS: translation_key_dict entry
@@ -572,10 +583,13 @@ msgstr ""
 msgid "UI_BTN_take_all"
 msgstr ""
 
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_common_interactions.tres
+msgid "INTERACT_pick_lock"
+msgstr ""
+
 #. TRANSLATORS: item name
-#. item ammo item name
 #: addons/cogito/InventoryPD/Items/Cogito_Battery.tres
-#: addons/cogito/InventoryPD/Items/Cogito_Flashlight.tres
 msgid "Battery"
 msgstr ""
 
@@ -602,54 +616,6 @@ msgstr ""
 #. TRANSLATORS: item hint on use
 #: addons/cogito/InventoryPD/Items/Cogito_Coins.tres
 msgid "Added 5 credits to wallet."
-msgstr ""
-
-#. TRANSLATORS: item name
-#. item ammo item name
-#: addons/cogito/InventoryPD/Items/Cogito_Dart.tres
-msgid "Dart"
-msgstr ""
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_Dart.tres
-msgid "A simple foam dart. Squishy."
-msgstr ""
-
-#. TRANSLATORS: item hint on use
-#. item hint on empty
-#. item ammo item name
-#: addons/cogito/InventoryPD/Items/Cogito_Dart.tres
-#: addons/cogito/InventoryPD/Items/Cogito_Dart_Fire.tres
-#: addons/cogito/InventoryPD/Items/Cogito_Dart_Water.tres
-#: addons/cogito/InventoryPD/Items/Cogito_HealthExtension.tres
-#: addons/cogito/InventoryPD/Items/Cogito_LaserAmmo.tres
-#: addons/cogito/InventoryPD/Items/Cogito_LaserRifle.tres
-#: addons/cogito/InventoryPD/Items/Cogito_Pickaxe.tres
-#: addons/cogito/InventoryPD/Items/Cogito_Pistol.tres
-#: addons/cogito/InventoryPD/Items/Cogito_UselessItem.tres
-msgid ""
-msgstr ""
-
-#. TRANSLATORS: item name
-#. item ammo item name
-#: addons/cogito/InventoryPD/Items/Cogito_Dart_Fire.tres
-msgid "Fire Dart"
-msgstr ""
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_Dart_Fire.tres
-msgid "Who needs matches if you got these."
-msgstr ""
-
-#. TRANSLATORS: item name
-#. item ammo item name
-#: addons/cogito/InventoryPD/Items/Cogito_Dart_Water.tres
-msgid "Water Dart"
-msgstr ""
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_Dart_Water.tres
-msgid "Perpetually dripping water."
 msgstr ""
 
 #. TRANSLATORS: item name
@@ -695,45 +661,13 @@ msgid "Now where does this fit?"
 msgstr ""
 
 #. TRANSLATORS: item name
-#: addons/cogito/InventoryPD/Items/Cogito_Flashlight.tres
-msgid "Flashlight"
-msgstr ""
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_Flashlight.tres
-msgid "Eats batteries like it's its job."
-msgstr ""
-
-#. TRANSLATORS: item hint on use
-#: addons/cogito/InventoryPD/Items/Cogito_Flashlight.tres
-msgid "hint_flashlight"
-msgstr ""
-
-#. TRANSLATORS: item hint on empty
-#: addons/cogito/InventoryPD/Items/Cogito_Flashlight.tres
-msgid "Out of battery."
-msgstr ""
-
-#. TRANSLATORS: item name
-#. item ammo item name
 #: addons/cogito/InventoryPD/Items/Cogito_FoamBullets.tres
-#: addons/cogito/InventoryPD/Items/Cogito_Pistol.tres
 msgid "Foam Bullets"
 msgstr ""
 
 #. TRANSLATORS: item description
 #: addons/cogito/InventoryPD/Items/Cogito_FoamBullets.tres
 msgid "Very visible but not very dangerous. Have a tendency to vanish."
-msgstr ""
-
-#. TRANSLATORS: item name
-#: addons/cogito/InventoryPD/Items/Cogito_HealthExtension.tres
-msgid "Health Extension"
-msgstr ""
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_HealthExtension.tres
-msgid "Better than red bull."
 msgstr ""
 
 #. TRANSLATORS: item name
@@ -800,9 +734,7 @@ msgid "I was supposed to do somoething with this."
 msgstr ""
 
 #. TRANSLATORS: item name
-#. item ammo item name
 #: addons/cogito/InventoryPD/Items/Cogito_LaserAmmo.tres
-#: addons/cogito/InventoryPD/Items/Cogito_LaserRifle.tres
 msgid "Laser Ammo"
 msgstr ""
 
@@ -811,19 +743,11 @@ msgstr ""
 msgid "Tends to get hot. One clip has a charge of 50."
 msgstr ""
 
-#. TRANSLATORS: item name
-#: addons/cogito/InventoryPD/Items/Cogito_LaserRifle.tres
-msgid "Laser Rifle"
-msgstr ""
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_LaserRifle.tres
-msgid "Goes pew pew pew. Needs Laser Ammo to reload."
-msgstr ""
-
-#. TRANSLATORS: item hint on empty
-#: addons/cogito/InventoryPD/Items/Cogito_LaserRifle.tres
-msgid "Out of ammo."
+#. TRANSLATORS: item hint on use
+#: addons/cogito/InventoryPD/Items/Cogito_LaserAmmo.tres
+#: addons/cogito/InventoryPD/Items/Cogito_UselessItem.tres
+#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
+msgid ""
 msgstr ""
 
 #. TRANSLATORS: item name
@@ -839,31 +763,6 @@ msgstr ""
 #. TRANSLATORS: item hint on use
 #: addons/cogito/InventoryPD/Items/Cogito_PageCombined.tres
 msgid "I should probably read this."
-msgstr ""
-
-#. TRANSLATORS: item name
-#: addons/cogito/InventoryPD/Items/Cogito_Pickaxe.tres
-msgid "Pickaxe"
-msgstr ""
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_Pickaxe.tres
-msgid "Don't go digging for diamonds now."
-msgstr ""
-
-#. TRANSLATORS: item name
-#: addons/cogito/InventoryPD/Items/Cogito_Pistol.tres
-msgid "Foam Pistol"
-msgstr ""
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_Pistol.tres
-msgid "There's a reason it looks like a toy. Shoots foam bullets."
-msgstr ""
-
-#. TRANSLATORS: item hint on empty
-#: addons/cogito/InventoryPD/Items/Cogito_Pistol.tres
-msgid "Out of bullets."
 msgstr ""
 
 #. TRANSLATORS: item name
@@ -1043,12 +942,42 @@ msgstr ""
 msgid "HINT_SWITCH_battery"
 msgstr ""
 
-#: addons/cogito/EasyMenus/Scenes/main_menu.tscn
-msgid "Legacy Demo Scene"
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_comon_hints.tres
+msgid "HINT_item_required"
+msgstr ""
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_comon_hints.tres
+msgid "HINT_item_broke"
+msgstr ""
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_comon_hints.tres
+msgid "HINT_lockpick_success"
+msgstr ""
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_comon_hints.tres
+msgid "HINT_no_other_ammo_type"
+msgstr ""
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_comon_hints.tres
+msgid "HINT_changed_ammo_type"
+msgstr ""
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_comon_hints.tres
+msgid "HINT_ammo_change_blocked"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/main_menu.tscn
 msgid "Options"
+msgstr ""
+
+#: addons/cogito/EasyMenus/Scenes/main_menu.tscn
+msgid "Credits"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/main_menu.tscn
@@ -1063,4 +992,14 @@ msgstr ""
 #. TRANSLATORS: translation_key_dict entry
 #: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
 msgid "TXT_SLOT"
+msgstr ""
+
+#. TRANSLATORS: item name
+#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
+msgid "Lockpick"
+msgstr ""
+
+#. TRANSLATORS: item description
+#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
+msgid "Breaks easily but can come in handy."
 msgstr ""

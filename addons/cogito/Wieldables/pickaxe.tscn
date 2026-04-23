@@ -1,19 +1,22 @@
-[gd_scene load_steps=10 format=4 uid="uid://dxxemvynrimqw"]
+[gd_scene load_steps=9 format=4 uid="uid://dxxemvynrimqw"]
 
 [ext_resource type="Script" uid="uid://dstu6gw2ftyri" path="res://addons/cogito/Wieldables/wieldable_pickaxe.gd" id="1_hb7ed"]
 [ext_resource type="AudioStream" uid="uid://ocm2blyfthyq" path="res://addons/cogito/Assets/Audio/Kenney/woosh1.ogg" id="2_hp6wh"]
 [ext_resource type="AnimationLibrary" uid="uid://da3y5068fwwbq" path="res://addons/cogito/Wieldables/Animations/Wieldable_Pickaxe.res" id="3_cqo2g"]
-[ext_resource type="Script" uid="uid://b361n7ae3ixmn" path="res://addons/cogito/Assets/Shader/ViewmodelSpace.gd" id="4_0jrxw"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_caeak"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_alxbg"]
 resource_name = "wood"
 albedo_color = Color(0.943396, 0.58806, 0.324849, 1)
 metallic = 1.0
+use_z_clip_scale = true
+z_clip_scale = 0.6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oakhu"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3fcdj"]
 resource_name = "metal"
 albedo_color = Color(0.773229, 0.796404, 0.90566, 1)
 metallic = 1.0
+use_z_clip_scale = true
+z_clip_scale = 0.6
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_1wmi8"]
 _surfaces = [{
@@ -47,7 +50,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 54,
 "index_data": PackedByteArray("AgAAAAEAAQADAAIABgAEAAUABQAHAAYACgAIAAkACQALAAoADgAMAA0ADQAPAA4AEgAQABEAEQATABIAFgAUABUAFQAXABYAGgAYABkAGQAbABoAHgAcAB0AHQAfAB4AIgAgACEAIQAjACIA"),
-"material": SubResource("StandardMaterial3D_caeak"),
+"material": SubResource("StandardMaterial3D_alxbg"),
 "name": "wood",
 "primitive": 3,
 "uv_scale": Vector4(7.03182, 16.8976, 0, 0),
@@ -59,7 +62,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 246,
 "index_data": PackedByteArray("JgAkACUAJQAnACYAKgAoACkAKQArACoALgAsAC0ALQAvAC4AMgAwADEAMQAzADIANgA0ADUANQA3ADYAOgA4ADkAOQA7ADoAOwA8ADoAPwA9AD4APgBAAD8AQwBBAEIAQgBEAEMARwBFAEYARgBIAEcASwBJAEoASgBMAEsATABNAEsAUABOAE8ATwBRAFAAVABSAFMAUwBVAFQAVQBWAFQAWQBXAFgAWABaAFkAWgBbAFkAXgBcAF0AXQBfAF4AYgBgAGEAYQBjAGIAZgBkAGUAZQBnAGYAagBoAGkAaQBrAGoAbgBsAG0AbQBvAG4AcgBwAHEAcQBzAHIAdgB0AHUAdQB3AHYAeAB1AHQAdQB5AHcAdAB6AHgAeQB7AHcAegB7AHgAegB3AHsAfgB8AH0AfQB/AH4AgAB9AHwAfQCBAH8AfACCAIAAgQCDAH8AggCDAIAAggB/AIMAhgCEAIUAhQCHAIYAiACFAIQAhQCJAIcAhACKAIgAiQCLAIcAigCLAIgAigCHAIsAjgCMAI0AjQCPAI4AkACNAIwAjQCRAI8AjACSAJAAkQCTAI8AkgCTAJAAkgCPAJMAlgCUAJUAlQCXAJYAmACVAJQAlQCZAJcAlACaAJgAmQCbAJcAmgCbAJgAmgCXAJsA"),
-"material": SubResource("StandardMaterial3D_oakhu"),
+"material": SubResource("StandardMaterial3D_3fcdj"),
 "name": "metal",
 "primitive": 3,
 "uv_scale": Vector4(7.03182, 16.8976, 0, 0),
@@ -82,7 +85,6 @@ wieldable_mesh = NodePath("PickaxeMesh")
 anim_action_primary = "swing"
 
 [node name="PickaxeMesh" type="Node3D" parent="."]
-script = ExtResource("4_0jrxw")
 
 [node name="toolPickaxe" type="MeshInstance3D" parent="PickaxeMesh"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0414924, -0.1011, 1.49012e-07)
@@ -101,5 +103,5 @@ bus = &"SFX"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": ExtResource("3_cqo2g")
+&"": ExtResource("3_cqo2g")
 }

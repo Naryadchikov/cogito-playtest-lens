@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ConsumableItemPD" load_steps=8 format=3 uid="uid://58pyqr1djkcy"]
+[gd_resource type="Resource" script_class="ConsumableItemPD" format=3 uid="uid://58pyqr1djkcy"]
 
 [ext_resource type="Script" uid="uid://dd216g7cnupju" path="res://addons/cogito/InventoryPD/CustomResources/ConsumableEffect.gd" id="1_mykto"]
 [ext_resource type="Texture2D" uid="uid://dgvti6embqgw3" path="res://addons/cogito/Assets/Graphics/HintIcons/Hint_Exclamation.png" id="2_e0lpy"]

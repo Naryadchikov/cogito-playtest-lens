@@ -23,7 +23,7 @@ func _parse_file(path: String) -> Array[PackedStringArray]:
 		
 		if inventory_item is WieldableItemPD:
 			ret.append(PackedStringArray([inventory_item.hint_on_empty, msgtxt, msgid_plural, "item hint on empty"]))
-			ret.append(PackedStringArray([inventory_item.ammo_item_name, msgtxt, msgid_plural, "item ammo item name"]))
+			ret.append(PackedStringArray([inventory_item.get_current_ammo().name, msgtxt, msgid_plural, "item ammo item name"]))
 
 #	Processing Quest Resources for Localization
 	if res is CogitoQuest:

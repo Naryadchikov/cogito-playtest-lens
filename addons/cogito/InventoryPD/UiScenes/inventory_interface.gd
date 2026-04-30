@@ -449,6 +449,9 @@ func _drop_item(slot_data: InventorySlotPD) -> bool:
 	
 	if dropped_item is not CogitoObject:
 		return false
+	
+	# Pass the existing data of the slot to the object, otherwise infinite ammo glitch
+	dropped_item.pass_inventory_data(slot_data)
 		
 	var item_aabb = dropped_item.get_aabb()
 	var item_length = item_aabb.size.z

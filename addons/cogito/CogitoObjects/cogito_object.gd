@@ -116,6 +116,13 @@ func save():
 	return node_data
 
 
+func pass_inventory_data(data: InventorySlotPD):
+	for child in get_children():
+		if child is PickupComponent:
+			var item = child as PickupComponent
+			item.slot_data = data
+
+
 func find_rigid_body() -> RigidBody3D:
 	var current = self
 	while current:

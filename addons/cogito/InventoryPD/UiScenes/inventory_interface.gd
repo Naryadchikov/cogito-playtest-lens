@@ -333,6 +333,11 @@ func on_inventory_button_press(inventory_data: CogitoInventory, index: int, acti
 	# When connecting to the signal, we have bind the inventory_ui so we can use that to set focus.
 	local_inventory_ui.slot_array[index].grab_focus()
 	update_grabbed_slot()
+	update_wieldable_if_equipped()
+
+
+func update_wieldable_if_equipped():
+	CogitoSceneManager._current_player_node.player_interaction_component.update_equipped()
 
 
 func update_grabbed_slot():
@@ -379,6 +384,7 @@ func _on_gui_input(event):
 		and grabbed_slot_data:
 			mouse_button_check(event)
 			update_grabbed_slot()
+
 
 # Rotating the item using the keyboard
 func _input(event: InputEvent) -> void:
@@ -450,7 +456,7 @@ func _drop_item(slot_data: InventorySlotPD) -> bool:
 		return false
 	
 	# Pass the existing data of the slot to the object, otherwise infinite ammo glitch
-	dropped_item.pass_inventory_data(slot_data)
+	dropped_item.pass_inventory_data(slot_data.duplicate())
 		
 	var item_aabb = dropped_item.get_aabb()
 	var item_length = item_aabb.size.z
@@ -497,5 +503,4 @@ func _drop_item(slot_data: InventorySlotPD) -> bool:
 	for node in dropped_item.interaction_nodes:
 		if node.has_method("get_item_type"):
 			node.slot_data = slot_data
-
 	return true

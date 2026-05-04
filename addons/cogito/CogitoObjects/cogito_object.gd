@@ -121,6 +121,7 @@ func pass_inventory_data(data: InventorySlotPD):
 		if child is PickupComponent:
 			var item = child as PickupComponent
 			item.slot_data = data
+			item.slot_data.quantity = 1
 
 
 func find_rigid_body() -> RigidBody3D:

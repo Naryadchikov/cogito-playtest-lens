@@ -387,21 +387,20 @@ func _input(event: InputEvent) -> void:
 
 
 func mouse_button_check(event):
-	match event.button_index:
-		MOUSE_BUTTON_LEFT or MOUSE_BUTTON_RIGHT:
-			if !grabbed_slot_data.inventory_item.is_droppable:
-				error_log("This item isn't droppable.")
-				return
-			if grabbed_slot_data.inventory_item.has_method("update_wieldable_data") and grabbed_slot_data.inventory_item.is_being_wielded:
-				error_log("Can't drop while wielding this item.")
+	if event.button_index == MOUSE_BUTTON_LEFT or event.button_index == MOUSE_BUTTON_RIGHT:
+		if !grabbed_slot_data.inventory_item.is_droppable:
+			error_log("This item isn't droppable.")
+			return
+		if grabbed_slot_data.inventory_item.has_method("update_wieldable_data") and grabbed_slot_data.inventory_item.is_being_wielded:
+			error_log("Can't drop while wielding this item.")
+		else:
+			if not _drop_item(grabbed_slot_data):
+				error_log("Can't drop because there isn't enough space.")
+				get_parent().player.player_interaction_component.send_hint(null, "Not enough space to drop item.")
 			else:
-				if not _drop_item(grabbed_slot_data):
-					error_log("Can't drop because there isn't enough space.")
-					get_parent().player.player_interaction_component.send_hint(null, "Not enough space to drop item.")
-				else:
-					grabbed_slot_data.create_single_slot_data(grabbed_slot_data.origin_index)
-					if grabbed_slot_data.quantity < 1:
-						grabbed_slot_data = null
+				grabbed_slot_data.create_single_slot_data(grabbed_slot_data.origin_index)
+				if grabbed_slot_data.quantity < 1:
+					grabbed_slot_data = null
 
 
 func error_log(error: String):

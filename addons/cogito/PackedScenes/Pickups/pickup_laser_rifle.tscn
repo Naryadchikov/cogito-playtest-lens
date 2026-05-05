@@ -1,11 +1,13 @@
-[gd_scene load_steps=22 format=4 uid="uid://ciil8mli32kuk"]
+[gd_scene format=4 uid="uid://ciil8mli32kuk"]
 
 [ext_resource type="Script" uid="uid://dmeh01c5ccjqc" path="res://addons/cogito/CogitoObjects/cogito_object.gd" id="1_u4ubh"]
 [ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://addons/cogito/Components/Interactions/PickupComponent.tscn" id="2_3uch0"]
 [ext_resource type="Script" uid="uid://di15gqemrkk0x" path="res://addons/cogito/InventoryPD/CustomResources/InventorySlotPD.gd" id="3_iw0du"]
 [ext_resource type="Texture2D" uid="uid://bdh5i4gqsyn72" path="res://addons/cogito/Assets/Graphics/ItemIcons/Cogito_LaserRifle_new.png" id="3_jmc02"]
+[ext_resource type="Script" uid="uid://6vgnb68cqtwh" path="res://addons/cogito/InventoryPD/CustomResources/AmmoItemPD.gd" id="4_1nwxd"]
 [ext_resource type="Script" uid="uid://bkxgkf3pj8kb8" path="res://addons/cogito/InventoryPD/CustomResources/WieldableItemPD.gd" id="4_t66im"]
 [ext_resource type="AudioStream" uid="uid://npav2p2tk10i" path="res://addons/cogito/Assets/Audio/Kenney/handleSmallLeather.ogg" id="5_1nwxd"]
+[ext_resource type="Resource" uid="uid://cvupo3p844nh2" path="res://addons/cogito/InventoryPD/Items/Cogito_LaserAmmo.tres" id="5_f34pd"]
 [ext_resource type="Texture2D" uid="uid://bidi8n5kbwi00" path="res://addons/cogito/Assets/Graphics/Crosshair_Kenney/crosshair188.png" id="6_f34pd"]
 [ext_resource type="PackedScene" uid="uid://bb8pm2nk8hwon" path="res://addons/cogito/Wieldables/laser_rifle.tscn" id="7_7eewm"]
 [ext_resource type="PackedScene" uid="uid://hb6a2o6ljd5q" path="res://addons/cogito/Components/Interactions/ExtendedPickupInteraction.tscn" id="9_j7a38"]
@@ -140,67 +142,58 @@ size = Vector3(0.0973389, 0.0952759, 0.815624)
 [sub_resource type="BoxShape3D" id="BoxShape3D_5bhcv"]
 size = Vector3(0.0973389, 0.0457916, 0.443713)
 
-[sub_resource type="Resource" id="Resource_jmc02"]
+[sub_resource type="Resource" id="Resource_f34pd"]
 resource_local_to_scene = true
 script = ExtResource("4_t66im")
 wieldable_scene = ExtResource("7_7eewm")
 wieldable_crosshair = ExtResource("6_f34pd")
-no_reload = false
 hint_on_empty = "Out of ammo."
 charge_max = 100.0
-ammo_item_name = "Laser Ammo"
+ammo_types = Array[ExtResource("4_1nwxd")]([ExtResource("5_f34pd")])
 charge_current = 100.0
 wieldable_range = 100.0
 wieldable_damage = 1.0
 name = "Laser Rifle"
 description = "Goes pew pew pew. Needs Laser Ammo to reload."
 icon = ExtResource("3_jmc02")
-is_stackable = false
-is_droppable = true
-is_unique = false
-stack_size = 0
 drop_scene = "res://addons/cogito/PackedScenes/Pickups/pickup_laser_rifle.tscn"
-item_drop_size = 0.5
-hint_text_on_use = ""
-item_size = Vector2(3, 2)
+item_size = Vector2i(3, 2)
 sound_pickup = ExtResource("5_1nwxd")
 can_auto_slot = true
 slot_number = 1
 
-[sub_resource type="Resource" id="Resource_t66im"]
+[sub_resource type="Resource" id="Resource_7eewm"]
 resource_local_to_scene = true
 script = ExtResource("3_iw0du")
-inventory_item = SubResource("Resource_jmc02")
-quantity = 1
-origin_index = -1
+inventory_item = SubResource("Resource_f34pd")
 
-[node name="Pickup_LaserRifle" type="RigidBody3D"]
+[node name="Pickup_LaserRifle" type="RigidBody3D" unique_id=461128878]
 collision_layer = 3
 script = ExtResource("1_u4ubh")
 cogito_name = ""
 
-[node name="blasterA" type="MeshInstance3D" parent="."]
+[node name="blasterA" type="MeshInstance3D" parent="." unique_id=1345166656]
 mesh = SubResource("ArrayMesh_7q03c")
 skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=420081265]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00152874, 0.0612183, 0.049839)
 shape = SubResource("BoxShape3D_80igs")
 
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="." unique_id=1645054634]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000828743, -0.113131, 0.0192451)
 shape = SubResource("BoxShape3D_xrovn")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=835480309]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00152779, 0.113251, -0.00036335)
 shape = SubResource("BoxShape3D_j854m")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="." unique_id=627563604]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00152874, 0.187482, 0.0386448)
 shape = SubResource("BoxShape3D_5bhcv")
 
-[node name="ExtendedPickupInteraction" parent="." instance=ExtResource("9_j7a38")]
+[node name="ExtendedPickupInteraction" parent="." unique_id=1947584352 instance=ExtResource("9_j7a38")]
 hold_interaction_text = "Wield"
 
-[node name="PickupComponent" parent="." instance=ExtResource("2_3uch0")]
-slot_data = SubResource("Resource_t66im")
+[node name="PickupComponent" parent="." unique_id=1784735630 instance=ExtResource("2_3uch0")]
+slot_data = SubResource("Resource_7eewm")

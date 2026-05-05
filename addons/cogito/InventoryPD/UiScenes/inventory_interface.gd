@@ -333,6 +333,11 @@ func on_inventory_button_press(inventory_data: CogitoInventory, index: int, acti
 	# When connecting to the signal, we have bind the inventory_ui so we can use that to set focus.
 	local_inventory_ui.slot_array[index].grab_focus()
 	update_grabbed_slot()
+	update_wieldable_if_equipped()
+
+
+func update_wieldable_if_equipped():
+	CogitoSceneManager._current_player_node.player_interaction_component.update_equipped()
 
 
 func update_grabbed_slot():
@@ -380,6 +385,7 @@ func _on_gui_input(event):
 			mouse_button_check(event)
 			update_grabbed_slot()
 
+
 # Rotating the item using the keyboard
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("inventory_rotate_item") and grabbed_slot_data:
@@ -387,21 +393,20 @@ func _input(event: InputEvent) -> void:
 
 
 func mouse_button_check(event):
-	match event.button_index:
-		MOUSE_BUTTON_LEFT or MOUSE_BUTTON_RIGHT:
-			if !grabbed_slot_data.inventory_item.is_droppable:
-				error_log("This item isn't droppable.")
-				return
-			if grabbed_slot_data.inventory_item.has_method("update_wieldable_data") and grabbed_slot_data.inventory_item.is_being_wielded:
-				error_log("Can't drop while wielding this item.")
+	if event.button_index == MOUSE_BUTTON_LEFT or event.button_index == MOUSE_BUTTON_RIGHT:
+		if !grabbed_slot_data.inventory_item.is_droppable:
+			error_log("This item isn't droppable.")
+			return
+		if grabbed_slot_data.inventory_item.has_method("update_wieldable_data") and grabbed_slot_data.inventory_item.is_being_wielded:
+			error_log("Can't drop while wielding this item.")
+		else:
+			if not _drop_item(grabbed_slot_data):
+				error_log("Can't drop because there isn't enough space.")
+				get_parent().player.player_interaction_component.send_hint(null, "Not enough space to drop item.")
 			else:
-				if not _drop_item(grabbed_slot_data):
-					error_log("Can't drop because there isn't enough space.")
-					get_parent().player.player_interaction_component.send_hint(null, "Not enough space to drop item.")
-				else:
-					grabbed_slot_data.create_single_slot_data(grabbed_slot_data.origin_index)
-					if grabbed_slot_data.quantity < 1:
-						grabbed_slot_data = null
+				grabbed_slot_data.create_single_slot_data(grabbed_slot_data.origin_index)
+				if grabbed_slot_data.quantity < 1:
+					grabbed_slot_data = null
 
 
 func error_log(error: String):
@@ -449,6 +454,9 @@ func _drop_item(slot_data: InventorySlotPD) -> bool:
 	
 	if dropped_item is not CogitoObject:
 		return false
+	
+	# Pass the existing data of the slot to the object, otherwise infinite ammo glitch
+	dropped_item.pass_inventory_data(slot_data.duplicate())
 		
 	var item_aabb = dropped_item.get_aabb()
 	var item_length = item_aabb.size.z
@@ -495,5 +503,4 @@ func _drop_item(slot_data: InventorySlotPD) -> bool:
 	for node in dropped_item.interaction_nodes:
 		if node.has_method("get_item_type"):
 			node.slot_data = slot_data
-
 	return true

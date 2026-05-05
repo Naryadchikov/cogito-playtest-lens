@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CombinableItemPD" load_steps=7 format=3 uid="uid://dyrad3e3t138m"]
+[gd_resource type="Resource" script_class="CombinableItemPD" format=3 uid="uid://dyrad3e3t138m"]
 
 [ext_resource type="Script" uid="uid://cpeysdr8xn5a0" path="res://addons/cogito/InventoryPD/CustomResources/CombinableItemPD.gd" id="1_u1rhg"]
 [ext_resource type="Texture2D" uid="uid://cyniwf78v5lgs" path="res://addons/cogito/Assets/Graphics/ItemIcons/ripped_page_b.png" id="1_xupyp"]

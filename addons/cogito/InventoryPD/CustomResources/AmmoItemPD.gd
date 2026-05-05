@@ -2,7 +2,7 @@ extends InventoryItemPD
 class_name AmmoItemPD
 
 @export_group("Ammo settings")
-## The amount one item addes to the target item charge. For bullets this should be 1.
+## The amount one item adds to the target item charge. For bullets this should be 1.
 @export var reload_amount : int = 1
 
 # Using method to enable other scripts to check if this is an ammo item. Used in cogito_inventory.gd.

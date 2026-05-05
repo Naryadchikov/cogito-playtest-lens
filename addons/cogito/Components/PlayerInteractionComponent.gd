@@ -530,3 +530,8 @@ func auto_equip_last_wieldable() -> void:
 
 func get_inventory() -> CogitoInventory:
 	return get_parent().inventory_data
+	
+
+func update_equipped() -> void:
+	if equipped_wieldable_item:
+		equipped_wieldable_item.update_wieldable_data(self)

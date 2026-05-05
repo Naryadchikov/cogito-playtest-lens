@@ -190,11 +190,11 @@ func drop_single_slot_data(grabbed_slot_data: InventorySlotPD, index: int) -> In
 		CogitoGlobals.debug_log(true,"cogito_inventory.gd", "drop_single_slot_data(...): grabbed item fully merged with target.")
 		#return null
 	# Logic for ammo items
-	elif slot_data.inventory_item.has_method("update_wieldable_data") and grabbed_slot_data.inventory_item.has_method("is_ammo_item") and slot_data.inventory_item.ammo_item_name == grabbed_slot_data.inventory_item.name:
+	elif slot_data.inventory_item.has_method("update_wieldable_data") and grabbed_slot_data.inventory_item.has_method("is_ammo_item") and slot_data.inventory_item.get_current_ammo().name == grabbed_slot_data.inventory_item.name:
 		CogitoGlobals.debug_log(true,"cogito_inventory.gd", "drop_single_slot_data(...): AmmoItem detected. Attempting to reload target.")
 		# Check if there's room for charge
 		if slot_data.inventory_item.charge_max - slot_data.inventory_item.charge_current >= grabbed_slot_data.inventory_item.reload_amount:
-			get_local_scene().player_interaction_component.send_hint(null,"Charging " + slot_data.inventory_item.name + " by " + str(grabbed_slot_data.inventory_item.reload_amount))
+			CogitoSceneManager._current_player_node.player_interaction_component.send_hint(null,"Charging " + slot_data.inventory_item.name + " by " + str(grabbed_slot_data.inventory_item.reload_amount))
 			slot_data.inventory_item.add(grabbed_slot_data.inventory_item.reload_amount)
 			grabbed_slot_data.quantity -= 1
 		else:

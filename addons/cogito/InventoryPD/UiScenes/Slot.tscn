@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ctbvcqq71dqyb" path="res://addons/cogito/InventoryPD/UiScenes/Slot.gd" id="1_hcuh3"]
 [ext_resource type="AudioStream" uid="uid://cr3bcp0u6w1pl" path="res://addons/cogito/Assets/Audio/Kenney/UiAudio/mouseclick1.ogg" id="2_qlqw8"]
 [ext_resource type="Theme" uid="uid://by44nnjeu6u4n" path="res://addons/cogito/Theme/Cogito_Theme_A.tres" id="3_m2h1n"]
-[ext_resource type="Texture2D" uid="uid://cxrlavhscbsem" path="res://addons/cogito/InventoryPD/UiScenes/SlotBorder.png" id="4_303ij"]
+[ext_resource type="Texture2D" uid="uid://ql5u4r1fjj6g" path="res://addons/cogito/InventoryPD/UiScenes/SlotBorder.png" id="4_303ij"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4jj7a"]
 bg_color = Color(1, 1, 1, 1)

@@ -148,11 +148,12 @@ func populate_player_data(player):
 	
 	player.is_dead = false
 	
-	player.main_velocity = self.main_velocity
-	player.last_velocity = self.last_velocity
-	player.direction = self.direction
-	
-	player.current_speed = self.current_speed
+	if CogitoSceneManager.scene_load_mode != CogitoSceneManager.CogitoSceneLoadMode.TEMP:
+		player.main_velocity = self.main_velocity
+		player.last_velocity = self.last_velocity
+		player.direction = self.direction
+		
+		player.current_speed = self.current_speed
 	
 	player.is_crouching = player.try_crouch
 

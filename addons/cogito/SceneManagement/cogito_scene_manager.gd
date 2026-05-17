@@ -279,6 +279,7 @@ func save_scene_state(_scene_name_to_save, slot: String) -> void:
 
 # Function to transition to another scene via the loading screen.
 func load_next_scene(target : String, connector_name: String, passed_slot: String, load_mode: CogitoSceneLoadMode) -> void:
+	CogitoSceneManager.scene_load_mode = load_mode
 	# fade_out()
 	var loading_screen = preload("./LoadingScene.tscn").instantiate()
 	loading_screen.next_scene_path = target

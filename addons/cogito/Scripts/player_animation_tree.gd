@@ -1,6 +1,6 @@
 extends AnimationTree
 
-@onready var cogito_player_state_driven : CogitoPlayerAdvanced = get_parent()
+@onready var cogito_player : CogitoPlayer = get_parent()
 
 @export var rig_node : Node3D
 @export var process_animations : bool = true
@@ -20,7 +20,7 @@ var relative_velocity
 var rel_velocity_xz : Vector2
 
 func _physics_process(delta: float) -> void:
-	rig_node.rotation = cogito_player_state_driven.body.rotation + Vector3(0,deg_to_rad(180),0)
+	rig_node.rotation = cogito_player.body.rotation + Vector3(0,deg_to_rad(180),0)
 	
 	if process_animations:
 		update_animations(delta)
@@ -30,13 +30,13 @@ func update_animations(_delta: float):
 
 	match current_move_state:
 		MoveState.UPRIGHT:
-			relative_velocity = cogito_player_state_driven.global_basis.inverse() * ((cogito_player_state_driven.velocity * Vector3(1,0,1)) / cogito_player_state_driven.SPRINTING_SPEED)
+			relative_velocity = cogito_player.global_basis.inverse() * ((cogito_player.velocity * Vector3(1,0,1)) / cogito_player.SPRINTING_SPEED)
 			rel_velocity_xz = Vector2(relative_velocity.x, -relative_velocity.z)
 			
 			self.set("parameters/LowerBodyState/Upright/blend_position", rel_velocity_xz)
 			
 		MoveState.CROUCHING:
-			relative_velocity = cogito_player_state_driven.global_basis.inverse() * ((cogito_player_state_driven.velocity * Vector3(1,0,1)) / cogito_player_state_driven.CROUCHING_SPEED)
+			relative_velocity = cogito_player.global_basis.inverse() * ((cogito_player.velocity * Vector3(1,0,1)) / cogito_player.CROUCHING_SPEED)
 			rel_velocity_xz = Vector2(relative_velocity.x, -relative_velocity.z)
 	
 			self.set("parameters/LowerBodyState/Crouched/blend_position", rel_velocity_xz)

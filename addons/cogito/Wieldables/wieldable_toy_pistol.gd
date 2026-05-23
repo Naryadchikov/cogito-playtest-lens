@@ -102,11 +102,14 @@ func action_secondary(is_released:bool):
 
 
 # Function called when wieldable reload is attempted
-func reload():
+func reload() -> bool:
+	if !super.reload(): return false
 	animation_player.play(anim_reload)
 	if audio_stream_player_3d and sound_reload:
 		audio_stream_player_3d.stream = sound_reload
 		audio_stream_player_3d.play()
+		
+	return true
 
 
 # Function called when wieldable change ammo is attempted

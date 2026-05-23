@@ -101,7 +101,7 @@ var input_actions = {
 	"action_primary": "INPUT_primary_action",
 	"action_secondary": "INPUT_secondary_action",
 	"interact": "INPUT_interact_1",
-	"interact2": "INPUT_interact_1",
+	"interact2": "INPUT_interact_2",
 	"reload": "INPUT_reload",
 	"change_ammo_type": "INPUT_change_ammo_type",
 	"quickslot_1": "INPUT_quickslot_1",

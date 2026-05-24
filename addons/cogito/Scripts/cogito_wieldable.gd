@@ -110,7 +110,10 @@ func reload() -> bool:
 	return true
 
 # Function called when wieldable ammo change is attempted
-func change_ammo(index: int):
+func change_ammo():
+	pass
+	
+func set_ammo_type(index: int) -> void:
 	pass
 	
 # Override this with your debug stats

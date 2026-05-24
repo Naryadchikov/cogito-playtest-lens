@@ -225,7 +225,7 @@ func equip_wieldable(wieldable_item: WieldableItemPD):
 		var wieldable_node = wieldable_item.build_wieldable_scene()
 		wieldable_container.add_child(wieldable_node)
 		equipped_wieldable_node = wieldable_node
-		equipped_wieldable_node.change_ammo(equipped_wieldable_item.current_ammo_type)
+		equipped_wieldable_node.set_ammo_type(equipped_wieldable_item.current_ammo_type)
 		equipped_wieldable_node.item_reference = wieldable_item
 		print("PIC: Found ", equipped_wieldable_item.name, " in wieldable node array: ", wieldable_node.name)
 		equipped_wieldable_node.equip(self)
@@ -270,13 +270,7 @@ func attempt_action_secondary(is_released: bool):
 
 
 func attempt_change_ammo():
-	if equipped_wieldable_node.animation_player.is_playing():
-		send_hint(null, tr("HINT_ammo_change_blocked"))
-		return
-	if(equipped_wieldable_item.switch_to_next_ammo_type()):
-		equipped_wieldable_node.change_ammo(equipped_wieldable_item.current_ammo_type)
-		equipped_wieldable_item.update_wieldable_data(self)
-		attempt_reload()
+	if equipped_wieldable_node: equipped_wieldable_node.change_ammo()
 
 
 func attempt_reload():

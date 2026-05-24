@@ -167,6 +167,10 @@ msgstr "Current Slot"
 msgid "LAB_Last_save"
 msgstr "Last save"
 
+#: addons/cogito/PackedScenes/death_screen.tscn
+msgid "BTN_Reload"
+msgstr "Reload"
+
 #: addons/cogito/EasyMenus/Scenes/PauseMenu.tscn
 msgid "BTN_Load"
 msgstr "Load"
@@ -950,6 +954,18 @@ msgid "HINT_ammo_change_blocked"
 msgstr "Can't change ammo at the moment."
 
 #: addons/cogito/EasyMenus/Scenes/main_menu.tscn
+msgid "Continue"
+msgstr "Continue"
+
+#: addons/cogito/EasyMenus/Scenes/main_menu.tscn
+msgid "New Game"
+msgstr "New Game"
+
+#: addons/cogito/EasyMenus/Scenes/main_menu.tscn
+msgid "Load"
+msgstr "Load"
+
+#: addons/cogito/EasyMenus/Scenes/main_menu.tscn
 msgid "Options"
 msgstr "Options"
 
@@ -980,6 +996,50 @@ msgstr "Lockpick"
 #: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
 msgid "Breaks easily but can come in handy."
 msgstr "Breaks easily but can come in handy."
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+msgid "TXT_EMPTY_SLOT"
+msgstr "EMPTY SLOT"
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+msgid "TXT_CURRENT_SLOT"
+msgstr "Current Slot"
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+msgid "SAVE_CONFIRMATION_DIALOG_TITLE"
+msgstr "Overwrite Save"
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+msgid "SAVE_CONFIRMATION_DIALOG_TEXT"
+msgstr ""
+"This operation cannot be undone, are you sure you want to overwrite the save?"
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+msgid "LOAD_CONFIRMATION_DIALOG_TITLE"
+msgstr "Load an old Save"
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+msgid "LOAD_CONFIRMATION_DIALOG_TEXT"
+msgstr ""
+"You will loose your current progress, Are you sure you want to load an old "
+"save?"
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+msgid "REMOVE_CONFIRMATION_DIALOG_TITLE"
+msgstr "Remove Save"
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+msgid "REMOVE_CONFIRMATION_DIALOG_TEXT"
+msgstr ""
+"This operation cannot be undone, are you sure you want to remove the save?"
 
 #~ msgid "Dart"
 #~ msgstr "Dart"

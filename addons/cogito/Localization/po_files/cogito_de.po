@@ -167,6 +167,10 @@ msgstr "Aktueller Slot"
 msgid "LAB_Last_save"
 msgstr "Letzter Speicherstand"
 
+#: addons/cogito/PackedScenes/death_screen.tscn
+msgid "BTN_Reload"
+msgstr "Neu Laden"
+
 #: addons/cogito/EasyMenus/Scenes/PauseMenu.tscn
 msgid "BTN_Load"
 msgstr "Laden"
@@ -952,6 +956,18 @@ msgid "HINT_ammo_change_blocked"
 msgstr "Munition kann momentan nicht gewechselt werden."
 
 #: addons/cogito/EasyMenus/Scenes/main_menu.tscn
+msgid "Continue"
+msgstr "Fortsetzen"
+
+#: addons/cogito/EasyMenus/Scenes/main_menu.tscn
+msgid "New Game"
+msgstr "Neues Spiel"
+
+#: addons/cogito/EasyMenus/Scenes/main_menu.tscn
+msgid "Load"
+msgstr "Laden"
+
+#: addons/cogito/EasyMenus/Scenes/main_menu.tscn
 msgid "Options"
 msgstr "Optionen"
 
@@ -982,6 +998,52 @@ msgstr "Dietrich"
 #: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
 msgid "Breaks easily but can come in handy."
 msgstr "Sehr nützlich aber ist zerbrechlich."
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+msgid "TXT_EMPTY_SLOT"
+msgstr "Freier Slot"
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+msgid "TXT_CURRENT_SLOT"
+msgstr "Der aktuelle Slot"
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+msgid "SAVE_CONFIRMATION_DIALOG_TITLE"
+msgstr "Speicherstand überschreiben"
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+msgid "SAVE_CONFIRMATION_DIALOG_TEXT"
+msgstr ""
+"Dieser Vorgang ist nicht rückgängig zu machen. Sind Sie sicher, dass Sie den "
+"Speicherstand überschreiben möchten?"
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+msgid "LOAD_CONFIRMATION_DIALOG_TITLE"
+msgstr "Alten Speicherstand laden"
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+msgid "LOAD_CONFIRMATION_DIALOG_TEXT"
+msgstr ""
+"Sie verlieren Ihren aktuellen Fortschritt. Sind Sie sicher, dass Sie einen "
+"alten Speicherstand laden möchten?"
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+msgid "REMOVE_CONFIRMATION_DIALOG_TITLE"
+msgstr "Speicherstand löschen"
+
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
+msgid "REMOVE_CONFIRMATION_DIALOG_TEXT"
+msgstr ""
+"Dieser Vorgang ist nicht rückgängig zu machen. Sind Sie sicher, dass Sie den "
+"Speicherstand löschen möchten?"
 
 #~ msgid "Dart"
 #~ msgstr "Pfeil"

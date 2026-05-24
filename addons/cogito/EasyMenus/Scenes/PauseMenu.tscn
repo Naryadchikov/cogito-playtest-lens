@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dkie3md1cmsip"]
+[gd_scene load_steps=14 format=3 uid="uid://dkie3md1cmsip"]
 
 [ext_resource type="Theme" uid="uid://by44nnjeu6u4n" path="res://addons/cogito/Theme/Cogito_Theme_A.tres" id="1_1djt0"]
 [ext_resource type="Script" uid="uid://c6ls4n4b776iy" path="res://addons/cogito/EasyMenus/Scripts/pause_menu_controller.gd" id="2_473pa"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://bg6tmerhavxb3" path="res://addons/cogito/Theme/CogitoUiButton.gd" id="6_a8sll"]
 [ext_resource type="Shader" uid="uid://wn6mnfchf1w7" path="res://addons/cogito/Assets/Shader/BlurShader.tres" id="6_fg7i3"]
 [ext_resource type="PackedScene" uid="uid://bly6wti1q8bsu" path="res://addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn" id="6_xdpcn"]
+[ext_resource type="PackedScene" uid="uid://0j1d1ysruqvf" path="res://addons/cogito/EasyMenus/Scenes/SaveLoadMenu.tscn" id="9_k8f0y"]
 [ext_resource type="Script" uid="uid://dyiaeif1d4pmo" path="res://addons/cogito/Scripts/menu_scene_switcher.gd" id="12_4c47n"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8kcia"]
@@ -29,7 +30,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_1djt0")
 script = ExtResource("2_473pa")
-nodes_to_focus = [NodePath("Content/GameMenu/VBoxContainer/ResumeGameButton")]
+nodes_to_focus = [NodePath("Content/GameMenu/VBoxContainer/SaveButton")]
 sound_hover = ExtResource("3_cekij")
 sound_click = ExtResource("4_ccwo8")
 empty_slot_texture = ExtResource("5_18sdt")
@@ -45,6 +46,7 @@ grow_vertical = 2
 texture = SubResource("PlaceholderTexture2D_gjw0g")
 
 [node name="Panel" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -148,25 +150,31 @@ theme_override_font_sizes/font_size = 16
 text = "YYYY-MM-DD HH:MM"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Content/GameMenu/VBoxContainer"]
-layout_mode = 2
-
-[node name="LoadButton" type="Button" parent="Content/GameMenu/VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-theme_override_font_sizes/font_size = 30
-text = "BTN_Load"
-script = ExtResource("6_a8sll")
-
-[node name="SaveButton" type="Button" parent="Content/GameMenu/VBoxContainer/HBoxContainer"]
+[node name="SaveButton" type="Button" parent="Content/GameMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 30
 text = "BTN_Save"
+script = ExtResource("6_a8sll")
+
+[node name="ReloadButton" type="Button" parent="Content/GameMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 30
+text = "BTN_Reload"
+script = ExtResource("6_a8sll")
+
+[node name="LoadButton" type="Button" parent="Content/GameMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 30
+text = "BTN_Load"
 script = ExtResource("6_a8sll")
 
 [node name="Separator_PanelContainer2" type="PanelContainer" parent="Content/GameMenu/VBoxContainer"]
@@ -199,14 +207,19 @@ script = ExtResource("6_a8sll")
 visible = false
 layout_mode = 2
 
+[node name="SaveLoadMenu" parent="Content" instance=ExtResource("9_k8f0y")]
+visible = false
+layout_mode = 2
+
 [node name="MenuSceneSwitcher" type="Node" parent="."]
 script = ExtResource("12_4c47n")
 main_menu_scene = "res://addons/cogito/DemoScenes/COGITO_0_MainMenu.tscn"
 
 [connection signal="back_to_main_pressed" from="." to="MenuSceneSwitcher" method="_on_pause_menu_back_to_main_pressed"]
 [connection signal="pressed" from="Content/GameMenu/VBoxContainer/ResumeGameButton" to="." method="_on_resume_game_button_pressed"]
-[connection signal="pressed" from="Content/GameMenu/VBoxContainer/HBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
-[connection signal="pressed" from="Content/GameMenu/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="Content/GameMenu/VBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="Content/GameMenu/VBoxContainer/ReloadButton" to="." method="_on_reload_button_pressed"]
+[connection signal="pressed" from="Content/GameMenu/VBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
 [connection signal="pressed" from="Content/GameMenu/VBoxContainer/OptionsButton" to="." method="open_options_menu"]
 [connection signal="pressed" from="Content/GameMenu/VBoxContainer/BackToMenuButton" to="." method="_on_back_to_menu_button_pressed"]
 [connection signal="pressed" from="Content/GameMenu/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

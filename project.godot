@@ -17,21 +17,20 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="Cogito"
 config/tags=PackedStringArray("cogito", "official")
 run/main_scene="res://addons/cogito/DemoScenes/COGITO_0_MainMenu.tscn"
-config/features=PackedStringArray("4.5", "Forward Plus")
+config/features=PackedStringArray("4.6", "Forward Plus")
 run/max_fps=120
-boot_splash/fullsize=false
+boot_splash/stretch_mode=0
 boot_splash/image="uid://ba066ltlqn7w2"
 config/icon="res://addons/cogito/COGITO_icon.png"
-boot_splash/stretch_mode=0
 
 [autoload]
 
-Audio="*res://addons/quick_audio/./Audio.gd"
-InputHelper="*res://addons/input_helper/input_helper.gd"
-CogitoGlobals="*res://addons/cogito/cogito_globals.gd"
-CogitoSceneManager="*res://addons/cogito/SceneManagement/cogito_scene_manager.gd"
-CogitoQuestManager="*res://addons/cogito/QuestSystem/cogito_quest_manager.gd"
-MenuTemplateManager="*res://addons/cogito/EasyMenus/Nodes/menu_template_manager.tscn"
+Audio="*uid://cujwm7u5pvogl"
+InputHelper="*uid://cholww48njaeh"
+CogitoGlobals="*uid://d0q71mnw6am11"
+CogitoSceneManager="*uid://dwd61hyssfy55"
+CogitoQuestManager="*uid://c33l80dv3c6c5"
+MenuTemplateManager="*uid://dru131jwwih1y"
 
 [display]
 
@@ -266,6 +265,7 @@ locale/translations_pot_files=PackedStringArray("res://addons/cogito/EasyMenus/S
 
 [rendering]
 
+rendering_device/driver.windows="d3d12"
 anti_aliasing/quality/msaa_3d=1
 
 [shader_globals]

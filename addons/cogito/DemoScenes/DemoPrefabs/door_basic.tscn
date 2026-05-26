@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://cxof5rvjpgx1l"]
+[gd_scene format=4 uid="uid://cxof5rvjpgx1l"]
 
 [ext_resource type="Script" uid="uid://cismjpvxmsbf2" path="res://addons/cogito/CogitoObjects/cogito_door.gd" id="1_h01uk"]
 [ext_resource type="AudioStream" uid="uid://bipwc8kk30bub" path="res://addons/cogito/Assets/Audio/Kenney/doorOpen_1.ogg" id="2_6abqm"]
@@ -72,28 +72,28 @@ shadow_mesh = SubResource("ArrayMesh_lewpf")
 [sub_resource type="BoxShape3D" id="BoxShape3D_jg0ik"]
 size = Vector3(0.861453, 1.97272, 0.0606445)
 
-[node name="DoorBasic" type="Node3D"]
+[node name="DoorBasic" type="Node3D" unique_id=731328248]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.44, 0, -0.054)
 
-[node name="Door" type="AnimatableBody3D" parent="."]
+[node name="Door" type="AnimatableBody3D" parent="." unique_id=1649010526 node_paths=PackedStringArray("audio_player")]
 collision_layer = 3
 script = ExtResource("1_h01uk")
 prompt_pos_mode = 2
+audio_player = NodePath("AudioStreamPlayer3D")
 open_sound = ExtResource("2_6abqm")
 close_sound = ExtResource("3_v470v")
 open_rotation = Vector3(0, -95, 0)
 door_speed = 3.0
 
-[node name="door" type="MeshInstance3D" parent="Door"]
+[node name="door" type="MeshInstance3D" parent="Door" unique_id=1407811314]
 mesh = SubResource("ArrayMesh_67fgn")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Door"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Door" unique_id=1970319439]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.428089, 0.978461, 0.000927687)
 shape = SubResource("BoxShape3D_jg0ik")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Door"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Door" unique_id=2019370606]
 volume_db = -26.0
 bus = &"SFX"
 
-[node name="BasicInteraction" parent="Door" instance=ExtResource("2_tt6sh")]
+[node name="BasicInteraction" parent="Door" unique_id=364313463 instance=ExtResource("2_tt6sh")]

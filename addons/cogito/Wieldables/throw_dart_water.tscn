@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://ojfyqud74i47"]
+[gd_scene format=4 uid="uid://ojfyqud74i47"]
 
 [ext_resource type="Script" uid="uid://buju8e0w08ct6" path="res://addons/cogito/Wieldables/wieldable_throwable.gd" id="1_njc7p"]
 [ext_resource type="AnimationLibrary" uid="uid://ddo1rrwrgerw0" path="res://addons/cogito/Wieldables/Animations/Wieldable_Dart.res" id="2_h2tw3"]
@@ -88,7 +88,7 @@ resource_name = "yellow"
 albedo_color = Color(0.00392157, 0.615686, 0.811765, 1)
 metallic = 1.0
 
-[node name="Dart_Water" type="Node3D" node_paths=PackedStringArray("wieldable_mesh")]
+[node name="Dart_Water" type="Node3D" unique_id=57359102 node_paths=PackedStringArray("wieldable_mesh")]
 script = ExtResource("1_njc7p")
 projectile_velocity = 40.0
 wieldable_mesh = NodePath("DartMesh")
@@ -96,36 +96,33 @@ anim_equip = "Dart_equip"
 anim_unequip = "Dart_unequip"
 anim_action_primary = "throw"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": ExtResource("2_h2tw3")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2140264972]
+libraries/ = ExtResource("2_h2tw3")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=2105251301]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.365219, 0, -0.153825)
 bus = &"SFX"
 
-[node name="DartMesh" type="Node3D" parent="."]
+[node name="DartMesh" type="Node3D" parent="." unique_id=1837112078]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.3, -0.2, -0.4)
 
-[node name="foamBulletB" type="MeshInstance3D" parent="DartMesh"]
+[node name="foamBulletB" type="MeshInstance3D" parent="DartMesh" unique_id=1515244210]
 transform = Transform3D(2, 0, 0, 0, 4.8, 0, 0, 0, 2, 0, 0.140953, 0)
 mesh = SubResource("ArrayMesh_k56w0")
-skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_ocmor")
 
-[node name="CSGPolygon3D" type="CSGPolygon3D" parent="DartMesh"]
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="DartMesh" unique_id=1502316381]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0, 0.01)
 polygon = PackedVector2Array(0, 0, 0.1, 0.15, 0.2, 0)
 depth = 0.02
 material = SubResource("StandardMaterial3D_a1eaf")
 
-[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="DartMesh"]
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="DartMesh" unique_id=66285784]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.01, 0, -0.1)
 polygon = PackedVector2Array(0, 0, 0.1, 0.15, 0.2, 0)
 depth = 0.02
 material = SubResource("StandardMaterial3D_laaqh")
 
-[node name="Bullet_Point" type="Node3D" parent="."]
+[node name="Bullet_Point" type="Node3D" parent="." unique_id=1254742943]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.299487, -0.201429, -1.14853)

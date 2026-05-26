@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=4 uid="uid://3se2gpg0u3wx"]
+[gd_scene format=4 uid="uid://3se2gpg0u3wx"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hp71a"]
 resource_name = "metalLight"
@@ -40,13 +40,12 @@ shadow_mesh = SubResource("ArrayMesh_p2vuo")
 [sub_resource type="BoxShape3D" id="BoxShape3D_wkk15"]
 size = Vector3(0.2, 2.25, 1.5)
 
-[node name="KSI_wall_ridges_half" type="StaticBody3D"]
+[node name="KSI_wall_ridges_half" type="StaticBody3D" unique_id=808468203]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 8.5, 3, -7)
 
-[node name="object_044" type="MeshInstance3D" parent="."]
+[node name="object_044" type="MeshInstance3D" parent="." unique_id=1212896059]
 mesh = SubResource("ArrayMesh_wwp7m")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=947095597]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 1.125, -0.75)
 shape = SubResource("BoxShape3D_wkk15")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://b006xlpa54mhl"]
+[gd_scene format=4 uid="uid://b006xlpa54mhl"]
 
 [ext_resource type="Script" uid="uid://cismjpvxmsbf2" path="res://addons/cogito/CogitoObjects/cogito_door.gd" id="1_52xoq"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://addons/cogito/Components/Interactions/BasicInteraction.tscn" id="2_oqefg"]
@@ -136,41 +136,40 @@ shadow_mesh = SubResource("ArrayMesh_2642w")
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_ehlqw"]
 data = PackedVector3Array(0.3335, 0, -0.2634, 0, 0, -0.1259, 0, 0, 0.1259, 0, 0, 0.1259, 0.3335, 0, 0.2634, 0.3335, 0, -0.2634, 0.3335, 0, 0.2634, 0.667, 0, -0.1259, 0.3335, 0, -0.2634, 0.3335, 0, 0.2634, 0.667, 0, 0.1259, 0.667, 0, -0.1259, 0.3335, 0.04, 0.245, 0.0233, 0.04, 0.1171, 0.0233, 0.04, -0.1171, 0.0233, 0.04, -0.1171, 0.3335, 0.04, -0.245, 0.3335, 0.04, 0.245, 0.3335, 0.04, -0.245, 0.6437, 0.04, 0.1171, 0.3335, 0.04, 0.245, 0.3335, 0.04, -0.245, 0.6437, 0.04, -0.1171, 0.6437, 0.04, 0.1171, 0.3335, 0.04, 0.245, 0.3335, 0, 0.2634, 0, 0, 0.1259, 0, 0, 0.1259, 0.0233, 0.04, 0.1171, 0.3335, 0.04, 0.245, 0.3335, 0, 0.2634, 0.3335, 0.04, 0.245, 0.6437, 0.04, 0.1171, 0.6437, 0.04, 0.1171, 0.667, 0, 0.1259, 0.3335, 0, 0.2634, 0.667, 0, -0.1259, 0.667, 0, 0.1259, 0.6437, 0.04, 0.1171, 0.6437, 0.04, 0.1171, 0.6437, 0.04, -0.1171, 0.667, 0, -0.1259, 0.667, 0, -0.1259, 0.6437, 0.04, -0.1171, 0.3335, 0.04, -0.245, 0.3335, 0.04, -0.245, 0.3335, 0, -0.2634, 0.667, 0, -0.1259, 0.0233, 0.04, 0.1171, 0, 0, 0.1259, 0, 0, -0.1259, 0, 0, -0.1259, 0.0233, 0.04, -0.1171, 0.0233, 0.04, 0.1171, 0.0233, 0.04, -0.1171, 0, 0, -0.1259, 0.3335, 0, -0.2634, 0.3335, 0, -0.2634, 0.3335, 0.04, -0.245, 0.0233, 0.04, -0.1171)
 
-[node name="toilet" type="Node3D"]
+[node name="toilet" type="Node3D" unique_id=301090035]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.94589, -4.84288e-08, -7.97944)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1246475549]
 collision_layer = 3
 
-[node name="toilet(Clone)" type="MeshInstance3D" parent="StaticBody3D"]
+[node name="toilet(Clone)" type="MeshInstance3D" parent="StaticBody3D" unique_id=276147380]
 transform = Transform3D(2.83122e-08, 0, -0.475, 0, 0.475, 0, 0.475, 0, 2.83122e-08, 0, 0, 0)
 mesh = SubResource("ArrayMesh_5uaw8")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1670848068]
 transform = Transform3D(2.83122e-08, 0, -0.475, 0, 0.475, 0, 0.475, 0, 2.83122e-08, 0, 0, 0)
 shape = SubResource("ConcavePolygonShape3D_2tu6n")
 
-[node name="AnimatableBody3D" type="AnimatableBody3D" parent="."]
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="." unique_id=1854606264 node_paths=PackedStringArray("audio_player")]
 transform = Transform3D(0.999998, 0, 0, 0, 0.999998, 0, 0, 0, 0.999998, 0.31255, 0.45543, 0.241883)
 collision_layer = 3
 script = ExtResource("1_52xoq")
+audio_player = NodePath("AudioStreamPlayer3D")
 open_rotation = Vector3(-91, 0, 0)
 forced_rotation_axis = 1
 door_speed = 3.6
 angle_tolerance = 1.2
 
-[node name="cover" type="MeshInstance3D" parent="AnimatableBody3D"]
+[node name="cover" type="MeshInstance3D" parent="AnimatableBody3D" unique_id=1580685171]
 transform = Transform3D(-4.37113e-08, 0, -0.999998, 0, 0.999998, 0, 0.999998, 0, -4.37113e-08, 0, 0, 0)
 mesh = SubResource("ArrayMesh_0i4uh")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D" unique_id=1932395591]
 transform = Transform3D(-4.37113e-08, 0, -0.999998, 0, 0.999998, 0, 0.999998, 0, -4.37113e-08, 0, 0, 0)
 shape = SubResource("ConcavePolygonShape3D_ehlqw")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="AnimatableBody3D"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="AnimatableBody3D" unique_id=1585508391]
 volume_db = -12.0
 bus = &"SFX"
 
-[node name="BasicInteraction" parent="AnimatableBody3D" instance=ExtResource("2_oqefg")]
+[node name="BasicInteraction" parent="AnimatableBody3D" unique_id=1192458061 instance=ExtResource("2_oqefg")]

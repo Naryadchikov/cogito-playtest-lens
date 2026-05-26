@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://gybj5d0rgtew"]
+[gd_scene format=3 uid="uid://gybj5d0rgtew"]
 
 [ext_resource type="Script" uid="uid://dmeh01c5ccjqc" path="res://addons/cogito/CogitoObjects/cogito_object.gd" id="1_xypt8"]
 [ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://addons/cogito/Components/Interactions/PickupComponent.tscn" id="2_w5iug"]
@@ -40,10 +40,8 @@ size = Vector3(0.06, 0.08, 0.01)
 resource_local_to_scene = true
 script = ExtResource("4_8qpvm")
 inventory_item = ExtResource("3_xypt8")
-quantity = 1
-origin_index = -1
 
-[node name="EnergyDrink" type="RigidBody3D"]
+[node name="EnergyDrink" type="RigidBody3D" unique_id=193901831]
 transform = Transform3D(-0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, -0.5, 0, 0, 0)
 collision_layer = 3
 sleeping = true
@@ -51,24 +49,24 @@ script = ExtResource("1_xypt8")
 cogito_name = ""
 custom_aabb = AABB(0, 0, 0, 0.3, 0.5, 0.3)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1218010250]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("CylinderShape3D_tvmxx")
 
-[node name="CSGMesh3D2" type="CSGMesh3D" parent="CollisionShape3D"]
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="CollisionShape3D" unique_id=1918327177]
 mesh = SubResource("CylinderMesh_jf5x7")
 material = SubResource("StandardMaterial3D_hnne2")
 
-[node name="CSGMesh3D" type="CSGMesh3D" parent="CollisionShape3D"]
+[node name="CSGMesh3D" type="CSGMesh3D" parent="CollisionShape3D" unique_id=129084874]
 mesh = SubResource("CylinderMesh_x4wsa")
 material = SubResource("StandardMaterial3D_a6k4s")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=260204296]
 transform = Transform3D(1, -2.98023e-08, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0.255233, -0.0386655)
 mesh = SubResource("BoxMesh_xypt8")
 skeleton = NodePath("../..")
 
-[node name="PickupComponent" parent="." instance=ExtResource("2_w5iug")]
+[node name="PickupComponent" parent="." unique_id=1252083689 instance=ExtResource("2_w5iug")]
 slot_data = SubResource("Resource_euhqr")
 
-[node name="CarryableComponent" parent="." instance=ExtResource("16_l3ffb")]
+[node name="CarryableComponent" parent="." unique_id=1022841256 instance=ExtResource("16_l3ffb")]

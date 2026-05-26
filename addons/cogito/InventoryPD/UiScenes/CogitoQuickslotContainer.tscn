@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cd3f50eloxr7h"]
+[gd_scene format=3 uid="uid://cd3f50eloxr7h"]
 
 [ext_resource type="Theme" uid="uid://by44nnjeu6u4n" path="res://addons/cogito/Theme/Cogito_Theme_A.tres" id="1_locw3"]
 [ext_resource type="Script" uid="uid://c3vt6l2s6ccqk" path="res://addons/cogito/InventoryPD/UiScenes/CogitoQuickslotContainer.gd" id="1_txypm"]
@@ -18,42 +18,42 @@ expand_margin_top = 1.0
 expand_margin_right = 1.0
 expand_margin_bottom = 1.0
 
-[node name="CogitoQuickslotContainer" type="PanelContainer"]
+[node name="CogitoQuickslotContainer" type="PanelContainer" unique_id=1915851957]
 offset_right = 64.0
 offset_bottom = 64.0
 theme = ExtResource("1_locw3")
 script = ExtResource("1_txypm")
 sound_highlight = ExtResource("2_f52r8")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1867106571]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="ItemTexture" type="TextureRect" parent="MarginContainer"]
+[node name="ItemTexture" type="TextureRect" parent="MarginContainer" unique_id=1063297934]
 layout_mode = 2
 texture = ExtResource("2_hcgid")
 expand_mode = 3
 
-[node name="LabelStackAmount" type="Label" parent="MarginContainer"]
+[node name="LabelStackAmount" type="Label" parent="MarginContainer" unique_id=892880956]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 text = "15"
 
-[node name="Selected" type="Panel" parent="."]
+[node name="Selected" type="Panel" parent="." unique_id=1651289781]
 visible = false
 layout_mode = 2
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_i4mvh")
 
-[node name="MarginContainerInputIcon" type="MarginContainer" parent="."]
+[node name="MarginContainerInputIcon" type="MarginContainer" parent="." unique_id=335291478]
 layout_mode = 2
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 10
 
-[node name="DynamicInputIcon" parent="MarginContainerInputIcon" instance=ExtResource("2_e7trw")]
+[node name="DynamicInputIcon" parent="MarginContainerInputIcon" unique_id=1431358302 instance=ExtResource("2_e7trw")]
 position = Vector2(32, 59)
 scale = Vector2(0.5, 0.5)
 action_name = "quickslot_1"

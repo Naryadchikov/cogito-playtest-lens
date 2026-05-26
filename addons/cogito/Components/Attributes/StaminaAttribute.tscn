@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://ce7bjv28uakxl"]
+[gd_scene format=3 uid="uid://ce7bjv28uakxl"]
 
 [ext_resource type="Script" uid="uid://c24eqj2bmkmrk" path="res://addons/cogito/Components/Attributes/cogito_stamina_attribute.gd" id="1_jkbcj"]
 [ext_resource type="Texture2D" uid="uid://dre2xvgfoqv28" path="res://addons/cogito/Assets/Graphics/UiIcons/Ui_Icon_Stamina.png" id="2_yabdn"]
 
-[node name="StaminaAttribute" type="Node"]
+[node name="StaminaAttribute" type="Node" unique_id=1895855978]
 script = ExtResource("1_jkbcj")
 stamina_regen_speed = 2.0
 run_exhaustion_speed = 3.0

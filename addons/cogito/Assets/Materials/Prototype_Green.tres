@@ -1,4 +1,4 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dhg1uhiq7ywn2"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dhg1uhiq7ywn2"]
 
 [ext_resource type="Texture2D" uid="uid://cgcrwmu2bs4se" path="res://addons/cogito/Assets/Textures/Prototype Textures/PNG/Green/texture_01.png" id="1_fy3pj"]
 

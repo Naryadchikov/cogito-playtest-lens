@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://b8nhffak4g0c6"]
+[gd_scene format=4 uid="uid://b8nhffak4g0c6"]
 
 [ext_resource type="Script" uid="uid://dxascatu8nd2x" path="res://addons/cogito/CogitoObjects/cogito_vehicle.gd" id="1_14400"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://addons/cogito/Components/Interactions/CarryableComponent.tscn" id="2_hg52m"]
@@ -111,7 +111,7 @@ size = Vector3(0.671021, 0.714905, 0.136169)
 [sub_resource type="BoxShape3D" id="BoxShape3D_h33nq"]
 size = Vector3(1.40192, 1.05004, 1.21932)
 
-[node name="chairDesk" type="RigidBody3D" node_paths=PackedStringArray("vehicle_node")]
+[node name="chairDesk" type="RigidBody3D" unique_id=695520690 node_paths=PackedStringArray("vehicle_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0202361, -0.543261, -0.168468)
 collision_layer = 3
 axis_lock_angular_x = true
@@ -135,51 +135,49 @@ look_marker_node_path = NodePath("Look Marker")
 sit_area_node_path = NodePath("sit_area")
 leave_node_path = NodePath("Leave Marker")
 
-[node name="chairDesk(Clone)" type="MeshInstance3D" parent="."]
+[node name="chairDesk(Clone)" type="MeshInstance3D" parent="." unique_id=572057019]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0, 0.4)
 mesh = SubResource("ArrayMesh_rldma")
-skeleton = NodePath("")
 
-[node name="chair" type="MeshInstance3D" parent="chairDesk(Clone)"]
+[node name="chair" type="MeshInstance3D" parent="chairDesk(Clone)" unique_id=1537880564]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.33495, 0.38, -0.32)
 mesh = SubResource("ArrayMesh_pqyuf")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=60381238]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03551, 0.25, 0.136572)
 shape = SubResource("BoxShape3D_n0fy8")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=299972837]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03551, 0.857452, -0.159174)
 shape = SubResource("BoxShape3D_eedpt")
 
-[node name="CarryableComponent" parent="." instance=ExtResource("2_hg52m")]
+[node name="CarryableComponent" parent="." unique_id=434057781 instance=ExtResource("2_hg52m")]
 
-[node name="ImpactSounds" parent="." instance=ExtResource("3_gk1dv")]
+[node name="ImpactSounds" parent="." unique_id=1276699054 instance=ExtResource("3_gk1dv")]
 
-[node name="BasicInteraction" parent="." instance=ExtResource("3_ag03y")]
+[node name="BasicInteraction" parent="." unique_id=823442432 instance=ExtResource("3_ag03y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0202361, 0.543261, 0.168468)
 interaction_text = "SEAT_Sit"
 
-[node name="Sit Marker" type="Marker3D" parent="."]
+[node name="Sit Marker" type="Marker3D" parent="." unique_id=1039541868]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0202361, 0.991896, 0.168468)
 
-[node name="Look Marker" type="Marker3D" parent="."]
+[node name="Look Marker" type="Marker3D" parent="." unique_id=736942408]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0202361, 0.992261, 0.889468)
 
-[node name="Leave Marker" type="Marker3D" parent="."]
+[node name="Leave Marker" type="Marker3D" parent="." unique_id=1045242673]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.119446, 0.543261, 0.863375)
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1862153764]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0202361, 0.543261, 0.168468)
 stream = ExtResource("2_tkltg")
 volume_db = -35.0
 pitch_scale = 0.5
 bus = &"SFX"
 
-[node name="sit_area" type="Area3D" parent="."]
+[node name="sit_area" type="Area3D" parent="." unique_id=345940464]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0202361, 0.543261, 0.168468)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="sit_area"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="sit_area" unique_id=482427321]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0179856, -0.188456, 0.380226)
 shape = SubResource("BoxShape3D_h33nq")

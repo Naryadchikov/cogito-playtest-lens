@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://u2b6ss4xaxp8"]
+[gd_scene format=4 uid="uid://u2b6ss4xaxp8"]
 
 [ext_resource type="Script" uid="uid://dmeh01c5ccjqc" path="res://addons/cogito/CogitoObjects/cogito_object.gd" id="1_s8epx"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://addons/cogito/Components/Interactions/CarryableComponent.tscn" id="2_gdrhw"]
@@ -60,7 +60,7 @@ stream_2/stream = ExtResource("6_aigvj")
 stream_3/stream = ExtResource("7_id6of")
 stream_4/stream = ExtResource("8_wslkh")
 
-[node name="CoffeeMug" type="RigidBody3D"]
+[node name="CoffeeMug" type="RigidBody3D" unique_id=490369351]
 transform = Transform3D(0.969501, 0, 0.245088, 0, 1, 0, -0.245088, 0, 0.969501, 0.885151, 0.851885, -0.218148)
 collision_layer = 3
 contact_monitor = true
@@ -70,20 +70,19 @@ cogito_name = ""
 display_name = "Mug"
 prompt_pos_mode = 2
 
-[node name="mug" type="MeshInstance3D" parent="."]
+[node name="mug" type="MeshInstance3D" parent="." unique_id=404362095]
 mesh = SubResource("ArrayMesh_hinl8")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2092947083]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00848603, 0.0547636, 2.38419e-05)
 shape = SubResource("CylinderShape3D_qkgo7")
 
-[node name="CarryableComponent" parent="." instance=ExtResource("2_gdrhw")]
+[node name="CarryableComponent" parent="." unique_id=902415835 instance=ExtResource("2_gdrhw")]
 carry_distance_offset = -0.7
 carrying_velocity_multiplier = 12.0
 drop_distance = 1.0
 
-[node name="ImpactSounds" parent="." instance=ExtResource("3_0m5f4")]
+[node name="ImpactSounds" parent="." unique_id=914973148 instance=ExtResource("3_0m5f4")]
 impact_sounds = SubResource("AudioStreamRandomizer_sbrbp")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

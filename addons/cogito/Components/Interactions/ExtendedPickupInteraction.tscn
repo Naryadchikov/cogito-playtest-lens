@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://hb6a2o6ljd5q"]
+[gd_scene format=3 uid="uid://hb6a2o6ljd5q"]
 
 [ext_resource type="Script" uid="uid://ceuce8wxjaoe0" path="res://addons/cogito/Components/Interactions/ExtendedPickupInteraction.gd" id="1_rllpg"]
 
-[node name="ExtendedPickupInteraction" type="Node3D"]
+[node name="ExtendedPickupInteraction" type="Node3D" unique_id=868213207]
 script = ExtResource("1_rllpg")
 separator_text = "INTERACT_hold_joiner"
 hold_time = 0.7

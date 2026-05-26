@@ -142,7 +142,7 @@ size = Vector3(0.0973389, 0.0952759, 0.815624)
 [sub_resource type="BoxShape3D" id="BoxShape3D_5bhcv"]
 size = Vector3(0.0973389, 0.0457916, 0.443713)
 
-[sub_resource type="Resource" id="Resource_f34pd"]
+[sub_resource type="Resource" id="Resource_1nwxd"]
 resource_local_to_scene = true
 script = ExtResource("4_t66im")
 wieldable_scene = ExtResource("7_7eewm")
@@ -162,10 +162,10 @@ sound_pickup = ExtResource("5_1nwxd")
 can_auto_slot = true
 slot_number = 1
 
-[sub_resource type="Resource" id="Resource_7eewm"]
+[sub_resource type="Resource" id="Resource_f34pd"]
 resource_local_to_scene = true
 script = ExtResource("3_iw0du")
-inventory_item = SubResource("Resource_f34pd")
+inventory_item = SubResource("Resource_1nwxd")
 
 [node name="Pickup_LaserRifle" type="RigidBody3D" unique_id=461128878]
 collision_layer = 3
@@ -175,7 +175,6 @@ cogito_name = ""
 
 [node name="blasterA" type="MeshInstance3D" parent="." unique_id=1345166656]
 mesh = SubResource("ArrayMesh_7q03c")
-skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=420081265]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00152874, 0.0612183, 0.049839)
@@ -197,4 +196,4 @@ shape = SubResource("BoxShape3D_5bhcv")
 hold_interaction_text = "Wield"
 
 [node name="PickupComponent" parent="." unique_id=1784735630 instance=ExtResource("2_3uch0")]
-slot_data = SubResource("Resource_7eewm")
+slot_data = SubResource("Resource_f34pd")

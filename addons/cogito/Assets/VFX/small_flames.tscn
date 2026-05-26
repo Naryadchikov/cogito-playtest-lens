@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bw16ij33r272n"]
+[gd_scene format=3 uid="uid://bw16ij33r272n"]
 
 [ext_resource type="Material" uid="uid://c71aysyxsuq0t" path="res://addons/cogito/Assets/VFX/Impacts/Materials/Mat_flare00.tres" id="1_q2s6m"]
 
@@ -32,7 +32,7 @@ hue_variation_max = 0.01
 
 [sub_resource type="QuadMesh" id="QuadMesh_h6fu1"]
 
-[node name="SmallFlames" type="GPUParticles3D"]
+[node name="SmallFlames" type="GPUParticles3D" unique_id=1322942927]
 material_override = ExtResource("1_q2s6m")
 amount = 14
 lifetime = 1.4

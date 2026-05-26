@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://3gwo23kpr58f"]
+[gd_scene format=3 uid="uid://3gwo23kpr58f"]
 
 [ext_resource type="Material" uid="uid://cprws42ycnkgk" path="res://addons/cogito/Assets/Materials/Lamp_Shade.tres" id="1_id4jn"]
 [ext_resource type="PackedScene" uid="uid://ctr7n0w3hgys7" path="res://addons/cogito/Components/LightzoneComponent.tscn" id="2_6j8r6"]
@@ -32,30 +32,30 @@ material = SubResource("StandardMaterial3D_7vl4j")
 bottom_radius = 1.0
 height = 3.0
 
-[node name="Lightzone_Lamp" type="StaticBody3D"]
+[node name="Lightzone_Lamp" type="StaticBody3D" unique_id=1223361516]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.8914, 2.9, 6.50757)
 
-[node name="Lightzone_Lampmesh" type="MeshInstance3D" parent="."]
+[node name="Lightzone_Lampmesh" type="MeshInstance3D" parent="." unique_id=1155210780]
 mesh = SubResource("CylinderMesh_c3n65")
 
-[node name="Lightzone_Lampmesh2" type="MeshInstance3D" parent="."]
+[node name="Lightzone_Lampmesh2" type="MeshInstance3D" parent="." unique_id=39881805]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0468059, 0)
 mesh = SubResource("CylinderMesh_c3n65")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_3p6l5")
 
-[node name="LightzoneComponent" parent="." instance=ExtResource("2_6j8r6")]
+[node name="LightzoneComponent" parent="." unique_id=87458457 instance=ExtResource("2_6j8r6")]
 
-[node name="CollisionShape3D" parent="LightzoneComponent" index="0"]
+[node name="CollisionShape3D" parent="LightzoneComponent" index="0" unique_id=1197691800]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5774, 0)
 shape = SubResource("CylinderShape3D_556ji")
 
-[node name="Lightzone_Ray" type="MeshInstance3D" parent="."]
+[node name="Lightzone_Ray" type="MeshInstance3D" parent="." unique_id=1690280392]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.59569, 0)
 visible = false
 mesh = SubResource("CylinderMesh_bu6wk")
 
-[node name="SpotLight3D" type="SpotLight3D" parent="."]
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=1314021983]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 light_energy = 10.0
 spot_range = 4.0

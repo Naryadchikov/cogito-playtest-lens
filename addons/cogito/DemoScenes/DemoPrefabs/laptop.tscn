@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://bmvweggv8f5p1"]
+[gd_scene format=4 uid="uid://bmvweggv8f5p1"]
 
 [ext_resource type="Script" uid="uid://dmeh01c5ccjqc" path="res://addons/cogito/CogitoObjects/cogito_object.gd" id="1_32vwr"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://addons/cogito/Components/Interactions/CarryableComponent.tscn" id="2_w8f7r"]
@@ -110,44 +110,42 @@ size = Vector3(0.525453, 0.334753, 0.0285786)
 resource_local_to_scene = true
 script = ExtResource("5_cln8f")
 inventory_item = ExtResource("4_r0qpn")
-quantity = 1
-origin_index = -1
 
-[node name="laptop" type="RigidBody3D"]
+[node name="laptop" type="RigidBody3D" unique_id=492234603]
 collision_layer = 3
 mass = 5.0
-max_contacts_reported = 4
 contact_monitor = true
+max_contacts_reported = 4
 script = ExtResource("1_32vwr")
+cogito_name = ""
 
-[node name="laptop(Clone)" type="MeshInstance3D" parent="."]
+[node name="laptop(Clone)" type="MeshInstance3D" parent="." unique_id=2136678785]
 transform = Transform3D(0.44, 0, 0, 0, 0.44, 0, 0, 0, 0.44, -0.3, 0, 0.2)
 mesh = SubResource("ArrayMesh_pndgq")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1376455370]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0370964, 0.0134146, 0.0299114)
 shape = SubResource("BoxShape3D_og60x")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1321957396]
 transform = Transform3D(1.00001, 8.9407e-08, 2.98023e-08, 0, 0.907044, 0.421036, -1.78814e-07, -0.421038, 0.907049, -0.0363583, 0.166824, -0.199015)
 shape = SubResource("BoxShape3D_78fgu")
 
-[node name="CarryableComponent" parent="." instance=ExtResource("2_w8f7r")]
+[node name="CarryableComponent" parent="." unique_id=92620179 instance=ExtResource("2_w8f7r")]
 carry_distance_offset = -1.0
 
-[node name="PickupComponent" type="Node3D" parent="."]
+[node name="PickupComponent" type="Node3D" parent="." unique_id=1099731829]
 script = ExtResource("3_cmtpl")
 slot_data = SubResource("Resource_p2x1b")
 input_map_action = "interact"
 interaction_text = "Pick up"
 
-[node name="QuestUpdaterA" type="Node3D" parent="."]
+[node name="QuestUpdaterA" type="Node3D" parent="." unique_id=1804568187]
 script = ExtResource("6_xhh5j")
 quest_to_update = ExtResource("7_ccijb")
 update_type = 1
 
-[node name="QuestUpdaterB" type="Node3D" parent="."]
+[node name="QuestUpdaterB" type="Node3D" parent="." unique_id=1526047677]
 script = ExtResource("6_xhh5j")
 quest_to_update = ExtResource("8_n8ylu")
 

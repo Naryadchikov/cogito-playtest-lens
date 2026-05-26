@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://btf6bmlgtfk1b"]
+[gd_scene format=3 uid="uid://btf6bmlgtfk1b"]
 
 [ext_resource type="Script" uid="uid://d0mrtlrl51dps" path="res://addons/cogito/Components/DynamicInputIcon.gd" id="1_7t81w"]
 [ext_resource type="Texture2D" uid="uid://cb3ul86n4etxx" path="res://addons/cogito/Assets/Graphics/InputIcons/InputIconSheet_Kenney_KeyboardMouse.png" id="1_b735f"]
@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dm35d2ykxbxko" path="res://addons/cogito/Assets/Graphics/InputIcons/InputIconSheet_Kenney_PS.png" id="5_udn8e"]
 [ext_resource type="Texture2D" uid="uid://dcbm72menf8yj" path="res://addons/cogito/Assets/Graphics/InputIcons/InputIconSheet_Kenney_SteamDeck.png" id="6_5igoc"]
 
-[node name="DynamicInputIcon" type="Sprite2D"]
+[node name="DynamicInputIcon" type="Sprite2D" unique_id=1117334266]
 position = Vector2(50, 50)
 texture = ExtResource("1_b735f")
 hframes = 12

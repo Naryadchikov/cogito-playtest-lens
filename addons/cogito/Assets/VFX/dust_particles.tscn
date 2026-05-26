@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://x4wqam8k4bq3"]
+[gd_scene format=3 uid="uid://x4wqam8k4bq3"]
 
 [ext_resource type="Texture2D" uid="uid://dumngih2norj6" path="res://addons/cogito/Assets/VFX/PointLightTransparent.png" id="1_yuav8"]
 
@@ -44,7 +44,7 @@ turbulence_enabled = true
 [sub_resource type="QuadMesh" id="QuadMesh_kgonj"]
 size = Vector2(0.05, 0.05)
 
-[node name="DustParticles" type="GPUParticles3D"]
+[node name="DustParticles" type="GPUParticles3D" unique_id=373532073]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.59043, 6.36251, -5.41756)
 material_override = SubResource("StandardMaterial3D_hqgbs")
 cast_shadow = 0

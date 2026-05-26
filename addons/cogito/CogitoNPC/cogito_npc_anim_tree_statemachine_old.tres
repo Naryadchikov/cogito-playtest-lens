@@ -1,4 +1,4 @@
-[gd_resource type="AnimationNodeStateMachine" load_steps=32 format=3 uid="uid://b058qke5wxv6m"]
+[gd_resource type="AnimationNodeStateMachine" format=3 uid="uid://b058qke5wxv6m"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_s64k0"]
 
@@ -50,6 +50,7 @@ animation = &"Punch_Enter"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5g2mp"]
 graph_offset = Vector2(-831.094, 33.9353)
+nodes/output/position = Vector2(620, 200)
 nodes/FistsRaised/node = SubResource("AnimationNodeBlend2_535ty")
 nodes/FistsRaised/position = Vector2(140, 160)
 nodes/HitTransitions/node = SubResource("AnimationNodeTransition_dxn7s")
@@ -60,8 +61,7 @@ nodes/Movement/node = SubResource("AnimationNodeBlendSpace1D_i3oyu")
 nodes/Movement/position = Vector2(-220, 120)
 nodes/RaiseFists/node = SubResource("AnimationNodeAnimation_63dnv")
 nodes/RaiseFists/position = Vector2(-280, 320)
-nodes/output/position = Vector2(620, 200)
-node_connections = [&"FistsRaised", 0, &"Movement", &"FistsRaised", 1, &"HitTransitions", &"HitTransitions", 0, &"RaiseFists", &"HitTransitions", 1, &"Hit_Chest", &"output", 0, &"FistsRaised"]
+node_connections = [&"output", 0, &"FistsRaised", &"FistsRaised", 0, &"Movement", &"FistsRaised", 1, &"HitTransitions", &"HitTransitions", 0, &"RaiseFists", &"HitTransitions", 1, &"Hit_Chest"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sbr0q"]
 animation = &"Hit_Chest"

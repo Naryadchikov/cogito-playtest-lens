@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://bekq2c16juwa1"]
+[gd_scene format=4 uid="uid://bekq2c16juwa1"]
 
 [ext_resource type="Script" uid="uid://fo2f3fr8frg4" path="res://addons/cogito/CogitoObjects/cogito_projectile.gd" id="1_4jdmy"]
 [ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://addons/cogito/Components/Interactions/PickupComponent.tscn" id="2_u01ym"]
@@ -83,10 +83,8 @@ radius = 0.05
 resource_local_to_scene = true
 script = ExtResource("4_qk8k6")
 inventory_item = ExtResource("3_ohc35")
-quantity = 1
-origin_index = -1
 
-[node name="Pickup_Dart" type="RigidBody3D"]
+[node name="Pickup_Dart" type="RigidBody3D" unique_id=89350867]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 collision_layer = 3
 continuous_cd = true
@@ -96,35 +94,34 @@ script = ExtResource("1_4jdmy")
 cogito_name = ""
 custom_aabb = AABB(0, 0, 0, 0.2, 0.3, 0.2)
 
-[node name="foamBulletB" type="MeshInstance3D" parent="."]
+[node name="foamBulletB" type="MeshInstance3D" parent="." unique_id=2046312813]
 transform = Transform3D(2, 0, 0, 0, 4.8, 0, 0, 0, 2, 0, 0.140953, 0)
 mesh = SubResource("ArrayMesh_2iosu")
-skeleton = NodePath("")
 
-[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="." unique_id=906397076]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0, 0.01)
 polygon = PackedVector2Array(0, 0, 0.1, 0.15, 0.2, 0)
 depth = 0.02
 material = SubResource("StandardMaterial3D_lrn72")
 
-[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="."]
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="." unique_id=268823576]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.01, 0, -0.1)
 polygon = PackedVector2Array(0, 0, 0.1, 0.15, 0.2, 0)
 depth = 0.02
 material = SubResource("StandardMaterial3D_lrn72")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2070976688]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, 0)
 visible = false
 shape = SubResource("CylinderShape3D_xbicr")
 
-[node name="PickupComponent" parent="." instance=ExtResource("2_u01ym")]
+[node name="PickupComponent" parent="." unique_id=493036467 instance=ExtResource("2_u01ym")]
 slot_data = SubResource("Resource_g508t")
 display_item_name = true
 
-[node name="Lifespan" type="Timer" parent="."]
+[node name="Lifespan" type="Timer" parent="." unique_id=510438288]
 
-[node name="CogitoProperties" parent="." instance=ExtResource("5_4xy2e")]
+[node name="CogitoProperties" parent="." unique_id=1009737312 instance=ExtResource("5_4xy2e")]
 material_properties = 1
 ignite_on_ready = true
 

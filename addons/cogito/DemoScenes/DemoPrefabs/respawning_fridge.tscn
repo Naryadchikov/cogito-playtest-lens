@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://ctrisi3giijcs"]
+[gd_scene format=4 uid="uid://ctrisi3giijcs"]
 
 [ext_resource type="Script" uid="uid://dbanxdnun675s" path="res://addons/cogito/CogitoObjects/cogito_lootable_container.gd" id="1_ijcjw"]
 [ext_resource type="Script" uid="uid://di15gqemrkk0x" path="res://addons/cogito/InventoryPD/CustomResources/InventorySlotPD.gd" id="2_ijcjw"]
@@ -8,10 +8,6 @@
 
 [sub_resource type="Resource" id="Resource_qpcha"]
 script = ExtResource("3_rewbh")
-grid = false
-starter_inventory = Array[ExtResource("2_ijcjw")]([])
-inventory_size = Vector2i(4, 1)
-inventory_slots = Array[ExtResource("2_ijcjw")]([])
 metadata/_custom_type_script = "uid://btnha2whsheir"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fmsn7"]
@@ -234,7 +230,7 @@ _data = {
 &"open": SubResource("Animation_pl7ih")
 }
 
-[node name="kitchenFridgeContainer" type="StaticBody3D"]
+[node name="kitchenFridgeContainer" type="StaticBody3D" unique_id=1537357903]
 collision_layer = 3
 collision_mask = 0
 script = ExtResource("1_ijcjw")
@@ -248,61 +244,56 @@ uses_animation = true
 open_animation = "open"
 use_reverse_open_as_close_anim = true
 
-[node name="kitchenFridgeLarge(Clone)" type="MeshInstance3D" parent="."]
+[node name="kitchenFridgeLarge(Clone)" type="MeshInstance3D" parent="." unique_id=976561263]
 layers = 3
 mesh = SubResource("ArrayMesh_vi82k")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="." unique_id=1322049238]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.519505, 0.921967, -0.340637)
 shape = SubResource("BoxShape3D_tdqqq")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1520089212]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.798948, 0.970656, 0.063055)
 shape = SubResource("BoxShape3D_djxtd")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="." unique_id=291109537]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.324466, 0.967389, 0.0629997)
 shape = SubResource("BoxShape3D_xudah")
 
-[node name="FridgeDoorLeft" type="AnimatableBody3D" parent="."]
+[node name="FridgeDoorLeft" type="AnimatableBody3D" parent="." unique_id=70483730]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0536883, 0.97998, 0.04)
 collision_layer = 0
 collision_mask = 0
 
-[node name="doorLeft" type="MeshInstance3D" parent="FridgeDoorLeft"]
+[node name="doorLeft" type="MeshInstance3D" parent="FridgeDoorLeft" unique_id=1093380305]
 mesh = SubResource("ArrayMesh_ejm30")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="FridgeDoorLeft"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FridgeDoorLeft" unique_id=1142542644]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.203339, -0.00302881, 0.0193481)
 shape = SubResource("BoxShape3D_djxtd")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="FridgeDoorLeft"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="FridgeDoorLeft" unique_id=1571187325]
 volume_db = -26.0
 bus = &"SFX"
 
-[node name="FridgeDoorRight" type="AnimatableBody3D" parent="."]
+[node name="FridgeDoorRight" type="AnimatableBody3D" parent="." unique_id=188950227]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.986312, 0.97998, 0.04)
 collision_layer = 0
 collision_mask = 0
 
-[node name="doorRight" type="MeshInstance3D" parent="FridgeDoorRight"]
+[node name="doorRight" type="MeshInstance3D" parent="FridgeDoorRight" unique_id=1484215066]
 mesh = SubResource("ArrayMesh_2vpsh")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="FridgeDoorRight"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FridgeDoorRight" unique_id=1227948186]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.271143, -0.00629568, 0.0192928)
 shape = SubResource("BoxShape3D_xudah")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="FridgeDoorRight"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="FridgeDoorRight" unique_id=1416424507]
 volume_db = -26.0
 bus = &"SFX"
 
-[node name="BasicInteraction" parent="." instance=ExtResource("3_esjkp")]
+[node name="BasicInteraction" parent="." unique_id=219021483 instance=ExtResource("3_esjkp")]
 interaction_text = "Interact"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_qj67x")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1349444965]
+libraries/ = SubResource("AnimationLibrary_qj67x")

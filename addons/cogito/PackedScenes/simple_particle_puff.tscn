@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bc2hryr610vgo"]
+[gd_scene format=3 uid="uid://bc2hryr610vgo"]
 
 [ext_resource type="Script" uid="uid://bu7cvtr2dwuki" path="res://addons/cogito/Scripts/particle_controller.gd" id="1_uwv56"]
 
@@ -24,7 +24,7 @@ radius = 0.1
 height = 0.2
 radial_segments = 32
 
-[node name="SimpleParticlePuff" type="GPUParticles3D" node_paths=PackedStringArray("particles")]
+[node name="SimpleParticlePuff" type="GPUParticles3D" unique_id=1577871681 node_paths=PackedStringArray("particles")]
 emitting = false
 amount = 15
 lifetime = 1.5

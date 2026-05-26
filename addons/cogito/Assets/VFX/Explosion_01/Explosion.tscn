@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bvkkotlj71pqa"]
+[gd_scene format=3 uid="uid://bvkkotlj71pqa"]
 
 [ext_resource type="Script" uid="uid://b0cad7dyjyqlb" path="res://addons/cogito/Assets/VFX/Explosion_01/explosion.gd" id="1_45qx7"]
 [ext_resource type="Shader" uid="uid://bspjwxt1hotc" path="res://addons/cogito/Assets/VFX/Explosion_01/explosion01_particle.tres" id="2_2f3gd"]
@@ -15,15 +15,15 @@ material = SubResource("ShaderMaterial_2w3i7")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_utnhs"]
 
-[node name="Explosion" type="Area3D"]
+[node name="Explosion" type="Area3D" unique_id=1428694478]
 script = ExtResource("1_45qx7")
 target_scale = Vector3(7, 7, 7)
 duration = 0.6
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2110538577]
 mesh = SubResource("SphereMesh_a4utb")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1106694491]
 shape = SubResource("SphereShape3D_utnhs")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

@@ -149,6 +149,7 @@ var ladder_on_cooldown : bool = false
 @export_group("Swim Handling")
 @export var SWIMMING_SPEED : float = 3.0
 @export var WATER_GRAVITY_COEFFICIENT = 0.25
+@export var AUTO_STAND_AFTER_SWIM : bool = false
 
 @export_group("Gamepad Properties")
 @export var JOY_DEADZONE : float = 0.25
@@ -817,6 +818,8 @@ var ledge_position : Vector3
 var ledge_collider : CollisionObject3D
 var is_in_ledge_climbing_middle_stage : bool = false
 var is_in_ledge_climbing_final_stage : bool = false
+var was_in_crouching_state_before_swim : bool = false
+var was_in_swimming_state : bool = false
 
 
 func _initialize_state_chart():
@@ -1851,6 +1854,12 @@ func _on_ladder_climbing_state_exited() -> void:
 func _on_ladder_climbing_state_physics_processing(delta: float) -> void:
 	if not is_head_in_water():
 		under_water_effect.visible = false
+	
+		if was_in_swimming_state:
+			was_in_swimming_state = false
+			if (AUTO_STAND_AFTER_SWIM or not was_in_crouching_state_before_swim) and is_in_crouching_state():
+				try_crouch = false
+				state_chart.send_event("standup")
 	else:
 		under_water_effect.visible = true
 		
@@ -2044,6 +2053,9 @@ func _on_swimming_state_entered() -> void:
 	gravity_vec = Vector3.ZERO
 	direction = Vector3.ZERO
 	
+	was_in_swimming_state = true
+	was_in_crouching_state_before_swim = is_in_crouching_state()
+	
 	try_crouch = true
 	state_chart.send_event("crouch")
 
@@ -2061,6 +2073,11 @@ func _on_swimming_state_physics_processing(delta: float) -> void:
 		under_water_effect.visible = false
 		if is_on_floor():
 			state_chart.send_event("grounded")
+			
+			if (AUTO_STAND_AFTER_SWIM or not was_in_crouching_state_before_swim) and is_in_crouching_state():
+				try_crouch = false
+				state_chart.send_event("stand_up")
+			
 			return
 	else:
 		under_water_effect.visible = true

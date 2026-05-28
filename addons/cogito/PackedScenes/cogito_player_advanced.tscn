@@ -17768,6 +17768,7 @@ HEADBOBBLE = 1
 STEP_HEIGHT_DEFAULT = Vector3(0, 0.35, 0)
 STEP_MAX_SLOPE_DEGREE = 1.0
 AUTO_STAND_AFTER_CLIMB = true
+AUTO_STAND_AFTER_SWIM = true
 
 [node name="CogtoTestCurrency" parent="." unique_id=1103055508 instance=ExtResource("5_opu5d")]
 

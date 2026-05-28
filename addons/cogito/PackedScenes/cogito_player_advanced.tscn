@@ -17789,8 +17789,8 @@ metadata/_custom_type_script = "uid://b6l8lsrktfd4b"
 decay_in_darkness = false
 
 [node name="StaminaAttribute" parent="." unique_id=835025617 instance=ExtResource("8_kodbk")]
-value_max = 500.0
-value_start = 500.0
+value_max = 60.0
+value_start = 60.0
 
 [node name="HealthAttribute" parent="." unique_id=1190688672 instance=ExtResource("9_ky5mf")]
 

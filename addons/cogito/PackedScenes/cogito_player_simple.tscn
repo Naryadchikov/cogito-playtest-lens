@@ -100,10 +100,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.45, 0)
 shape = SubResource("BoxShape3D_ut3wm")
 disabled = true
 
-[node name="StaircheckRayCast3D" type="RayCast3D" parent="." unique_id=217573426]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
-target_position = Vector3(0, -0.5, 0)
-
 [node name="CrouchRayCast" type="RayCast3D" parent="." unique_id=363999781]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
 target_position = Vector3(0, 1.6, 0)

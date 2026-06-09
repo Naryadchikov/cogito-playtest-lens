@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cj0yaeh3yg7tu"]
+[gd_scene format=3 uid="uid://cj0yaeh3yg7tu"]
 
 [ext_resource type="Script" uid="uid://cmmg3437o2ary" path="res://addons/cogito/Components/Properties/cogito_properties.gd" id="1_c2uds"]
 [ext_resource type="AudioStream" uid="uid://dmt7stt0c6uup" path="res://addons/cogito/Assets/Audio/524306_bertsz_flame_ignite.ogg" id="2_1flcd"]
@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cfxd8tbelqpj3" path="res://addons/cogito/Assets/VFX/water_dripping.tscn" id="5_q8wvd"]
 [ext_resource type="AudioStream" uid="uid://cae02puivv4dg" path="res://addons/cogito/Assets/Audio/666290_ekrcoaster_water_hot_surface_short.ogg" id="6_n0f07"]
 
-[node name="CogitoProperties" type="Node3D"]
+[node name="CogitoProperties" type="Node3D" unique_id=1277674802]
 script = ExtResource("1_c2uds")
 reaction_threshold_time = 3.0
 spawn_on_ignite = ExtResource("4_qrjgj")
@@ -18,13 +18,13 @@ audio_igniting = ExtResource("2_1flcd")
 audio_burning = ExtResource("3_f6gd1")
 audio_extinguishing = ExtResource("6_n0f07")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1140233479]
 volume_db = -6.0
 max_distance = 30.0
 bus = &"SFX"
 
-[node name="DamageTimer" type="Timer" parent="."]
+[node name="DamageTimer" type="Timer" parent="." unique_id=1052222123]
 one_shot = true
 
-[node name="ReactionTimer" type="Timer" parent="."]
+[node name="ReactionTimer" type="Timer" parent="." unique_id=163855991]
 one_shot = true

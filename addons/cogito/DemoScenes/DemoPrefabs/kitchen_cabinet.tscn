@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://daeim2lleyosd"]
+[gd_scene format=4 uid="uid://daeim2lleyosd"]
 
 [ext_resource type="Script" uid="uid://cismjpvxmsbf2" path="res://addons/cogito/CogitoObjects/cogito_door.gd" id="1_1t6vp"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://addons/cogito/Components/Interactions/BasicInteraction.tscn" id="2_hrf4i"]
@@ -156,43 +156,42 @@ shadow_mesh = SubResource("ArrayMesh_oq3xn")
 [sub_resource type="BoxShape3D" id="BoxShape3D_degtl"]
 size = Vector3(0.747883, 0.552597, 0.0376404)
 
-[node name="kitchenCabinet" type="Node3D"]
+[node name="kitchenCabinet" type="Node3D" unique_id=172942829]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=28202884]
 collision_layer = 3
 
-[node name="kitchenCabinet(Clone)" type="MeshInstance3D" parent="StaticBody3D"]
+[node name="kitchenCabinet(Clone)" type="MeshInstance3D" parent="StaticBody3D" unique_id=643257983]
 mesh = SubResource("ArrayMesh_80vp1")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=165536475]
 shape = SubResource("ConcavePolygonShape3D_tth07")
 
-[node name="CabinetDoor" type="AnimatableBody3D" parent="." node_paths=PackedStringArray("prompt_marker")]
+[node name="CabinetDoor" type="AnimatableBody3D" parent="." unique_id=1360470325 node_paths=PackedStringArray("prompt_marker", "audio_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.054, 0.17, -0.06)
 collision_layer = 3
 script = ExtResource("1_1t6vp")
 prompt_pos_mode = 1
 prompt_marker = NodePath("PromptMarker")
+audio_player = NodePath("AudioStreamPlayer3D")
 open_sound = ExtResource("2_uqpdi")
 close_sound = ExtResource("3_rgsat")
 open_rotation = Vector3(0, -88, 0)
 door_speed = 3.0
 
-[node name="door" type="MeshInstance3D" parent="CabinetDoor"]
+[node name="door" type="MeshInstance3D" parent="CabinetDoor" unique_id=857415101]
 mesh = SubResource("ArrayMesh_x3j26")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CabinetDoor"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CabinetDoor" unique_id=360803322]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.375784, 0.27742, 0.00124168)
 shape = SubResource("BoxShape3D_degtl")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="CabinetDoor"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="CabinetDoor" unique_id=323263062]
 volume_db = -26.0
 bus = &"SFX"
 
-[node name="BasicInteraction" parent="CabinetDoor" instance=ExtResource("2_hrf4i")]
+[node name="BasicInteraction" parent="CabinetDoor" unique_id=1870574220 instance=ExtResource("2_hrf4i")]
 
-[node name="PromptMarker" type="Marker3D" parent="CabinetDoor"]
+[node name="PromptMarker" type="Marker3D" parent="CabinetDoor" unique_id=1829987498]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.577348, 0.439955, 0.0284619)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bab56bf0vqfss"]
+[gd_scene format=3 uid="uid://bab56bf0vqfss"]
 
 [ext_resource type="Script" uid="uid://dmeh01c5ccjqc" path="res://addons/cogito/CogitoObjects/cogito_object.gd" id="1_ab3qi"]
 [ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://addons/cogito/Components/Interactions/PickupComponent.tscn" id="2_5yg6i"]
@@ -47,36 +47,34 @@ radius = 0.1
 resource_local_to_scene = true
 script = ExtResource("3_12bow")
 inventory_item = ExtResource("2_hmjxw")
-quantity = 1
-origin_index = -1
 
-[node name="Pickup_Battery" type="RigidBody3D"]
+[node name="Pickup_Battery" type="RigidBody3D" unique_id=765139494]
 collision_layer = 3
 script = ExtResource("1_ab3qi")
 cogito_name = "Battery"
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1282992854]
 mesh = SubResource("CylinderMesh_jpa6y")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_bflwk")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=227899024]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
 mesh = SubResource("CylinderMesh_45n87")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_bkxj7")
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=961006234]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21, 0)
 mesh = SubResource("CylinderMesh_gicqu")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_63ixj")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=194458810]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0504714, 0)
 shape = SubResource("CylinderShape3D_emdw8")
 
-[node name="PickupComponent" parent="." instance=ExtResource("2_5yg6i")]
+[node name="PickupComponent" parent="." unique_id=1181753482 instance=ExtResource("2_5yg6i")]
 slot_data = SubResource("Resource_ytnlk")
 
-[node name="CarryableComponent" parent="." instance=ExtResource("5_q7tof")]
+[node name="CarryableComponent" parent="." unique_id=631390681 instance=ExtResource("5_q7tof")]

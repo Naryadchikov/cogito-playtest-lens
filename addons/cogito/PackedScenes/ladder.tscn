@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://i7fum2jx3ac3"]
+[gd_scene format=4 uid="uid://i7fum2jx3ac3"]
 
 [ext_resource type="Script" uid="uid://bp06mso73qjs8" path="res://addons/cogito/Scripts/ladder_area.gd" id="1_odht7"]
 
@@ -45,23 +45,22 @@ shadow_mesh = SubResource("ArrayMesh_s5jyy")
 [sub_resource type="BoxShape3D" id="BoxShape3D_xagqk"]
 size = Vector3(0.8, 3.03359, 0.1)
 
-[node name="Ladder" type="Area3D" node_paths=PackedStringArray("ladder_collision")]
+[node name="Ladder" type="Area3D" unique_id=439370334 node_paths=PackedStringArray("ladder_collision")]
 transform = Transform3D(-2.98023e-08, 0, -1, 0, 1, 0, 1, 0, -2.98023e-08, -18.4395, 1.6, -4.87125)
 script = ExtResource("1_odht7")
 ladder_collision = NodePath("ladder")
 
-[node name="ladderArea" type="CollisionShape3D" parent="."]
+[node name="ladderArea" type="CollisionShape3D" parent="." unique_id=1032199709]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, 0)
 shape = SubResource("BoxShape3D_rj7xk")
 
-[node name="ladder" type="StaticBody3D" parent="."]
+[node name="ladder" type="StaticBody3D" parent="." unique_id=633178670]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 
-[node name="generated(Clone)" type="MeshInstance3D" parent="ladder"]
+[node name="generated(Clone)" type="MeshInstance3D" parent="ladder" unique_id=2114829112]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 mesh = SubResource("ArrayMesh_1gmdl")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ladder"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ladder" unique_id=1511219512]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00152588, -0.0832032, 0)
 shape = SubResource("BoxShape3D_xagqk")

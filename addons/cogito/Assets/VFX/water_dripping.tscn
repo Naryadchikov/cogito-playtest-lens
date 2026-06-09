@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cfxd8tbelqpj3"]
+[gd_scene format=3 uid="uid://cfxd8tbelqpj3"]
 
 [ext_resource type="Texture2D" uid="uid://bl66h6wddat6m" path="res://addons/cogito/Assets/VFX/Impacts/Textures/Drop.png" id="1_r5bra"]
 
@@ -42,7 +42,7 @@ color_ramp = SubResource("GradientTexture1D_qaki8")
 
 [sub_resource type="QuadMesh" id="QuadMesh_h6fu1"]
 
-[node name="WaterDripping" type="GPUParticles3D"]
+[node name="WaterDripping" type="GPUParticles3D" unique_id=1647451]
 material_override = SubResource("StandardMaterial3D_avvni")
 amount = 13
 lifetime = 1.3

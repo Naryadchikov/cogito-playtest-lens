@@ -174,6 +174,7 @@ func _play_footstep(profile : AudioStreamRandomizer, interaction_type: String):
 		var LandingVolume = playerNode.LandingVolume
 		var LandingPitch = playerNode.LandingPitch
 		var LandingPlayer = Audio.play_sound_3d(profile, false)
+		LandingPlayer.bus = "SFX"
 		LandingPlayer.pitch_scale = LandingPitch
 		LandingPlayer.volume_db = LandingVolume
 		LandingPlayer.global_position = global_position

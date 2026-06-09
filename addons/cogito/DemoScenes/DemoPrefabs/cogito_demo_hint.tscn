@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c2t21qbkevaof"]
+[gd_scene format=3 uid="uid://c2t21qbkevaof"]
 
 [ext_resource type="Script" uid="uid://d041v6palciio" path="res://addons/cogito/CogitoObjects/cogito_static_interactable.gd" id="1_vm8jf"]
 [ext_resource type="Texture2D" uid="uid://bsnnl3lj58bwg" path="res://addons/cogito/Assets/Graphics/CogitoIconSeparated/COGITO_icon_layer_01.png" id="2_47x5t"]
@@ -32,15 +32,15 @@ albedo_color = Color(0.258824, 0.780392, 0.921569, 1)
 metallic = 1.0
 metallic_specular = 1.0
 
-[node name="COGITO_HINT" type="StaticBody3D"]
+[node name="COGITO_HINT" type="StaticBody3D" unique_id=1369460404]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0)
-collision_layer = 2
+collision_layer = 8
 script = ExtResource("1_vm8jf")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=455994883]
 shape = SubResource("SphereShape3D_n25yf")
 
-[node name="Sprite3D_01" type="Sprite3D" parent="."]
+[node name="Sprite3D_01" type="Sprite3D" parent="." unique_id=911028709]
 transform = Transform3D(-4.37114e-09, -0.1, 0, -4.37114e-09, 1.91069e-16, 0.1, -0.1, 4.37114e-09, -4.37114e-09, 0, 0, 0)
 texture = ExtResource("2_47x5t")
 script = ExtResource("3_04ruj")
@@ -48,29 +48,29 @@ rotation_axis = Vector3(0, 0, 1)
 rotation_speed = 1.2
 is_rotating = true
 
-[node name="Sprite3D_02" type="Sprite3D" parent="."]
+[node name="Sprite3D_02" type="Sprite3D" parent="." unique_id=1012198280]
 transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0, 0)
 texture = ExtResource("4_j2t2d")
 script = ExtResource("3_04ruj")
 rotation_axis = Vector3(-1, 0, 0)
 is_rotating = true
 
-[node name="Sprite3D03" type="Sprite3D" parent="."]
+[node name="Sprite3D03" type="Sprite3D" parent="." unique_id=1562210941]
 transform = Transform3D(-4.37114e-09, -0.1, 0, -4.37114e-09, 1.91069e-16, 0.1, -0.1, 4.37114e-09, -4.37114e-09, 0, 0, 0)
 texture = ExtResource("5_66ruk")
 script = ExtResource("3_04ruj")
 is_rotating = true
 
-[node name="Center" type="MeshInstance3D" parent="."]
+[node name="Center" type="MeshInstance3D" parent="." unique_id=1551746943]
 mesh = SubResource("SphereMesh_y1mbc")
 surface_material_override/0 = SubResource("StandardMaterial3D_sarwu")
 
-[node name="Stick" type="MeshInstance3D" parent="."]
+[node name="Stick" type="MeshInstance3D" parent="." unique_id=1544582672]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.1, 0, 0)
 mesh = SubResource("CylinderMesh_opjhk")
 surface_material_override/0 = SubResource("StandardMaterial3D_3gbm3")
 
-[node name="ReadableComponent" parent="." instance=ExtResource("6_1xwxr")]
+[node name="ReadableComponent" parent="." unique_id=1768800036 instance=ExtResource("6_1xwxr")]
 interact_sound = ExtResource("7_bb2nk")
 readable_title = "Demo Hint"
 readable_content = "You've found a Demo Hint!

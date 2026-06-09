@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://dlm5kc3g1g18h"]
+[gd_scene format=4 uid="uid://dlm5kc3g1g18h"]
 
 [ext_resource type="Script" uid="uid://fo2f3fr8frg4" path="res://addons/cogito/CogitoObjects/cogito_projectile.gd" id="1_c4027"]
 [ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://addons/cogito/Components/Interactions/PickupComponent.tscn" id="2_kvhv2"]
@@ -93,46 +93,44 @@ radius = 0.05
 resource_local_to_scene = true
 script = ExtResource("4_ba3i6")
 inventory_item = ExtResource("3_4qh6n")
-quantity = 1
-origin_index = -1
 
-[node name="Pickup_Dart_Water" type="RigidBody3D"]
+[node name="Pickup_Dart_Water" type="RigidBody3D" unique_id=369156378]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 collision_layer = 3
 continuous_cd = true
 contact_monitor = true
 max_contacts_reported = 10
 script = ExtResource("1_c4027")
+cogito_name = ""
 custom_aabb = AABB(0, 0, 0, 0.2, 0.3, 0.2)
 
-[node name="foamBulletB" type="MeshInstance3D" parent="."]
+[node name="foamBulletB" type="MeshInstance3D" parent="." unique_id=220205535]
 transform = Transform3D(2, 0, 0, 0, 4.8, 0, 0, 0, 2, 0, 0.140953, 0)
 mesh = SubResource("ArrayMesh_2iosu")
-skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_k6mko")
 
-[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="." unique_id=290267762]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0, 0.01)
 polygon = PackedVector2Array(0, 0, 0.1, 0.15, 0.2, 0)
 depth = 0.02
 material = SubResource("StandardMaterial3D_v8l8n")
 
-[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="."]
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="." unique_id=332958429]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.01, 0, -0.1)
 polygon = PackedVector2Array(0, 0, 0.1, 0.15, 0.2, 0)
 depth = 0.02
 material = SubResource("StandardMaterial3D_ftr3x")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1482445332]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, 0)
 shape = SubResource("CylinderShape3D_xbicr")
 
-[node name="PickupComponent" parent="." instance=ExtResource("2_kvhv2")]
+[node name="PickupComponent" parent="." unique_id=1006426381 instance=ExtResource("2_kvhv2")]
 slot_data = SubResource("Resource_ikxca")
 
-[node name="Lifespan" type="Timer" parent="."]
+[node name="Lifespan" type="Timer" parent="." unique_id=188976224]
 
-[node name="CogitoProperties" parent="." instance=ExtResource("5_5fw3h")]
+[node name="CogitoProperties" parent="." unique_id=1191848517 instance=ExtResource("5_5fw3h")]
 elemental_properties = 4
 material_properties = 1
 

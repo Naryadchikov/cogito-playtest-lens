@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://5iifh2dc07ai"]
+[gd_scene format=4 uid="uid://5iifh2dc07ai"]
 
 [ext_resource type="Script" uid="uid://dmeh01c5ccjqc" path="res://addons/cogito/CogitoObjects/cogito_object.gd" id="1_gc46u"]
 [ext_resource type="Texture2D" uid="uid://bgeywot8vygsa" path="res://addons/cogito/Assets/Graphics/CogitoIconSeparated/COGITO_icon_layer_00.png" id="2_ka3nw"]
@@ -114,34 +114,32 @@ size = Vector3(0.525453, 0.334753, 0.0285786)
 [sub_resource type="Resource" id="Resource_a3f7g"]
 script = ExtResource("10_t0b0h")
 inventory_item = ExtResource("9_hxd45")
-quantity = 1
-origin_index = -1
 
-[node name="laptop_real" type="RigidBody3D"]
+[node name="laptop_real" type="RigidBody3D" unique_id=578159796]
 collision_layer = 3
 mass = 5.0
-max_contacts_reported = 4
 contact_monitor = true
+max_contacts_reported = 4
 script = ExtResource("1_gc46u")
+cogito_name = ""
 
-[node name="laptop(Clone)" type="MeshInstance3D" parent="."]
+[node name="laptop(Clone)" type="MeshInstance3D" parent="." unique_id=590258826]
 transform = Transform3D(0.44, 0, 0, 0, 0.44, 0, 0, 0, 0.44, -0.257718, 0.00429514, 0.262077)
 mesh = SubResource("ArrayMesh_pndgq")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1142756164]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00518537, 0.0177098, 0.0919888)
 shape = SubResource("BoxShape3D_og60x")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=665822560]
 transform = Transform3D(1.00001, 8.9407e-08, 2.98023e-08, 0, 0.907044, 0.421036, -1.78814e-07, -0.421038, 0.907049, 0.00592363, 0.171119, -0.136937)
 shape = SubResource("BoxShape3D_78fgu")
 
-[node name="Sprite3D_00" type="Sprite3D" parent="."]
+[node name="Sprite3D_00" type="Sprite3D" parent="." unique_id=714345918]
 transform = Transform3D(0.0499873, 0.00110409, 0.000234269, -0.00110409, 0.0456798, 0.0203013, 0.000234265, -0.0203013, 0.0456925, 0.0117176, 0.172167, -0.123699)
 texture = ExtResource("2_ka3nw")
 
-[node name="Sprite3D_01" type="Sprite3D" parent="."]
+[node name="Sprite3D_01" type="Sprite3D" parent="." unique_id=1974955024]
 transform = Transform3D(0.0499873, 0.00110409, 0.000234269, -0.00110409, 0.0456798, 0.0203013, 0.000234265, -0.0203013, 0.0456925, 0.0113151, 0.173136, -0.122865)
 texture = ExtResource("3_4e5kp")
 script = ExtResource("4_u78ou")
@@ -149,35 +147,35 @@ rotation_axis = Vector3(0, 0, 1)
 rotation_speed = 1.2
 is_rotating = true
 
-[node name="Sprite3D_02" type="Sprite3D" parent="."]
+[node name="Sprite3D_02" type="Sprite3D" parent="." unique_id=1921977860]
 transform = Transform3D(0.0499873, 0.00110409, 0.000234269, -0.00110409, 0.0456798, 0.0203013, 0.000234265, -0.0203013, 0.0456925, 0.0113151, 0.173136, -0.122865)
 texture = ExtResource("5_ukdn4")
 script = ExtResource("4_u78ou")
 rotation_axis = Vector3(0, 0, -1)
 is_rotating = true
 
-[node name="Sprite3D03" type="Sprite3D" parent="."]
+[node name="Sprite3D03" type="Sprite3D" parent="." unique_id=522590818]
 transform = Transform3D(0.0499873, 0.00110409, 0.000234269, -0.00110409, 0.0456798, 0.0203013, 0.000234265, -0.0203013, 0.0456925, 0.0113334, 0.173885, -0.1222)
 texture = ExtResource("6_4mu01")
 
-[node name="CarryableComponent" parent="." instance=ExtResource("7_g00h4")]
+[node name="CarryableComponent" parent="." unique_id=510525310 instance=ExtResource("7_g00h4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0422819, 0.00429514, 0.0620775)
 carry_distance_offset = -1.0
 
-[node name="PickupComponent" type="Node3D" parent="."]
+[node name="PickupComponent" type="Node3D" parent="." unique_id=1274089076]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0422819, 0.00429514, 0.0620775)
 script = ExtResource("8_klji4")
 slot_data = SubResource("Resource_a3f7g")
 input_map_action = "interact"
 interaction_text = "Pick up"
 
-[node name="QuestUpdaterA" type="Node3D" parent="."]
+[node name="QuestUpdaterA" type="Node3D" parent="." unique_id=1731907321]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0422819, 0.00429514, 0.0620775)
 script = ExtResource("11_h7tya")
 quest_to_update = ExtResource("12_45rln")
 update_type = 1
 
-[node name="QuestUpdaterB" type="Node3D" parent="."]
+[node name="QuestUpdaterB" type="Node3D" parent="." unique_id=84409903]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0422819, 0.00429514, 0.0620775)
 script = ExtResource("11_h7tya")
 quest_to_update = ExtResource("13_244hp")

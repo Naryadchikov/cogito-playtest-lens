@@ -985,6 +985,18 @@ msgid "Load"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/main_menu.tscn
+msgid "Continue"
+msgstr ""
+
+#: addons/cogito/EasyMenus/Scenes/main_menu.tscn
+msgid "New Game"
+msgstr ""
+
+#: addons/cogito/EasyMenus/Scenes/main_menu.tscn
+msgid "Load"
+msgstr ""
+
+#: addons/cogito/EasyMenus/Scenes/main_menu.tscn
 msgid "Options"
 msgstr ""
 

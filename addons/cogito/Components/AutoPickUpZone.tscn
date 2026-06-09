@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cga0lxak2u2oq"]
+[gd_scene format=3 uid="uid://cga0lxak2u2oq"]
 
 [ext_resource type="Script" uid="uid://cdb13dwh8heay" path="res://addons/cogito/Components/AutoPickUpZone.gd" id="1_nbis2"]
 [ext_resource type="Script" uid="uid://dog0pawpwd55d" path="res://addons/cogito/InventoryPD/CustomResources/InventoryItemPD.gd" id="2_ulsma"]
@@ -14,17 +14,17 @@ radius = 0.75
 height = 1.0
 radius = 0.75
 
-[node name="AutoPickUpZone" type="Area3D"]
+[node name="AutoPickUpZone" type="Area3D" unique_id=457117812]
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_nbis2")
 auto_pick_up_items = Array[ExtResource("2_ulsma")]([ExtResource("3_jp7wc"), ExtResource("4_mlplg"), ExtResource("5_3whxy")])
 
-[node name="StandingZone" type="CollisionShape3D" parent="."]
+[node name="StandingZone" type="CollisionShape3D" parent="." unique_id=2146770688]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 shape = SubResource("CylinderShape3D_cn2h2")
 
-[node name="CrouchingZone" type="CollisionShape3D" parent="."]
+[node name="CrouchingZone" type="CollisionShape3D" parent="." unique_id=1653758046]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("CylinderShape3D_fawea")
 

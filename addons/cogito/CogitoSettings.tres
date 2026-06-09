@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CogitoSettings" load_steps=4 format=3 uid="uid://ds73ojp51jrk0"]
+[gd_resource type="Resource" script_class="CogitoSettings" format=3 uid="uid://ds73ojp51jrk0"]
 
 [ext_resource type="Script" uid="uid://o06hnwjtbmie" path="res://addons/cogito/cogito_settings.gd" id="1_usejk"]
 [ext_resource type="PackedScene" uid="uid://e31n36p8i6an" path="res://addons/cogito/DemoScenes/COGITO_3_Lobby.tscn" id="1_xsjm0"]

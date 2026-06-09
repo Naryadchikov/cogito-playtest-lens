@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://dxxemvynrimqw"]
+[gd_scene format=4 uid="uid://dxxemvynrimqw"]
 
 [ext_resource type="Script" uid="uid://dstu6gw2ftyri" path="res://addons/cogito/Wieldables/wieldable_pickaxe.gd" id="1_hb7ed"]
 [ext_resource type="AudioStream" uid="uid://ocm2blyfthyq" path="res://addons/cogito/Assets/Audio/Kenney/woosh1.ogg" id="2_hp6wh"]
@@ -75,7 +75,7 @@ shadow_mesh = SubResource("ArrayMesh_1wmi8")
 [sub_resource type="BoxShape3D" id="BoxShape3D_5dkwl"]
 size = Vector3(0.2, 0.2, 0.2)
 
-[node name="Pickaxe" type="Node3D" node_paths=PackedStringArray("damage_area", "wieldable_mesh")]
+[node name="Pickaxe" type="Node3D" unique_id=1643863376 node_paths=PackedStringArray("damage_area", "wieldable_mesh")]
 transform = Transform3D(-3.61999e-06, 0, 1, 0, 1, 0, -1, 0, -3.61999e-06, 0.325805, -0.279839, -0.531526)
 script = ExtResource("1_hb7ed")
 damage_area = NodePath("PickaxeMesh/DamageArea")
@@ -84,24 +84,21 @@ swing_sound = ExtResource("2_hp6wh")
 wieldable_mesh = NodePath("PickaxeMesh")
 anim_action_primary = "swing"
 
-[node name="PickaxeMesh" type="Node3D" parent="."]
+[node name="PickaxeMesh" type="Node3D" parent="." unique_id=1385891746]
 
-[node name="toolPickaxe" type="MeshInstance3D" parent="PickaxeMesh"]
+[node name="toolPickaxe" type="MeshInstance3D" parent="PickaxeMesh" unique_id=804254536]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0414924, -0.1011, 1.49012e-07)
 mesh = SubResource("ArrayMesh_nn555")
-skeleton = NodePath("")
 
-[node name="DamageArea" type="Area3D" parent="PickaxeMesh"]
+[node name="DamageArea" type="Area3D" parent="PickaxeMesh" unique_id=1328730555]
 monitoring = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="PickaxeMesh/DamageArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PickaxeMesh/DamageArea" unique_id=1314390190]
 transform = Transform3D(1, 0, -5.13865e-11, 0, 1, 0, 5.13865e-11, 0, 1, 0.304825, 0.538461, 0.00173935)
 shape = SubResource("BoxShape3D_5dkwl")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1426511849]
 bus = &"SFX"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": ExtResource("3_cqo2g")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=536173462]
+libraries/ = ExtResource("3_cqo2g")

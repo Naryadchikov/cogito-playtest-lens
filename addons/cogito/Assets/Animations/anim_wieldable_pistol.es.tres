@@ -1,4 +1,4 @@
-[gd_resource type="AnimationLibrary" load_steps=10 format=3 uid="uid://cbfutvkb1x3kr"]
+[gd_resource type="AnimationLibrary" format=3 uid="uid://cbfutvkb1x3kr"]
 
 [sub_resource type="Animation" id="Animation_w18h4"]
 resource_name = "Flashlight_equip"
@@ -623,13 +623,13 @@ tracks/5/keys = {
 
 [resource]
 _data = {
-"Flashlight_equip": SubResource("Animation_w18h4"),
-"Flashlight_reload": SubResource("Animation_iovae"),
-"Flashlight_unequip": SubResource("Animation_yikmx"),
-"Flashlight_use": SubResource("Animation_05qfx"),
-"Pistol_equip": SubResource("Animation_5rema"),
-"Pistol_reload": SubResource("Animation_jrl8j"),
-"Pistol_shoot": SubResource("Animation_7p84j"),
-"Pistol_unequip": SubResource("Animation_3fgpw"),
-"RESET": SubResource("Animation_et2q2")
+&"Flashlight_equip": SubResource("Animation_w18h4"),
+&"Flashlight_reload": SubResource("Animation_iovae"),
+&"Flashlight_unequip": SubResource("Animation_yikmx"),
+&"Flashlight_use": SubResource("Animation_05qfx"),
+&"Pistol_equip": SubResource("Animation_5rema"),
+&"Pistol_reload": SubResource("Animation_jrl8j"),
+&"Pistol_shoot": SubResource("Animation_7p84j"),
+&"Pistol_unequip": SubResource("Animation_3fgpw"),
+&"RESET": SubResource("Animation_et2q2")
 }

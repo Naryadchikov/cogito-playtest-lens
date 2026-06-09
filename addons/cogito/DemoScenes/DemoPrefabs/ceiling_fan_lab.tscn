@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://b76etfjjltnts"]
+[gd_scene format=4 uid="uid://b76etfjjltnts"]
 
 [ext_resource type="Script" uid="uid://bxr2onwa06jra" path="res://addons/cogito/Scripts/cogito_rotator_tool.gd" id="3_ft8vw"]
 
@@ -135,16 +135,15 @@ resource_name = "metalLight"
 albedo_color = Color(0.918013, 0.929502, 0.9647, 1)
 emission_enabled = true
 
-[node name="CeilingFan_Lab" type="Node3D"]
+[node name="CeilingFan_Lab" type="Node3D" unique_id=1606222752]
 
-[node name="KSI_pipe_long" type="Node3D" parent="."]
+[node name="KSI_pipe_long" type="Node3D" parent="." unique_id=1963536173]
 transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 0.999999, -0.0758103, 0.000451684, 0.0789314)
 
-[node name="object_077" type="MeshInstance3D" parent="KSI_pipe_long"]
+[node name="object_077" type="MeshInstance3D" parent="KSI_pipe_long" unique_id=987079962]
 mesh = SubResource("ArrayMesh_kth2g")
-skeleton = NodePath("")
 
-[node name="ceilingFan" type="Node3D" parent="."]
+[node name="ceilingFan" type="Node3D" parent="." unique_id=1273890954]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.000451684, 0)
 script = ExtResource("3_ft8vw")
 rotation_axis = Vector3(0, 1, 0)
@@ -152,7 +151,6 @@ rotation_speed = 2.5
 is_rotating = true
 check_world_state = true
 
-[node name="ceilingFan(Clone)" type="MeshInstance3D" parent="ceilingFan"]
+[node name="ceilingFan(Clone)" type="MeshInstance3D" parent="ceilingFan" unique_id=1719116297]
 mesh = SubResource("ArrayMesh_c2gds")
-skeleton = NodePath("")
 surface_material_override/2 = SubResource("StandardMaterial3D_2jcw3")

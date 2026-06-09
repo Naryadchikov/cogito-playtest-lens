@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dvqua6l6cgbpv"]
+[gd_scene format=3 uid="uid://dvqua6l6cgbpv"]
 
 [ext_resource type="Texture2D" uid="uid://bgeywot8vygsa" path="res://addons/cogito/Assets/Graphics/CogitoIconSeparated/COGITO_icon_layer_00.png" id="1_k6hy0"]
 [ext_resource type="Texture2D" uid="uid://bsnnl3lj58bwg" path="res://addons/cogito/Assets/Graphics/CogitoIconSeparated/COGITO_icon_layer_01.png" id="2_n61jb"]
@@ -36,40 +36,38 @@ _data = {
 &"single_spin": SubResource("Animation_p680k")
 }
 
-[node name="CogitoSpinner" type="Control"]
+[node name="CogitoSpinner" type="Control" unique_id=902510922]
 layout_mode = 3
 anchors_preset = 0
 
-[node name="Icon_00" type="TextureRect" parent="."]
+[node name="Icon_00" type="TextureRect" parent="." unique_id=190738457]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 pivot_offset = Vector2(200, 200)
 texture = ExtResource("1_k6hy0")
 
-[node name="Icon_01" type="TextureRect" parent="."]
+[node name="Icon_01" type="TextureRect" parent="." unique_id=664885280]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 pivot_offset = Vector2(200, 200)
 texture = ExtResource("2_n61jb")
 
-[node name="Icon_02" type="TextureRect" parent="."]
+[node name="Icon_02" type="TextureRect" parent="." unique_id=1763166641]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 pivot_offset = Vector2(200, 200)
 texture = ExtResource("3_mdgon")
 
-[node name="Icon_03" type="TextureRect" parent="."]
+[node name="Icon_03" type="TextureRect" parent="." unique_id=354039195]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 pivot_offset = Vector2(200, 200)
 texture = ExtResource("4_bild2")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=955919605]
 reset_on_save = false
-libraries = {
-"": SubResource("AnimationLibrary_svbim")
-}
+libraries/ = SubResource("AnimationLibrary_svbim")

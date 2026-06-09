@@ -6,6 +6,8 @@ const settings_filename := "CogitoSettings"
 
 ## When this is checked, most Cogito scripts and objects will print messages in the output. Turn this on if you want to track and understand certain behaviors or have issues.
 @export var is_logging: bool = false
+## When this is checked, StateChartDebugger UI will be enabled in player HUD.
+@export var is_state_chart_debugger_enabled: bool = false
 
 @export_group("Game Settings")
 ## The scene that gets loaded when player starts a new game

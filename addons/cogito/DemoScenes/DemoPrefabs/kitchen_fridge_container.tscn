@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://efrg1qdo4o5g"]
+[gd_scene format=4 uid="uid://efrg1qdo4o5g"]
 
 [ext_resource type="Script" uid="uid://djpuxgkv8c6ux" path="res://addons/cogito/CogitoObjects/cogito_container.gd" id="1_n63mt"]
 [ext_resource type="Resource" uid="uid://cxwga3ee80mxm" path="res://addons/cogito/DemoScenes/DemoInventories/Fridge_Inventory.tres" id="2_27aia"]
@@ -229,7 +229,7 @@ _data = {
 &"open": SubResource("Animation_pl7ih")
 }
 
-[node name="kitchenFridgeContainer" type="StaticBody3D" node_paths=PackedStringArray("prompt_marker")]
+[node name="kitchenFridgeContainer" type="StaticBody3D" unique_id=1618526638 node_paths=PackedStringArray("prompt_marker")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 3.65301, -4.84288e-08, 6.17191)
 collision_layer = 3
 collision_mask = 0
@@ -242,84 +242,79 @@ uses_animation = true
 open_animation = "open"
 use_reverse_open_as_close_anim = true
 
-[node name="kitchenFridgeLarge(Clone)" type="MeshInstance3D" parent="."]
+[node name="kitchenFridgeLarge(Clone)" type="MeshInstance3D" parent="." unique_id=128123338]
 layers = 3
 mesh = SubResource("ArrayMesh_vi82k")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="." unique_id=239811561]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.519505, 0.921967, -0.340637)
 shape = SubResource("BoxShape3D_tdqqq")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1845741307]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.798948, 0.970656, 0.063055)
 shape = SubResource("BoxShape3D_djxtd")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="." unique_id=773771261]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.324466, 0.967389, 0.0629997)
 shape = SubResource("BoxShape3D_xudah")
 
-[node name="PromptMarker" type="Marker3D" parent="."]
+[node name="PromptMarker" type="Marker3D" parent="." unique_id=221751800]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.438628, 0.976594, 0.0757475)
 
-[node name="FridgeDoorLeft" type="AnimatableBody3D" parent="."]
+[node name="FridgeDoorLeft" type="AnimatableBody3D" parent="." unique_id=136313466]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0536883, 0.97998, 0.04)
 collision_layer = 0
 collision_mask = 0
 
-[node name="doorLeft" type="MeshInstance3D" parent="FridgeDoorLeft"]
+[node name="doorLeft" type="MeshInstance3D" parent="FridgeDoorLeft" unique_id=1662530023]
 mesh = SubResource("ArrayMesh_ejm30")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="FridgeDoorLeft"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FridgeDoorLeft" unique_id=1785497885]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.203339, -0.00302881, 0.0193481)
 shape = SubResource("BoxShape3D_djxtd")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="FridgeDoorLeft"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="FridgeDoorLeft" unique_id=1607657006]
 volume_db = -26.0
 bus = &"SFX"
 
-[node name="FridgeDoorRight" type="AnimatableBody3D" parent="."]
+[node name="FridgeDoorRight" type="AnimatableBody3D" parent="." unique_id=1346882134]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.986312, 0.97998, 0.04)
 collision_layer = 0
 collision_mask = 0
 
-[node name="doorRight" type="MeshInstance3D" parent="FridgeDoorRight"]
+[node name="doorRight" type="MeshInstance3D" parent="FridgeDoorRight" unique_id=207323252]
 mesh = SubResource("ArrayMesh_2vpsh")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="FridgeDoorRight"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FridgeDoorRight" unique_id=324034164]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.271143, -0.00629568, 0.0192928)
 shape = SubResource("BoxShape3D_xudah")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="FridgeDoorRight"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="FridgeDoorRight" unique_id=621447517]
 volume_db = -26.0
 bus = &"SFX"
 
-[node name="BasicInteraction" parent="." instance=ExtResource("3_jl0td")]
+[node name="BasicInteraction" parent="." unique_id=724738682 instance=ExtResource("3_jl0td")]
 interaction_text = "Interact"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_qj67x")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=541531884]
+libraries/ = SubResource("AnimationLibrary_qj67x")
 
-[node name="InventoryCheckerWIN" type="Node" parent="." node_paths=PackedStringArray("container_to_check")]
+[node name="InventoryCheckerWIN" type="Node" parent="." unique_id=893034481 node_paths=PackedStringArray("container_to_check")]
 script = ExtResource("4_trges")
 container_to_check = NodePath("..")
 item_to_check_for = ExtResource("5_838le")
 
-[node name="InventoryCheckerFAIL" type="Node" parent="." node_paths=PackedStringArray("container_to_check")]
+[node name="InventoryCheckerFAIL" type="Node" parent="." unique_id=789833629 node_paths=PackedStringArray("container_to_check")]
 script = ExtResource("4_trges")
 container_to_check = NodePath("..")
 item_to_check_for = ExtResource("6_6xc2m")
 
-[node name="QuestUpdaterWIN" type="Node3D" parent="."]
+[node name="QuestUpdaterWIN" type="Node3D" parent="." unique_id=1026729968]
 script = ExtResource("7_fhl3i")
 quest_to_update = ExtResource("8_wpbw8")
 update_type = 1
 
-[node name="QuestUpdaterFAIL" type="Node3D" parent="."]
+[node name="QuestUpdaterFAIL" type="Node3D" parent="." unique_id=982334135]
 script = ExtResource("7_fhl3i")
 quest_to_update = ExtResource("8_wpbw8")
 update_type = 2

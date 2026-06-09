@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://6k5rvlwcpys1"]
+[gd_scene format=3 uid="uid://6k5rvlwcpys1"]
 
 [ext_resource type="Script" uid="uid://b4cfmnk8b7nru" path="res://addons/cogito/CogitoObjects/cogito_switch.gd" id="1_8r8fc"]
 [ext_resource type="AudioStream" uid="uid://0himm415mqex" path="res://addons/cogito/Assets/Audio/Kenney/UiAudio/switch29.ogg" id="2_m3jxc"]
@@ -61,7 +61,7 @@ _data = {
 &"switch_on": SubResource("Animation_u1w74")
 }
 
-[node name="GenericSwitch" type="AnimatableBody3D" node_paths=PackedStringArray("nodes_to_show_when_on", "nodes_to_hide_when_on", "animation_player")]
+[node name="GenericSwitch" type="AnimatableBody3D" unique_id=1957267680 node_paths=PackedStringArray("nodes_to_show_when_on", "nodes_to_hide_when_on", "animation_player")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 5.72934, 1.10623, -15.8447)
 collision_layer = 3
 script = ExtResource("1_8r8fc")
@@ -72,36 +72,34 @@ animation_player = NodePath("AnimationPlayer")
 anim_when_switched_on = "switch_on"
 anim_when_switched_off = "switch_on"
 
-[node name="ButtonMesh_off" type="MeshInstance3D" parent="."]
+[node name="ButtonMesh_off" type="MeshInstance3D" parent="." unique_id=1984220746]
 mesh = SubResource("CylinderMesh_clo4d")
 surface_material_override/0 = SubResource("StandardMaterial3D_3jc06")
 
-[node name="ButtonMesh_on" type="MeshInstance3D" parent="."]
+[node name="ButtonMesh_on" type="MeshInstance3D" parent="." unique_id=1286345960]
 visible = false
 mesh = SubResource("CylinderMesh_clo4d")
 surface_material_override/0 = SubResource("StandardMaterial3D_iv5wx")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=144116911]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.052103, 0)
 mesh = SubResource("BoxMesh_o2wjq")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1943432156]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0041995, -0.0154781, -0.00178528)
 shape = SubResource("BoxShape3D_nti18")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=2048123066]
 
-[node name="BasicInteraction" parent="." instance=ExtResource("3_v8dn1")]
+[node name="BasicInteraction" parent="." unique_id=1158470451 instance=ExtResource("3_v8dn1")]
 
-[node name="HitboxComponent" parent="." instance=ExtResource("4_dkn68")]
+[node name="HitboxComponent" parent="." unique_id=2100235208 instance=ExtResource("4_dkn68")]
 
-[node name="CogitoProperties" parent="." instance=ExtResource("5_mihmv")]
+[node name="CogitoProperties" parent="." unique_id=1149214738 instance=ExtResource("5_mihmv")]
 material_properties = 1
 burn_damage_amount = 1.0
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_wuanm")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1224710512]
+libraries/ = SubResource("AnimationLibrary_wuanm")
 
 [connection signal="damage_received" from="." to="." method="_on_damage_received"]

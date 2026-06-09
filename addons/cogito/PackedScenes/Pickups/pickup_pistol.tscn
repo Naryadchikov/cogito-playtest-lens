@@ -2,9 +2,16 @@
 
 [ext_resource type="Script" uid="uid://dmeh01c5ccjqc" path="res://addons/cogito/CogitoObjects/cogito_object.gd" id="1_jxpu1"]
 [ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://addons/cogito/Components/Interactions/PickupComponent.tscn" id="2_okim2"]
-[ext_resource type="Resource" uid="uid://lc5uq2e6ldah" path="res://addons/cogito/InventoryPD/Items/Cogito_Pistol.tres" id="3_dgh1j"]
+[ext_resource type="Script" uid="uid://6vgnb68cqtwh" path="res://addons/cogito/InventoryPD/CustomResources/AmmoItemPD.gd" id="3_fbfr7"]
 [ext_resource type="Script" uid="uid://di15gqemrkk0x" path="res://addons/cogito/InventoryPD/CustomResources/InventorySlotPD.gd" id="3_xoy07"]
+[ext_resource type="Resource" uid="uid://bqhbrpnp2tt08" path="res://addons/cogito/InventoryPD/Items/Cogito_FoamBullets.tres" id="4_onqv8"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://addons/cogito/Components/Interactions/CarryableComponent.tscn" id="5_cx8or"]
+[ext_resource type="Resource" uid="uid://b3u14ltegv31j" path="res://addons/cogito/InventoryPD/Items/Cogito_StoneBullets.tres" id="5_y4w50"]
+[ext_resource type="Texture2D" uid="uid://78js4558o61m" path="res://addons/cogito/Assets/Graphics/ItemIcons/Cogito_Pistol.png" id="6_hxpmj"]
+[ext_resource type="Script" uid="uid://bkxgkf3pj8kb8" path="res://addons/cogito/InventoryPD/CustomResources/WieldableItemPD.gd" id="7_72yqe"]
+[ext_resource type="AudioStream" uid="uid://npav2p2tk10i" path="res://addons/cogito/Assets/Audio/Kenney/handleSmallLeather.ogg" id="8_evcs5"]
+[ext_resource type="Texture2D" uid="uid://bumuahv4keox4" path="res://addons/cogito/Assets/Graphics/Crosshair_Kenney/crosshair037.png" id="9_humf5"]
+[ext_resource type="PackedScene" uid="uid://dgtjml2t3hdvx" path="res://addons/cogito/Wieldables/toy_pistol.tscn" id="10_781g4"]
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_r6lnb"]
 _data = PackedByteArray("AgAAAAUAAAAEAAAACAAAAAgAAAACAAAAc0ITAE0ASHPMAAAA0eIEAAABAAABFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABNAAAAAAAAAAAAAAAAAAAAAQgACAACAAIAqQAAAEAAAAA4tQAAAAEBBAAEAAEAAQDpAAAAEAAAAMjWAAAAAgECAAIAAQABAPkAAAAQAAAArG4AAAADAQEAAQABAAEACQEAABAAAAAGiLe5ubkZXWsBAAAAAAAAAAC3ubm5GV1rAQAAAAAAAAAACF2B4AQdnVVIREREN94W9whskWOUnJ5VAAAAABoPjauwFKFRHJ6eXgAAAAAAAPPmUMGIQd7eX98AAH93f3d/d3f3tlY7trUCAAAAAAAAAAA=")
@@ -56,10 +63,28 @@ size = Vector3(0.439306, 0.0828058, 0.0807639)
 [sub_resource type="BoxShape3D" id="BoxShape3D_5prt8"]
 size = Vector3(0.0942247, 0.2, 0.0599624)
 
-[sub_resource type="Resource" id="Resource_terls"]
+[sub_resource type="Resource" id="Resource_c3msj"]
+resource_local_to_scene = true
+script = ExtResource("7_72yqe")
+wieldable_scene = ExtResource("10_781g4")
+wieldable_crosshair = ExtResource("9_humf5")
+hint_on_empty = "Out of bullets."
+charge_max = 10.0
+ammo_types = Array[ExtResource("3_fbfr7")]([ExtResource("4_onqv8"), ExtResource("5_y4w50")])
+charge_current = 10.0
+wieldable_range = 10.0
+wieldable_damage = 1.0
+name = "Foam Pistol"
+description = "There's a reason it looks like a toy. Shoots foam bullets."
+icon = ExtResource("6_hxpmj")
+drop_scene = "res://addons/cogito/PackedScenes/Pickups/pickup_pistol.tscn"
+sound_pickup = ExtResource("8_evcs5")
+can_auto_slot = true
+
+[sub_resource type="Resource" id="Resource_23fj4"]
 resource_local_to_scene = true
 script = ExtResource("3_xoy07")
-inventory_item = ExtResource("3_dgh1j")
+inventory_item = SubResource("Resource_c3msj")
 
 [node name="pickup_pistol" type="RigidBody3D" unique_id=1703678965]
 collision_layer = 3
@@ -69,7 +94,6 @@ cogito_name = ""
 [node name="pistol_mesh" type="MeshInstance3D" parent="." unique_id=2055947438]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 mesh = SubResource("ArrayMesh_gjvni")
-skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=818978269]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0600074, 0)
@@ -83,6 +107,6 @@ shape = SubResource("BoxShape3D_5prt8")
 transform = Transform3D(1, 0, -1.81899e-12, 0, 1, 0, 0, 0, 1, 0.277335, 0.0601448, 0.00182778)
 
 [node name="PickupComponent" parent="." unique_id=1220955357 instance=ExtResource("2_okim2")]
-slot_data = SubResource("Resource_terls")
+slot_data = SubResource("Resource_23fj4")
 
 [node name="CarryableComponent" parent="." unique_id=1217092457 instance=ExtResource("5_cx8or")]

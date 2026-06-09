@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://bkxux3pftqxvq"]
+[gd_scene format=4 uid="uid://bkxux3pftqxvq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i5ild"]
 resource_name = "carpetDarker"
@@ -121,13 +121,12 @@ shadow_mesh = SubResource("ArrayMesh_pshnx")
 [sub_resource type="BoxShape3D" id="BoxShape3D_fag2m"]
 size = Vector3(0.301562, 0.204126, 0.190112)
 
-[node name="books" type="StaticBody3D"]
+[node name="books" type="StaticBody3D" unique_id=94175526]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.05588, 1.22, 9.32646)
 
-[node name="books(Clone)" type="MeshInstance3D" parent="."]
+[node name="books(Clone)" type="MeshInstance3D" parent="." unique_id=2112146161]
 mesh = SubResource("ArrayMesh_1ddpc")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1433250658]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.149219, 0.102063, -0.0950556)
 shape = SubResource("BoxShape3D_fag2m")

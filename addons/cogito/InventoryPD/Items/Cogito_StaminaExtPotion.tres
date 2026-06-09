@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ConsumableItemPD" load_steps=7 format=3 uid="uid://geac0jkegsqu"]
+[gd_resource type="Resource" script_class="ConsumableItemPD" format=3 uid="uid://geac0jkegsqu"]
 
 [ext_resource type="Script" uid="uid://dd216g7cnupju" path="res://addons/cogito/InventoryPD/CustomResources/ConsumableEffect.gd" id="1_r6y86"]
 [ext_resource type="Texture2D" uid="uid://ra2d8abru67o" path="res://addons/cogito/Assets/Graphics/ItemIcons/Cogito_StaminaExtension.png" id="2_cliso"]
@@ -12,20 +12,14 @@ script = ExtResource("4_6v3ug")
 attribute_name = "stamina"
 attribute_change_amount = 15.0
 value_to_change = 1
-consumable_effects = Array[ExtResource("1_r6y86")]([])
 name = "Stamina Extension"
 description = "Tastes better than it looks."
 icon = ExtResource("2_cliso")
 is_stackable = true
-is_droppable = true
-is_unique = false
 stack_size = 5
 drop_scene = "res://addons/cogito/PackedScenes/Pickups/pickup_stamina_extension.tscn"
 item_drop_size = 0.1
 hint_icon_on_use = ExtResource("2_nd8qm")
 hint_text_on_use = "Your max stamina has increased by 15."
-item_size = Vector2(1, 1)
 sound_use = ExtResource("6_vslkv")
 sound_pickup = ExtResource("5_j8yea")
-can_auto_slot = false
-slot_number = -1

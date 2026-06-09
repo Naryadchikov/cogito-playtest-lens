@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://tuqnu6aooyge"]
+[gd_scene format=3 uid="uid://tuqnu6aooyge"]
 
 [ext_resource type="Texture2D" uid="uid://c7blnmo6r1o5v" path="res://addons/cogito/Assets/VFX/Impacts/Textures/spark_05.png" id="1_fkwy1"]
 
@@ -46,7 +46,7 @@ alpha_curve = SubResource("CurveTexture_orws8")
 
 [sub_resource type="QuadMesh" id="QuadMesh_h6fu1"]
 
-[node name="Electricity" type="GPUParticles3D"]
+[node name="Electricity" type="GPUParticles3D" unique_id=1706133330]
 material_override = SubResource("StandardMaterial3D_a4ot1")
 amount = 13
 lifetime = 1.4

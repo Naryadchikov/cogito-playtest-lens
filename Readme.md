@@ -7,8 +7,8 @@ Cogito is a First Person Immersive Sim Template Project for Godot 4, providing a
 In short, with COGITO you get a quick start for a fully-featured first person game with a great variety of mechanics and a solid base to create your own.
 
 ### [Online documentation + Tutorials](https://codeberg.org/Phazorknight/Cogito/wiki)
-### [Cogito Community Space]https://community.thresholdanomaly.com/index.php?r=space%2Fspace&cguid=f29b9340-dc21-4a3c-8883-7e33bb804c27)
-### [Cogito in the Godot Asset Store(https://store.godotengine.org/asset/philip-drobar/cogito/)
+### [Cogito Community Space](https://community.thresholdanomaly.com/index.php?r=space%2Fspace&cguid=f29b9340-dc21-4a3c-8883-7e33bb804c27)
+### [Cogito in the Godot Asset Store](https://store.godotengine.org/asset/philip-drobar/cogito/)
 
 ### Current Features
 - First person player controller with:

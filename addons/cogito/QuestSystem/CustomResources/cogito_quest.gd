@@ -21,18 +21,6 @@ class_name CogitoQuest
 # Quest description when it has been failed
 @export_multiline var quest_description_failed: String = "You failed this quest."
 
-# Editor group to organize audio settings
-@export_group("Quest Audio")
-
-# Audio played when the quest starts
-@export var audio_on_start: AudioStream
-
-# Audio played when the quest is completed
-@export var audio_on_complete: AudioStream
-
-# Audio played when the quest fails
-@export var audio_on_fail: AudioStream
-
 # Current quest description (dynamically updated based on state)
 @export var quest_description: String
 
@@ -47,6 +35,18 @@ class_name CogitoQuest
 
 # Flag indicating whether the quest has been failed
 @export var quest_failed: bool = false
+
+# Editor group to organize audio settings
+@export_group("Quest Audio")
+
+# Audio played when the quest starts
+@export var audio_on_start: AudioStream
+
+# Audio played when the quest is completed
+@export var audio_on_complete: AudioStream
+
+# Audio played when the quest fails
+@export var audio_on_fail: AudioStream
 
 # Property getter/setter for quest counter
 # When value is changed, automatically checks if quest is completed

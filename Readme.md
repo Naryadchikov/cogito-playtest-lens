@@ -1,14 +1,14 @@
 ![COGITO_banner](addons/cogito/COGITO_banner.jpg)
 # COGITO
-[![GodotEngine](https://img.shields.io/badge/Godot_4.5.1_stable-blue?logo=godotengine&logoColor=white)](https://godotengine.org/) [![COGITO](https://img.shields.io/badge/version_1.1.6-35A1D7?label=COGITO&labelColor=0E887A)](https://github.com/Phazorknight/Cogito)
+[![GodotEngine](https://img.shields.io/badge/Godot_4.6.3_stable-blue?logo=godotengine&logoColor=white)](https://godotengine.org/) [![COGITO](https://img.shields.io/badge/version_1.2.0-35A1D7?label=COGITO&labelColor=0E887A)](https://codeberg.org/Phazorknight/Cogito)
 
 ## What is it?
 Cogito is a First Person Immersive Sim Template Project for Godot 4, providing a framework for creating interactable objects, various items to use and mechanics to influence the player and game environment.
 In short, with COGITO you get a quick start for a fully-featured first person game with a great variety of mechanics and a solid base to create your own.
 
-### [Online documentation](https://cogito.readthedocs.io/en/latest/index.html)
-### [Video tutorial series](https://cogito.readthedocs.io/en/latest/tutorials.html)
-### [Cogito in the Godot Asset Store (beta)](https://store-beta.godotengine.org/asset/philip-drobar/cogito)
+### [Online documentation + Tutorials](https://codeberg.org/Phazorknight/Cogito/wiki)
+### [Cogito Community Space]https://community.thresholdanomaly.com/index.php?r=space%2Fspace&cguid=f29b9340-dc21-4a3c-8883-7e33bb804c27)
+### [Cogito in the Godot Asset Store(https://store.godotengine.org/asset/philip-drobar/cogito/)
 
 ### Current Features
 - First person player controller with:
@@ -49,7 +49,7 @@ In short, with COGITO you get a quick start for a fully-featured first person ga
 - Set up like a game level including a variety of objects, weapons and quests
 - Demo scenes contains hints that explain how objects in the scene were set up
 
-COGITO is made by [Philip Drobar](https://www.philipdrobar.com) with help from [these contributors](https://github.com/Phazorknight/Cogito/graphs/contributors).
+COGITO is made by [Philip Drobar](https://www.philipdrobar.com) with help from [these contributors](https://codeberg.org/Phazorknight/Cogito/wiki/Credits%2C-Contributors%2C-License).
 
 ## Principles of this template
 The structure of this template always tries to adhere to the following principles:
@@ -62,4 +62,4 @@ The structure of this template always tries to adhere to the following principle
 > [!IMPORTANT]  
 > COGITO v1.1 is not 100% bug-free. While most features are set, be aware that this open source software is offered "as is". Use at your own risk and check Issues and Discussion pages for more information.
 
-[Credits, Contributors and License](https://cogito.readthedocs.io/en/latest/about.html)
+[Credits, Contributors and License](https://codeberg.org/Phazorknight/Cogito/wiki/Credits%2C-Contributors%2C-License)

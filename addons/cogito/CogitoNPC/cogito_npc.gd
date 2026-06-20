@@ -19,7 +19,7 @@ enum PromptPositionMode{
 @export var prompt_pos_mode : PromptPositionMode = PromptPositionMode.ORIGIN
 @export var prompt_marker : Marker3D
 
-
+@export var head: Node3D
 var interaction_nodes : Array[Node]
 var cogito_properties : CogitoProperties = null
 var properties : int
@@ -28,6 +28,7 @@ var properties : int
 @export var patrol_path : CogitoPatrolPath
 
 var attention_target : Node3D
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @export_group("Movement")
 var move_speed : float = 2
@@ -40,12 +41,19 @@ var knockback_force: Vector3 = Vector3.ZERO
 var knockback_timer: float = 0.0
 @export var knockback_duration: float = 0.5
 @export var knockback_strength: float = 10.0
+@export var materials: Dictionary[String, StandardMaterial3D]
 
 var last_direction
 
+@export_group("NPC Behaviour")
+@export_enum("Friendly", "Neutral", "Hostile") var response_to_player: String = "Neutral"
+@export var sight_detection: SightDetection
+@export var hearing_detection: HearingDetection
+
+@export var reaction_sounds: AudioStreamRandomizer
+
 @export_group("Head LookAt")
-@onready var look_at_area: Area3D = $LookAtArea
-@onready var look_at_modifier_3d: LookAtModifier3D = $Rig/Skeleton3D/LookAtModifier3D
+@export var head_turner: LookAtModifier3D
 
 
 #FootstepPlayer variables
@@ -67,14 +75,44 @@ var wiggle_index : float = 0.0
 
 @onready var footstep_player = $FootstepPlayer
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
-@onready var navigation_agent_3d: NavigationAgent3D = $NavigationAgent3D
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var velocity_debug_shape: MeshInstance3D = $VelocityDebugShape
 
 # NPC State related vars
-@onready var npc_state_machine: Node = $NPC_State_Machine
+@onready var state_chart: StateChart = $StateChart
 var patrol_path_nodepath : NodePath
 var saved_enemy_state : String
+var currently_stunned : bool = false
+var health: CogitoHealthAttribute
+
+enum BehaviourState {
+	Idle,
+	Patrolling,
+	Investigating,
+	Alerted,
+	Chasing,
+	Attacking,
+	Stunned
+}
+var previous_behaviour: BehaviourState
+var current_behaviour: BehaviourState
+var behaviour_events: Dictionary[BehaviourState, String] = { 
+	BehaviourState.Idle: "idle",
+	BehaviourState.Patrolling: "patrol",
+	BehaviourState.Investigating: "investigate",
+	BehaviourState.Chasing: "chase",
+	BehaviourState.Attacking: "attack",
+	BehaviourState.Stunned: "stunned"
+}
+func get_previous_event() -> String:
+	return behaviour_events[previous_behaviour]
+
+func in_state(states: Array) -> bool:
+	return states.any(func(state): return current_behaviour == state)
+
+func try_end_investigation():
+	if hearing_detection.current_suspicion <= 0 and sight_detection.current_suspicion <= 0:
+		state_chart.send_event("patrol")
 
 
 func _ready():
@@ -82,10 +120,15 @@ func _ready():
 	self.add_to_group("Persist") #Adding object to group for persistence
 	find_interaction_nodes()
 	find_cogito_properties()
+	find_health_attribute()
 
 
 func find_interaction_nodes():
 	interaction_nodes = find_children("","InteractionComponent",true) #Grabs all attached interaction components
+
+
+func find_health_attribute():
+	health = find_children("","CogitoHealthAttribute", true).front()
 
 
 func find_cogito_properties():
@@ -94,10 +137,15 @@ func find_cogito_properties():
 		cogito_properties = property_nodes[0]
 
 
-#func _process(delta: float) -> void:
-	#if look_object:
-		#head_lock_at(delta)
+func change_player_response(response: String):
+	response_to_player = response
+	var mannequin: MeshInstance3D = %Mannequin
+	mannequin.mesh.surface_set_material(0, materials[response])
 
+
+func is_dead():
+	if health:
+		return health.value_current <= 0
 
 
 func _physics_process(delta: float) -> void:
@@ -108,28 +156,39 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		return
 	
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+	
 	if footsteps_enabled:
 		npc_footsteps(delta)
 	
 	#move_and_slide()
 
+func move_npc_to_next_position(_delta: float) -> void:
+	var current_location = global_transform.origin
+	var next_position = nav_agent.get_next_path_position()	
+	var new_velocity = (next_position - current_location).normalized() * move_speed 
+	# Add the gravity.
+	if not is_on_floor():
+		new_velocity += get_gravity() * _delta
 
-func update_animations(_delta: float):
-	var relative_velocity = self.global_basis.inverse() * ((self.velocity * Vector3(1,0,1)) / sprint_speed)
-	var rel_velocity_xz = Vector2(relative_velocity.x, -relative_velocity.z)
-	
-	velocity_debug_shape.position = relative_velocity
-	
-	if rel_velocity_xz.length_squared() > 0:
-		animation_tree.set("parameters/Movement/blend_position", rel_velocity_xz)
+	var direction = global_position.direction_to(next_position)
+	var face_direction := Vector3(global_position.x + velocity.x, global_position.y, global_position.z + velocity.z)
+
+	if direction:
+		face_direction(face_direction)
+		velocity.x = velocity.move_toward(new_velocity, .25).x
+		velocity.z = velocity.move_toward(new_velocity, .25).z
 	else:
-		animation_tree.set("parameters/Movement/blend_position", Vector2.ZERO)
+		velocity.x = move_toward(velocity.x, 0, move_speed)
+		velocity.z = move_toward(velocity.z, 0, move_speed)
 	
+	move_and_slide()
 
-func set_upper_body_state(state_name: String):
-	var upper_body_state_machine = animation_tree.get("parameters/UpperBodyState/playback")
-	upper_body_state_machine.travel(state_name)
-
+func react_to_kick():
+	state_chart.send_event("stunned")
+	state_chart.send_event("body_stun")
+	
 
 func face_direction(face_direction: Vector3) -> void:
 	var face_at_target = global_position.direction_to(face_direction)
@@ -150,7 +209,7 @@ func npc_footsteps(delta):
 		
 		if can_play_footstep and wiggle_vector.y > 0.9:
 			footstep_player.volume_db = sprint_volume_db
-			footstep_player._play_interaction("footstep")
+			footstep_player._play_interaction("footstep", 1)
 			can_play_footstep = false
 		
 		if !can_play_footstep and wiggle_vector.y < 0.9:
@@ -163,7 +222,7 @@ func npc_footsteps(delta):
 		
 		if can_play_footstep and wiggle_vector.y > 0.9:
 			footstep_player.volume_db = walk_volume_db
-			footstep_player._play_interaction("footstep")
+			footstep_player._play_interaction("footstep", 1)
 			can_play_footstep = false
 		
 		if !can_play_footstep and wiggle_vector.y < 0.9:
@@ -180,15 +239,12 @@ func set_state():
 	#TODO: Find a way to possibly save health of health attribute.
 	find_cogito_properties()
 	load_patrol_points()
-	npc_state_machine.goto(saved_enemy_state)
 
 	
 # Function to handle persistence and saving
 func save():
 	if patrol_path:
 		patrol_path_nodepath = patrol_path.get_path()
-		
-	saved_enemy_state = npc_state_machine.current
 	
 	var node_data = {
 		"filename" : get_scene_file_path(),
@@ -212,20 +268,11 @@ func load_patrol_points():
 		patrol_path = get_node(patrol_path_nodepath)
 
 
-
 func _on_hitbox_component_got_hit() -> void:
+	if !attention_target:
+		attention_target = get_tree().get_first_node_in_group("Player")
+		var vec = attention_target.global_position
+		look_at(Vector3(vec.x, vec.y-0.2, vec.z))
+		change_player_response("Hostile")
+		state_chart.send_event("chase")
 	animation_tree.set("parameters/Transition/transition_request","hit")
-
-
-func _on_security_camera_object_detected(object: Node3D) -> void:
-	attention_target = object
-
-
-func _on_check_player_timer_timeout() -> void:
-	var player_to_look_at = get_tree().get_first_node_in_group("Player")
-	var bodies = look_at_area.get_overlapping_bodies()
-	
-	if player_to_look_at in bodies:
-		look_at_modifier_3d.target_node = player_to_look_at.head.get_path()
-	else:
-		look_at_modifier_3d.target_node = ""

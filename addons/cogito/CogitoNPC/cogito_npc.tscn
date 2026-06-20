@@ -2,21 +2,30 @@
 
 [ext_resource type="Script" uid="uid://b7goxs6fdbtex" path="res://addons/cogito/CogitoNPC/cogito_npc.gd" id="1_ix4lt"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://dnrojkastjfi6" path="res://addons/cogito/CogitoNPC/cogito_npc_animation_blend_tree.tres" id="2_s7kaf"]
-[ext_resource type="Script" uid="uid://2m55fqttxb6i" path="res://addons/cogito/CogitoNPC/npc_states/npc_state_machine.gd" id="3_vl3hr"]
+[ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="2_vw50h"]
+[ext_resource type="Script" uid="uid://c1vp0ojjvaby1" path="res://addons/godot_state_charts/parallel_state.gd" id="3_w6rik"]
 [ext_resource type="Script" uid="uid://dk6krlxe7iue4" path="res://addons/cogito/CogitoNPC/npc_states/npc_state_idle.gd" id="4_84j4a"]
-[ext_resource type="Script" uid="uid://da8xbpav57gl6" path="res://addons/cogito/CogitoNPC/npc_states/npc_state_move_to_random_pos.gd" id="5_w583c"]
+[ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="4_fx0vh"]
+[ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="5_tg15e"]
 [ext_resource type="Script" uid="uid://d1esyyr4q7tuf" path="res://addons/cogito/CogitoNPC/npc_states/npc_state_patrol_on_path.gd" id="6_w583c"]
+[ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="7_sflq1"]
 [ext_resource type="Script" uid="uid://drti8aswvt3jx" path="res://addons/cogito/Components/HitboxComponent.gd" id="7_twnv2"]
 [ext_resource type="Script" uid="uid://cyeq4dh6riv7d" path="res://addons/cogito/CogitoNPC/npc_states/npc_state_chase.gd" id="8_o45w6"]
 [ext_resource type="Script" uid="uid://bi4ed4s15np0s" path="res://addons/cogito/Components/Attributes/cogito_health_attribute.gd" id="8_sbr0q"]
-[ext_resource type="Script" uid="uid://b3j547mdxn74r" path="res://addons/cogito/CogitoNPC/npc_states/npc_state_switch_stance.gd" id="9_00385"]
+[ext_resource type="Script" uid="uid://xdrs64ru4ias" path="res://addons/cogito/CogitoNPC/npc_states/npc_investigate.gd" id="9_gwbmp"]
 [ext_resource type="PackedScene" uid="uid://bc2hryr610vgo" path="res://addons/cogito/PackedScenes/simple_particle_puff.tscn" id="9_s7kaf"]
 [ext_resource type="Script" uid="uid://08fo2kwhjaau" path="res://addons/cogito/CogitoNPC/npc_states/npc_state_attack.gd" id="9_x32f1"]
-[ext_resource type="AudioStream" uid="uid://cn4rtt8qbtiti" path="res://addons/cogito/Assets/Audio/Kenney/Impacts/impactPlank_medium_000.ogg" id="10_00385"]
-[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://addons/cogito/Components/Interactions/BasicInteraction.tscn" id="12_o45w6"]
-[ext_resource type="Script" uid="uid://661d0lst55nw" path="res://addons/cogito/CogitoObjects/cogito_security_camera.gd" id="15_duam4"]
-[ext_resource type="AudioStream" uid="uid://bd7xfxmsaeu0o" path="res://addons/cogito/Assets/Audio/435666__mirkosukovic__alarm-siren.wav" id="16_t3s54"]
+[ext_resource type="AudioStream" uid="uid://o8dqltlyf60v" path="res://addons/cogito/Assets/Audio/HourOfOblivion/bark_investigate.ogg" id="10_1sypk"]
+[ext_resource type="AudioStream" uid="uid://bna1nc66vw053" path="res://addons/cogito/Assets/Audio/Kenney/phaserUp5.ogg" id="10_n3xdm"]
+[ext_resource type="AudioStream" uid="uid://ocm2blyfthyq" path="res://addons/cogito/Assets/Audio/Kenney/woosh1.ogg" id="12_gwbmp"]
+[ext_resource type="AudioStream" uid="uid://dfa64o5e7y6ue" path="res://addons/cogito/Assets/Audio/HourOfOblivion/bark_chase.ogg" id="12_oktdv"]
+[ext_resource type="Script" uid="uid://dmu1hixfwsp4e" path="res://addons/cogito/CogitoNPC/npc_states/npc_state_searching.gd" id="13_gwbmp"]
+[ext_resource type="Script" uid="uid://blge37o26arn" path="res://addons/cogito/CogitoNPC/cogito_npc_posture.gd" id="13_smfhm"]
+[ext_resource type="PackedScene" uid="uid://ukmk3wjft8no" path="res://addons/cogito/CogitoNPC/detection/basic_sight_indicator.tscn" id="14_sflq1"]
+[ext_resource type="Script" uid="uid://ye4ywev58xp2" path="res://addons/cogito/Scripts/impact_zone.gd" id="16_yiopj"]
+[ext_resource type="AudioStream" uid="uid://ghq05hqnqvb5" path="res://addons/cogito/Assets/Audio/HourOfOblivion/bark_search.ogg" id="16_yln41"]
 [ext_resource type="AudioStream" uid="uid://up2hfhgq1qx6" path="res://addons/cogito/Assets/Audio/Kenney/Footsteps/footstep00.ogg" id="17_ewpal"]
+[ext_resource type="AudioStream" uid="uid://dha5jxrh8fmq5" path="res://addons/cogito/Assets/Audio/HourOfOblivion/bark_endsearch.ogg" id="17_vl7ky"]
 [ext_resource type="AudioStream" uid="uid://crj07wq4oocwi" path="res://addons/cogito/Assets/Audio/Kenney/Footsteps/footstep01.ogg" id="18_5kcu3"]
 [ext_resource type="AudioStream" uid="uid://dewyukd562k37" path="res://addons/cogito/Assets/Audio/Kenney/Footsteps/footstep02.ogg" id="19_6nvxd"]
 [ext_resource type="AudioStream" uid="uid://c5kfw4o57foju" path="res://addons/cogito/Assets/Audio/Kenney/Footsteps/footstep03.ogg" id="20_vw50h"]
@@ -26,6 +35,11 @@
 [ext_resource type="PackedScene" uid="uid://tkwv6b5arrw2" path="res://addons/cogito/PackedScenes/Pickups/pickup_coins.tscn" id="23_6nvxd"]
 [ext_resource type="AudioStream" uid="uid://dc03jiw2a6y3j" path="res://addons/cogito/DynamicFootstepSystem/FootstepProfiles/generic_footstep_profile.tres" id="23_tg15e"]
 [ext_resource type="Resource" uid="uid://ca0q2t6w08ubh" path="res://addons/cogito/DynamicFootstepSystem/FootstepMaterialLibrary/sample_footstep_material_library.tres" id="24_sflq1"]
+[ext_resource type="Script" uid="uid://c0wkbigr3oabl" path="res://addons/cogito/CogitoNPC/detection/hearing_detection.gd" id="29_gwbmp"]
+[ext_resource type="Script" uid="uid://bfsvtwbelg7wx" path="res://addons/cogito/CogitoNPC/detection/sight_detection.gd" id="30_3c24j"]
+[ext_resource type="Texture2D" uid="uid://b0k4xgt8gfii0" path="res://addons/cogito/Assets/Graphics/eye.svg" id="31_smfhm"]
+[ext_resource type="Texture2D" uid="uid://5qohttahud56" path="res://addons/cogito/Assets/Graphics/Editor/Icon_HearingSystem.svg" id="31_yiopj"]
+[ext_resource type="PackedScene" uid="uid://essuiwcp63ni" path="res://addons/cogito/CogitoNPC/detection/basic_hearing_indicator.tscn" id="34_n3xdm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ew6gg"]
 resource_name = "M_Main"
@@ -237,13 +251,14 @@ bind/52/name = &"DEF-toe.R"
 bind/52/bone = -1
 bind/52/pose = Transform3D(-1, -4.08618e-08, 1.21778e-15, 4.87804e-15, -1.19209e-07, 1, -4.092e-08, 1, -2.98023e-08, -0.089, -0.1132, -0.0152)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ewpal"]
-albedo_color = Color(1, 0.12549, 0.537255, 1)
+[sub_resource type="SphereShape3D" id="SphereShape3D_yiopj"]
+radius = 0.27508155
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_qy7hr"]
-material = SubResource("StandardMaterial3D_ewpal")
-radius = 0.05
-height = 0.15
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_n3xdm"]
+points = PackedVector3Array(0, 0, 0, -10, 10, 20, 10, 10, 20, 10, -10, 20, -10, -10, 20, -10, 0, 20)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rk5nb"]
+radius = 0.2
 
 [sub_resource type="Animation" id="Animation_o58xw"]
 resource_name = "A_TPose"
@@ -17586,19 +17601,256 @@ height = 0.1
 radial_segments = 8
 rings = 4
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_escyr"]
-custom_solver_bias = 1.0
-size = Vector3(4, 8.24512, 4)
+[sub_resource type="Curve" id="Curve_oktdv"]
+_limits = [0.0, 10.0, 0.0, 10.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(5.47046, 1.4973259), 0.0, 0.0, 0, 0, Vector2(10, 10), 0.0, 0.0, 0, 0]
+point_count = 3
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_6nvxd"]
-size = Vector3(9, 7, 9)
+[sub_resource type="SphereShape3D" id="SphereShape3D_yln41"]
+radius = 8.0
 
-[node name="CogitoNPC" type="CharacterBody3D" unique_id=781380329 node_paths=PackedStringArray("prompt_marker")]
+[node name="CogitoNPC" type="CharacterBody3D" unique_id=781380329 node_paths=PackedStringArray("prompt_marker", "head", "sight_detection", "hearing_detection", "head_turner")]
 script = ExtResource("1_ix4lt")
 prompt_pos_mode = 1
 prompt_marker = NodePath("PromptMarker")
+head = NodePath("Rig/Skeleton3D/HeadAttachment/Head")
 acceleration = 5.0
 rotation_speed = 0.1
+sight_detection = NodePath("SightDetection")
+hearing_detection = NodePath("HearingDetection")
+head_turner = NodePath("Rig/Skeleton3D/HeadTurn")
+
+[node name="StateChart" type="Node" parent="." unique_id=759803850]
+script = ExtResource("2_vw50h")
+metadata/_custom_type_script = "uid://couw105c3bde4"
+
+[node name="Root" type="Node" parent="StateChart" unique_id=1849533020]
+script = ExtResource("3_w6rik")
+
+[node name="BehaviourState" type="Node" parent="StateChart/Root" unique_id=1209825412]
+script = ExtResource("4_fx0vh")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateChart/Root/BehaviourState" unique_id=1933012215]
+script = ExtResource("5_tg15e")
+
+[node name="IdleState" type="Node" parent="StateChart/Root/BehaviourState/Idle" unique_id=1924617250 node_paths=PackedStringArray("npc", "state_chart")]
+script = ExtResource("4_84j4a")
+npc = NodePath("../../../../..")
+state_chart = NodePath("../../../..")
+metadata/_custom_type_script = "uid://suwl5ilbe1cj"
+
+[node name="Start Patrolling" type="Node" parent="StateChart/Root/BehaviourState/Idle" unique_id=633149711]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Patrolling")
+event = &"patrol"
+delay_in_seconds = "0.0"
+
+[node name="Patrolling" type="Node" parent="StateChart/Root/BehaviourState" unique_id=105453097]
+script = ExtResource("5_tg15e")
+
+[node name="PatrolState" type="Node" parent="StateChart/Root/BehaviourState/Patrolling" unique_id=1718679387 node_paths=PackedStringArray("npc", "state_chart", "barker")]
+script = ExtResource("6_w583c")
+npc = NodePath("../../../../..")
+state_chart = NodePath("../../../..")
+barker = NodePath("../../../../../Barker")
+metadata/_custom_type_script = "uid://suwl5ilbe1cj"
+
+[node name="Start Investigating" type="Node" parent="StateChart/Root/BehaviourState/Patrolling" unique_id=988652214]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Investigating")
+event = &"investigate"
+delay_in_seconds = "0.0"
+
+[node name="Start Chasing" type="Node" parent="StateChart/Root/BehaviourState/Patrolling" unique_id=1256342489]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Chasing")
+event = &"chase"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Investigating" type="Node" parent="StateChart/Root/BehaviourState" unique_id=1717017500]
+script = ExtResource("5_tg15e")
+
+[node name="InvestigateState" type="Node" parent="StateChart/Root/BehaviourState/Investigating" unique_id=2144588296 node_paths=PackedStringArray("npc", "state_chart", "barker")]
+script = ExtResource("9_gwbmp")
+investigate_bark = ExtResource("10_1sypk")
+npc = NodePath("../../../../..")
+state_chart = NodePath("../../../..")
+barker = NodePath("../../../../../Barker")
+metadata/_custom_type_script = "uid://suwl5ilbe1cj"
+
+[node name="Patrol" type="Node" parent="StateChart/Root/BehaviourState/Investigating" unique_id=762168898]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Patrolling")
+event = &"patrol"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Start Chasing" type="Node" parent="StateChart/Root/BehaviourState/Investigating" unique_id=1613761270]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Chasing")
+event = &"chase"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Chasing" type="Node" parent="StateChart/Root/BehaviourState" unique_id=370643799]
+script = ExtResource("5_tg15e")
+
+[node name="ChaseState" type="Node" parent="StateChart/Root/BehaviourState/Chasing" unique_id=1757701874 node_paths=PackedStringArray("searching_state", "npc", "state_chart", "barker")]
+script = ExtResource("8_o45w6")
+target_action_distance = 1.5
+searching_state = NodePath("../../Searching/SearchingState")
+chase_start_bark = ExtResource("12_oktdv")
+npc = NodePath("../../../../..")
+state_chart = NodePath("../../../..")
+barker = NodePath("../../../../../Barker")
+metadata/_custom_type_script = "uid://suwl5ilbe1cj"
+
+[node name="Attack Target" type="Node" parent="StateChart/Root/BehaviourState/Chasing" unique_id=1661132836]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Attacking")
+event = &"attack"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Start Searching" type="Node" parent="StateChart/Root/BehaviourState/Chasing" unique_id=1552433230]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Searching")
+event = &"search"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Attacking" type="Node" parent="StateChart/Root/BehaviourState" unique_id=1217132296]
+script = ExtResource("5_tg15e")
+
+[node name="AttackState" type="Node" parent="StateChart/Root/BehaviourState/Attacking" unique_id=1441609469 node_paths=PackedStringArray("attack_impact_zone", "npc", "state_chart", "barker")]
+script = ExtResource("9_x32f1")
+state_after_attack = "chase"
+attack_impact_zone = NodePath("../../../../../Rig/Skeleton3D/HandAttachment/ImpactZone")
+attack_sound = ExtResource("12_gwbmp")
+npc = NodePath("../../../../..")
+state_chart = NodePath("../../../..")
+barker = NodePath("../../../../../Barker")
+metadata/_custom_type_script = "uid://suwl5ilbe1cj"
+
+[node name="Start Chasing" type="Node" parent="StateChart/Root/BehaviourState/Attacking" unique_id=1205632018]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Chasing")
+event = &"chase"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Searching" type="Node" parent="StateChart/Root/BehaviourState" unique_id=696398666]
+script = ExtResource("5_tg15e")
+metadata/_custom_type_script = "uid://cytafq8i1y8qm"
+
+[node name="SearchingState" type="Node" parent="StateChart/Root/BehaviourState/Searching" unique_id=1150770070 node_paths=PackedStringArray("sight_detection", "npc", "state_chart", "barker")]
+script = ExtResource("13_gwbmp")
+sight_detection = NodePath("../../../../../SightDetection")
+turn_head_when_pathing = true
+searching_bark = ExtResource("16_yln41")
+end_search_bark = ExtResource("17_vl7ky")
+npc = NodePath("../../../../..")
+state_chart = NodePath("../../../..")
+barker = NodePath("../../../../../Barker")
+metadata/_custom_type_script = "uid://suwl5ilbe1cj"
+
+[node name="Start Chasing" type="Node" parent="StateChart/Root/BehaviourState/Searching" unique_id=1305706979]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Chasing")
+event = &"chase"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Back to Patrolling" type="Node" parent="StateChart/Root/BehaviourState/Searching" unique_id=340457314]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Patrolling")
+event = &"patrol"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Alerted" type="Node" parent="StateChart/Root/BehaviourState" unique_id=658319552]
+script = ExtResource("5_tg15e")
+metadata/_custom_type_script = "uid://cytafq8i1y8qm"
+
+[node name="BodyPosture" type="Node" parent="StateChart/Root" unique_id=190289418]
+script = ExtResource("3_w6rik")
+
+[node name="BodyPosture" type="Node" parent="StateChart/Root/BodyPosture" unique_id=124368509 node_paths=PackedStringArray("animation_tree", "npc", "state_chart")]
+script = ExtResource("13_smfhm")
+animation_tree = NodePath("../../../../AnimationTree")
+npc = NodePath("../../../..")
+state_chart = NodePath("../../..")
+metadata/_custom_type_script = "uid://suwl5ilbe1cj"
+
+[node name="UpperBody" type="Node" parent="StateChart/Root/BodyPosture" unique_id=550949594]
+script = ExtResource("4_fx0vh")
+initial_state = NodePath("Neutral")
+
+[node name="Neutral" type="Node" parent="StateChart/Root/BodyPosture/UpperBody" unique_id=1625179085]
+script = ExtResource("5_tg15e")
+metadata/_custom_type_script = "uid://cytafq8i1y8qm"
+
+[node name="Raise Weapon" type="Node" parent="StateChart/Root/BodyPosture/UpperBody/Neutral" unique_id=908375532]
+script = ExtResource("7_sflq1")
+to = NodePath("../../RaisedWeapon")
+event = &"ubody_raise_weapon"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="RaisedWeapon" type="Node" parent="StateChart/Root/BodyPosture/UpperBody" unique_id=939045016]
+script = ExtResource("5_tg15e")
+metadata/_custom_type_script = "uid://cytafq8i1y8qm"
+
+[node name="To Attack" type="Node" parent="StateChart/Root/BodyPosture/UpperBody/RaisedWeapon" unique_id=297143610]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Attack")
+event = &"ubody_attack"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Lower Weapon" type="Node" parent="StateChart/Root/BodyPosture/UpperBody/RaisedWeapon" unique_id=262950217]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Neutral")
+event = &"ubody_neutral"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Attack" type="Node" parent="StateChart/Root/BodyPosture/UpperBody" unique_id=443481095]
+script = ExtResource("5_tg15e")
+metadata/_custom_type_script = "uid://cytafq8i1y8qm"
+
+[node name="To RaisedWeapon" type="Node" parent="StateChart/Root/BodyPosture/UpperBody/Attack" unique_id=1507241066]
+script = ExtResource("7_sflq1")
+to = NodePath("../../RaisedWeapon")
+event = &"ubody_raise_weapon"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="LowerBody" type="Node" parent="StateChart/Root/BodyPosture" unique_id=1187572666]
+script = ExtResource("4_fx0vh")
+initial_state = NodePath("Walking")
+
+[node name="Walking" type="Node" parent="StateChart/Root/BodyPosture/LowerBody" unique_id=506248480]
+script = ExtResource("5_tg15e")
+
+[node name="To Running" type="Node" parent="StateChart/Root/BodyPosture/LowerBody/Walking" unique_id=1895466976]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Running")
+event = &"body_run"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Running" type="Node" parent="StateChart/Root/BodyPosture/LowerBody" unique_id=1351604389]
+script = ExtResource("5_tg15e")
+
+[node name="To Walking" type="Node" parent="StateChart/Root/BodyPosture/LowerBody/Running" unique_id=107973415]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Walking")
+event = &"body_walk"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
 [node name="Rig" type="Node3D" parent="." unique_id=2111696324]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
@@ -17615,8 +17867,8 @@ bones/1/name = "DEF-hips"
 bones/1/parent = 0
 bones/1/rest = Transform3D(1, 0, 0, 0, -0.249681, -0.968328, 0, 0.968328, -0.249681, 0, 0.0501, 0.9167)
 bones/1/enabled = true
-bones/1/position = Vector3(0.004381966, 0.08547204, 0.87679946)
-bones/1/rotation = Quaternion(0.7562438, -0.08551796, -0.073716365, 0.644475)
+bones/1/position = Vector3(-0.0010366002, 0.08760682, 0.8732814)
+bones/1/rotation = Quaternion(0.76140416, -0.08893443, -0.07449851, 0.6378122)
 bones/1/scale = Vector3(1, 1, 1)
 bones/2/name = "DEF-spine.001"
 bones/2/parent = 1
@@ -17630,49 +17882,49 @@ bones/3/parent = 2
 bones/3/rest = Transform3D(1, 0, 0, 0, 0.988056, 0.154097, 0, -0.154097, 0.988056, 0, 0.124035, 3.49246e-10)
 bones/3/enabled = true
 bones/3/position = Vector3(0, 0.124035, 3.49246e-10)
-bones/3/rotation = Quaternion(-0.03281477, 0.00024944337, 0.00030257588, 0.9994614)
+bones/3/rotation = Quaternion(-0.0274408, 0.0001162788, 0.00012362932, 0.9996234)
 bones/3/scale = Vector3(1, 1, 1)
 bones/4/name = "DEF-spine.003"
 bones/4/parent = 3
 bones/4/rest = Transform3D(1, 0, 0, 0, 1, 0.000537183, 0, -0.000537183, 1, 0, 0.141272, 5.58794e-09)
 bones/4/enabled = true
 bones/4/position = Vector3(0, 0.141272, 5.58794e-09)
-bones/4/rotation = Quaternion(0.13292782, 0.0007433704, 5.9547907e-05, 0.9911255)
+bones/4/rotation = Quaternion(0.15120704, 0.0003192626, 0.00039456552, 0.98850197)
 bones/4/scale = Vector3(1, 1, 1)
 bones/5/name = "DEF-neck"
 bones/5/parent = 4
 bones/5/rest = Transform3D(1, 0, 0, 0, 0.975364, -0.2206, 0, 0.2206, 0.975364, 0, 0.172891, -1.86265e-09)
 bones/5/enabled = true
 bones/5/position = Vector3(0, 0.172891, -1.86265e-09)
-bones/5/rotation = Quaternion(0.021751257, -0.00023514441, -0.00024378036, 0.99976337)
+bones/5/rotation = Quaternion(0.010556072, -0.00024079901, -0.00023867268, 0.99994427)
 bones/5/scale = Vector3(1, 1, 1)
 bones/6/name = "DEF-head"
 bones/6/parent = 5
 bones/6/rest = Transform3D(1, 0, 0, 0, 0.987621, 0.156861, 0, -0.156861, 0.987621, 0, 0.0825868, -1.39698e-09)
 bones/6/enabled = true
 bones/6/position = Vector3(0, 0.0825868, -1.39698e-09)
-bones/6/rotation = Quaternion(-0.0036847522, 0.09603442, -0.0018333711, 0.9953695)
+bones/6/rotation = Quaternion(-0.020104527, 0.09601565, -0.002546756, 0.9951736)
 bones/6/scale = Vector3(1, 1, 1)
 bones/7/name = "DEF-shoulder.L"
 bones/7/parent = 4
 bones/7/rest = Transform3D(0.507313, 0.861762, 0.000551134, -0.0279645, 0.0158232, 0.999484, 0.861308, -0.507066, 0.0321261, 0.0188, 0.140554, 0.080895)
 bones/7/enabled = true
 bones/7/position = Vector3(0.0188, 0.140554, 0.080895)
-bones/7/rotation = Quaternion(-0.6002348, -0.37296867, -0.39466956, 0.58723813)
+bones/7/rotation = Quaternion(-0.60912716, -0.36690155, -0.4003157, 0.5780092)
 bones/7/scale = Vector3(1, 1, 1)
 bones/8/name = "DEF-upper_arm.L"
 bones/8/parent = 7
 bones/8/rest = Transform3D(1.5974e-05, 0.49248, 0.870324, 0.000629276, 0.870323, -0.49248, -1, 0.00055556, -0.000295997, -0.0300723, 0.218582, -0.0169685)
 bones/8/enabled = true
 bones/8/position = Vector3(-0.0300723, 0.218582, -0.0169685)
-bones/8/rotation = Quaternion(-0.28485078, 0.67332745, -0.49714598, 0.46726468)
+bones/8/rotation = Quaternion(-0.25867608, 0.6701894, -0.5166139, 0.4658787)
 bones/8/scale = Vector3(1, 1, 1)
 bones/9/name = "DEF-forearm.L"
 bones/9/parent = 8
 bones/9/rest = Transform3D(1, -1.43349e-06, -4.06875e-05, 3.46441e-08, 0.99941, -0.0343595, 4.07127e-05, 0.0343595, 0.99941, 2.15651e-08, 0.27444, -1.28784e-09)
 bones/9/enabled = true
 bones/9/position = Vector3(2.15651e-08, 0.27444, -1.28784e-09)
-bones/9/rotation = Quaternion(0.2747484, 0.04105242, -0.0041111805, 0.96063066)
+bones/9/rotation = Quaternion(0.27046764, 0.01271537, 0.0040381546, 0.9626366)
 bones/9/scale = Vector3(1, 1, 1)
 bones/10/name = "DEF-hand.L"
 bones/10/parent = 9
@@ -17791,21 +18043,21 @@ bones/26/parent = 4
 bones/26/rest = Transform3D(0.507313, -0.861762, -0.000551134, 0.0279645, 0.0158232, 0.999484, -0.861308, -0.507066, 0.0321261, -0.0188, 0.140554, 0.080895)
 bones/26/enabled = true
 bones/26/position = Vector3(-0.0188, 0.140554, 0.080895)
-bones/26/rotation = Quaternion(-0.6363577, 0.31009805, 0.32996032, 0.6245113)
+bones/26/rotation = Quaternion(-0.6453856, 0.30525953, 0.33444172, 0.6151772)
 bones/26/scale = Vector3(1, 1, 1)
 bones/27/name = "DEF-upper_arm.R"
 bones/27/parent = 26
 bones/27/rest = Transform3D(1.5974e-05, -0.49248, -0.870324, -0.000629276, 0.870323, -0.49248, 1, 0.00055556, -0.000295997, 0.0300723, 0.218582, -0.0169685)
 bones/27/enabled = true
 bones/27/position = Vector3(0.0300723, 0.218582, -0.0169685)
-bones/27/rotation = Quaternion(-0.29543275, -0.6813793, 0.46625245, 0.48067707)
+bones/27/rotation = Quaternion(-0.28426203, -0.6749662, 0.49235532, 0.47032112)
 bones/27/scale = Vector3(1, 1, 1)
 bones/28/name = "DEF-forearm.R"
 bones/28/parent = 27
 bones/28/rest = Transform3D(1, 1.43771e-06, 4.06874e-05, -3.88563e-08, 0.99941, -0.0343595, -4.07128e-05, 0.0343595, 0.99941, -1.48123e-07, 0.27444, -7.94171e-09)
 bones/28/enabled = true
 bones/28/position = Vector3(-1.48123e-07, 0.27444, -7.94171e-09)
-bones/28/rotation = Quaternion(0.3671131, -0.15588307, 0.062550664, 0.91488576)
+bones/28/rotation = Quaternion(0.36840641, -0.13562082, 0.05442019, 0.918108)
 bones/28/scale = Vector3(1, 1, 1)
 bones/29/name = "DEF-hand.R"
 bones/29/parent = 28
@@ -17924,56 +18176,56 @@ bones/45/parent = 1
 bones/45/rest = Transform3D(1, 0, 0, 0, -0.970051, -0.242902, 0, 0.242902, -0.970051, 0.089, 0.0277708, 0.0460238)
 bones/45/enabled = true
 bones/45/position = Vector3(0.089, 0.0277708, 0.0460238)
-bones/45/rotation = Quaternion(0.9630205, 0.10883997, -0.012680979, 0.2461394)
+bones/45/rotation = Quaternion(0.95822704, 0.117009915, -0.01442709, 0.26057944)
 bones/45/scale = Vector3(1, 1, 1)
 bones/46/name = "DEF-shin.L"
 bones/46/parent = 45
 bones/46/rest = Transform3D(1, 3.63798e-12, -0.000262522, -1.91964e-05, 0.997323, -0.0731228, 0.000261819, 0.0731228, 0.997323, 7.45058e-09, 0.40031, -2.32831e-10)
 bones/46/enabled = true
 bones/46/position = Vector3(7.45058e-09, 0.40031, -2.32831e-10)
-bones/46/rotation = Quaternion(0.18899235, -0.10903431, 0.021534175, 0.9756689)
+bones/46/rotation = Quaternion(0.20594831, -0.1103795, 0.023375126, 0.97203666)
 bones/46/scale = Vector3(1, 1, 1)
 bones/47/name = "DEF-foot.L"
 bones/47/parent = 46
 bones/47/rest = Transform3D(1, -0.000235723, -0.000920247, 0.000930062, 0.440166, 0.897916, 0.000193402, -0.897916, 0.440166, -7.21911e-09, 0.42948, 2.40834e-09)
 bones/47/enabled = true
 bones/47/position = Vector3(-7.21911e-09, 0.42948, 2.40834e-09)
-bones/47/rotation = Quaternion(-0.49916434, 0.021971017, 0.09076634, 0.86146027)
+bones/47/rotation = Quaternion(-0.50352764, 0.020888807, 0.09584945, 0.8583918)
 bones/47/scale = Vector3(1, 1, 1)
 bones/48/name = "DEF-toe.L"
 bones/48/parent = 47
 bones/48/rest = Transform3D(-1, -0.000528954, -0.000890596, 2.08383e-08, 0.859776, -0.510672, 0.00103584, -0.510672, -0.859775, 3.91992e-09, 0.173301, -8.57835e-09)
 bones/48/enabled = true
 bones/48/position = Vector3(3.91992e-09, 0.173301, -8.57835e-09)
-bones/48/rotation = Quaternion(-0.00013717578, 0.9643069, -0.26478696, -0.0004994205)
+bones/48/rotation = Quaternion(-0.00013717599, 0.9643069, -0.26478696, -0.0004994209)
 bones/48/scale = Vector3(1, 1, 1)
 bones/49/name = "DEF-thigh.R"
 bones/49/parent = 1
 bones/49/rest = Transform3D(1, 0, 0, 0, -0.970051, -0.242902, 0, 0.242902, -0.970051, -0.089, 0.0277708, 0.0460238)
 bones/49/enabled = true
 bones/49/position = Vector3(-0.089, 0.0277708, 0.0460238)
-bones/49/rotation = Quaternion(0.9935839, -0.111583814, 0.014051782, 0.01194581)
+bones/49/rotation = Quaternion(0.9912505, -0.12610775, 0.015548735, 0.03574345)
 bones/49/scale = Vector3(1, 1, 1)
 bones/50/name = "DEF-shin.R"
 bones/50/parent = 49
 bones/50/rest = Transform3D(1, 3.63798e-12, -0.000262522, -1.91964e-05, 0.997323, -0.0731228, 0.000261819, 0.0731228, 0.997323, -7.45058e-09, 0.40031, -2.32831e-10)
 bones/50/enabled = true
 bones/50/position = Vector3(-7.45058e-09, 0.40031, -2.32831e-10)
-bones/50/rotation = Quaternion(0.11984216, 0.34973562, -0.04601316, 0.92801166)
+bones/50/rotation = Quaternion(0.15538847, 0.3534221, -0.05966865, 0.9205362)
 bones/50/scale = Vector3(1, 1, 1)
 bones/51/name = "DEF-foot.R"
 bones/51/parent = 50
 bones/51/rest = Transform3D(1, -0.000235723, -0.000920247, 0.000930062, 0.440166, 0.897916, 0.000193402, -0.897916, 0.440166, 7.68205e-09, 0.42948, 1.31695e-09)
 bones/51/enabled = true
 bones/51/position = Vector3(7.68205e-09, 0.42948, 1.31695e-09)
-bones/51/rotation = Quaternion(-0.57777166, -0.04826822, -0.16034617, 0.7988362)
+bones/51/rotation = Quaternion(-0.5971896, -0.05345961, -0.16064398, 0.78402823)
 bones/51/scale = Vector3(1, 1, 1)
 bones/52/name = "DEF-toe.R"
 bones/52/parent = 51
 bones/52/rest = Transform3D(-1, -0.000528954, -0.000890596, 2.08383e-08, 0.859776, -0.510672, 0.00103584, -0.510672, -0.859775, -3.53066e-09, 0.173301, -8.18545e-09)
 bones/52/enabled = true
 bones/52/position = Vector3(-3.53066e-09, 0.173301, -8.18545e-09)
-bones/52/rotation = Quaternion(0.00019605523, 0.9624724, -0.27137923, -0.0005040709)
+bones/52/rotation = Quaternion(-0.000137047, 0.9643069, -0.26478696, -0.0004994209)
 bones/52/scale = Vector3(1, 1, 1)
 
 [node name="Mannequin" type="MeshInstance3D" parent="Rig/Skeleton3D" unique_id=24238603]
@@ -17981,20 +18233,7 @@ mesh = SubResource("ArrayMesh_8sh5w")
 skin = SubResource("Skin_m7ccf")
 skeleton = NodePath("..")
 
-[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Rig/Skeleton3D" unique_id=905104488]
-transform = Transform3D(0.99818707, -0.054853953, -0.024771482, 0.046582557, 0.96470845, -0.25916743, 0.038113624, 0.25754365, 0.9655147, -0.013430277, 1.526208, -0.005068369)
-bone_name = "DEF-head"
-bone_idx = 6
-
-[node name="AlertIndicatorMesh" type="MeshInstance3D" parent="Rig/Skeleton3D/BoneAttachment3D" unique_id=1257962421]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.91038e-11, 0.257461, 2.32831e-10)
-mesh = SubResource("CapsuleMesh_qy7hr")
-
-[node name="IndicatorLight" type="OmniLight3D" parent="Rig/Skeleton3D/BoneAttachment3D/AlertIndicatorMesh" unique_id=1214245888]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.49246e-10, 0.118936, 0)
-omni_range = 3.0
-
-[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Rig/Skeleton3D" unique_id=1598145134]
+[node name="HeadTurn" type="LookAtModifier3D" parent="Rig/Skeleton3D" unique_id=1598145134]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 bone_name = "DEF-head"
 bone = 6
@@ -18006,10 +18245,55 @@ primary_damp_threshold = 1.0
 secondary_limit_angle = 6.28319
 secondary_damp_threshold = 1.0
 
+[node name="HeadAttachment" type="BoneAttachment3D" parent="Rig/Skeleton3D" unique_id=860367456]
+transform = Transform3D(0.9975937, -0.062001802, -0.0310231, 0.051477503, 0.96215475, -0.26759696, 0.046440527, 0.26535597, 0.9630313, -0.02541892, 1.5183719, 0.014413308)
+bone_name = "DEF-head"
+bone_idx = 6
+
+[node name="Head" type="RigidBody3D" parent="Rig/Skeleton3D/HeadAttachment" unique_id=914144318]
+unique_name_in_owner = true
+transform = Transform3D(-0.98086655, -0.0015134963, 0.19467558, -0.12217795, 0.783315, -0.60950017, -0.15156983, -0.6216232, -0.7685123, 0, 0.268, 0)
+collision_layer = 64
+collision_mask = 0
+mass = 0.001
+freeze = true
+
+[node name="Shape" type="CollisionShape3D" parent="Rig/Skeleton3D/HeadAttachment/Head" unique_id=191415470]
+transform = Transform3D(-0.9999875, 0.004962842, -0.00059408695, 0.0049744137, 0.999758, -0.021432241, 0.00048750272, -0.021434905, -0.99977005, 0, 0, 0)
+shape = SubResource("SphereShape3D_yiopj")
+
+[node name="SightIndicator" parent="Rig/Skeleton3D/HeadAttachment" unique_id=15315927 instance=ExtResource("14_sflq1")]
+transform = Transform3D(0.99999607, -0.0028922604, -0.00011506677, 0.002891738, 0.99998605, -0.0046596825, 0.00012856722, 0.00465928, 0.99998957, 0.019188542, 0.3905226, -0.07442388)
+
+[node name="DetectionArea" type="Area3D" parent="Rig/Skeleton3D/HeadAttachment" unique_id=1360842582]
+transform = Transform3D(0.9947606, 0.09545314, -0.03661921, -0.0710884, 0.9032161, 0.4232563, 0.073476404, -0.4184354, 0.90526974, 0.017129198, 0.17849624, -0.052946627)
+monitorable = false
+
+[node name="SightCone" type="CollisionShape3D" parent="Rig/Skeleton3D/HeadAttachment/DetectionArea" unique_id=1571021345]
+transform = Transform3D(0.9999998, 0.00047785748, 0.000750507, -0.00045984637, 0.9997171, -0.023769982, -0.0007616959, 0.023769751, 0.99971735, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_n3xdm")
+debug_color = Color(1, 1, 1, 1)
+
+[node name="HandAttachment" type="BoneAttachment3D" parent="Rig/Skeleton3D" unique_id=969528656]
+transform = Transform3D(-0.8843884, 0.025574014, -0.46605048, -0.2344658, -0.88771564, 0.3962153, -0.40358752, 0.4596811, 0.7910814, 0.3347325, 0.884691, 0.011233926)
+bone_name = "DEF-hand.L"
+bone_idx = 10
+
+[node name="ImpactZone" type="Area3D" parent="Rig/Skeleton3D/HandAttachment" unique_id=1241153875]
+transform = Transform3D(0.9998372, 0.009140596, 0.0155593455, -0.009313583, 0.9998951, 0.01109305, -0.015456617, -0.011236191, 0.9998175, -0.004041493, 0.07320613, 0.0038952082)
+script = ExtResource("16_yiopj")
+damage_on_impact = 1
+impact_sound = ExtResource("10_n3xdm")
+outgoing = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rig/Skeleton3D/HandAttachment/ImpactZone" unique_id=1352425774]
+transform = Transform3D(0.9995096, -0.018114343, -0.025539756, 0.017602995, 0.99964285, -0.020107806, 0.025894672, 0.019648463, 0.9994717, 0.026967615, 0.014783025, 0.027201623)
+shape = SubResource("SphereShape3D_rk5nb")
+
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=341779461]
 tree_root = ExtResource("2_s7kaf")
 anim_player = NodePath("../AnimationPlayer")
-parameters/Movement/blend_position = Vector2(0, -0.0120482)
+parameters/Movement/blend_position = Vector2(0, 0)
 parameters/Transition/current_state = "default"
 parameters/Transition/transition_request = ""
 parameters/Transition/current_index = 0
@@ -18039,46 +18323,11 @@ max_distance = 18.0
 max_polyphony = 2
 bus = &"SFX"
 script = ExtResource("22_fx0vh")
+is_npc = true
 generic_fallback_footstep_profile = ExtResource("23_tg15e")
 footstep_material_library = ExtResource("24_sflq1")
 generic_fallback_landing_profile = ExtResource("23_tg15e")
 landing_material_library = ExtResource("24_sflq1")
-
-[node name="NPC_State_Machine" type="Node" parent="." unique_id=376405354]
-script = ExtResource("3_vl3hr")
-host = NodePath("..")
-logging = true
-start_state = "idle"
-
-[node name="idle" type="Node" parent="NPC_State_Machine" unique_id=214575345]
-script = ExtResource("4_84j4a")
-idle_animation = "Idle"
-
-[node name="move_to_random_pos" type="Node" parent="NPC_State_Machine" unique_id=2024145864]
-script = ExtResource("5_w583c")
-move_animation = "Walk"
-max_distance_from_host = 4.0
-
-[node name="patrol_on_path" type="Node" parent="NPC_State_Machine" unique_id=175460124]
-script = ExtResource("6_w583c")
-move_animation = "Walk"
-waiting_animation = "Idle"
-
-[node name="switch_stance" type="Node" parent="NPC_State_Machine" unique_id=1019112217]
-script = ExtResource("9_00385")
-
-[node name="chase" type="Node" parent="NPC_State_Machine" unique_id=180645702]
-script = ExtResource("8_o45w6")
-target_action_distance = 1.5
-giveup_chase_time = 5.0
-chase_stance = "RaisedFists"
-neutral_stance = "Neutral"
-
-[node name="attack" type="Node" parent="NPC_State_Machine" unique_id=653731809]
-script = ExtResource("9_x32f1")
-state_after_attack = "chase"
-attack_duration = 1.0
-attack_sound = ExtResource("10_00385")
 
 [node name="HitboxComponent" type="Node" parent="." unique_id=1236011431 node_paths=PackedStringArray("health_attribute")]
 script = ExtResource("7_twnv2")
@@ -18102,57 +18351,70 @@ metadata/_custom_type_script = "uid://bi4ed4s15np0s"
 visible = false
 mesh = SubResource("SphereMesh_s7kaf")
 
-[node name="BasicInteraction" parent="." unique_id=1137835663 instance=ExtResource("12_o45w6")]
-transform = Transform3D(-0.974038, 0.0691345, 0.215571, 0.00226819, 0.955161, -0.296076, -0.226374, -0.2879, -0.93052, 0.00269698, 1.27271, 0.0562989)
-interaction_text = "Switch stance"
-
-[node name="SecurityCamera" type="Node3D" parent="." unique_id=238497005 node_paths=PackedStringArray("detection_ray_cast_3d", "indicator_light", "detection_area", "indicator_mesh")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.49876e-08, 1.68434, -0.178254)
-script = ExtResource("15_duam4")
-detection_ray_cast_3d = NodePath("DetectionRayCast3D")
-indicator_light = NodePath("../Rig/Skeleton3D/BoneAttachment3D/AlertIndicatorMesh/IndicatorLight")
-detection_area = NodePath("DetectionArea3D")
-detection_threshold = 2.5
-alarm_sound = ExtResource("16_t3s54")
-indicator_mesh = NodePath("../Rig/Skeleton3D/BoneAttachment3D/AlertIndicatorMesh")
-
-[node name="DetectionRayCast3D" type="RayCast3D" parent="SecurityCamera" unique_id=745196078]
-transform = Transform3D(1, 2.68221e-07, 2.106e-07, 2.68221e-07, 1, 2.68221e-07, 2.36434e-07, 2.68221e-07, 1, -1.09301e-09, 0, 0.0125026)
-exclude_parent = false
-target_position = Vector3(0.85, -1.1, 1.94)
-collision_mask = 3
-hit_back_faces = false
-debug_shape_custom_color = Color(1, 0, 1, 1)
-
-[node name="DetectionArea3D" type="Area3D" parent="SecurityCamera" unique_id=1783218520]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.76357e-09, 0, 0.0201729)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SecurityCamera/DetectionArea3D" unique_id=359229204]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -4.9738e-14, 1.19209e-07, 4.12256)
-shape = SubResource("BoxShape3D_escyr")
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SecurityCamera" unique_id=970672853]
-volume_db = -10.0
-max_distance = 30.0
-bus = &"SFX"
-
 [node name="PromptMarker" type="Marker3D" parent="." unique_id=143877858]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36119, 0)
 
-[node name="CheckPlayerTimer" type="Timer" parent="." unique_id=1823575885]
-wait_time = 0.5
-autostart = true
+[node name="Barker" type="AudioStreamPlayer3D" parent="." unique_id=782403998]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5801824, -0.18113711)
 
-[node name="LookAtArea" type="Area3D" parent="." unique_id=1900691684]
+[node name="HearingDetection" type="Node3D" parent="." unique_id=345308978 node_paths=PackedStringArray("collision_shape", "npc", "investigation_state", "noise_suspicion_indicator")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7172368, 0)
+script = ExtResource("29_gwbmp")
+collision_shape = NodePath("HearingRadius/CollisionShape3D")
+npc = NodePath("..")
+investigation_state = NodePath("../StateChart/Root/BehaviourState/Investigating/InvestigateState")
+attention_target_sprite_texture = ExtResource("31_yiopj")
+hearing_radius = 8.0
+ignore_sounds_under_x_magnitude = 1.6
+noise_suspicion_indicator = NodePath("../HearingIndicator")
+noise_suspicion_curve = SubResource("Curve_oktdv")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LookAtArea" unique_id=895225428]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -4.5)
-shape = SubResource("BoxShape3D_6nvxd")
-debug_color = Color(0.316154, 0.604226, 0.465009, 0.42)
+[node name="HearingRadius" type="Area3D" parent="HearingDetection" unique_id=387716233]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+collision_layer = 0
+collision_mask = 512
 
-[connection signal="chase_ended" from="NPC_State_Machine/chase" to="SecurityCamera" method="switch_to_searching"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HearingDetection/HearingRadius" unique_id=2041485485]
+shape = SubResource("SphereShape3D_yln41")
+
+[node name="SightDetection" type="Node3D" parent="." unique_id=846842875 node_paths=PackedStringArray("detection_area", "cone_collider", "npc", "investigation_state", "sight_suspicion_indicator")]
+script = ExtResource("30_3c24j")
+detection_area = NodePath("../Rig/Skeleton3D/HeadAttachment/DetectionArea")
+cone_collider = NodePath("../Rig/Skeleton3D/HeadAttachment/DetectionArea/SightCone")
+npc = NodePath("..")
+investigation_state = NodePath("../StateChart/Root/BehaviourState/Investigating/InvestigateState")
+attention_target_sprite_texture = ExtResource("31_smfhm")
+show_debug_info = true
+sight_suspicion_indicator = NodePath("../Rig/Skeleton3D/HeadAttachment/SightIndicator")
+minimum_visibility = 10
+
+[node name="HearingIndicator" parent="." unique_id=1075551061 instance=ExtResource("34_n3xdm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.30965692, 1.6807568, 0)
+
+[connection signal="state_entered" from="StateChart/Root/BehaviourState/Idle" to="StateChart/Root/BehaviourState/Idle/IdleState" method="_on_idle_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/BehaviourState/Idle" to="StateChart/Root/BehaviourState/Idle/IdleState" method="_on_idle_state_exited"]
+[connection signal="state_entered" from="StateChart/Root/BehaviourState/Patrolling" to="StateChart/Root/BehaviourState/Patrolling/PatrolState" method="_on_patrolling_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/BehaviourState/Patrolling" to="StateChart/Root/BehaviourState/Patrolling/PatrolState" method="_on_patrolling_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/Root/BehaviourState/Patrolling" to="StateChart/Root/BehaviourState/Patrolling/PatrolState" method="_on_patrolling_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/BehaviourState/Investigating" to="StateChart/Root/BehaviourState/Investigating/InvestigateState" method="_on_investigate_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/BehaviourState/Investigating" to="StateChart/Root/BehaviourState/Investigating/InvestigateState" method="_on_investigate_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/BehaviourState/Chasing" to="StateChart/Root/BehaviourState/Chasing/ChaseState" method="_on_chasing_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/BehaviourState/Chasing" to="StateChart/Root/BehaviourState/Chasing/ChaseState" method="_on_chasing_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/Root/BehaviourState/Chasing" to="StateChart/Root/BehaviourState/Chasing/ChaseState" method="_on_chasing_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/BehaviourState/Attacking" to="StateChart/Root/BehaviourState/Attacking/AttackState" method="_on_attacking_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/BehaviourState/Attacking" to="StateChart/Root/BehaviourState/Attacking/AttackState" method="_on_attacking_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/Root/BehaviourState/Attacking" to="StateChart/Root/BehaviourState/Attacking/AttackState" method="_on_attacking_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/BehaviourState/Searching" to="StateChart/Root/BehaviourState/Searching/SearchingState" method="_on_searching_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/BehaviourState/Searching" to="StateChart/Root/BehaviourState/Searching/SearchingState" method="_on_searching_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/Root/BehaviourState/Searching" to="StateChart/Root/BehaviourState/Searching/SearchingState" method="_on_searching_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/BodyPosture/UpperBody/Neutral" to="StateChart/Root/BodyPosture/BodyPosture" method="_on_neutral_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/BodyPosture/UpperBody/RaisedWeapon" to="StateChart/Root/BodyPosture/BodyPosture" method="_on_raised_weapon_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/BodyPosture/UpperBody/RaisedWeapon" to="StateChart/Root/BodyPosture/BodyPosture" method="_on_raised_weapon_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/BodyPosture/UpperBody/Attack" to="StateChart/Root/BodyPosture/BodyPosture" method="_on_attack_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/BodyPosture/UpperBody/Attack" to="StateChart/Root/BodyPosture/BodyPosture" method="_on_attack_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/Root/BodyPosture/UpperBody/Attack" to="StateChart/Root/BodyPosture/BodyPosture" method="_on_attack_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/BodyPosture/LowerBody/Walking" to="StateChart/Root/BodyPosture/BodyPosture" method="_on_walking_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/BodyPosture/LowerBody/Running" to="StateChart/Root/BodyPosture/BodyPosture" method="_on_running_state_physics_processing"]
 [connection signal="got_hit" from="HitboxComponent" to="." method="_on_hitbox_component_got_hit"]
-[connection signal="basic_signal" from="BasicInteraction" to="NPC_State_Machine" method="goto" binds= ["switch_stance"]]
-[connection signal="object_detected" from="SecurityCamera" to="NPC_State_Machine" method="goto" binds= ["chase"]]
-[connection signal="send_detected_object" from="SecurityCamera" to="." method="_on_security_camera_object_detected"]
-[connection signal="timeout" from="CheckPlayerTimer" to="." method="_on_check_player_timer_timeout"]
+[connection signal="editor_state_changed" from="HearingDetection" to="HearingDetection" method="_on_editor_state_changed"]
+[connection signal="area_entered" from="HearingDetection/HearingRadius" to="HearingDetection" method="_on_hearing_radius_area_entered"]

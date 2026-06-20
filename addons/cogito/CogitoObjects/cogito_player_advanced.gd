@@ -76,8 +76,8 @@ var is_showing_ui : bool
 ## Lowest pitch for hardest landing sound
 @export var min_pitch = 0.7
 #Setup Dynamic Pitch & Volume for Landing Audio, used to store velocity based results
-var LandingPitch: float = 1.0
-var LandingVolume: float = 0.8
+var landing_pitch: float = 1.0
+var landing_volume: float = 0.8
 
 @export_group("Movement Properties")
 @export var MIN_SPEED : float= 0.5
@@ -230,7 +230,6 @@ var ledge_climbing_shapecast_initial_position : Vector3
 @onready var jump_timer: Timer = $JumpCooldownTimer
 
 # Adding carryable position for item control.
-@onready var footstep_player = $FootstepPlayer
 @onready var footstep_surface_detector : FootstepSurfaceDetector = $FootstepPlayer
 
 #Navigation agent for Player auto seat exit handling
@@ -1115,10 +1114,10 @@ func _on_grounded_state_entered() -> void:
 		# Calculate the volume and pitch based on the landing velocity
 		var velocity_ratio = clamp((last_velocity.y - min_landing_velocity) / (max_landing_velocity - min_landing_velocity), 0.0, 1.0)
 		# Set the volume and pitch of the landing sound
-		LandingVolume = lerp(min_volume_db, max_volume_db, velocity_ratio)
-		LandingPitch = lerp(max_pitch, min_pitch, velocity_ratio)
+		landing_volume = lerp(min_volume_db, max_volume_db, velocity_ratio)
+		landing_pitch = lerp(max_pitch, min_pitch, velocity_ratio)
 		# Play the landing sound
-		footstep_player._play_interaction("landing")
+		footstep_surface_detector._play_interaction("landing", current_lerp_speed)
 	was_in_air = false  # Reset airborne state
 
 
@@ -1213,12 +1212,12 @@ func _footstep_sounds_system():
 			if can_play_footstep && wiggle_vector.y > 0.9:
 				#dynamic volume for footsteps
 				if current_moving_state == MovingState.Walking:
-					footstep_player.volume_db = walk_volume_db
+					footstep_surface_detector.volume_db = walk_volume_db
 				elif current_moving_state == MovingState.Sneaking:
-					footstep_player.volume_db = crouch_volume_db
+					footstep_surface_detector.volume_db = crouch_volume_db
 				elif current_moving_state == MovingState.Sprinting:
-					footstep_player.volume_db = sprint_volume_db
-				footstep_player._play_interaction("footstep")
+					footstep_surface_detector.volume_db = sprint_volume_db
+				footstep_surface_detector._play_interaction("footstep", main_velocity.length())
 					
 				can_play_footstep = false
 				

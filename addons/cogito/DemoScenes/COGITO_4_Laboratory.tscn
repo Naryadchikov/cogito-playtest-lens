@@ -4565,6 +4565,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.99269, 0.532, 6.01611)
 [node name="CogitoNPC" parent="." unique_id=1912799160 node_paths=PackedStringArray("patrol_path") instance=ExtResource("68_wxy0x")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.9769, 3.07015, 19.6502)
 patrol_path = NodePath("../EnemyPatrolpath2")
+response_to_player = "Hostile"
 
 [node name="EnemyPatrolpath2" type="Node3D" parent="." unique_id=693283155 node_paths=PackedStringArray("patrol_points")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.0044, 0, 15.0301)

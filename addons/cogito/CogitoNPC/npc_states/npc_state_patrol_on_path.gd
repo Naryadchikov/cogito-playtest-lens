@@ -62,8 +62,8 @@ func iterate_patrol_point_index():
 
 
 func _on_patrolling_state_entered() -> void:
+	super.enter_state()
 	state_chart.send_event("ubody_neutral")
-	npc.current_behaviour = CogitoNPC.BehaviourState.Patrolling
 	CogitoGlobals.debug_log(true, "npc_state_patrol_on_path.gd", name + " state entered")
 	if npc.patrol_path:
 		npc.nav_agent.target_position = set_next_patrol_point_destination()
@@ -73,7 +73,7 @@ func _on_patrolling_state_entered() -> void:
 
 
 func _on_patrolling_state_exited() -> void:
-	npc.previous_behaviour = CogitoNPC.BehaviourState.Patrolling
+	super.exit_state()
 
 
 func _on_patrolling_state_physics_processing(delta: float) -> void:

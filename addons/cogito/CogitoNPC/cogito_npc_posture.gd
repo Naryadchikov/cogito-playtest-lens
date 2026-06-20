@@ -32,6 +32,7 @@ func _on_raised_weapon_state_entered() -> void:
 func _on_attack_state_entered() -> void:
 	animation_tree.set("parameters/UpperBodyState/RaisedFists/attack/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 
+
 func _on_attack_state_physics_processing(delta: float) -> void:
 	var is_attack_active = animation_tree.get("parameters/UpperBodyState/RaisedFists/attack/active")
 	if !is_attack_active:

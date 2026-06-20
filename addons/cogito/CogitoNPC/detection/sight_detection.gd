@@ -1,6 +1,7 @@
 ## Sight detection system that transitions to an investigation state once a certain threshold is tripped,
 ## then combat state once the second threshold is tripped.
 @icon("res://addons/cogito/Assets/Graphics/Editor/Icon_SightSystem.svg")
+@tool
 extends Node3D
 class_name SightDetection
 
@@ -25,27 +26,30 @@ class_name SightDetection
 ## The threshold point at which the NPC enters a combat state
 @export var aggro_threshold: float = 5
 ## Determines the multiplier for suspicion buildup when an object is the maximum distance
-@export var max_distance_multiplier: float = 0.2
+@export var max_distance_multiplier: float = 0.1
 ## How quickly suspicion grows while not in an investigation state
-@export var buildup_to_investigation_rate: float = 2.0
+@export var buildup_to_investigation_rate: float = 1.0
 ## How quickly suspicion grows while not in an investigation state
-@export var buildup_to_aggro_rate: float = 4.0
+@export var buildup_to_aggro_rate: float = 3.0
 ## How quickly suspicion decays over time
 @export var suspicion_decay_rate: float = 0.3
 ## How long (in seconds) without being detected before the suspicion starts decaying
 @export var delay_before_suspicion_decays: float = 2
-
-## The square sight range radius vector in metres per axis. Players in this collider will be detectable if they can be hit by the detection raycast.
-@export var sight_range_cone: Vector3 = Vector3(10, 10, 15)
+## Curve for converting visibility to a multiplier, default is linear 1 -> 0.01
+@export var visibility_modifier_curve: Curve = _linear_curve()
 ## The minimum value required by the player visibility attribute to make the player detectable.
 ## If the player does not use a visibility attribute, this value is ignored.
 @export_range(0, 100) var minimum_visibility: int = 30
+
+## The square sight range radius vector in metres per axis. Players in this collider will be detectable if they can be hit by the detection raycast.
+@export var sight_range_cone: Vector3 = Vector3(10, 10, 15)
+
 
 ## Current suspicion of the player
 var current_suspicion: float = 0
 ## Delay timer for controlling when the suspicion should start decaying
 var decay_timer: Timer
-## Bool
+## State check for whether or not to decay the suspicion
 var is_decaying: bool = false
 ## Store a reference to the player so it can be assigned a target
 var ref_to_player: CogitoPlayer
@@ -57,10 +61,23 @@ var nodes_inside_cone: Array = []
 
 var behaviour = CogitoNPC.BehaviourState
 
+## A default linear curve used for the visiblity modifier. Not recommended to be called externally,
+## instead use the Inspector to modify the existing default curve.
+static func _linear_curve() -> Curve:
+	var curve = Curve.new()
+	curve.max_domain = 100
+	curve.min_domain = 0
+	curve.max_value = 1
+	curve.min_value = 0
+	curve.add_point(Vector2(0,0),0,1,0,Curve.TANGENT_LINEAR)
+	curve.add_point(Vector2(100,1),1,0,1,Curve.TANGENT_LINEAR)
+	return curve
+
 func _ready() -> void:
 	connect_detection_signals()
 	#generate_sight_range_collider()
 	create_decay_timer()
+
 
 func create_decay_timer():
 	decay_timer = Timer.new()
@@ -68,6 +85,7 @@ func create_decay_timer():
 	decay_timer.timeout.connect(func(): is_decaying = true)
 	decay_timer.one_shot = true
 	add_child(decay_timer)
+
 
 ## Generates a square cone based on the Sight Range Cone vector formed of a 5 point triangular shape along the axes
 func generate_sight_range_collider():
@@ -85,7 +103,7 @@ func _physics_process(delta: float) -> void:
 	
 	# Disable processing if the npc is currently in combat
 	if npc.in_state([behaviour.Chasing, behaviour.Attacking]):
-		pass
+		return
 	
 	update_suspicion_indicator()
 	
@@ -97,8 +115,8 @@ func _physics_process(delta: float) -> void:
 			is_decaying = false
 			# Get the initial buildup amount based on current npc state
 			var initial_amount = (buildup_to_investigation_rate if npc.in_state([behaviour.Patrolling, behaviour.Idle]) else buildup_to_aggro_rate)
-			# Get the final amount by factoring distance to the target * deltatime
-			var amount = initial_amount * get_distance_modifier_to(node) * delta
+			# Get the final amount by factoring distance to the target as well as visibility * deltatime
+			var amount = initial_amount * get_distance_modifier_to(node) * get_visibility_modifier(node) * delta
 			current_suspicion = clamp(current_suspicion + amount, 0, aggro_threshold + 0.5)
 	
 	decay_suspicion(delta)
@@ -133,7 +151,6 @@ func update_suspicion_indicator():
 		else:
 			sight_suspicion_indicator.is_investigating = true
 			sight_suspicion_indicator.update(current_suspicion, aggro_threshold)
-			
 
 
 ## Check current suspicion against the thresholds and trigger state changes if they're hit
@@ -150,7 +167,15 @@ func state_trigger_checks():
 func get_distance_modifier_to(node: Node3D) -> float:
 	var cone_magnitude = sight_range_cone.length_squared()
 	var distance_to = npc.global_position.distance_squared_to(node.global_position)
-	return lerp(max_distance_multiplier, 1.0, distance_to/cone_magnitude)
+	return lerp(1.0, max_distance_multiplier, distance_to/cone_magnitude)
+
+
+func get_visibility_modifier(node: Node3D) -> float:
+	if node is not CogitoPlayer:
+		return 1.0
+	elif node.visibility_attribute:
+		return visibility_modifier_curve.sample(node.visibility_attribute.value_current)
+	return 1.0
 
 
 ## Fires a raycast at the object in the list of targets currently within the detection cone.

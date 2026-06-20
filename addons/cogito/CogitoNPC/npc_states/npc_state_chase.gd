@@ -58,7 +58,7 @@ func stop_chasing() -> void:
 
 func start_searching() -> void:
 	searching_state.player = chase_target
-	searching_state.last_known_player_position = chase_target.global_position
+	searching_state.last_known_player_point = chase_target.global_position
 	state_chart.send_event("body_walk")
 	state_chart.send_event("search")
 
@@ -77,14 +77,14 @@ func check_los_to_player() -> bool:
 	return false
 
 
-## Gets called when chase_target can't be reached via nav agent.
+## Gets called when the line of sight has been broken for long enough
 func start_waiting():
-	print("Target lost, waiting for reacquirement...")
 	chase_wait_timer.start()
 	current_chase_status = ChaseStatus.WAITING
 
 
 func _on_chasing_state_entered() -> void:
+	super.enter_state()
 	chase_target = npc.attention_target
 	if !chase_target or npc.response_to_player == "Neutral":
 		CogitoGlobals.debug_log(true,"npc_state_chase.gd", "Chase target was null. Returning to state patrol")
@@ -92,7 +92,7 @@ func _on_chasing_state_entered() -> void:
 		state_chart.send_event("body_walk")
 	else:
 		# Don't bark if re-entering state from the attacking state
-		if barker and chase_start_bark and npc.previous_behaviour != CogitoNPC.BehaviourState.Attacking:
+		if barker and chase_start_bark and not npc.in_state([behaviours.Attacking]):
 			barker.stream = chase_start_bark
 			barker.play()
 		state_chart.send_event("ubody_raise_weapon")
@@ -103,8 +103,8 @@ func _on_chasing_state_entered() -> void:
 
 
 func _on_chasing_state_exited() -> void:
+	super.exit_state()
 	chase_target = null
-	npc.previous_behaviour = CogitoNPC.BehaviourState.Chasing
 
 
 func _on_chasing_state_physics_processing(delta: float) -> void:

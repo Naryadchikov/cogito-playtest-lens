@@ -13,21 +13,20 @@ var target : Node3D = null
 var count_down : float = 0
 
 func _on_attacking_state_entered() -> void:
-	npc.current_behaviour = CogitoNPC.BehaviourState.Attacking
+	super.enter_state()
 	target = npc.attention_target
 	
 	if !target:
 		CogitoGlobals.debug_log(true,"NPC State Attack","Target was null, going to previous state...")
-		state_chart.send_event(npc.get_previous_event())
+		state_chart.send_event(state_after_attack)
 	else:
 		count_down = attack_duration
 		attempt_attack()
 		
 func _on_attacking_state_exited() -> void:
-	npc.previous_behaviour = CogitoNPC.BehaviourState.Attacking
+	super.exit_state()
 	# Disable the collider once the attack finishes
 	attack_impact_zone.set_collision(false)
-	pass
 
 func _on_attacking_state_physics_processing(delta: float) -> void:
 	# Lerping down the velocity

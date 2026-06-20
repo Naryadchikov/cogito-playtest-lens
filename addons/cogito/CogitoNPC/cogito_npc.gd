@@ -86,26 +86,25 @@ var currently_stunned : bool = false
 var health: CogitoHealthAttribute
 
 enum BehaviourState {
+	## Null state for state processor defaults
+	None,
+	## NPC is Idle, just chilling
 	Idle,
+	## NPC is moving along a patrol path
 	Patrolling,
+	## NPC is suspicious of a potential target either by sight or sound
 	Investigating,
+	## NPC is checking out a disturbance, either loud noise or being hit by something
 	Alerted,
+	## NPC is chasing after the player
 	Chasing,
+	## NPC has caught up to the player and is attacking them
 	Attacking,
-	Stunned
+	## NPC has lost the player in a chase, and is now searching for them
+	Searching
 }
 var previous_behaviour: BehaviourState
 var current_behaviour: BehaviourState
-var behaviour_events: Dictionary[BehaviourState, String] = { 
-	BehaviourState.Idle: "idle",
-	BehaviourState.Patrolling: "patrol",
-	BehaviourState.Investigating: "investigate",
-	BehaviourState.Chasing: "chase",
-	BehaviourState.Attacking: "attack",
-	BehaviourState.Stunned: "stunned"
-}
-func get_previous_event() -> String:
-	return behaviour_events[previous_behaviour]
 
 func in_state(states: Array) -> bool:
 	return states.any(func(state): return current_behaviour == state)

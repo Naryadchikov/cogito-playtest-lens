@@ -3,6 +3,7 @@ extends StateProcessor
 var attention_spot: Sprite3D
 @export var investigate_bark: AudioStream
 
+
 func set_attention_point(new_spot: Sprite3D):
 	if attention_spot:
 		attention_spot.free()
@@ -12,11 +13,15 @@ func set_attention_point(new_spot: Sprite3D):
 
 
 func _on_investigate_state_entered() -> void:
+	super.enter_state()
 	state_chart.send_event("ubody_raise_weapon")
 	if attention_spot:
 		npc.nav_agent.target_position = attention_spot.global_position
-	npc.current_behaviour = CogitoNPC.BehaviourState.Investigating
 	bark(investigate_bark)
+
+
+func _on_investigating_state_exited() -> void:
+	super.exit_state()
 
 
 func _on_investigate_state_physics_processing(delta: float) -> void:

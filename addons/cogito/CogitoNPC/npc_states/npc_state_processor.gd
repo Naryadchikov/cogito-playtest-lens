@@ -1,5 +1,4 @@
 @icon("res://addons/cogito/Assets/Graphics/Editor/Icon_StateProcessor.svg")
-@abstract
 extends Node
 class_name StateProcessor
 

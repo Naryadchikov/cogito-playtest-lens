@@ -49,8 +49,7 @@ var last_direction
 @export_enum("Friendly", "Neutral", "Hostile") var response_to_player: String = "Neutral"
 @export var sight_detection: SightDetection
 @export var hearing_detection: HearingDetection
-
-@export var reaction_sounds: AudioStreamRandomizer
+@export var behaviour_compound_state: CompoundState
 
 @export_group("Head LookAt")
 @export var head_turner: LookAtModifier3D
@@ -106,8 +105,20 @@ enum BehaviourState {
 var previous_behaviour: BehaviourState
 var current_behaviour: BehaviourState
 
+
 func in_state(states: Array) -> bool:
 	return states.any(func(state): return current_behaviour == state)
+
+
+## Gets the active state processor. Requires the state processor to be childed to the Atomic State.
+func get_active_state() -> StateProcessor:
+	var active_state = behaviour_compound_state._active_state
+	if active_state:
+		var processor = active_state.find_children("", "StateProcessor", false)
+		if len(processor) > 0:
+			return processor.front()
+	return null
+
 
 func try_end_investigation():
 	if hearing_detection.current_suspicion <= 0 and sight_detection.current_suspicion <= 0:
@@ -273,5 +284,5 @@ func _on_hitbox_component_got_hit() -> void:
 		var vec = attention_target.global_position
 		look_at(Vector3(vec.x, vec.y-0.2, vec.z))
 		change_player_response("Hostile")
-		state_chart.send_event("chase")
+		state_chart.send_event("alerted")
 	animation_tree.set("parameters/Transition/transition_request","hit")

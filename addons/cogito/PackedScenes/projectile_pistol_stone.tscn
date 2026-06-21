@@ -29,7 +29,7 @@ resource_local_to_scene = true
 script = ExtResource("5_jyv3n")
 inventory_item = ExtResource("4_gaq6g")
 
-[node name="projectile_pistol" type="RigidBody3D" unique_id=105584807]
+[node name="projectile_pistol_stone" type="RigidBody3D" unique_id=105584807]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 top_level = true
 collision_layer = 2

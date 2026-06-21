@@ -21,14 +21,14 @@ var noise_type: NoiseType
 var collider: CollisionShape3D
 var debug_mesh: MeshInstance3D
 
-func _init(spawn_debug_shape: bool, ):
+func _init(spawn_debug_shape: bool):
 	self.spawn_debug_shape = spawn_debug_shape
 
 
 func _ready() -> void:
 	collider = CollisionShape3D.new()
 	var sphere = SphereShape3D.new()
-	sphere.radius = 0.001
+	sphere.radius = magnitude
 	collider.shape = sphere
 	self.set_collision_layer_value(1, false)
 	self.set_collision_layer_value(10, true)
@@ -37,7 +37,8 @@ func _ready() -> void:
 	if spawn_debug_shape:
 		debug_mesh = MeshInstance3D.new()
 		debug_mesh.mesh = SphereMesh.new()
-		debug_mesh.mesh.radius = 0.001
+		debug_mesh.mesh.radius = magnitude
+		debug_mesh.mesh.height = magnitude*2
 		var mat = StandardMaterial3D.new()
 		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		mat.albedo_color = Color(1,0,0,0.5)
@@ -59,10 +60,7 @@ func set_parameters(noise_type: NoiseType, noise_size: float, noise_duration: fl
 func fire_off_noise():
 	CogitoGlobals.debug_log(true, "object_noise.gd", "Spawning noise of magnitude %s" % magnitude)
 	var tween = create_tween()
-	tween.tween_property(collider, "shape:radius", magnitude, noise_duration)
 	if debug_mesh:
-		tween.tween_property(debug_mesh, "mesh:radius", magnitude, noise_duration)
-		tween.tween_property(debug_mesh, "mesh:height", magnitude*2, noise_duration)
 		tween.tween_property(debug_mesh, "material_override:albedo_color", Color(1,0,0,0), noise_duration)
 		
 	tween.tween_callback(func(): self.queue_free())

@@ -10,8 +10,6 @@ class_name HearingDetection
 @export var collision_shape: CollisionShape3D
 ## Reference to the parented NPC, easier visually than using get_parent()
 @export var npc: CogitoNPC
-## Reference to the StateProcessor that houses the noise investigation state processing
-@export var investigation_state: StateProcessor
 ## Texture for visually representing where the current attention target is, this will be a speaker since its hearing
 @export var attention_target_sprite_texture: Texture2D
 
@@ -113,14 +111,14 @@ func _on_hearing_radius_area_entered(area: Area3D) -> void:
 	var noise: ObjectNoise = area as ObjectNoise
 	# First off if the noise is an impact like a thrown object, transition to Alerted
 	if noise.noise_type == ObjectNoise.NoiseType.Impact:
-		generate_attention_target(noise.global_position)
+		generate_attention_target(noise.global_position, false)
 		npc.state_chart.send_event("alerted")
 	# Otherwise if its a footstep, build up suspicion or ignore if its not loud enough
-	if noise.magnitude > ignore_sounds_under_x_magnitude and current_suspicion < suspicion_threshold_before_investigating + 0.5:
+	elif noise.magnitude > ignore_sounds_under_x_magnitude and current_suspicion < suspicion_threshold_before_investigating + 0.5:
 		decay_timer.stop()
 		current_suspicion += noise_suspicion_curve.sample(noise.magnitude)
 	if current_suspicion > suspicion_threshold_before_investigating:
-		generate_attention_target(noise.global_position)
+		generate_attention_target(noise.global_position, true)
 		npc.state_chart.send_event("investigate")
 
 
@@ -129,11 +127,11 @@ func reset():
 	noise_suspicion_indicator.update(current_suspicion, suspicion_threshold_before_investigating)
 
 
-func generate_attention_target(position: Vector3):
+func generate_attention_target(position: Vector3, investigating: bool):
 	var attention_point = Sprite3D.new()
 	attention_point.modulate = Color(1,0,0)
 	attention_point.texture = attention_target_sprite_texture
 	attention_point.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
 	get_tree().current_scene.add_child(attention_point)
 	attention_point.global_position = position
-	investigation_state.set_attention_point(attention_point)
+	npc.attention_target = attention_point

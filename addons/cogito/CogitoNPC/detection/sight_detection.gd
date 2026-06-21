@@ -11,8 +11,6 @@ class_name SightDetection
 @export var cone_collider: CollisionShape3D
 ## Reference to the parented NPC, easier visually than using get_parent()
 @export var npc: CogitoNPC
-## Reference to the StateProcessor that houses the noise investigation state processing
-@export var investigation_state: StateProcessor
 ## Texture for visually representing where the current attention target is, this will be an eye since its sight
 @export var attention_target_sprite_texture: Texture2D
 ## Shows relevant info about the current sight indicator state
@@ -228,4 +226,4 @@ func generate_attention_target(position: Vector3):
 	attention_point.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
 	get_tree().current_scene.add_child(attention_point)
 	attention_point.global_position = position
-	investigation_state.set_attention_point(attention_point)
+	npc.attention_target = attention_point

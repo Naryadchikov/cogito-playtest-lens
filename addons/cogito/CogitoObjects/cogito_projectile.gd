@@ -1,4 +1,3 @@
-@tool
 @icon("res://addons/cogito/Assets/Graphics/Editor/Icon_CogitoObject.svg")
 extends CogitoObject
 ## Derived from CogitoObject, this class handles additional information for projectiles like lifespan, damage, destroy_on_impact. Some of these are inherited from the Wieldable that spawns this projectile.
@@ -50,6 +49,12 @@ func on_timeout():
 
 ## Checking collision event for property tags.
 func _on_body_entered(collider: Node):
+	
+	if rigid_body and noise_magnitude_when_impacting > 0:
+		var noise = ObjectNoise.new(show_noise_as_debug_mesh)
+		noise.set_parameters(ObjectNoise.NoiseType.Impact, noise_magnitude_when_impacting, 0.5, noise_collision_layer)
+		get_tree().current_scene.add_child(noise)
+	
 	var collision_point = global_transform.origin
 	var bullet_direction = (collision_point - CogitoSceneManager._current_player_node.get_global_transform().origin).normalized() ##This is hacky TODO needs to be fixed for Multiplayer support
 	

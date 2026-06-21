@@ -95,6 +95,7 @@ contact_monitor = true
 max_contacts_reported = 10
 script = ExtResource("1_p1u1m")
 cogito_name = ""
+noise_magnitude_when_impacting = 5.0
 
 [node name="barrel" type="MeshInstance3D" parent="." unique_id=501689330]
 transform = Transform3D(0.43, 0, 0, 0, 0.43, 0, 0, 0, 0.43, 0, -0.5, 0)

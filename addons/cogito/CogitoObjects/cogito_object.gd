@@ -46,6 +46,26 @@ enum PromptPositionMode{
 @export var fluid_damp := 4.0
 @onready var fluid_interactor := FluidInteractor3D.new()
 
+@export_group("Environment Interactions")
+@export_flags_3d_physics var noise_collision_layer = 512
+## This determines the sound this object makes when scaled with velocity
+@export var noise_magnitude_when_impacting: float = 0.0
+## How much damage does this object do when it collides with other objects while airborne? Ignored if the object is projectile
+@export var damage_dealt_when_airborne: float = 0.0
+## When true, the faster the object, the more damage it deals and vice versa
+@export var damage_scales_with_velocity: bool = true
+## When true, the heavier the object, the more damage it deals and vice versa
+@export var damage_scales_with_mass: bool = true
+## How fast must the object be moving to inflict damage? Protects the player from being damaged while pushing objects
+@export var minimum_velocity_to_inflict_damage: float = 2
+## When true, the object also takes damage when colliding with other objects 
+@export var self_damage_when_airborne: bool = true
+## Show the noise created as a debug mesh
+@export var show_noise_as_debug_mesh: bool = true
+## This is the location that the object was thrown from. If an NPC is hit by the object then they will navigate to this point.
+var throw_point: Vector3
+var was_thrown: bool = false
+
 var rigid_body : RigidBody3D
 
 var interaction_nodes : Array[Node]
@@ -63,6 +83,7 @@ func _ready():
 	if not fluid_influence_enabled:
 		return
 	
+	## Autodetect if this object has a rigidbody
 	rigid_body = find_rigid_body()
 	if not rigid_body:
 		return
@@ -157,6 +178,15 @@ func find_rigid_body() -> RigidBody3D:
 	return null
 
 
+func calculate_damage() -> float:
+	var base_damage = damage_dealt_when_airborne
+	if damage_scales_with_velocity:
+		base_damage *= rigid_body.linear_velocity.length()
+	if damage_scales_with_mass:
+		base_damage *= rigid_body.mass
+	return base_damage
+
+
 func _physics_process(delta: float) -> void:
 	if fluid_influence_enabled and rigid_body:
 		fluid_interactor.process(rigid_body.global_transform, rigid_body.mass, rigid_body.gravity_scale)
@@ -187,9 +217,22 @@ func fluid_area_exit(area: FluidArea3D) -> void:
 
 
 func _on_body_entered(body: Node) -> void:
-	# Using this check to only call interactions on other Cogito Objects. #TODO: could be a better check...
+	# Generate noise if the object is thrown
+	if was_thrown and rigid_body and noise_magnitude_when_impacting > 0:
+		was_thrown = false
+		var linear_velocity = rigid_body.linear_velocity.length()
+		var noise = ObjectNoise.new(show_noise_as_debug_mesh)
+		noise.set_parameters(ObjectNoise.NoiseType.Impact, noise_magnitude_when_impacting * linear_velocity, 0.5, noise_collision_layer)
+		get_tree().current_scene.add_child(noise)
+		noise.global_position = global_position
+
 	if body.has_method("save") and cogito_properties:
 		cogito_properties.start_reaction_threshold_timer(body)
+	
+	if body.has_signal("damage_received") and rigid_body:
+		if rigid_body.linear_velocity.length() >= minimum_velocity_to_inflict_damage:
+			var damage_to_deal = calculate_damage()
+			body.damage_received.emit(damage_dealt_when_airborne);
 
 
 func _on_body_exited(body: Node) -> void:

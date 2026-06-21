@@ -27,6 +27,7 @@
 [ext_resource type="AudioStream" uid="uid://up2hfhgq1qx6" path="res://addons/cogito/Assets/Audio/Kenney/Footsteps/footstep00.ogg" id="17_ewpal"]
 [ext_resource type="AudioStream" uid="uid://dha5jxrh8fmq5" path="res://addons/cogito/Assets/Audio/HourOfOblivion/bark_endsearch.ogg" id="17_vl7ky"]
 [ext_resource type="AudioStream" uid="uid://crj07wq4oocwi" path="res://addons/cogito/Assets/Audio/Kenney/Footsteps/footstep01.ogg" id="18_5kcu3"]
+[ext_resource type="Script" uid="uid://51h2b8uanxuf" path="res://addons/cogito/CogitoNPC/npc_states/npc_state_alerted.gd" id="18_xbo8f"]
 [ext_resource type="AudioStream" uid="uid://dewyukd562k37" path="res://addons/cogito/Assets/Audio/Kenney/Footsteps/footstep02.ogg" id="19_6nvxd"]
 [ext_resource type="AudioStream" uid="uid://c5kfw4o57foju" path="res://addons/cogito/Assets/Audio/Kenney/Footsteps/footstep03.ogg" id="20_vw50h"]
 [ext_resource type="AudioStream" uid="uid://b4mt1tuxo2144" path="res://addons/cogito/Assets/Audio/Kenney/Footsteps/footstep04.ogg" id="21_w6rik"]
@@ -17606,7 +17607,8 @@ _limits = [0.0, 10.0, 0.0, 10.0]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(5.47046, 1.4973259), 0.0, 0.0, 0, 0, Vector2(10, 10), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_yln41"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_pwws1"]
+height = 3.0
 radius = 8.0
 
 [sub_resource type="Curve" id="Curve_vl7ky"]
@@ -17614,7 +17616,7 @@ _limits = [0.0, 1.0, 0.0, 100.0]
 _data = [Vector2(0, 0), 0.0, 0.01, 0, 1, Vector2(100, 1), 0.01, 0.0, 1, 1]
 point_count = 2
 
-[node name="CogitoNPC" type="CharacterBody3D" unique_id=781380329 node_paths=PackedStringArray("prompt_marker", "head", "sight_detection", "hearing_detection", "head_turner")]
+[node name="CogitoNPC" type="CharacterBody3D" unique_id=781380329 node_paths=PackedStringArray("prompt_marker", "head", "sight_detection", "hearing_detection", "behaviour_compound_state", "head_turner")]
 script = ExtResource("1_ix4lt")
 prompt_pos_mode = 1
 prompt_marker = NodePath("PromptMarker")
@@ -17623,6 +17625,7 @@ acceleration = 5.0
 rotation_speed = 0.1
 sight_detection = NodePath("SightDetection")
 hearing_detection = NodePath("HearingDetection")
+behaviour_compound_state = NodePath("StateChart/Root/BehaviourState")
 head_turner = NodePath("Rig/Skeleton3D/HeadTurn")
 
 [node name="StateChart" type="Node" parent="." unique_id=759803850]
@@ -17653,6 +17656,13 @@ to = NodePath("../../Patrolling")
 event = &"patrol"
 delay_in_seconds = "0.0"
 
+[node name="Alerted" type="Node" parent="StateChart/Root/BehaviourState/Idle" unique_id=855956540]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Alerted")
+event = &"alerted"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
 [node name="Patrolling" type="Node" parent="StateChart/Root/BehaviourState" unique_id=105453097]
 script = ExtResource("5_tg15e")
 
@@ -17674,6 +17684,13 @@ delay_in_seconds = "0.0"
 script = ExtResource("7_sflq1")
 to = NodePath("../../Chasing")
 event = &"chase"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Alerted" type="Node" parent="StateChart/Root/BehaviourState/Patrolling" unique_id=905823832]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Alerted")
+event = &"alerted"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
@@ -17787,6 +17804,36 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 script = ExtResource("5_tg15e")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
 
+[node name="AlertedState" type="Node" parent="StateChart/Root/BehaviourState/Alerted" unique_id=825406205 node_paths=PackedStringArray("npc", "state_chart", "barker")]
+script = ExtResource("18_xbo8f")
+show_attention_target_sprite = true
+npc = NodePath("../../../../..")
+state_chart = NodePath("../../../..")
+barker = NodePath("../../../../../Barker")
+behaviour_state = 4
+metadata/_custom_type_script = "uid://suwl5ilbe1cj"
+
+[node name="Return to Patrol" type="Node" parent="StateChart/Root/BehaviourState/Alerted" unique_id=1444195021]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Patrolling")
+event = &"patrol"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Start Chasing" type="Node" parent="StateChart/Root/BehaviourState/Alerted" unique_id=860318800]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Chasing")
+event = &"chase"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Start Investigating" type="Node" parent="StateChart/Root/BehaviourState/Alerted" unique_id=803788808]
+script = ExtResource("7_sflq1")
+to = NodePath("../../Investigating")
+event = &"investigate"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
 [node name="BodyPosture" type="Node" parent="StateChart/Root" unique_id=190289418]
 script = ExtResource("3_w6rik")
 
@@ -17880,8 +17927,8 @@ bones/1/name = "DEF-hips"
 bones/1/parent = 0
 bones/1/rest = Transform3D(1, 0, 0, 0, -0.249681, -0.968328, 0, 0.968328, -0.249681, 0, 0.0501, 0.9167)
 bones/1/enabled = true
-bones/1/position = Vector3(0.0053092814, 0.086488, 0.87714523)
-bones/1/rotation = Quaternion(0.7558913, -0.08829055, -0.0752605, 0.6443361)
+bones/1/position = Vector3(0.0027940653, 0.08765761, 0.8694332)
+bones/1/rotation = Quaternion(0.7615724, -0.08895414, -0.07447508, 0.6376114)
 bones/1/scale = Vector3(1, 1, 1)
 bones/2/name = "DEF-spine.001"
 bones/2/parent = 1
@@ -17895,49 +17942,49 @@ bones/3/parent = 2
 bones/3/rest = Transform3D(1, 0, 0, 0, 0.988056, 0.154097, 0, -0.154097, 0.988056, 0, 0.124035, 3.49246e-10)
 bones/3/enabled = true
 bones/3/position = Vector3(0, 0.124035, 3.49246e-10)
-bones/3/rotation = Quaternion(-0.031058218, 0.00011437534, 0.00012522809, 0.99951756)
+bones/3/rotation = Quaternion(-0.033051267, 0.0001133315, 0.00012603914, 0.99945366)
 bones/3/scale = Vector3(1, 1, 1)
 bones/4/name = "DEF-spine.003"
 bones/4/parent = 3
 bones/4/rest = Transform3D(1, 0, 0, 0, 1, 0.000537183, 0, -0.000537183, 1, 0, 0.141272, 5.58794e-09)
 bones/4/enabled = true
 bones/4/position = Vector3(0, 0.141272, 5.58794e-09)
-bones/4/rotation = Quaternion(0.13816951, 0.00031205735, 0.00039992237, 0.9904085)
+bones/4/rotation = Quaternion(0.13221852, 0.0003088525, 0.00040231648, 0.99122053)
 bones/4/scale = Vector3(1, 1, 1)
 bones/5/name = "DEF-neck"
 bones/5/parent = 4
 bones/5/rest = Transform3D(1, 0, 0, 0, 0.975364, -0.2206, 0, 0.2206, 0.975364, 0, 0.172891, -1.86265e-09)
 bones/5/enabled = true
 bones/5/position = Vector3(0, 0.172891, -1.86265e-09)
-bones/5/rotation = Quaternion(0.018628184, -0.00023672331, -0.00024241963, 0.99982643)
+bones/5/rotation = Quaternion(0.022629036, -0.0002346948, -0.0002441237, 0.9997439)
 bones/5/scale = Vector3(1, 1, 1)
 bones/6/name = "DEF-head"
 bones/6/parent = 5
 bones/6/rest = Transform3D(1, 0, 0, 0, 0.987621, 0.156861, 0, -0.156861, 0.987621, 0, 0.0825868, -1.39698e-09)
 bones/6/enabled = true
 bones/6/position = Vector3(0, 0.0825868, -1.39698e-09)
-bones/6/rotation = Quaternion(-0.0011522099, 0.09601402, -0.0026767417, 0.99537575)
+bones/6/rotation = Quaternion(-0.03337908, 0.09604474, 0.0011980564, 0.9948165)
 bones/6/scale = Vector3(1, 1, 1)
 bones/7/name = "DEF-shoulder.L"
 bones/7/parent = 4
 bones/7/rest = Transform3D(0.507313, 0.861762, 0.000551134, -0.0279645, 0.0158232, 0.999484, 0.861308, -0.507066, 0.0321261, 0.0188, 0.140554, 0.080895)
 bones/7/enabled = true
 bones/7/position = Vector3(0.0188, 0.140554, 0.080895)
-bones/7/rotation = Quaternion(-0.59953564, -0.373438, -0.39422578, 0.5879516)
+bones/7/rotation = Quaternion(-0.61236197, -0.36464885, -0.402369, 0.57458097)
 bones/7/scale = Vector3(1, 1, 1)
 bones/8/name = "DEF-upper_arm.L"
 bones/8/parent = 7
 bones/8/rest = Transform3D(1.5974e-05, 0.49248, 0.870324, 0.000629276, 0.870323, -0.49248, -1, 0.00055556, -0.000295997, -0.0300723, 0.218582, -0.0169685)
 bones/8/enabled = true
 bones/8/position = Vector3(-0.0300723, 0.218582, -0.0169685)
-bones/8/rotation = Quaternion(-0.28646123, 0.673521, -0.49585146, 0.46737662)
+bones/8/rotation = Quaternion(-0.2488305, 0.6690123, -0.52323335, 0.46554583)
 bones/8/scale = Vector3(1, 1, 1)
 bones/9/name = "DEF-forearm.L"
 bones/9/parent = 8
 bones/9/rest = Transform3D(1, -1.43349e-06, -4.06875e-05, 3.46441e-08, 0.99941, -0.0343595, 4.07127e-05, 0.0343595, 0.99941, 2.15651e-08, 0.27444, -1.28784e-09)
 bones/9/enabled = true
 bones/9/position = Vector3(2.15651e-08, 0.27444, -1.28784e-09)
-bones/9/rotation = Quaternion(0.28007612, 0.04284753, -0.00486945, 0.95900875)
+bones/9/rotation = Quaternion(0.24550106, 0.0024136463, 0.0069513344, 0.96936846)
 bones/9/scale = Vector3(1, 1, 1)
 bones/10/name = "DEF-hand.L"
 bones/10/parent = 9
@@ -18056,21 +18103,21 @@ bones/26/parent = 4
 bones/26/rest = Transform3D(0.507313, -0.861762, -0.000551134, 0.0279645, 0.0158232, 0.999484, -0.861308, -0.507066, 0.0321261, -0.0188, 0.140554, 0.080895)
 bones/26/enabled = true
 bones/26/position = Vector3(-0.0188, 0.140554, 0.080895)
-bones/26/rotation = Quaternion(-0.6356483, 0.31047246, 0.32960847, 0.6252332)
+bones/26/rotation = Quaternion(-0.6486714, 0.3034641, 0.33607215, 0.61171114)
 bones/26/scale = Vector3(1, 1, 1)
 bones/27/name = "DEF-upper_arm.R"
 bones/27/parent = 26
 bones/27/rest = Transform3D(1.5974e-05, -0.49248, -0.870324, -0.000629276, 0.870323, -0.49248, 1, 0.00055556, -0.000295997, 0.0300723, 0.218582, -0.0169685)
 bones/27/enabled = true
 bones/27/position = Vector3(0.0300723, 0.218582, -0.0169685)
-bones/27/rotation = Quaternion(-0.29427773, -0.6806934, 0.46915793, 0.47952908)
+bones/27/rotation = Quaternion(-0.28725734, -0.6766414, 0.48575675, 0.47294813)
 bones/27/scale = Vector3(1, 1, 1)
 bones/28/name = "DEF-forearm.R"
 bones/28/parent = 27
 bones/28/rest = Transform3D(1, 1.43771e-06, 4.06874e-05, -3.88563e-08, 0.99941, -0.0343595, -4.07128e-05, 0.0343595, 0.99941, -1.48123e-07, 0.27444, -7.94171e-09)
 bones/28/enabled = true
 bones/28/position = Vector3(-1.48123e-07, 0.27444, -7.94171e-09)
-bones/28/rotation = Quaternion(0.36725324, -0.15381896, 0.06172255, 0.91523504)
+bones/28/rotation = Quaternion(0.36808896, -0.14087617, 0.056529015, 0.91731626)
 bones/28/scale = Vector3(1, 1, 1)
 bones/29/name = "DEF-hand.R"
 bones/29/parent = 28
@@ -18189,21 +18236,21 @@ bones/45/parent = 1
 bones/45/rest = Transform3D(1, 0, 0, 0, -0.970051, -0.242902, 0, 0.242902, -0.970051, 0.089, 0.0277708, 0.0460238)
 bones/45/enabled = true
 bones/45/position = Vector3(0.089, 0.0277708, 0.0460238)
-bones/45/rotation = Quaternion(0.9639023, 0.11040448, -0.013612509, 0.24190512)
+bones/45/rotation = Quaternion(0.95454353, 0.11778958, -0.014523128, 0.27342525)
 bones/45/scale = Vector3(1, 1, 1)
 bones/46/name = "DEF-shin.L"
 bones/46/parent = 45
 bones/46/rest = Transform3D(1, 3.63798e-12, -0.000262522, -1.91964e-05, 0.997323, -0.0731228, 0.000261819, 0.0731228, 0.997323, 7.45058e-09, 0.40031, -2.32831e-10)
 bones/46/enabled = true
 bones/46/position = Vector3(7.45058e-09, 0.40031, -2.32831e-10)
-bones/46/rotation = Quaternion(0.18487027, -0.11209825, 0.021220805, 0.9761182)
+bones/46/rotation = Quaternion(0.2293439, -0.10903824, 0.025854144, 0.96687317)
 bones/46/scale = Vector3(1, 1, 1)
 bones/47/name = "DEF-foot.L"
 bones/47/parent = 46
 bones/47/rest = Transform3D(1, -0.000235723, -0.000920247, 0.000930062, 0.440166, 0.897916, 0.000193402, -0.897916, 0.440166, -7.21911e-09, 0.42948, 2.40834e-09)
 bones/47/enabled = true
 bones/47/position = Vector3(-7.21911e-09, 0.42948, 2.40834e-09)
-bones/47/rotation = Quaternion(-0.4953788, 0.022383615, 0.09232371, 0.86346704)
+bones/47/rotation = Quaternion(-0.5130208, 0.02273426, 0.09376021, 0.8529373)
 bones/47/scale = Vector3(1, 1, 1)
 bones/48/name = "DEF-toe.L"
 bones/48/parent = 47
@@ -18217,21 +18264,21 @@ bones/49/parent = 1
 bones/49/rest = Transform3D(1, 0, 0, 0, -0.970051, -0.242902, 0, 0.242902, -0.970051, -0.089, 0.0277708, 0.0460238)
 bones/49/enabled = true
 bones/49/position = Vector3(-0.089, 0.0277708, 0.0460238)
-bones/49/rotation = Quaternion(0.9932584, -0.11448033, 0.014115148, 0.011518889)
+bones/49/rotation = Quaternion(0.98941624, -0.13685507, 0.016873807, 0.045182303)
 bones/49/scale = Vector3(1, 1, 1)
 bones/50/name = "DEF-shin.R"
 bones/50/parent = 49
 bones/50/rest = Transform3D(1, 3.63798e-12, -0.000262522, -1.91964e-05, 0.997323, -0.0731228, 0.000261819, 0.0731228, 0.997323, -7.45058e-09, 0.40031, -2.32831e-10)
 bones/50/enabled = true
 bones/50/position = Vector3(-7.45058e-09, 0.40031, -2.32831e-10)
-bones/50/rotation = Quaternion(0.11464696, 0.3584066, -0.04441143, 0.9254342)
+bones/50/rotation = Quaternion(0.17717987, 0.34999067, -0.06760783, 0.91735655)
 bones/50/scale = Vector3(1, 1, 1)
 bones/51/name = "DEF-foot.R"
 bones/51/parent = 50
 bones/51/rest = Transform3D(1, -0.000235723, -0.000920247, 0.000930062, 0.440166, 0.897916, 0.000193402, -0.897916, 0.440166, 7.68205e-09, 0.42948, 1.31695e-09)
 bones/51/enabled = true
 bones/51/position = Vector3(7.68205e-09, 0.42948, 1.31695e-09)
-bones/51/rotation = Quaternion(-0.5777409, -0.049677804, -0.16396527, 0.79803705)
+bones/51/rotation = Quaternion(-0.60463387, -0.05443388, -0.16190626, 0.77797246)
 bones/51/scale = Vector3(1, 1, 1)
 bones/52/name = "DEF-toe.R"
 bones/52/parent = 51
@@ -18259,7 +18306,7 @@ secondary_limit_angle = 6.28319
 secondary_damp_threshold = 1.0
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="Rig/Skeleton3D" unique_id=860367456]
-transform = Transform3D(0.9977884, -0.058879722, -0.030844137, 0.048343103, 0.96130556, -0.27120975, 0.04561934, 0.2691189, 0.9620261, -0.014673878, 1.5258282, -0.0030767526)
+transform = Transform3D(0.99758446, -0.06046658, -0.03418842, 0.05162015, 0.9746711, -0.21760508, 0.046480283, 0.21531469, 0.975438, -0.018946879, 1.5173731, 0.0031600185)
 bone_name = "DEF-head"
 bone_idx = 6
 
@@ -18289,7 +18336,7 @@ shape = SubResource("ConvexPolygonShape3D_n3xdm")
 debug_color = Color(1, 1, 1, 1)
 
 [node name="HandAttachment" type="BoneAttachment3D" parent="Rig/Skeleton3D" unique_id=969528656]
-transform = Transform3D(-0.8751947, 0.02885554, -0.4829096, -0.24371473, -0.88859206, 0.38859683, -0.41789645, 0.45779014, 0.78472364, 0.35185257, 0.89914834, -0.0034476593)
+transform = Transform3D(-0.8921278, 0.031490408, -0.45068386, -0.24201058, -0.87567866, 0.41787356, -0.3814953, 0.48186684, 0.78883827, 0.33514827, 0.87479585, 0.027276695)
 bone_name = "DEF-hand.L"
 bone_idx = 10
 
@@ -18372,12 +18419,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36119, 0)
 [node name="Barker" type="AudioStreamPlayer3D" parent="." unique_id=782403998]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5801824, -0.18113711)
 
-[node name="HearingDetection" type="Node3D" parent="." unique_id=345308978 node_paths=PackedStringArray("collision_shape", "npc", "investigation_state", "noise_suspicion_indicator")]
+[node name="HearingDetection" type="Node3D" parent="." unique_id=345308978 node_paths=PackedStringArray("collision_shape", "npc", "noise_suspicion_indicator")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7172368, 0)
 script = ExtResource("29_gwbmp")
-collision_shape = NodePath("HearingRadius/CollisionShape3D")
+collision_shape = NodePath("HearingRadius/HearingCylinder")
 npc = NodePath("..")
-investigation_state = NodePath("../StateChart/Root/BehaviourState/Investigating/InvestigateState")
 attention_target_sprite_texture = ExtResource("31_yiopj")
 hearing_radius = 8.0
 ignore_sounds_under_x_magnitude = 1.6
@@ -18389,15 +18435,16 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0
 collision_layer = 0
 collision_mask = 512
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="HearingDetection/HearingRadius" unique_id=2041485485]
-shape = SubResource("SphereShape3D_yln41")
+[node name="HearingCylinder" type="CollisionShape3D" parent="HearingDetection/HearingRadius" unique_id=2041485485]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_pwws1")
+debug_color = Color(0.89396733, 0.28965023, 0.35837063, 1)
 
-[node name="SightDetection" type="Node3D" parent="." unique_id=846842875 node_paths=PackedStringArray("detection_area", "cone_collider", "npc", "investigation_state", "sight_suspicion_indicator")]
+[node name="SightDetection" type="Node3D" parent="." unique_id=846842875 node_paths=PackedStringArray("detection_area", "cone_collider", "npc", "sight_suspicion_indicator")]
 script = ExtResource("30_3c24j")
 detection_area = NodePath("../Rig/Skeleton3D/HeadAttachment/DetectionArea")
 cone_collider = NodePath("../Rig/Skeleton3D/HeadAttachment/DetectionArea/SightCone")
 npc = NodePath("..")
-investigation_state = NodePath("../StateChart/Root/BehaviourState/Investigating/InvestigateState")
 attention_target_sprite_texture = ExtResource("31_smfhm")
 show_debug_info = true
 sight_suspicion_indicator = NodePath("../Rig/Skeleton3D/HeadAttachment/SightIndicator")

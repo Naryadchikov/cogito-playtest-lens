@@ -15,6 +15,8 @@ extends StateProcessor
 @export var wait_at_first_point: float = 5.0
 ## How long (in seconds) before the NPC gives up searching once reaching the last known player position?
 @export var end_search_after_second_point: float = 3.0
+## If the NPC can't pathfind to where the player was, how long should they wait?
+@export var end_search_if_stuck_for: float = 10.0
 ## What does the NPC bark when start searching?
 @export var searching_bark: AudioStream
 ## What does the NPC bark when they end the search?
@@ -38,6 +40,8 @@ var reacquire_timer: Timer
 var first_wait_timer: Timer
 var second_wait_timer: Timer 
 
+var stuck_timer: Timer
+
 var head: Node3D
 
 func _enter_tree() -> void:
@@ -48,6 +52,7 @@ func _enter_tree() -> void:
 	first_wait_timer = create_timer(wait_at_first_point, search_next_point)
 	second_wait_timer = create_timer(end_search_after_second_point, end_search)
 	reacquire_timer = create_timer(reacquire_time, start_chasing)
+	stuck_timer = create_timer(end_search_if_stuck_for, end_search)
 	
 
 func _on_searching_state_entered() -> void:
@@ -93,6 +98,11 @@ func _on_searching_state_physics_processing(delta: float) -> void:
 		npc.move_npc_to_next_position(delta)
 		if turn_head_when_pathing:
 			turn_head(delta)
+			
+		# If the place can't be reached start the stuck timer
+		#if not npc.nav_agent.is_target_reachable() and target:
+			
+		## maybe set the last known player position as a pathfindable spot
 
 
 ## Calls the sight detection mechanism to determine if a player is within the cone and visible.

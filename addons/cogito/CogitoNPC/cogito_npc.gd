@@ -41,12 +41,13 @@ var knockback_force: Vector3 = Vector3.ZERO
 var knockback_timer: float = 0.0
 @export var knockback_duration: float = 0.5
 @export var knockback_strength: float = 10.0
-@export var materials: Dictionary[String, StandardMaterial3D]
 
 var last_direction
 
 @export_group("NPC Behaviour")
 @export_enum("Friendly", "Neutral", "Hostile") var response_to_player: String = "Neutral"
+@export var change_material_on_response: bool = false
+@export var materials: Dictionary[String, StandardMaterial3D]
 @export var sight_detection: SightDetection
 @export var hearing_detection: HearingDetection
 @export var behaviour_compound_state: CompoundState
@@ -149,8 +150,9 @@ func find_cogito_properties():
 
 func change_player_response(response: String):
 	response_to_player = response
-	var mannequin: MeshInstance3D = %Mannequin
-	mannequin.mesh.surface_set_material(0, materials[response])
+	if change_material_on_response:
+		var mannequin: MeshInstance3D = %Mannequin
+		mannequin.mesh.surface_set_material(0, materials[response])
 
 
 func is_dead():
@@ -195,10 +197,6 @@ func move_npc_to_next_position(_delta: float) -> void:
 	
 	move_and_slide()
 
-func react_to_kick():
-	state_chart.send_event("stunned")
-	state_chart.send_event("body_stun")
-	
 
 func face_direction(face_direction: Vector3) -> void:
 	var face_at_target = global_position.direction_to(face_direction)

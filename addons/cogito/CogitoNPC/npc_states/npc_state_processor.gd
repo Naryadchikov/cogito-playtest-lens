@@ -17,7 +17,7 @@ var behaviours = CogitoNPC.BehaviourState
 ## In theory this should use reflection to automatically connect signals if they haven't already been added in editor.
 ## Does a check to see if the immediate parent is a StateChartState, if not this is ignored.
 func _ready() -> void:
-	if get_parent() is StateChartState:
+	if get_parent() is StateChartState and behaviour_state != behaviours.None:
 		var parent = get_parent() as StateChartState
 		for method in get_method_list():
 			var method_name: String = method["name"]

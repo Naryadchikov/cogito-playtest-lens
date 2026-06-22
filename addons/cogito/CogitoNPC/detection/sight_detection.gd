@@ -157,7 +157,7 @@ func state_trigger_checks():
 		current_suspicion = investigation_threshold
 		npc.attention_target = ref_to_player
 		npc.state_chart.send_event("chase")
-	elif current_suspicion >= investigation_threshold and ref_to_player and npc.in_state([behaviour.Idle, behaviour.Patrolling]):
+	elif current_suspicion >= investigation_threshold and ref_to_player and npc.in_state([behaviour.Idle, behaviour.Patrolling, behaviour.Alerted]):
 		generate_attention_target(ref_to_player.global_position)
 		npc.state_chart.send_event("investigate")
 

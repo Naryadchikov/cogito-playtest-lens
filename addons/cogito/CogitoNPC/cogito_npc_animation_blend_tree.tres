@@ -127,10 +127,10 @@ states/PistolReady/position = Vector2(583, 259)
 states/RaisedFists/node = SubResource("AnimationNodeBlendTree_4ogfn")
 states/RaisedFists/position = Vector2(283, 259)
 transitions = ["Start", "Neutral", SubResource("AnimationNodeStateMachineTransition_duam4"), "Neutral", "PistolReady", SubResource("AnimationNodeStateMachineTransition_escyr"), "PistolReady", "Neutral", SubResource("AnimationNodeStateMachineTransition_p3khd"), "Neutral", "RaisedFists", SubResource("AnimationNodeStateMachineTransition_qx1ts"), "RaisedFists", "Neutral", SubResource("AnimationNodeStateMachineTransition_8plti")]
-graph_offset = Vector2(-437, 56)
+graph_offset = Vector2(-395, -78)
 
 [resource]
-graph_offset = Vector2(-963.6527, 105.81833)
+graph_offset = Vector2(-1035.3225, 0.51156616)
 nodes/output/position = Vector2(260, 160)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_duam4")
 nodes/Animation/position = Vector2(-461.97, 626.522)

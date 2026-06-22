@@ -57,6 +57,8 @@ func stop_chasing() -> void:
 
 
 func start_searching() -> void:
+	var sight = npc.sight_detection
+	sight.current_suspicion -= (sight.aggro_threshold/4)
 	searching_state.player = chase_target
 	searching_state.last_known_player_point = chase_target.global_position
 	state_chart.send_event("body_walk")
@@ -95,7 +97,6 @@ func _on_chasing_state_entered() -> void:
 		if barker and chase_start_bark and not npc.in_state([behaviours.Attacking]):
 			barker.stream = chase_start_bark
 			barker.play()
-		state_chart.send_event("ubody_raise_weapon")
 		state_chart.send_event("body_run")
 		npc.move_speed = npc.sprint_speed
 		current_chase_status = ChaseStatus.CHASING

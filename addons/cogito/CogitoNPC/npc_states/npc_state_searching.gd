@@ -100,7 +100,8 @@ func _on_searching_state_physics_processing(delta: float) -> void:
 			turn_head(delta)
 			
 		# If the place can't be reached start the stuck timer
-		#if not npc.nav_agent.is_target_reachable() and target:
+		if not npc.nav_agent.is_target_reachable() and stuck_timer.is_stopped():
+			stuck_timer.start()
 			
 		## maybe set the last known player position as a pathfindable spot
 
@@ -108,6 +109,7 @@ func _on_searching_state_physics_processing(delta: float) -> void:
 ## Calls the sight detection mechanism to determine if a player is within the cone and visible.
 func sight_detection_check():
 	if sight_detection.check_if_player_in_los():
+		stuck_timer.stop()
 		if reacquire_timer.is_stopped():
 			reacquire_timer.start()
 	else:

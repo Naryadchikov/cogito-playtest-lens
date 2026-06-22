@@ -41,4 +41,5 @@ func _on_attack_state_physics_processing(delta: float) -> void:
 
 func upper_body_travel(state: String):
 	upper_body_state = animation_tree.get("parameters/UpperBodyState/playback")
-	upper_body_state.travel(state)
+	if upper_body_state.get_current_node() != state:
+		upper_body_state.travel(state)

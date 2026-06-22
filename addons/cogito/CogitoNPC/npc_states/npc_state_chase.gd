@@ -60,7 +60,7 @@ func start_searching() -> void:
 	var sight = npc.sight_detection
 	sight.current_suspicion -= (sight.aggro_threshold/4)
 	searching_state.player = chase_target
-	searching_state.last_known_player_point = chase_target.global_position
+	searching_state.last_known_player_point = npc.last_reachable_path
 	state_chart.send_event("body_walk")
 	state_chart.send_event("search")
 

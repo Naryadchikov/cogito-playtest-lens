@@ -5,10 +5,8 @@ extends StateProcessor
 
 ## How long does the player need to be in view of the NPC before restarting the chase? 
 @export var reacquire_time: float = 0.5
-## Does the NPC turn their head from side when moving?
-@export var turn_head_when_pathing: bool = false
 ## How far does the NPC turn their head from side to side in degrees?
-@export var head_target_rotation_angle: float = 15
+@export var head_target_rotation_angle: float = 60
 ## Resets both hearing and sight suspicion to zero when the search ends
 @export var reset_suspicion_when_search_ends: bool = true
 ## How long (in seconds) should the NPC wait at the first point before moving to the next?
@@ -21,6 +19,13 @@ extends StateProcessor
 @export var searching_bark: AudioStream
 ## What does the NPC bark when they end the search?
 @export var end_search_bark: AudioStream
+## Optional audio cue for if the player is being detected again
+@export var i_see_you_bark: AudioStream
+
+## Pivot that rotates the look-ahead to make the head move
+@export var searching_look_ahead_pivot: Node3D
+## Invisible point that the NPC looks at
+@export var searching_look_ahead: Node3D
 
 ## For debugging purposes, shows the search points in 3d space 
 @export var show_search_points: bool = false
@@ -42,7 +47,7 @@ var second_wait_timer: Timer
 
 var stuck_timer: Timer
 
-var head: Node3D
+var head: LookAtModifier3D
 
 func _enter_tree() -> void:
 	if show_search_points:
@@ -73,9 +78,13 @@ func _on_searching_state_entered() -> void:
 	los_point_reached = false
 	last_known_point_reached = false
 	head = npc.head_turner
+	head.active = true
+	head.target_node = searching_look_ahead.get_path()
 
 
 func _on_searching_state_exited() -> void:
+	searching_look_ahead_pivot.rotation_degrees.y = 0
+	head.target_node = NodePath("")
 	if show_search_points:
 		search_point_one_label.visible = false
 		search_point_two_label.visible = false
@@ -89,6 +98,8 @@ func _on_searching_state_physics_processing(delta: float) -> void:
 		search_point_two_label.visible = true
 		search_point_two_label.global_position = last_known_player_point
 	
+	if reacquire_timer.is_stopped():
+		turn_head(delta)
 	sight_detection_check()
 	if npc.nav_agent.is_target_reached():
 		npc.velocity.x = move_toward(npc.velocity.x, 0, delta * npc.move_speed)
@@ -96,14 +107,10 @@ func _on_searching_state_physics_processing(delta: float) -> void:
 	else:
 		# Test LOS of the player, start an reacquire timer if they are seen
 		npc.move_npc_to_next_position(delta)
-		if turn_head_when_pathing:
-			turn_head(delta)
 			
 		# If the place can't be reached start the stuck timer
 		if not npc.nav_agent.is_target_reachable() and stuck_timer.is_stopped():
 			stuck_timer.start()
-			
-		## maybe set the last known player position as a pathfindable spot
 
 
 ## Calls the sight detection mechanism to determine if a player is within the cone and visible.
@@ -111,6 +118,7 @@ func sight_detection_check():
 	if sight_detection.check_if_player_in_los():
 		stuck_timer.stop()
 		if reacquire_timer.is_stopped():
+			bark(i_see_you_bark)
 			reacquire_timer.start()
 	else:
 		reacquire_timer.stop()
@@ -145,31 +153,14 @@ func end_search():
 	state_chart.send_event("patrol")
 
 
-## Shoot a raycast at the player, if it hits check against their visibility attribute if applicable
-func fire_raycast_at_player() -> bool:
-	# Get the space state of the world, construct a ray to fire from the npc to the spotted target
-	var space_state = npc.get_world_3d().direct_space_state
-	var query = PhysicsRayQueryParameters3D.create(npc.head.global_position, player.global_position)
-	query.exclude = [self]
-	var result = space_state.intersect_ray(query)
-	# If the raycast hits a player, check that they are visible via attribute
-	if not result:
-		return false
-	elif result["collider"] is CogitoPlayer and player.visibility_attribute:
-		return player.visibility_attribute.value_current >= npc.sight_detection.minimum_visibility
-	elif result["collider"] is CogitoPlayer:
-		return true
-	return false
-
-
-func turn_head(delta: float) -> void:
+func turn_head(delta: float) -> void:#
 	if head_target_rotation_angle > 0:
-		head.rotate_y(deg_to_rad(0.1)*delta)
-		if head.rotation_degrees.y >= head_target_rotation_angle:
+		searching_look_ahead_pivot.rotate_y(deg_to_rad(-180)*delta)
+		if searching_look_ahead_pivot.rotation_degrees.y >= head_target_rotation_angle:
 			head_target_rotation_angle *= -1
 	else:
-		head.rotate_y(deg_to_rad(-0.1)*delta)
-		if head.rotation_degrees.y <= head_target_rotation_angle:
+		searching_look_ahead_pivot.rotate_y(deg_to_rad(-180)*delta)
+		if searching_look_ahead_pivot.rotation_degrees.y <= head_target_rotation_angle:
 			head_target_rotation_angle *= -1
 
 

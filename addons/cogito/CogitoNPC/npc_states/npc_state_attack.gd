@@ -22,11 +22,13 @@ func _on_attacking_state_entered() -> void:
 	else:
 		count_down = attack_duration
 		attempt_attack()
-		
+
+
 func _on_attacking_state_exited() -> void:
 	super.exit_state()
 	# Disable the collider once the attack finishes
 	attack_impact_zone.set_collision(false)
+
 
 func _on_attacking_state_physics_processing(delta: float) -> void:
 	# Lerping down the velocity

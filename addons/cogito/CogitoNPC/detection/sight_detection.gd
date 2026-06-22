@@ -41,7 +41,9 @@ class_name SightDetection
 
 ## The square sight range radius vector in metres per axis. Players in this collider will be detectable if they can be hit by the detection raycast.
 @export var sight_range_cone: Vector3 = Vector3(10, 10, 15)
-
+## Shows the raycast if the player is seen by the sight detection system
+@export var show_detection_line: bool = false
+var debug_line = preload("res://addons/cogito/Scripts/debug_line.gd").new()
 
 ## Current suspicion of the player
 var current_suspicion: float = 0
@@ -72,6 +74,8 @@ static func _linear_curve() -> Curve:
 	return curve
 
 func _ready() -> void:
+	if show_detection_line:
+		add_child(debug_line)
 	connect_detection_signals()
 	#generate_sight_range_collider()
 	create_decay_timer()
@@ -189,12 +193,14 @@ func fire_raycast_at(node: Node3D) -> bool:
 	if not last_raycasted_target:
 		return false
 	if last_raycasted_target is CogitoPlayer:
+		if show_detection_line:
+			debug_line.draw_3d_line(npc.head.global_position, node.global_position, Color(1,0,0), 0.1)
 		ref_to_player = last_raycasted_target as CogitoPlayer
 		if ref_to_player.visibility_attribute:
 			return ref_to_player.visibility_attribute.value_current >= minimum_visibility
 		else:
 			return true
-	return true
+	return false
 
 
 func reset():

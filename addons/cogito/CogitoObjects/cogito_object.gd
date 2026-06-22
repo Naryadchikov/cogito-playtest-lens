@@ -65,6 +65,7 @@ enum PromptPositionMode{
 ## This is the location that the object was thrown from. If an NPC is hit by the object then they will navigate to this point.
 var throw_point: Vector3
 var was_thrown: bool = false
+var physics_frame_velocity_scalar: float = 0.0
 
 var rigid_body : RigidBody3D
 
@@ -188,6 +189,9 @@ func calculate_damage() -> float:
 
 
 func _physics_process(delta: float) -> void:
+	if rigid_body:
+		physics_frame_velocity_scalar = rigid_body.linear_velocity.length()
+	
 	if fluid_influence_enabled and rigid_body:
 		fluid_interactor.process(rigid_body.global_transform, rigid_body.mass, rigid_body.gravity_scale)
 		
@@ -220,9 +224,8 @@ func _on_body_entered(body: Node) -> void:
 	# Generate noise if the object is thrown
 	if was_thrown and rigid_body and noise_magnitude_when_impacting > 0:
 		was_thrown = false
-		var linear_velocity = rigid_body.linear_velocity.length()
 		var noise = ObjectNoise.new(show_noise_as_debug_mesh)
-		noise.set_parameters(ObjectNoise.NoiseType.Impact, noise_magnitude_when_impacting * linear_velocity, 0.5, noise_collision_layer)
+		noise.set_parameters(ObjectNoise.NoiseType.Impact, noise_magnitude_when_impacting * physics_frame_velocity_scalar, 0.5, noise_collision_layer)
 		get_tree().current_scene.add_child(noise)
 		noise.global_position = global_position
 
@@ -230,9 +233,14 @@ func _on_body_entered(body: Node) -> void:
 		cogito_properties.start_reaction_threshold_timer(body)
 	
 	if body.has_signal("damage_received") and rigid_body:
-		if rigid_body.linear_velocity.length() >= minimum_velocity_to_inflict_damage:
+		if physics_frame_velocity_scalar >= minimum_velocity_to_inflict_damage:
 			var damage_to_deal = calculate_damage()
 			body.damage_received.emit(damage_dealt_when_airborne);
+	
+	## Make the object take damage if its 
+	if self_damage_when_airborne and physics_frame_velocity_scalar >= minimum_velocity_to_inflict_damage:
+		self.damage_received.emit(calculate_damage())
+
 
 
 func _on_body_exited(body: Node) -> void:

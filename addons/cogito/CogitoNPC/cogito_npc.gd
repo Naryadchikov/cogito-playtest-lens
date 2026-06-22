@@ -20,6 +20,7 @@ enum PromptPositionMode{
 @export var prompt_marker : Marker3D
 
 @export var head: Node3D
+@export var player_collider: Area3D
 var interaction_nodes : Array[Node]
 var cogito_properties : CogitoProperties = null
 var properties : int
@@ -28,6 +29,8 @@ var properties : int
 @export var patrol_path : CogitoPatrolPath
 
 var attention_target : Node3D
+var last_reachable_path: Vector3
+
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @export_group("Movement")
@@ -178,7 +181,11 @@ func _physics_process(delta: float) -> void:
 
 func move_npc_to_next_position(_delta: float) -> void:
 	var current_location = global_transform.origin
-	var next_position = nav_agent.get_next_path_position()	
+	var next_position = nav_agent.get_next_path_position()
+	
+	if nav_agent.is_target_reachable():
+		last_reachable_path = next_position
+		
 	var new_velocity = (next_position - current_location).normalized() * move_speed 
 	# Add the gravity.
 	if not is_on_floor():

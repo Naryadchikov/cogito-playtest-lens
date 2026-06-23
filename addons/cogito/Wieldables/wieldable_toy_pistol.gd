@@ -102,14 +102,26 @@ func action_secondary(is_released:bool):
 
 
 # Function called when wieldable reload is attempted
-func reload():
+func reload() -> bool:
+	if !super.reload(): return false
 	animation_player.play(anim_reload)
 	if audio_stream_player_3d and sound_reload:
 		audio_stream_player_3d.stream = sound_reload
 		audio_stream_player_3d.play()
+		
+	return true
 
-
-# Function called when wieldable change ammo is attempted
-func change_ammo(index: int) -> void:
+func set_ammo_type(index: int) -> void:
 	current_ammo_type = index
 	build_projectile_pool()
+
+# Function called when wieldable change ammo is attempted
+func change_ammo() -> void:
+	if animation_player.is_playing():
+		player_interaction_component.send_hint(null, tr("HINT_ammo_change_blocked"))
+		return
+		
+	if item_reference.switch_to_next_ammo_type():
+		set_ammo_type(item_reference.current_ammo_type)
+		item_reference.update_wieldable_data(player_interaction_component)
+		reload()

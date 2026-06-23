@@ -9,3 +9,4 @@ script = ExtResource("1_usejk")
 new_game_start_scene = ExtResource("1_xsjm0")
 new_game_world_state = ExtResource("2_d7g0j")
 default_transition_duration = 0.4
+loading_screen_scene_path = "res://addons/cogito/SceneManagement/LoadingScene.tscn"

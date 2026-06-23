@@ -24,6 +24,12 @@ const settings_filename := "CogitoSettings"
 ## The default fade duration on scene changes.
 @export var default_transition_duration : float = .5
 
+@export_group("Cogito Core References")
+## Scene path to Loading Screen scene.
+@export_file_path(".tscn") var loading_screen_scene_path : String
+
+#@export var save_slot_container_scene : PackedScene
+
 ## Debug functions of loot component are toggled here.
 @export_group("Loot Component Debug")
 ## This variable toggles the LootComponent.gd's debug functions.

@@ -3,11 +3,12 @@ extends Sprite3D
 class_name CogitoPoint
 
 ## Represents a unique value
-var uid: int
+var uid: int = -1
 
 func _ready() -> void:
-	uid = get_instance_id()
-	add_to_group("Persist")
+	if uid == -1:
+		uid = get_instance_id()
+	self.add_to_group("Persist")
 
 
 func _init(sprite_texture: Texture2D, visible_to_player: bool):

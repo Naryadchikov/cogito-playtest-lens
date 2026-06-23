@@ -237,9 +237,9 @@ func _on_body_entered(body: Node) -> void:
 			var damage_to_deal = calculate_damage()
 			body.damage_received.emit(damage_dealt_when_airborne, self);
 	
-	## Make the object take damage if its 
+	# Make the object take damage if its moving fast enough and self damage is enabled
 	if self_damage_when_airborne and physics_frame_velocity_scalar >= minimum_velocity_to_inflict_damage:
-		self.damage_received.emit(calculate_damage())
+		self.damage_received.emit(calculate_damage(), self)
 
 
 

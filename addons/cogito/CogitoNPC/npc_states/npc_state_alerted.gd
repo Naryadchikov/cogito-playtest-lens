@@ -29,7 +29,7 @@ func _on_alerted_state_entered() -> void:
 func _on_alerted_state_exited() -> void:
 	super.exit_state()
 	# Hide the attention_target
-	if show_attention_target_sprite:
+	if show_attention_target_sprite and npc.attention_target:
 		npc.attention_target.visible = false
 
 
@@ -43,6 +43,11 @@ func return_to_patrol():
 
 
 func _on_alerted_state_physics_processing(delta: float) -> void:
+	if not npc.attention_target:
+		CogitoGlobals.debug_log(true, "npc_state_alerted", "Null Attention Point, likely due to reload. Returning to patrol")
+		state_chart.send_event("patrol")
+		return
+	
 	if not shock_timer.is_stopped() or not return_to_patrol_timer.is_stopped():
 		npc.face_direction(npc.attention_target.global_position)
 	

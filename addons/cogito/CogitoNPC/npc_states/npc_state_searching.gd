@@ -66,7 +66,8 @@ func _on_searching_state_entered() -> void:
 			get_tree().current_scene.add_child(search_point_two_label)
 	
 	npc.nav_agent.target_position = broken_los_point
-	npc.nav_agent.target_reached.connect(reached_target)
+	if not npc.nav_agent.target_reached.is_connected(reached_target):
+		npc.nav_agent.target_reached.connect(reached_target)
 	
 	first_wait_timer.stop()
 	second_wait_timer.stop()
@@ -98,15 +99,15 @@ func _on_searching_state_physics_processing(delta: float) -> void:
 		search_point_two_label.visible = true
 		search_point_two_label.global_position = last_known_player_point
 	
-	if reacquire_timer.is_stopped():
-		turn_head(delta)
 	sight_detection_check()
 	if npc.nav_agent.is_target_reached():
 		npc.velocity.x = move_toward(npc.velocity.x, 0, delta * npc.move_speed)
 		npc.velocity.z = move_toward(npc.velocity.z, 0, delta * npc.move_speed)
 	else:
 		# Test LOS of the player, start an reacquire timer if they are seen
-		npc.move_npc_to_next_position(delta)
+		if reacquire_timer.is_stopped():
+			turn_head(delta)
+			npc.move_npc_to_next_position(delta)
 			
 		# If the place can't be reached start the stuck timer
 		if not npc.nav_agent.is_target_reachable() and stuck_timer.is_stopped():

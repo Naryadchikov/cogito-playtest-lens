@@ -4,7 +4,7 @@ enum ChaseStatus{ CAUGHT, LOST, CHASING, WAITING = 3 }
 var current_chase_status : ChaseStatus
 var chase_target : Node3D = null
 
-@export var target_action_distance : float = 1.0
+@export var target_action_distance : float = 1.5
 @export var action_when_caught : String = "attack"
 ## If the NPC navigation agent can't reach the chase target for this amount of time (in sec), they'll return to their previous state.
 @export var giveup_chase_time : float = 5.0
@@ -37,7 +37,7 @@ func _running(delta: float):
 	var distance_to_target = npc.global_position.distance_to(chase_target.global_position)
 
 	if distance_to_target <= target_action_distance:
-		current_chase_status =  ChaseStatus.CAUGHT
+		current_chase_status = ChaseStatus.CAUGHT
 		
 	if not npc.nav_agent.is_target_reachable():
 		start_waiting()
@@ -70,7 +70,7 @@ func check_los_to_player() -> bool:
 	# Get the space state of the world, construct a ray to fire from the chaser to the target
 	var space_state = npc.get_world_3d().direct_space_state
 	# Collision layers 1 (Environment) and 3 (Player) = 4+1 = 5
-	var query = PhysicsRayQueryParameters3D.create(npc.global_position, chase_target.global_position, 5)
+	var query = PhysicsRayQueryParameters3D.create(npc.head.global_position, chase_target.global_position, 5)
 	query.exclude = [npc.get_rid()]
 	var result = space_state.intersect_ray(query)
 	# If there is a collision, check that the ray is hitting the player
@@ -94,9 +94,8 @@ func _on_chasing_state_entered() -> void:
 		state_chart.send_event("body_walk")
 	else:
 		# Don't bark if re-entering state from the attacking state
-		if barker and chase_start_bark and not npc.in_state([behaviours.Attacking]):
-			barker.stream = chase_start_bark
-			barker.play()
+		if not npc.previous_behaviour == behaviours.Attacking:
+			bark(chase_start_bark)
 		state_chart.send_event("body_run")
 		npc.move_speed = npc.sprint_speed
 		current_chase_status = ChaseStatus.CHASING
@@ -124,7 +123,7 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 			los_broken_timer.start()
 		
 	
-	if (chase_target as CogitoPlayer).is_dead:
+	if not chase_target or (chase_target as CogitoPlayer).is_dead:
 		stop_chasing()
 		
 	if npc.is_dead():
@@ -150,13 +149,16 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 			
 		ChaseStatus.CHASING:
 			_running(delta)
+			return
 			
 		ChaseStatus.CAUGHT:
 			state_chart.send_event(action_when_caught)
+			return
 			
 		ChaseStatus.LOST: # Ends this state.
 			start_searching()
 			CogitoGlobals.debug_log(true,"npc_state_chase.gd", "ChaseStatus LOST, going to state = search")
+			return
 
 
 	var look_ahead := Vector3(npc.global_position.x + npc.velocity.x, npc.global_position.y, npc.global_position.z + npc.velocity.z)

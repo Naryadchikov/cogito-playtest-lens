@@ -185,7 +185,7 @@ func get_visibility_modifier(node: Node3D) -> float:
 func fire_raycast_at(node: Node3D) -> bool:
 	# Get the space state of the world, construct a ray to fire from the npc to the spotted target
 	var space_state = get_world_3d().direct_space_state
-	var query = PhysicsRayQueryParameters3D.create(npc.head.global_position, node.global_position)
+	var query = PhysicsRayQueryParameters3D.create(npc.head.global_position, node.head.global_position if node is CogitoPlayer else node.global_position)
 	query.exclude = [self, detection_area.get_rid()]
 	var result = space_state.intersect_ray(query)
 	# If the raycast hits a player, check that they are visible via attribute

@@ -10,6 +10,8 @@ const settings_filename := "CogitoSettings"
 @export var is_state_chart_debugger_enabled: bool = false
 
 @export_group("Game Settings")
+## The scene that gets loaded for the main menu
+@export var main_menu_scene : PackedScene
 ## The scene that gets loaded when player starts a new game
 @export var new_game_start_scene : PackedScene
 ## The world state that sets world state variables on a new game

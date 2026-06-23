@@ -68,7 +68,7 @@ func _ready() -> void:
 	lockpick_health = lockpick_health_max
 	sweet_spot_range = default_sweet_spot_range
 	
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED) # capture the mosue (NOTE: you can remove this)
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED # capture the mouse (NOTE: you can remove this)
 	
 	animation_player.play(start_animation)
 	await animation_player.animation_finished
@@ -76,7 +76,7 @@ func _ready() -> void:
 	place_sweetspot(max_range)
 
 
-func _input(event: InputEvent) -> void:
+func on_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		# if the keyhole isn't turning and we haven't unlocked it yet
 		if not is_turning_keyhole and not is_changing_lockpicks and not is_unlocked:

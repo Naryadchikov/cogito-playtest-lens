@@ -5,9 +5,6 @@ extends Control
 ## look at the function open_options_menu for an example of showing a submenu
 ## also remember to add a hide call for your menu in _input
 
-signal resume
-signal back_to_main_pressed
-
 #region Variables
 @export var nodes_to_focus: Array[Control]
 @export var sound_hover : AudioStream
@@ -17,11 +14,6 @@ signal back_to_main_pressed
 var playback : AudioStreamPlaybackPolyphonic
 var temp_screenshot : Image
 
-var is_pausemenu_open : bool:
-	set(value):
-		is_pausemenu_open = value
-		set_process_input(is_pausemenu_open)
-
 @onready var resume_game_button: Button = %ResumeGameButton
 @onready var save_button: CogitoUiButton = %SaveButton
 @onready var load_button: CogitoUiButton = %LoadButton
@@ -29,13 +21,10 @@ var is_pausemenu_open : bool:
 @onready var options_tab_menu: OptionsTabMenu = $Content/OptionsTabMenu
 @onready var game_menu: MarginContainer = $Content/GameMenu
 @onready var save_load_menu: Control = $Content/SaveLoadMenu
-
 #endregion
 
 
 func _enter_tree() -> void:
-	is_pausemenu_open = false
-	
 	# Create an audio player
 	var player = AudioStreamPlayer.new()
 	add_child(player)
@@ -68,11 +57,9 @@ func _play_pressed() -> void:
 	playback.play_stream(sound_click, 0, 0, 1)
 
 
-func open_pause_menu():
+func _ready() -> void:
 	#Stops game and shows pause menu
 	get_tree().paused = true
-	
-	is_pausemenu_open = true
 	
 	CogitoSceneManager.switch_active_slot_to(CogitoSceneManager._active_slot)
 	if CogitoSceneManager._player_state:
@@ -81,14 +68,33 @@ func open_pause_menu():
 		label_active_slot.visible = false
 		
 	temp_screenshot = grab_temp_screenshot()
-	show()
-	game_menu.show()
 	options_tab_menu.hide()
-	
 	update_load_related_gui()
-	
 	nodes_to_focus[0].grab_focus.call_deferred()
+	
+	InputRouter.push(on_input)
+	if InputHelper.device_index == -1:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
+func on_input(event):
+	if (event.is_action_pressed("ui_cancel") or event.is_action_pressed("menu")):
+		if options_tab_menu.visible:
+			accept_event()
+			options_tab_menu.hide()
+			options_tab_menu.load_options()
+			CogitoSceneManager.previous_menu_button_pressed = ""
+			save_load_menu.hide()
+			game_menu.show()
+			
+			update_load_related_gui()
+			
+			resume_game_button.grab_focus.call_deferred()
+		else:
+			accept_event()
+			close_pause_menu()
+			
+			if InputHelper.device_index == -1:
+				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func update_load_related_gui():
 	if CogitoSceneManager.is_loaded_from_start_new_game:
@@ -183,9 +189,8 @@ func load_current_slot_data() -> bool:
 
 func close_pause_menu():
 	get_tree().paused = false
-	is_pausemenu_open = false
-	hide()
-	emit_signal("resume")
+	InputRouter.pop()
+	queue_free()
 
 
 func _on_resume_game_button_pressed():
@@ -199,27 +204,9 @@ func _on_quit_button_pressed():
 
 func _on_back_to_menu_button_pressed():
 	close_pause_menu()
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	emit_signal("back_to_main_pressed")
-
-
-func _input(event):
-	if (event.is_action_pressed("ui_cancel") or event.is_action_pressed("menu")) and !game_menu.visible:
-		accept_event()
-		options_tab_menu.hide()
-		options_tab_menu.load_options()
-		CogitoSceneManager.previous_menu_button_pressed = ""
-		save_load_menu.hide()
-		game_menu.show()
-		
-		update_load_related_gui()
-		
-		resume_game_button.grab_focus.call_deferred()
-		return
-		
-	if (event.is_action_pressed("ui_cancel") or event.is_action_pressed("menu")) and visible:
-		accept_event()
-		close_pause_menu()
+	var path_to_scene = CogitoGlobals.cogito_settings.main_menu_scene.resource_path
+	CogitoSceneManager.load_next_scene(path_to_scene, "", "temp", CogitoSceneManager.CogitoSceneLoadMode.RESET) #Load_mode 2 means there's no attempt to load a state.
+	Input
 
 
 func _on_save_button_pressed() -> void:

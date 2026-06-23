@@ -67,9 +67,6 @@ var previous_crosshair_texture : Texture
 
 
 func _ready():
-	# TESTING THIS
-	set_process_unhandled_input(false)
-	
 	# Connect to signal that detects change of input device
 	InputHelper.device_changed.connect(_on_input_device_change)
 	# Calling this function once to set proper input icons
@@ -288,13 +285,9 @@ func set_drop_prompt(_carrying_node):
 #What happens when an external UI is shown (like inventory, readbale document, keypad, external inventory)
 func _on_external_ui_toggle(is_showing:bool):
 	if is_showing:
-		player._on_pause_movement()
-		player.is_showing_ui = true
 		prompt_area.hide()
 		crosshair.hide()
 	else:
-		player._on_resume_movement()
-		player.is_showing_ui = false
 		prompt_area.show()
 		crosshair.show()
 

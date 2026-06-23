@@ -11,14 +11,6 @@ func _on_main_menu_start_game_pressed():
 	else:
 		print("menu_scene_switcher.gd: No start game scene set.")
 
-func _on_pause_menu_back_to_main_pressed():
-	if main_menu_scene:
-		CogitoSceneManager.load_next_scene(main_menu_scene, "", "temp", CogitoSceneManager.CogitoSceneLoadMode.RESET) #Load_mode 2 means there's no attempt to load a state.
-		CogitoSceneManager.delete_temp_saves()
-	else:
-		print("menu_scene_switcher.gd: No main menu scene set.")
-
-
 func start_new_game():
 	if CogitoGlobals.cogito_settings.new_game_start_scene:
 		var path_to_scene = CogitoGlobals.cogito_settings.new_game_start_scene.resource_path

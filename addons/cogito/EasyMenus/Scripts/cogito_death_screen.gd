@@ -146,7 +146,7 @@ func _on_quit_button_pressed():
 func _on_back_to_menu_button_pressed():
 	get_tree().paused = false
 	hide()
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	back_to_main_pressed.emit()
 
 

@@ -15,7 +15,7 @@ signal mouse_movement(relative_mouse_movement:Vector2)
 
 #region Variables
 ## Reference to Pause menu node
-@export var pause_menu : NodePath
+@export var pause_menu : PackedScene
 ## Refereence to Player HUD node
 @export var player_hud : NodePath
 # Used for handling input when UI is open/displayed
@@ -197,7 +197,6 @@ var last_velocity : Vector3= Vector3.ZERO
 var direction : Vector3 = Vector3.ZERO
 var is_free_looking : bool  = false
 var is_roll_animation_finished : bool = false
-var is_movement_paused : bool = false
 var is_in_unpausable_state : bool = false
 var is_in_interaction_state : bool = true
 var is_dead : bool = false
@@ -283,8 +282,6 @@ func _ready():
 		ledge_climbing_shapecast_height = ledge_climbing_shapecast.shape.height
 	
 	crouch_shapecast.add_exception(self)
-	
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 	### NEW PLAYER ATTRIBUTE SETUP:
 	# Grabs all attached player attributes
@@ -306,22 +303,13 @@ func _ready():
 		visibility_attribute.attribute_changed.connect(sanity_attribute.on_visibility_changed)
 		visibility_attribute.check_current_visibility()
 
-
 	### CURRENCY SETUP
 	for currency in find_children("", "CogitoCurrency", false):
 		player_currencies[currency.currency_name] = currency
 		CogitoGlobals.debug_log(is_logging, "cogito_player.gd", "Cogito Currency found: " + currency.currency_name)
-
-
-	# Pause Menu setup
-	if pause_menu:
-		var pause_menu_node = get_node(pause_menu)
-		pause_menu_node.resume.connect(_on_pause_menu_resume) # Hookup resume signal from Pause Menu
-		pause_menu_node.close_pause_menu() # Making sure pause menu is closed on player scene load
-	else:
-		printerr("Player has no reference to pause menu.")
 	
 	_initialize_state_chart()
+	_reload_options()
 	
 	#Sittable Signals setup
 	CogitoSceneManager.connect("sit_requested", Callable(self, "_on_sit_requested"))
@@ -332,6 +320,9 @@ func _ready():
 
 	call_deferred("slide_audio_init")
 	call_deferred("swim_audio_init")
+	
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	InputRouter.push(on_input)
 
 
 func create_new_state() -> CogitoPlayerState:
@@ -401,34 +392,6 @@ func _on_death():
 	player_interaction_component.on_death()
 	is_dead = true
 
-
-# Methods to pause input (for Menu or Dialogues etc)
-func _on_pause_movement():
-	if !is_movement_paused:
-		is_movement_paused = true
-		state_chart.send_event("pause")
-		# Only show mouse cursor if input device is KBM
-		if InputHelper.device_index == -1:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
-
-func _on_resume_movement():
-	if is_movement_paused:
-		is_movement_paused = false
-		state_chart.send_event("resume")
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
-
-func pause_before_interaction():
-	is_movement_paused = true
-	state_chart.send_event("pause")
-
-
-func resume_after_interaction():
-	is_movement_paused = false
-	state_chart.send_event("resume")
-
-
 # reload options user may have changed while paused.
 func _reload_options():
 	var err = config.load(OptionsConstants.config_file_name)
@@ -446,11 +409,10 @@ func _reload_options():
 # Signal from Pause Menu
 func _on_pause_menu_resume():
 	_reload_options()
-	_on_resume_movement()
 
 
-func _input(event):
-	if event is InputEventMouseMotion and !is_movement_paused:
+func on_input(event):
+	if event is InputEventMouseMotion:
 		var look_movement: Vector2 = Vector2(0.0,0.0)
 		
 		#If players sitting & look marker is present, use sittable look handling
@@ -476,25 +438,29 @@ func _input(event):
 
 		
 	# Checking Analog stick input for mouse look
-	if event is InputEventJoypadMotion and !is_movement_paused:
+	if event is InputEventJoypadMotion:
 		if event.get_axis() == 2:
 			joystick_v_event = event
 		if event.get_axis() == 3:
 			joystick_h_event = event
 	
+	player_interaction_component.on_input(event)
 	
 	# Opens Pause Menu if Menu button is proessed.
 	if event.is_action_pressed("menu"):
-		if CogitoSceneManager.is_currently_loading:
-			return
+		if CogitoSceneManager.is_currently_loading: return
+		
 		if is_showing_ui: #Behaviour when pressing ESC/menu while external UI is open (Readables, Keypad, etc)
 			menu_pressed.emit(player_interaction_component)
 			if get_node(player_hud).inventory_interface.is_inventory_open: #Behaviour when pressing ESC/menu while Inventory is open
 				toggle_inventory_interface.emit()
-		elif !is_in_unpausable_state and !is_movement_paused and !is_dead:
+		elif !is_in_unpausable_state and !is_dead:
 			if !currently_tweening:
-				_on_pause_movement()
-				get_node(pause_menu).open_pause_menu()
+				if pause_menu:
+					print("Player / Open Pause Menu")
+					add_child(pause_menu.instantiate())
+				else:
+					CogitoGlobals.debug_log(true, "cogito_player_advanced", "Unable to open Pause Menu! Player has no reference to a Pause Menu PackedScene!")
 			else:
 				player_interaction_component.send_hint(null, "Wait until I’m seated or standing")
 
@@ -763,13 +729,8 @@ func _on_player_state_loaded():
 
 
 func _physics_process(delta):
-	if is_movement_paused:
-		return
-	
 	_process_analog_stick_mouselook()
-	
 	_free_look(delta)
-
 
 #region State Chart
 enum MovingState {

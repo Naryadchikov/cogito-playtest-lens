@@ -6106,15 +6106,14 @@ shape = SubResource("BoxShape3D_ecok4")
 
 [node name="WindowedDoor" parent="UPPER_OFFICE_CEO" unique_id=1419523907 instance=ExtResource("17_2lcsn")]
 
-[node name="FrontDoor" parent="UPPER_OFFICE_CEO/WindowedDoor" index="0" node_paths=PackedStringArray("audio_player")]
-audio_player = NodePath("AudioStreamPlayer3D")
+[node name="FrontDoor" parent="UPPER_OFFICE_CEO/WindowedDoor" index="0" unique_id=1468207346]
 unlock_sound = ExtResource("18_sk7n4")
 lock_sound = ExtResource("18_sk7n4")
 is_locked = true
 key = ExtResource("19_vxibd")
 key_hint = "Key not found!"
 
-[node name="BasicInteraction" parent="UPPER_OFFICE_CEO/WindowedDoor/FrontDoor" index="2"]
+[node name="BasicInteraction" parent="UPPER_OFFICE_CEO/WindowedDoor/FrontDoor" index="2" unique_id=245787925]
 is_disabled = true
 
 [node name="LockInteraction" parent="UPPER_OFFICE_CEO/WindowedDoor/FrontDoor" index="4" unique_id=1673390947 instance=ExtResource("22_2fd6x")]
@@ -6240,11 +6239,9 @@ horizontal_alignment = 0
 
 [node name="laptop" parent="UPPER_OFFICE_CEO" unique_id=1186389046 instance=ExtResource("72_fpgjy")]
 transform = Transform3D(0.0543052, 0, -0.998524, 0, 1, 0, 0.998524, 0, 0.0543052, 2.96413, 0.794343, -1.87712)
-cogito_name = ""
 
 [node name="laptop_real" parent="UPPER_OFFICE_CEO" unique_id=731126395 instance=ExtResource("35_s7tgx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.12195, 0.80538, -5.77168)
-cogito_name = ""
 
 [node name="Pickup_Key" parent="UPPER_OFFICE_CEO" unique_id=1068133616 instance=ExtResource("68_8mqrf")]
 transform = Transform3D(0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, 3.02288, 0.84246, -0.4164)
@@ -6311,8 +6308,7 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -3.1, 
 [node name="ArchiveDoor" parent="ARCHIVE" unique_id=389023377 instance=ExtResource("17_2lcsn")]
 transform = Transform3D(7.54979e-08, 0, -1, 0, 1, 0, 1, 0, 7.54979e-08, -3.04332, 0, -2.53017)
 
-[node name="FrontDoor" parent="ARCHIVE/ArchiveDoor" index="0" node_paths=PackedStringArray("audio_player")]
-audio_player = NodePath("AudioStreamPlayer3D")
+[node name="FrontDoor" parent="ARCHIVE/ArchiveDoor" index="0" unique_id=1468207346]
 is_locked = true
 
 [node name="Wall81" type="StaticBody3D" parent="ARCHIVE" unique_id=1452064680]
@@ -6681,10 +6677,7 @@ transform = Transform3D(-0.607514, 0, 0.794309, 0, 1, 0, -0.794309, 0, -0.607514
 [node name="ConferenceDoor" parent="MEETING_ROOM" unique_id=1078879259 instance=ExtResource("17_2lcsn")]
 transform = Transform3D(1, 0, 1.19209e-07, 0, 1, 0, -1.19209e-07, 0, 1, -5.92048, 0, -20.9787)
 
-[node name="FrontDoor" parent="MEETING_ROOM/ConferenceDoor" index="0" node_paths=PackedStringArray("audio_player")]
-audio_player = NodePath("AudioStreamPlayer3D")
-
-[node name="LockInteraction" parent="MEETING_ROOM/ConferenceDoor/FrontDoor" index="4" unique_id=343132280 instance=ExtResource("22_2fd6x")]
+[node name="LockInteraction" parent="MEETING_ROOM/ConferenceDoor/FrontDoor" parent_id_path=PackedInt32Array(1078879259, 1468207346) index="4" unique_id=343132280 instance=ExtResource("22_2fd6x")]
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="MEETING_ROOM" unique_id=439755638]
 transform = Transform3D(1, 0, -7.10543e-15, 0, 1, 0, 7.10543e-15, 0, 1, -7.26615, 0, -20.9217)
@@ -7206,7 +7199,6 @@ transform = Transform3D(-0.661482, 0, -0.749961, 0, 1, 0, 0.749961, 0, -0.661482
 transform = Transform3D(-0.945904, 0, -0.324446, 0, 1, 0, 0.324446, 0, -0.945904, 7.15862, -1.67638e-07, 0.929278)
 
 [node name="plantSmall2" parent="CUBICLE_AREA" unique_id=845862990 instance=ExtResource("55_s7anr")]
-cogito_name = ""
 
 [node name="KSI_steps_single" parent="CUBICLE_AREA" unique_id=107845728 instance=ExtResource("88_u6glq")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.03513, -0.5, -3.98671)
@@ -7440,7 +7432,7 @@ transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 1.90368, 1.44587, -15.4)
 [node name="Hint_02_LampSwitch" parent="DEMO_HINTS" unique_id=1615019632 instance=ExtResource("62_y3og2")]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 6.9916, 1.44587, -9.49445)
 
-[node name="ReadableComponent" parent="DEMO_HINTS/Hint_02_LampSwitch" index="6"]
+[node name="ReadableComponent" parent="DEMO_HINTS/Hint_02_LampSwitch" index="6" unique_id=1768800036]
 readable_title = "Cogito Switch"
 readable_content = "This lamp is an example of a Cogito Switch object.
 
@@ -7454,7 +7446,7 @@ If you look at the wall near the entrance, you can find an example of a more com
 [node name="Hint_03_AdvancedSwitch" parent="DEMO_HINTS" unique_id=1861685259 instance=ExtResource("62_y3og2")]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 6.30891, 1.21174, -15.5319)
 
-[node name="ReadableComponent" parent="DEMO_HINTS/Hint_03_AdvancedSwitch" index="6"]
+[node name="ReadableComponent" parent="DEMO_HINTS/Hint_03_AdvancedSwitch" index="6" unique_id=1768800036]
 readable_title = "Connected Switch"
 readable_content = "You can connect Cogito Switch objects to each other to create more complex switchable objects.
 
@@ -7467,7 +7459,7 @@ You can also use this to control doors or use the included signal to hook up you
 [node name="Hint_04_Breakroom" parent="DEMO_HINTS" unique_id=2085838120 instance=ExtResource("62_y3og2")]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, -2.25377, 1.0441, -8.68306)
 
-[node name="ReadableComponent" parent="DEMO_HINTS/Hint_04_Breakroom" index="6"]
+[node name="ReadableComponent" parent="DEMO_HINTS/Hint_04_Breakroom" index="6" unique_id=1768800036]
 readable_title = "Break Room"
 readable_content = "This room is a showcase of how you can use Cogito to make props interactable.
 
@@ -7481,7 +7473,7 @@ shape = SubResource("SphereShape3D_n25yf")
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, -2.55377, 1.28785, 7.30465)
 metadata/_edit_group_ = true
 
-[node name="ReadableComponent" parent="DEMO_HINTS/Hint_05_Platform" index="6"]
+[node name="ReadableComponent" parent="DEMO_HINTS/Hint_05_Platform" index="6" unique_id=1768800036]
 readable_title = "Moving Platform"
 readable_content = "By creatively combining the Cogito Door object with a Cogito Switch object, you can create moving platforms like this lift.
 
@@ -7492,7 +7484,7 @@ Play around with all the options each Cogito script provides and see what you ca
 [node name="Hint_06_AdvancedDoors" parent="DEMO_HINTS" unique_id=404678531 instance=ExtResource("62_y3og2")]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, -1.68055, 4.0441, -13.7996)
 
-[node name="ReadableComponent" parent="DEMO_HINTS/Hint_06_AdvancedDoors" index="6"]
+[node name="ReadableComponent" parent="DEMO_HINTS/Hint_06_AdvancedDoors" index="6" unique_id=1768800036]
 readable_title = "Advanced Doors"
 readable_content = "You can set up doors as locked.
 
@@ -7508,7 +7500,7 @@ shape = SubResource("SphereShape3D_n25yf")
 [node name="Hint_07_Keypad" parent="DEMO_HINTS" unique_id=245865210 instance=ExtResource("62_y3og2")]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 0.171214, 1.1744, 8.66609)
 
-[node name="ReadableComponent" parent="DEMO_HINTS/Hint_07_Keypad" index="6"]
+[node name="ReadableComponent" parent="DEMO_HINTS/Hint_07_Keypad" index="6" unique_id=1768800036]
 readable_title = "Keypads"
 readable_content = "This classic Keypad works exactly as you expect: enter the code to unlock the door. You can find hints to the code for this keypad close by.
 
@@ -7521,7 +7513,7 @@ shape = SubResource("SphereShape3D_n25yf")
 [node name="Hint_08_Sittable_Static" parent="DEMO_HINTS" unique_id=1854569320 instance=ExtResource("62_y3og2")]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 4.61808, 0.551412, -9.63398)
 
-[node name="ReadableComponent" parent="DEMO_HINTS/Hint_08_Sittable_Static" index="6"]
+[node name="ReadableComponent" parent="DEMO_HINTS/Hint_08_Sittable_Static" index="6" unique_id=1768800036]
 readable_title = "Sittables"
 readable_content = "This chair contains a [b]Cogito Sittable[/b]
 
@@ -7538,7 +7530,7 @@ shape = SubResource("SphereShape3D_n25yf")
 [node name="Hint_09_Sittable_Auto" parent="DEMO_HINTS" unique_id=1734723871 instance=ExtResource("62_y3og2")]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, -2.26547, 1.00668, 11.2442)
 
-[node name="ReadableComponent" parent="DEMO_HINTS/Hint_09_Sittable_Auto" index="6"]
+[node name="ReadableComponent" parent="DEMO_HINTS/Hint_09_Sittable_Auto" index="6" unique_id=1768800036]
 readable_title = "Sittables - Sit Area"
 readable_content = "[b]Sittables aren't just for seats![/b]
 
@@ -7561,7 +7553,7 @@ shape = SubResource("SphereShape3D_n25yf")
 [node name="Hint_10_Sittable_Physics" parent="DEMO_HINTS" unique_id=2121609318 instance=ExtResource("62_y3og2")]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, -5.24664, 0.551412, -14.7463)
 
-[node name="ReadableComponent" parent="DEMO_HINTS/Hint_10_Sittable_Physics" index="6"]
+[node name="ReadableComponent" parent="DEMO_HINTS/Hint_10_Sittable_Physics" index="6" unique_id=1768800036]
 readable_title = "Sittables - Physics Sittable"
 readable_content = "These chairs are examples of a [b]Physics Sittable[/b]. 
 
@@ -7587,7 +7579,7 @@ shape = SubResource("SphereShape3D_n25yf")
 [node name="Hint_11_Sittable_Vehicle" parent="DEMO_HINTS" unique_id=1725283218 instance=ExtResource("62_y3og2")]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 4.05165, 1.67329, 0.113413)
 
-[node name="ReadableComponent" parent="DEMO_HINTS/Hint_11_Sittable_Vehicle" index="6"]
+[node name="ReadableComponent" parent="DEMO_HINTS/Hint_11_Sittable_Vehicle" index="6" unique_id=1768800036]
 readable_title = "Sittables - Basic Vehicles"
 readable_content = "These chairs are examples of [b]Cogito Vehicles[/b], a basic example of extending the Sittable class
 
@@ -7713,12 +7705,10 @@ transform = Transform3D(-0.379472, 0, -0.925203, 0, 1, 0, 0.925203, 0, -0.379472
 
 [node name="RippedPageA_pickup" parent="." unique_id=717592296 instance=ExtResource("91_qq2p0")]
 transform = Transform3D(-2.63806e-09, 0.998177, -0.0603517, 4.36317e-08, 0.0603517, 0.998177, 1, 0, -4.37114e-08, 5.13684, 0.51698, -11.7774)
-cogito_name = ""
 
 [node name="RippedPageB_pickup" parent="." unique_id=1677354570 instance=ExtResource("92_11u5w")]
 transform = Transform3D(-0.999185, 0.0287171, 0.0283608, 0.0286762, 0.0106298, 0.999532, 0.0284021, 0.999531, -0.0114446, 0.584339, 0.607864, 14.3816)
 mass = 0.5
-cogito_name = ""
 
 [node name="LIGHTZONES" type="Node3D" parent="." unique_id=575102507]
 

@@ -78,10 +78,17 @@ func unequip():
 	if is_on:
 		turn_off()
 
+
 # Function called when wieldable reload is attempted
-func reload():
+func reload() -> bool:
+	if !super.reload(): return false
 	animation_player.play(anim_reload)
-	play_sound(sound_reload)
+	if audio_stream_player_3d and sound_reload:
+		audio_stream_player_3d.stream = sound_reload
+		audio_stream_player_3d.play()
+		
+	return true
+
 
 # Function to explicitly turn it off for use when battery is depleted.
 func turn_off():

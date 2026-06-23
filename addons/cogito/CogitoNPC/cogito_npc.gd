@@ -85,8 +85,6 @@ var wiggle_index : float = 0.0
 @onready var state_chart: StateChart = $StateChart
 var serialized_state : SerializedStateChart
 var patrol_path_nodepath : NodePath
-var sight_detection_nodepath: NodePath
-var hearing_detection_nodepath: NodePath
 var attention_target_uid: int
 var currently_stunned : bool = false
 var health: CogitoHealthAttribute

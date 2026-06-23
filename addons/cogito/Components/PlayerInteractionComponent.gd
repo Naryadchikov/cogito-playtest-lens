@@ -225,7 +225,7 @@ func equip_wieldable(wieldable_item: WieldableItemPD):
 		var wieldable_node = wieldable_item.build_wieldable_scene()
 		wieldable_container.add_child(wieldable_node)
 		equipped_wieldable_node = wieldable_node
-		equipped_wieldable_node.change_ammo(equipped_wieldable_item.current_ammo_type)
+		equipped_wieldable_node.set_ammo_type(equipped_wieldable_item.current_ammo_type)
 		equipped_wieldable_node.item_reference = wieldable_item
 		print("PIC: Found ", equipped_wieldable_item.name, " in wieldable node array: ", wieldable_node.name)
 		equipped_wieldable_node.equip(self)
@@ -270,66 +270,11 @@ func attempt_action_secondary(is_released: bool):
 
 
 func attempt_change_ammo():
-	if equipped_wieldable_node.animation_player.is_playing():
-		send_hint(null, tr("HINT_ammo_change_blocked"))
-		return
-	if(equipped_wieldable_item.switch_to_next_ammo_type()):
-		equipped_wieldable_node.change_ammo(equipped_wieldable_item.current_ammo_type)
-		equipped_wieldable_item.update_wieldable_data(self)
-		attempt_reload()
+	if equipped_wieldable_node: equipped_wieldable_node.change_ammo()
 
 
 func attempt_reload():
-	var inventory = get_inventory()
-	# Some safety checks if reload should even be triggered.
-	if inventory == null:
-		print("Player inventory was null!")
-		return
-
-	if equipped_wieldable_node.animation_player.is_playing():
-		print("Can't interrupt current action / animation")
-		return
-
-	# If the item doesn't use reloading, return.
-	if equipped_wieldable_item.no_reload:
-		return
-
-	var ammo_needed: int = abs(equipped_wieldable_item.charge_max - equipped_wieldable_item.charge_current)
-	if ammo_needed <= 0:
-		print("Wieldable is fully charged.")
-		return
-
-	if equipped_wieldable_item.get_item_amount_in_inventory(equipped_wieldable_item.get_current_ammo()) <= 0:
-		CogitoGlobals.debug_log(true,"PIC", "You have no ammo for this wieldable.")
-		return
-
-	if equipped_wieldable_node.animation_player.is_playing(): # Make sure reload isn't interrupting another animation.
-		return
-
-	equipped_wieldable_node.reload()
-
-	for slot: InventorySlotPD in inventory.inventory_slots:
-		if ammo_needed <= 0:
-			break
-		if slot == null or slot.inventory_item.name != equipped_wieldable_item.get_current_ammo().name:
-			continue
-
-		var ammo_used: int
-		var slot_ammo: AmmoItemPD = slot.inventory_item
-		var quantity_needed: int = ceili(float(ammo_needed) / slot_ammo.reload_amount)
-
-		if slot.quantity <= quantity_needed:
-			ammo_used = slot_ammo.reload_amount * slot.quantity
-			inventory.remove_slot_data(slot)
-		elif slot.quantity > quantity_needed:
-			ammo_used = slot_ammo.reload_amount * quantity_needed
-			slot.quantity -= quantity_needed
-
-		equipped_wieldable_item.add(ammo_used)
-		ammo_needed -= ammo_used
-
-	inventory.inventory_updated.emit(inventory)
-	equipped_wieldable_item.update_wieldable_data(self)
+	if equipped_wieldable_node: equipped_wieldable_node.reload()
 
 
 func on_death():

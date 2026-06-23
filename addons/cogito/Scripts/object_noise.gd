@@ -58,7 +58,6 @@ func set_parameters(noise_type: NoiseType, noise_size: float, noise_duration: fl
 
 ## Creates a one-shot tween that creates an expanding sphere. If spawn_debug_shape is enabled, it will appear to the player.
 func fire_off_noise():
-	CogitoGlobals.debug_log(true, "object_noise.gd", "Spawning noise of magnitude %s" % magnitude)
 	var tween = create_tween()
 	if debug_mesh:
 		tween.tween_property(debug_mesh, "material_override:albedo_color", Color(1,0,0,0), noise_duration)

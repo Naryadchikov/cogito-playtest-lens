@@ -1,7 +1,7 @@
 extends Node
 class_name HitboxComponent
 
-signal got_hit
+signal got_hit(object: Node3D)
 
 @export var health_attribute : CogitoHealthAttribute
 ## PackedScene that will get spawned on global hit position
@@ -23,7 +23,7 @@ func _ready() -> void:
 		CogitoGlobals.debug_log(true, "HitboxComponent", "Parent " + parent.name + " is missing a damage_received() signal.")
 
 
-func damage(damage_amount: float, _hit_direction:= Vector3.ZERO, _hit_position:= Vector3.ZERO):
+func damage(damage_amount: float, object: Node3D, _hit_direction:= Vector3.ZERO, _hit_position:= Vector3.ZERO):
 	if health_attribute:
 		health_attribute.subtract(damage_amount)
 	
@@ -45,4 +45,4 @@ func damage(damage_amount: float, _hit_direction:= Vector3.ZERO, _hit_position:=
 		if parent is CharacterBody3D:
 			parent.apply_knockback(_hit_direction * damage_amount * applied_force_multipler)
 			
-	got_hit.emit()
+	got_hit.emit(object)

@@ -187,6 +187,7 @@ var joystick_v_event
 var initial_carryable_height #DEPRECATED Used to change carryable position based if player is standing or crouching
 
 var config = ConfigFile.new()
+var uid: int = -1
 
 var current_speed : float = 5.0
 var current_lerp_speed : float = LERP_SPEED
@@ -252,6 +253,8 @@ var ledge_climbing_shapecast_initial_position : Vector3
 
 func _ready():
 	#Some Setup steps
+	if uid == -1:
+		uid = get_instance_id()
 	CogitoSceneManager._current_player_node = self
 	player_interaction_component.interaction_raycast = $Body/Neck/Head/Eyes/Camera/InteractionRaycast
 	player_interaction_component.exclude_player(get_rid())

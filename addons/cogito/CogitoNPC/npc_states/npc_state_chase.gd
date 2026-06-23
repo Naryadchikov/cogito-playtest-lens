@@ -66,7 +66,7 @@ func start_searching() -> void:
 
 
 ## Fire a raycast at the player to see if they're visible to the npc
-func check_los_to_player() -> bool:
+func check_los_to_player() -> bool:	
 	# Get the space state of the world, construct a ray to fire from the chaser to the target
 	var space_state = npc.get_world_3d().direct_space_state
 	# Collision layers 1 (Environment) and 3 (Player) = 4+1 = 5
@@ -109,6 +109,10 @@ func _on_chasing_state_exited() -> void:
 
 
 func _on_chasing_state_physics_processing(delta: float) -> void:
+	## When loading a game during a chase, the attention target needs to be reacquired
+	if not chase_target and npc.attention_target:
+		chase_target = npc.attention_target
+	
 	var can_see_player = check_los_to_player()
 	if can_see_player:
 		npc.head_turner.active = true

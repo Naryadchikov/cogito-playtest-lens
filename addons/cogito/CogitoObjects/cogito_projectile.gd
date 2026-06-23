@@ -115,7 +115,7 @@ func deal_damage(collider: Node,bullet_direction,bullet_position):
 	# bullet_direction = Direction
 	CogitoGlobals.debug_log(true, "CogitoProjectile", self.name + ": dealing damage amount " + str(damage_amount) + " on collider " + collider.name + " at " + str(bullet_position) + " in direction " + str(direction) )
 
-	collider.damage_received.emit(damage_amount,bullet_direction,bullet_position)
+	collider.damage_received.emit(damage_amount, self, bullet_direction,bullet_position)
 	if destroy_on_impact:
 		die()
 

@@ -12,6 +12,7 @@ class_name HearingDetection
 @export var npc: CogitoNPC
 ## Texture for visually representing where the current attention target is, this will be a speaker since its hearing
 @export var attention_target_sprite_texture: Texture2D
+@export var show_attention_target: bool = true
 
 ## Size of the hearing sphere in metres.
 @export var hearing_radius: float = 10:
@@ -111,14 +112,14 @@ func _on_hearing_radius_area_entered(area: Area3D) -> void:
 	var noise: ObjectNoise = area as ObjectNoise
 	# First off if the noise is an impact like a thrown object, transition to Alerted
 	if noise.noise_type == ObjectNoise.NoiseType.Impact:
-		generate_attention_target(noise.global_position, false)
+		generate_attention_target(noise.global_position)
 		npc.state_chart.send_event("alerted")
 	# Otherwise if its a footstep, build up suspicion or ignore if its not loud enough
 	elif noise.magnitude > ignore_sounds_under_x_magnitude and current_suspicion < suspicion_threshold_before_investigating + 0.5:
 		decay_timer.stop()
 		current_suspicion += noise_suspicion_curve.sample(noise.magnitude)
 	if current_suspicion > suspicion_threshold_before_investigating:
-		generate_attention_target(noise.global_position, true)
+		generate_attention_target(noise.global_position)
 		npc.state_chart.send_event("investigate")
 
 
@@ -127,11 +128,8 @@ func reset():
 	noise_suspicion_indicator.update(current_suspicion, suspicion_threshold_before_investigating)
 
 
-func generate_attention_target(position: Vector3, investigating: bool):
-	var attention_point = Sprite3D.new()
-	attention_point.modulate = Color(1,0,0)
-	attention_point.texture = attention_target_sprite_texture
-	attention_point.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
+func generate_attention_target(position: Vector3):
+	var attention_point = CogitoPoint.new(attention_target_sprite_texture, show_attention_target)
 	get_tree().current_scene.add_child(attention_point)
 	attention_point.global_position = position
 	npc.attention_target = attention_point

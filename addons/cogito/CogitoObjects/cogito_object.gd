@@ -235,7 +235,7 @@ func _on_body_entered(body: Node) -> void:
 	if body.has_signal("damage_received") and rigid_body:
 		if physics_frame_velocity_scalar >= minimum_velocity_to_inflict_damage:
 			var damage_to_deal = calculate_damage()
-			body.damage_received.emit(damage_dealt_when_airborne);
+			body.damage_received.emit(damage_dealt_when_airborne, self);
 	
 	## Make the object take damage if its 
 	if self_damage_when_airborne and physics_frame_velocity_scalar >= minimum_velocity_to_inflict_damage:

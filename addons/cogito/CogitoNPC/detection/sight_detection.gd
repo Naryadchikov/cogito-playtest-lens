@@ -226,10 +226,7 @@ func on_body_exited(body: Node3D):
 
 
 func generate_attention_target(position: Vector3):
-	var attention_point = Sprite3D.new()
-	attention_point.modulate = Color(1,0,0)
-	attention_point.texture = attention_target_sprite_texture
-	attention_point.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
+	var attention_point = CogitoPoint.new(attention_target_sprite_texture, show_debug_info)
 	get_tree().current_scene.add_child(attention_point)
 	attention_point.global_position = position
 	npc.attention_target = attention_point

@@ -20,7 +20,6 @@ enum PromptPositionMode{
 @export var prompt_marker : Marker3D
 
 @export var head: Node3D
-@export var player_collider: Area3D
 var interaction_nodes : Array[Node]
 var cogito_properties : CogitoProperties = null
 var properties : int
@@ -28,6 +27,7 @@ var properties : int
 
 @export var patrol_path : CogitoPatrolPath
 
+## Should be a class that supports uid
 var attention_target : Node3D
 var last_reachable_path: Vector3
 
@@ -83,13 +83,16 @@ var wiggle_index : float = 0.0
 
 # NPC State related vars
 @onready var state_chart: StateChart = $StateChart
+var serialized_state : SerializedStateChart
 var patrol_path_nodepath : NodePath
-var saved_enemy_state : String
+var sight_detection_nodepath: NodePath
+var hearing_detection_nodepath: NodePath
+var attention_target_uid: int
 var currently_stunned : bool = false
 var health: CogitoHealthAttribute
 
 enum BehaviourState {
-	## Null state for state processor defaults
+	## Null state for state processor defaults or if you want a processor to handle multiple states
 	None,
 	## NPC is Idle, just chilling
 	Idle,
@@ -253,13 +256,17 @@ func apply_knockback(direction: Vector3):
 func set_state():	
 	#TODO: Find a way to possibly save health of health attribute.
 	find_cogito_properties()
-	load_patrol_points()
+	load_nodepaths()
+	load_state_chart()
+	load_attention_target()
 
 	
 # Function to handle persistence and saving
 func save():
 	if patrol_path:
 		patrol_path_nodepath = patrol_path.get_path()
+	if attention_target:
+		attention_target_uid = attention_target.uid
 	
 	var node_data = {
 		"filename" : get_scene_file_path(),
@@ -271,23 +278,39 @@ func save():
 		"rot_y" : rotation.y,
 		"rot_z" : rotation.z,
 		"patrol_path_nodepath" : patrol_path_nodepath,
-		"saved_enemy_state" : saved_enemy_state,
-  		
+		"serialized_state" : StateChartSerializer.serialize(state_chart),
+		"attention_target_uid": attention_target_uid,
+		"response_to_player": response_to_player
 	}
 	return node_data
 
 
-func load_patrol_points():
+func load_nodepaths():
 	if patrol_path_nodepath:
-		CogitoGlobals.debug_log(true,"cogito_basic_enemy.gd","Loading patrol path: " + str(patrol_path_nodepath))
+		CogitoGlobals.debug_log(true,"CogitoNPC","Loading patrol path: " + str(patrol_path_nodepath))
 		patrol_path = get_node(patrol_path_nodepath)
 
 
-func _on_hitbox_component_got_hit() -> void:
-	if !attention_target:
-		attention_target = get_tree().get_first_node_in_group("Player")
-		var vec = attention_target.global_position
-		look_at(Vector3(vec.x, vec.y-0.2, vec.z))
-		change_player_response("Hostile")
-		state_chart.send_event("alerted")
+func load_state_chart():
+	var errors = StateChartSerializer.deserialize(serialized_state, state_chart)
+	CogitoGlobals.debug_log(true, "CogitoNPC", "Deserialising state chart, errors: %s" % errors)
+
+
+func load_attention_target():
+	if attention_target_uid:
+		# Do a fast check for uid matching player before scanning the tree
+		var player = CogitoSceneManager._current_player_node
+		if attention_target_uid == player.uid:
+			attention_target = player
+		else:
+			attention_target = CogitoSceneManager.find_object_from_uid(attention_target_uid)
+
+
+func _on_hitbox_component_got_hit(object) -> void:
+	if object is CogitoProjectile:
+		sight_detection.generate_attention_target(object.throw_point)
+	elif object is CogitoObject:
+		look_at(object.throw_point)
+		attention_target = object
+	state_chart.send_event("alerted")
 	animation_tree.set("parameters/Transition/transition_request","hit")

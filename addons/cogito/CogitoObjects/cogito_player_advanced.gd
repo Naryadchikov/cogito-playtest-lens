@@ -457,7 +457,6 @@ func on_input(event):
 		elif !is_in_unpausable_state and !is_dead:
 			if !currently_tweening:
 				if pause_menu:
-					print("Player / Open Pause Menu")
 					add_child(pause_menu.instantiate())
 				else:
 					CogitoGlobals.debug_log(true, "cogito_player_advanced", "Unable to open Pause Menu! Player has no reference to a Pause Menu PackedScene!")
@@ -485,6 +484,8 @@ func test_motion(transform3d: Transform3D, motion: Vector3) -> bool:
 
 
 func _process_analog_stick_mouselook():
+	if !InputRouter.is_input_active(self): return
+	
 	if joystick_h_event:
 			if abs(joystick_h_event.get_axis_value()) > JOY_DEADZONE:
 				if INVERT_Y_AXIS:
@@ -1008,6 +1009,7 @@ func _sliding_jump(_jump_target_speed) -> void:
 
 
 func _input_handling_and_movement(delta):
+	if !InputRouter.is_input_active(self): return
 	input_direction = Input.get_vector("left", "right", "forward", "back")
 
 	current_speed = clamp(current_speed, MIN_SPEED, MAX_SPEED)
@@ -1127,11 +1129,12 @@ func _on_grounded_state_physics_processing(delta: float) -> void:
 	elif last_velocity.y <= LANDING_MIN_VELOCITY:
 		animationPlayer.play("landing")
 		
-	if was_sliding:
-		if is_on_floor():
-			state_chart.send_event("slide")
-			return
-		
+	if was_sliding and is_on_floor():
+		state_chart.send_event("slide")
+		return
+	
+	if !InputRouter.is_input_active(self): return
+	
 	if current_moving_state != MovingState.Sliding and input_direction != Vector2.ZERO:
 		wiggle_vector.y = sin(wiggle_index)
 		wiggle_vector.x = sin(wiggle_index / 2) + 0.5
@@ -1206,7 +1209,7 @@ func _on_idle_state_physics_processing(delta: float) -> void:
 			state_chart.send_event("walk")
 			return
 	
-	if Input.is_action_pressed("jump") and jump_timer.is_stopped():
+	if Input.is_action_pressed("jump") and InputRouter.is_input_active(self) and jump_timer.is_stopped():
 		if not _can_jump():
 			return
 		
@@ -1224,6 +1227,8 @@ func _on_walking_state_exited() -> void:
 
 
 func _on_walking_state_physics_processing(delta: float) -> void:
+	if !InputRouter.is_input_active(self): return
+	
 	if current_body_posture_state == BodyPostureState.Crouching:
 		state_chart.send_event("sneak")
 		return
@@ -1258,6 +1263,8 @@ func _on_sprinting_state_exited() -> void:
 
 
 func _on_sprinting_state_physics_processing(delta: float) -> void:
+	if !InputRouter.is_input_active(self): return
+	
 	if Input.is_action_pressed("sprint"):
 		if !stamina_attribute or (stamina_attribute and stamina_attribute.value_current > 0):
 			if stamina_attribute and stamina_attribute.value_current <= 0.2:
@@ -1319,6 +1326,8 @@ func _on_sliding_state_exited() -> void:
 
 
 func _on_sliding_state_physics_processing(delta: float) -> void:
+	if !InputRouter.is_input_active(self): return
+	
 	if input_direction == Vector2.ZERO:
 		sliding_timer.stop()
 		state_chart.send_event("idle")
@@ -1359,6 +1368,8 @@ func _on_sneaking_state_exited() -> void:
 
 
 func _on_sneaking_state_physics_processing(delta: float) -> void:
+	if !InputRouter.is_input_active(self): return
+	
 	wiggle_index += WIGGLE_ON_CROUCHING_SPEED * delta
 	eyes.position.y = lerp(eyes.position.y, 0.0, delta * LERP_SPEED)
 	eyes.position.x = lerp(eyes.position.x, 0.0, delta * LERP_SPEED)
@@ -1409,12 +1420,12 @@ func _process_on_sittable(delta):
 	var sittable = CogitoSceneManager._current_sittable_node
 	# Processing analog stick mouselook  TODO Rewrite for Look angle marker support
 	if joystick_h_event:
-			if abs(joystick_h_event.get_axis_value()) > JOY_DEADZONE:
-				if INVERT_Y_AXIS:
-					head.rotate_x(deg_to_rad(joystick_h_event.get_axis_value() * JOY_H_SENS))
-				else:
-					head.rotate_x(-deg_to_rad(joystick_h_event.get_axis_value() * JOY_H_SENS))
-				head.rotation.x = clamp(head.rotation.x, deg_to_rad(-sittable.horizontal_look_angle), deg_to_rad(sittable.horizontal_look_angle))
+		if abs(joystick_h_event.get_axis_value()) > JOY_DEADZONE:
+			if INVERT_Y_AXIS:
+				head.rotate_x(deg_to_rad(joystick_h_event.get_axis_value() * JOY_H_SENS))
+			else:
+				head.rotate_x(-deg_to_rad(joystick_h_event.get_axis_value() * JOY_H_SENS))
+			head.rotation.x = clamp(head.rotation.x, deg_to_rad(-sittable.horizontal_look_angle), deg_to_rad(sittable.horizontal_look_angle))
 				
 	if joystick_v_event:
 		if abs(joystick_v_event.get_axis_value()) > JOY_DEADZONE:

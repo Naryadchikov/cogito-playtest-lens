@@ -20,7 +20,7 @@ func _enter_tree() -> void:
 
 func set_next_patrol_point_destination():
 	if npc.patrol_path:
-		var new_destination = npc.patrol_path.patrol_points[patrol_point_index].global_position
+		var new_destination = npc.patrol_path.target_next_patrol_point().global_position
 		return new_destination
 	else:
 		return null
@@ -28,9 +28,8 @@ func set_next_patrol_point_destination():
 
 func _running(delta: float):
 	if not npc.nav_agent.is_target_reachable():
-		CogitoGlobals.debug_log(true,"NPC State Patrol on Path", "Patrol point at index " + str(patrol_point_index) + " is not reach able. Going to next one.")
-		iterate_patrol_point_index() #Switches to the next patrol point if current one is not reachable.
-		npc.nav_agent.target_position = set_next_patrol_point_destination()
+		CogitoGlobals.debug_log(true,"NPC State Patrol on Path", "Patrol point at is not reachable. Going back to start.")
+		npc.nav_agent.target_position = npc.patrol_path.starting_patrol_point.global_position
 	
 	if npc.nav_agent.is_navigation_finished():
 		wait_at_patrol_point(delta)
@@ -46,19 +45,8 @@ func wait_at_patrol_point(_delta: float):
 
 func resume_patrolling() -> void:
 	if npc.patrol_path:
-		iterate_patrol_point_index()
 		npc.nav_agent.target_position = set_next_patrol_point_destination()
 		current_travel_status = TravelStatus.RUNNING
-
-
-func iterate_patrol_point_index():
-	# Checking to see if we've reached the end of the patrol point list.
-	if patrol_point_index == npc.patrol_path.patrol_points.size() - 1:
-		# If yes, we're starting over:
-		patrol_point_index = 0
-	else:
-		# If no, we're going to the next point:
-		patrol_point_index += 1
 
 
 func _on_patrolling_state_entered() -> void:
@@ -99,7 +87,6 @@ func _on_patrolling_state_physics_processing(delta: float) -> void:
 			# This would end patrolling
 			pass
 		TravelStatus.FAILURE:
-			iterate_patrol_point_index() #Switches to the next patrol point if current one is not reachable.
 			if npc.patrol_path:
 				npc.nav_agent.target_position = set_next_patrol_point_destination()
 				current_travel_status = TravelStatus.RUNNING

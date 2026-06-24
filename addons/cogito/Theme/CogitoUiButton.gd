@@ -117,7 +117,7 @@ func _on_focus_exited() -> void:
 
 
 #func _input(event : InputEvent):
-func on_input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if in_context():
 		if shortcut and shortcut.matches_event(event):
 			# let other CogitoButtons know that the current context has had a shortcut used

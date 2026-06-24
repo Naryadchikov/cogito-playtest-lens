@@ -92,9 +92,6 @@ func on_input(event):
 		else:
 			accept_event()
 			close_pause_menu()
-			
-			if InputHelper.device_index == -1:
-				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func update_load_related_gui():
 	if CogitoSceneManager.is_loaded_from_start_new_game:
@@ -190,6 +187,7 @@ func load_current_slot_data() -> bool:
 func close_pause_menu():
 	get_tree().paused = false
 	InputRouter.pop()
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	queue_free()
 
 

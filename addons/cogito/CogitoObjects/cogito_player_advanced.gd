@@ -5,7 +5,6 @@ extends CogitoPlayer
 
 ## Emits when ESC/Menu input map action is pressed. Can be used to exit out other interfaces, etc.
 signal menu_pressed(player_interaction_component: PlayerInteractionComponent)
-signal toggle_inventory_interface()
 signal player_state_loaded()
 ## Used to hide UI elements like the crosshair when another interface is active (like a container or readable)
 signal toggled_interface(is_showing_ui:bool) 
@@ -17,7 +16,7 @@ signal mouse_movement(relative_mouse_movement:Vector2)
 ## Reference to Pause menu node
 @export var pause_menu : PackedScene
 ## Refereence to Player HUD node
-@export var player_hud : NodePath
+@export var player_hud : CogitoPlayerHudManager
 # Used for handling input when UI is open/displayed
 var is_showing_ui : bool
 ## Toggle printing debug messages or not. Works with the CogitoSceneManager
@@ -452,8 +451,8 @@ func on_input(event):
 		
 		if is_showing_ui: #Behaviour when pressing ESC/menu while external UI is open (Readables, Keypad, etc)
 			menu_pressed.emit(player_interaction_component)
-			if get_node(player_hud).inventory_interface.is_inventory_open: #Behaviour when pressing ESC/menu while Inventory is open
-				toggle_inventory_interface.emit()
+			if player_hud.inventory_interface.is_inventory_open: #Behaviour when pressing ESC/menu while Inventory is open
+				pass
 		elif !is_in_unpausable_state and !is_dead:
 			if !currently_tweening:
 				if pause_menu:
@@ -465,10 +464,7 @@ func on_input(event):
 
 	# Open/closes Inventory if Inventory button is pressed
 	if event.is_action_pressed("inventory") and !is_dead:
-		if !is_showing_ui: #Making sure now external UI is open.
-			toggle_inventory_interface.emit()
-		elif is_showing_ui and get_node(player_hud).inventory_interface.is_inventory_open: #Making sure Inventory is open, and if yes, close it.
-			toggle_inventory_interface.emit()
+		player_hud.set_inventory_visibility(true)
 
 
 func get_params(transform3d, motion):
@@ -1009,12 +1005,11 @@ func _sliding_jump(_jump_target_speed) -> void:
 
 
 func _input_handling_and_movement(delta):
-	if !InputRouter.is_input_active(self): return
+	var active = InputRouter.is_input_active(self)
 	input_direction = Input.get_vector("left", "right", "forward", "back")
-
 	current_speed = clamp(current_speed, MIN_SPEED, MAX_SPEED)
 	
-	if direction:
+	if direction and active:
 		main_velocity.x = lerp(main_velocity.x, direction.x * current_speed, delta * current_lerp_speed)
 		main_velocity.z = lerp(main_velocity.z, direction.z * current_speed, delta * current_lerp_speed)
 	else:
@@ -1971,6 +1966,8 @@ func is_head_in_water() -> bool:
 
 
 func _handle_water_physics(delta) -> void:
+	if !InputRouter.is_input_active(self): return
+	
 	input_direction = Input.get_vector("left", "right", "forward", "back")
 	
 	var look_vector = camera.get_camera_transform().basis

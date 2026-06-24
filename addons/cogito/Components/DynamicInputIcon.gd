@@ -107,9 +107,9 @@ func update_icon_kbm(): # Sets the bound action to keyboard and mouse icon
 	
 	var keyboard_input = InputHelper.get_keyboard_input_for_action(action_name)
 	if keyboard_input is InputEventKey:
-		if keycode_to_frame_index(OS.get_keycode_string(keyboard_input.keycode)) == -1:
+		if keycode_to_frame_index(OS.get_keycode_string(keyboard_input.physical_keycode)) == -1:
 			return
-		frame = keycode_to_frame_index(OS.get_keycode_string(keyboard_input.keycode))
+		frame = keycode_to_frame_index(OS.get_keycode_string(keyboard_input.physical_keycode))
 	elif keyboard_input is InputEventMouseButton:
 		if keyboard_input.get_button_index() == MOUSE_BUTTON_RIGHT:
 			frame = keycode_to_frame_index("Mouse Right")

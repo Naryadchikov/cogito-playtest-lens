@@ -2,8 +2,7 @@ extends Control
 
 @export var minimum_slots_count: int = 5
 @export var maximum_slots_count: int = 100
-
-var save_slot_container_scene = load("res://addons/cogito/EasyMenus/Components/SaveSlotContainer.tscn")
+@export var save_slot_container_scene : PackedScene
 
 
 func _ready() -> void:

@@ -25,6 +25,7 @@ func get_return_to_point() -> CogitoPatrolPoint:
 	if get_parent() is CogitoPatrolPath:
 		var parent = get_parent()
 		if parent.starting_point_as_next_on_end:
+			parent.starting_patrol_point.clear_traversals_bools()
 			return parent.starting_patrol_point
 	return previous_patrol_point
 

@@ -15,6 +15,8 @@ var current_patrol_point: CogitoPatrolPoint
 @export var simulate_with: CogitoNPC
 
 func target_next_patrol_point() -> CogitoPatrolPoint:
+	if not current_patrol_point:
+		current_patrol_point = starting_patrol_point
 	current_patrol_point = current_patrol_point.get_next_point()
 	return current_patrol_point
 

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://0j1d1ysruqvf"]
 
 [ext_resource type="Script" uid="uid://cujxbbfpf0o6i" path="res://addons/cogito/EasyMenus/Scripts/SaveLoadMenu.gd" id="1_gg3hr"]
+[ext_resource type="PackedScene" uid="uid://8xbu1yuakfec" path="res://addons/cogito/EasyMenus/Components/SaveSlotContainer.tscn" id="3_u8mg4"]
 [ext_resource type="Script" uid="uid://c024i2xgr6uib" path="res://addons/cogito/EasyMenus/Scripts/main_menu_saveslot_manager.gd" id="5_vogsa"]
 
 [node name="SaveLoadMenu" type="Control" unique_id=1479613414]
@@ -39,3 +40,4 @@ offset_top = 603.0
 offset_right = 600.0
 offset_bottom = 603.0
 script = ExtResource("5_vogsa")
+save_slot_container_scene = ExtResource("3_u8mg4")

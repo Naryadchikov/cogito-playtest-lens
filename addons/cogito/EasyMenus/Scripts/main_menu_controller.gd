@@ -1,3 +1,4 @@
+class_name CogitoMainMenuController
 extends Control
 signal start_game_pressed
 

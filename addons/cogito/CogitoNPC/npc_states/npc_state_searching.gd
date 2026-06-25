@@ -119,9 +119,11 @@ func sight_detection_check():
 	if sight_detection.check_if_player_in_los():
 		stuck_timer.stop()
 		if reacquire_timer.is_stopped():
+			head.target_node = player.head.get_path()
 			bark(i_see_you_bark)
 			reacquire_timer.start()
 	else:
+		head.target_node = searching_look_ahead.get_path()
 		reacquire_timer.stop()
 
 

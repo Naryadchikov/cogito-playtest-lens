@@ -2,7 +2,7 @@ extends StateProcessor
 
 @export var state_after_attack : String
 
-@export_group("Attack properties")
+@export_group("Unarmed Attack Properties")
 ## The collider that checks for the player or is checked by the player
 @export var attack_impact_zone: ImpactZone
 ## How long this attack takes.
@@ -11,6 +11,7 @@ extends StateProcessor
 
 var target : Node3D = null
 var count_down : float = 0
+
 
 func _on_attacking_state_entered() -> void:
 	super.enter_state()
@@ -43,18 +44,21 @@ func _on_attacking_state_physics_processing(delta: float) -> void:
 	else:
 		count_down -= delta
 
+
 func attempt_attack():
 	count_down = attack_duration
-	# plays animation even if target is not within reach
-	state_chart.send_event("ubody_attack")
-	
-	if npc.global_position.distance_to(target.global_position) <= 1.5:
-		attack(target)
+	# play the punching animation if no weapon is equipped
+	if not npc.weapon:
+		state_chart.send_event("ubody_attack")
+		if npc.global_position.distance_to(target.global_position) <= 1.5:
+			punch_attack(target)
+	else:
+		npc.sight_detection.check_if_player_in_los()
+		npc.weapon.npc_do_attack(npc)
 
 
-func attack(target: Node3D):
+func punch_attack(target: Node3D):
 	var dir = npc.global_position.direction_to(target.global_position)
-	
 	Audio.play_sound_3d(attack_sound).global_position = npc.global_position
 	
 	# Activate the collider for the attack

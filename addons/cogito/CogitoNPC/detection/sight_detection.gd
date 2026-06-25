@@ -55,6 +55,8 @@ var is_decaying: bool = false
 var ref_to_player: CogitoPlayer
 ## Reference to last raycasted target
 var last_raycasted_target: Node3D
+## Reference to the last collision point that saw the player
+var player_sight_collision_point: Vector3 = Vector3.ZERO
 
 ## All nodes present inside the NPC sight cone. Objects in this array will be attacked by raycasts
 var nodes_inside_cone: Array = []
@@ -190,9 +192,11 @@ func fire_raycast_at(node: Node3D) -> bool:
 	var result = space_state.intersect_ray(query)
 	# If the raycast hits a player, check that they are visible via attribute
 	last_raycasted_target = result["collider"] if result else null
-	if not last_raycasted_target:
+	if not last_raycasted_target or last_raycasted_target is not CogitoPlayer:
+		player_sight_collision_point = Vector3.ZERO
 		return false
 	if last_raycasted_target is CogitoPlayer:
+		player_sight_collision_point = result["position"]
 		if show_detection_line:
 			debug_line.draw_3d_line(npc.head.global_position, node.global_position, Color(1,0,0), 0.1)
 		ref_to_player = last_raycasted_target as CogitoPlayer

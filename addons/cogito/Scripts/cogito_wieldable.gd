@@ -1,9 +1,10 @@
+@icon("res://addons/cogito/Assets/Graphics/Editor/Icon_CogitoWieldable.svg")
 extends Node3D
 class_name CogitoWieldable
 
 @export_group("General Wieldable Settings")
 ## Item resource that this wieldable refers to.
-var item_reference : WieldableItemPD
+@export var item_reference : WieldableItemPD
 ## Visible parts of the wieldable. Used to hide/show on equip/unequip.
 @export var wieldable_mesh : Node3D
 ## Which ammo type the Wieldable is currently using. Set by the WieldableItemPD
@@ -20,6 +21,7 @@ var item_reference : WieldableItemPD
 @export var anim_reload: String = "reload"
 
 var player_interaction_component : PlayerInteractionComponent
+var npc_wielding: bool = false
 
 ### Every wieldable needs the following functions:
 ### equip(_player_interaction_component), unequip(), action_primary(), action_secondary(), reload()
@@ -35,6 +37,27 @@ func _ready():
 		
 	if wieldable_mesh:
 		wieldable_mesh.hide()
+
+
+## Test to see if an npc can attack the player with this wieldable. Wieldables should override this method
+## and super it, so custom checking logic can be added (like weapon cooldown)
+func can_npc_attack(attacking_npc: CogitoNPC) -> bool:
+	# First check that the wieldable is assigned an item
+	if not item_reference:
+		CogitoGlobals.debug_log(true, "CogitoWieldable", "No item reference assigned, NPC cannot use this wieldable.")
+		return false
+	# Check if the item is a melee weapon
+	if item_reference.wieldable_range <= 0.0:
+		return true
+	# Check the weapon range is within player distance
+	var ref_to_player: CogitoPlayer = attacking_npc.sight_detection.ref_to_player
+	if not ref_to_player:
+		return false
+	return attacking_npc.global_position.distance_to(ref_to_player.global_position) <= item_reference.wieldable_range
+
+# Function called when the npc performs an attack
+func npc_do_attack(attacking_npc: CogitoNPC):
+	pass
 
 
 # Function called when wieldable is unequipped.

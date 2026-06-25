@@ -1,4 +1,5 @@
 @tool
+@icon("res://addons/cogito/Assets/Graphics/Editor/Icon_CogitoPatrolPath.svg")
 extends Node3D
 class_name CogitoPatrolPath
 

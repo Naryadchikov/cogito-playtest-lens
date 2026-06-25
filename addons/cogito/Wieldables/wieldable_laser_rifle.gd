@@ -31,7 +31,7 @@ var spawn_node : Node
 var is_firing : bool = false
 
 var firing_cooldown : float
-var player_rid : RID
+var wielding_rid : RID
 
 var inventory_item_reference : WieldableItemPD
 
@@ -40,14 +40,14 @@ func _ready():
 	super._ready()
 	wieldable_mesh.hide()
 	firing_cooldown = 0
-	player_rid = CogitoSceneManager._current_player_node.get_rid()
+	wielding_rid = CogitoSceneManager._current_player_node.get_rid()
 
 
 func _physics_process(_delta: float) -> void:
 	if firing_cooldown > 0:
 		firing_cooldown -= _delta
 		
-	if is_firing:
+	if is_firing and not npc_wielding:
 		if firing_cooldown <= 0:
 			if animation_player.is_playing():
 				return
@@ -69,7 +69,32 @@ func _physics_process(_delta: float) -> void:
 			firing_cooldown = firing_delay
 
 
-# This gets called by player interaction compoment when the wieldable is equipped and primary action is pressed
+func can_npc_attack(attacking_npc: CogitoNPC) -> bool:
+	return super.can_npc_attack(attacking_npc) and not firing_cooldown > 0
+
+
+func npc_do_attack(attacking_npc: CogitoNPC):
+	if not can_npc_attack(attacking_npc):
+		return
+	
+	# Set the spawn node point if it hasn't already been set, on player it sets on equip
+	if not spawn_node:
+		spawn_node = get_tree().get_current_scene()
+	# Check that the RID has been re-assigned
+	if wielding_rid != attacking_npc.get_rid():
+		wielding_rid = attacking_npc.get_rid()
+	
+	var player_sight_collision_point = attacking_npc.sight_detection.player_sight_collision_point
+	if player_sight_collision_point != Vector3.ZERO:	
+		hit_scan_collision(player_sight_collision_point)
+		animation_player.play(anim_action_primary)
+		if audio_stream_player_3d and sound_primary_use:
+			audio_stream_player_3d.stream = sound_primary_use
+			audio_stream_player_3d.play()
+		firing_cooldown = firing_delay
+
+
+# This gets called by player interaction component when the wieldable is equipped and primary action is pressed
 func action_primary(_passed_item_reference : InventoryItemPD, _is_released: bool):
 	inventory_item_reference = _passed_item_reference
 	
@@ -104,7 +129,7 @@ func action_secondary(is_released:bool):
 func hit_scan_collision(collision_point:Vector3):
 	var bullet_direction = (collision_point - bullet_point.get_global_transform().origin).normalized()
 	var new_intersection = PhysicsRayQueryParameters3D.create(bullet_point.get_global_transform().origin, collision_point + bullet_direction * 2)
-	new_intersection.exclude = [player_rid]
+	new_intersection.exclude = [wielding_rid]
 	
 	var bullet_collision = get_world_3d().direct_space_state.intersect_ray(new_intersection)
 	
@@ -131,8 +156,12 @@ func hit_scan_collision(collision_point:Vector3):
 
 
 func hit_scan_damage(collider, bullet_direction, bullet_position):
+	var damage = item_reference.wieldable_damage
 	if collider.has_signal("damage_received"):
-		collider.damage_received.emit(item_reference.wieldable_damage,bullet_direction,bullet_position)
+		collider.damage_received.emit(damage, self, bullet_direction,bullet_position)
+	elif collider is CogitoPlayer:
+		var player = collider as CogitoPlayer
+		player.decrease_attribute("health", damage)
 
 
 # Function called when wieldable reload is attempted

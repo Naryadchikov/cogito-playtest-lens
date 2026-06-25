@@ -1,4 +1,5 @@
 ## A serialisable Sprite3D used for invisible NPC markers
+@icon("res://addons/cogito/Assets/Graphics/Editor/Icon_CogitoPoint.svg")
 extends Sprite3D
 class_name CogitoPoint
 

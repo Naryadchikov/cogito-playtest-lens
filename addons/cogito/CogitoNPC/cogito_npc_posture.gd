@@ -23,10 +23,17 @@ func set_animation_ready(relative_velocity):
 ## Upper body posture
 func _on_neutral_state_entered() -> void:
 	upper_body_travel("Neutral")
+	var weapon = npc.weapon
+	if weapon:
+		weapon.wieldable_mesh.hide()
 
 
 func _on_raised_weapon_state_entered() -> void:
 	upper_body_travel("RaisedFists")
+	var weapon = npc.weapon
+	if weapon:
+		weapon.animation_player.play(weapon.anim_equip)
+		weapon.wieldable_mesh.show()
 
 
 func _on_attack_state_entered() -> void:

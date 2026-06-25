@@ -4,7 +4,10 @@ enum ChaseStatus{ CAUGHT, LOST, CHASING, WAITING = 3 }
 var current_chase_status : ChaseStatus
 var chase_target : Node3D = null
 
-@export var target_action_distance : float = 1.5
+## How close does a target have to be before considered in melee distance
+@export var target_melee_distance : float = 1.5
+## How close does a target have to be within the wieldable range before a ranged attack happens?
+@export var target_ranged_distance_offset : float = 1
 @export var action_when_caught : String = "attack"
 ## If the NPC navigation agent can't reach the chase target for this amount of time (in sec), they'll return to their previous state.
 @export var giveup_chase_time : float = 5.0
@@ -17,6 +20,7 @@ var chase_target : Node3D = null
 
 var los_broken_timer : Timer
 var chase_wait_timer : Timer
+var can_see_player: bool = false
 
 func _enter_tree() -> void:
 	chase_wait_timer = Timer.new()
@@ -36,8 +40,13 @@ func _running(delta: float):
 	npc.nav_agent.target_position = chase_target.global_position
 	var distance_to_target = npc.global_position.distance_to(chase_target.global_position)
 
-	if distance_to_target <= target_action_distance:
-		current_chase_status = ChaseStatus.CAUGHT
+	# Do a weapon distance check only if they can see the player
+	if can_see_player:
+		var ranged_distance = get_wieldable_range()
+		if ranged_distance > 0 and distance_to_target <= ranged_distance - target_ranged_distance_offset:
+			current_chase_status = ChaseStatus.CAUGHT
+		elif distance_to_target <= target_melee_distance:
+			current_chase_status = ChaseStatus.CAUGHT
 		
 	if not npc.nav_agent.is_target_reachable():
 		start_waiting()
@@ -63,6 +72,12 @@ func start_searching() -> void:
 	searching_state.last_known_player_point = npc.last_reachable_path
 	state_chart.send_event("body_walk")
 	state_chart.send_event("search")
+
+
+func get_wieldable_range() -> int:
+	if npc.weapon and npc.weapon.item_reference and npc.weapon.item_reference.wieldable_range > 0:
+		return npc.weapon.item_reference.wieldable_range
+	return 0
 
 
 ## Fire a raycast at the player to see if they're visible to the npc
@@ -112,7 +127,7 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 	if not chase_target and npc.attention_target:
 		chase_target = npc.attention_target
 	
-	var can_see_player = check_los_to_player()
+	can_see_player = check_los_to_player()
 	if can_see_player:
 		npc.head_turner.active = true
 		los_broken_timer.stop()

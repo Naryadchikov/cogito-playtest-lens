@@ -443,7 +443,7 @@ func _drop_item(slot_data: InventorySlotPD) -> bool:
 	var player = get_parent().player
 	var player_radius = player.radius
 	var shape_cast = player.item_drop_shapecast
-	var item_drop_distance_offset = player.get_node(player.player_hud).item_drop_distance_offset
+	var item_drop_distance_offset = player.player_hud.item_drop_distance_offset
 	var camera_basis_z = get_viewport().get_camera_3d().get_global_transform().basis.z
 	
 	var drop_distance = abs(shape_cast.target_position.z - item_drop_distance_offset)

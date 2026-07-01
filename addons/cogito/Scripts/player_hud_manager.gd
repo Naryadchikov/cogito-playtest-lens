@@ -211,6 +211,7 @@ func toggle_inventory_interface(external_inventory_owner = null):
 	if !inventory_interface.is_inventory_open:
 		inventory_interface.open_inventory()
 		_on_external_ui_toggle(true)
+		inventory_interface.inventory_open.connect(on_inventory_visibility_changed)
 		if external_inventory_owner:
 			external_inventory_owner.open()
 		show_inventory.emit()
@@ -225,6 +226,12 @@ func toggle_inventory_interface(external_inventory_owner = null):
 		inventory_interface.set_external_inventory(external_inventory_owner)
 	else:
 		inventory_interface.clear_external_inventory()
+
+func on_inventory_visibility_changed(is_showing: bool):
+	if !is_showing:
+		_on_external_ui_toggle(false)
+		hide_inventory.emit()
+		inventory_interface.inventory_open.disconnect(on_inventory_visibility_changed)
 
 ### Interaction Prompt UI:
 func set_interaction_prompts(passed_interaction_nodes : Array[Node]):

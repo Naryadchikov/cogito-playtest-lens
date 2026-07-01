@@ -108,6 +108,7 @@ func close_inventory():
 		
 		InputRouter.pop()
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		inventory_open.emit(false)
 
 
 ## When the info panel is visible, this will check that if the mouse goes off the grid, 

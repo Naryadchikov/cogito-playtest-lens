@@ -174,9 +174,6 @@ func populate_player_data(player):
 	player.swimming_head_shapecast.global_position = swimming_head_shapecast_position
 	player.under_water_effect.visible = is_under_water_effect_visible
 	
-	player.is_movement_paused = true
-	player._on_resume_movement()
-
 
 func _load_state_chart(player):
 	StateChartSerializer.deserialize(state_chart, player.state_chart)

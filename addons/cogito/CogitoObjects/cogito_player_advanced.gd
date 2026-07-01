@@ -435,7 +435,6 @@ func on_input(event):
 			
 		mouse_movement.emit(look_movement)
 
-		
 	# Checking Analog stick input for mouse look
 	if event is InputEventJoypadMotion:
 		if event.get_axis() == 2:

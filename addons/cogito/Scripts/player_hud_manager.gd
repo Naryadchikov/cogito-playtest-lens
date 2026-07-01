@@ -161,8 +161,8 @@ func instantiate_player_currency_ui():
 func connect_to_external_inventories(): # Grabbing external inventories in scene.
 	for node in get_tree().get_nodes_in_group("external_inventory"):
 		CogitoGlobals.debug_log(true, "player_hud_manager", node.name + " is in external_inventory group.")
-		#if !node.is_connected("toggle_inventory",toggle_inventory_interface):
-			#node.toggle_inventory.connect(toggle_inventory_interface)
+		if !node.is_connected("toggle_inventory",toggle_inventory_interface):
+			node.toggle_inventory.connect(toggle_inventory_interface)
 
 
 func _on_player_state_load():
@@ -206,6 +206,25 @@ func _on_inventory_toggled(is_showing: bool) -> void:
 	if !is_showing:
 		_on_external_ui_toggle(false)
 		inventory_interface.inventory_open.disconnect(_on_inventory_toggled)
+		
+func toggle_inventory_interface(external_inventory_owner = null):
+	if !inventory_interface.is_inventory_open:
+		inventory_interface.open_inventory()
+		_on_external_ui_toggle(true)
+		if external_inventory_owner:
+			external_inventory_owner.open()
+		show_inventory.emit()
+	else:
+		inventory_interface.close_inventory()
+		if external_inventory_owner:
+			external_inventory_owner.close()
+		_on_external_ui_toggle(false)
+		hide_inventory.emit()
+		
+	if external_inventory_owner and inventory_interface.is_inventory_open:
+		inventory_interface.set_external_inventory(external_inventory_owner)
+	else:
+		inventory_interface.clear_external_inventory()
 
 ### Interaction Prompt UI:
 func set_interaction_prompts(passed_interaction_nodes : Array[Node]):

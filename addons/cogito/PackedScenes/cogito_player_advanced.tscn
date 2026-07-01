@@ -18788,6 +18788,7 @@ bones/52/scale = Vector3(1, 1, 1)
 cast_shadow = 3
 mesh = SubResource("ArrayMesh_8sh5w")
 skin = SubResource("Skin_m7ccf")
+skeleton = NodePath("..")
 
 [connection signal="mouse_movement" from="." to="Body/Neck/Head/Wieldables" method="sway"]
 [connection signal="player_state_loaded" from="." to="." method="_on_player_state_loaded"]

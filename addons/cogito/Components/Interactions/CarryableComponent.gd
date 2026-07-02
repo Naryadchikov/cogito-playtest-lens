@@ -21,7 +21,7 @@ signal thrown(impulse)
 ## Sets if object can be rotated while being carried
 @export var enable_manual_rotating : bool = true
 ## How fast the object rotates (in degrees per second)
-@export var rotation_speed : float = 2.0
+@export var rotation_speed : float = 0.25
 
 var camera : Camera3D
 var parent_object
@@ -82,21 +82,21 @@ func _physics_process(_delta):
 		
 		if enable_manual_rotating:
 			if enable_manual_rotating and Input.is_action_pressed("action_secondary"):
-				player_interaction_component.player.pause_before_interaction()
+				player_interaction_component.player.is_mouselook_active = false
 				is_being_rotated = true
 				rotate_object(_delta)
 		
 		# Resume player movement when input action is released
 		if is_being_rotated and Input.is_action_just_released("action_secondary"):
-			player_interaction_component.player.resume_after_interaction()
+			player_interaction_component.player.is_mouselook_active = true
 		
-		if(carry_position-parent_object.global_position).length() >= drop_distance:
+		if (carry_position-parent_object.global_position).length() >= drop_distance:
 			leave()
 
 
 func rotate_object(_delta):
 	var input_dir
-	input_dir = Input.get_vector("left", "right", "forward", "back")
+	input_dir = Input.get_last_mouse_velocity() * _delta
 	
 	if input_dir.length() > 0:
 		if not camera:
@@ -104,7 +104,7 @@ func rotate_object(_delta):
 		
 		var rotation_basis: Basis = camera.global_basis.rotated(camera.global_basis.x, -camera.global_rotation.x)
 		var rotation_vector: Vector3 = rotation_basis * Vector3(input_dir.y, input_dir.x, 0).normalized()
-		parent_object.global_rotate(rotation_vector, deg_to_rad(rotation_speed) )
+		parent_object.global_rotate(rotation_vector, deg_to_rad(rotation_speed * input_dir.length()) )
 
 
 func _on_body_entered(body):
@@ -137,7 +137,7 @@ func hold():
 func leave():
 	# Making sure the player movement resumes when object is dropped while being rotated
 	if is_being_rotated:
-		player_interaction_component.player.resume_after_interaction()
+		player_interaction_component.player.is_mouselook_active = true
 		
 	if parent_object is RigidBody3D and lock_rotation_when_carried:
 		parent_object.set_lock_rotation_enabled(false)

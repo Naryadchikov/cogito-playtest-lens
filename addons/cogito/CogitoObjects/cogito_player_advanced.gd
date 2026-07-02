@@ -179,6 +179,7 @@ var head_offset : Vector3 = Vector3.ZERO
 var is_jumping_started : bool = false
 var is_in_air : bool = false
 
+var is_mouselook_active: bool = true
 var input_direction : Vector2 = Vector2.ZERO
 var joystick_h_event
 var joystick_v_event
@@ -411,7 +412,7 @@ func _on_pause_menu_resume():
 
 
 func on_input(event):
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and is_mouselook_active:
 		var look_movement: Vector2 = Vector2(0.0,0.0)
 		
 		#If players sitting & look marker is present, use sittable look handling
@@ -436,7 +437,7 @@ func on_input(event):
 		mouse_movement.emit(look_movement)
 
 	# Checking Analog stick input for mouse look
-	if event is InputEventJoypadMotion:
+	if event is InputEventJoypadMotion and is_mouselook_active:
 		if event.get_axis() == 2:
 			joystick_v_event = event
 		if event.get_axis() == 3:

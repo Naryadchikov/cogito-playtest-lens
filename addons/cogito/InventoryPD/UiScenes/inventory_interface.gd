@@ -382,11 +382,11 @@ func on_input(event: InputEvent) -> void:
 	if event.is_action_pressed("inventory") or event.is_action_pressed("ui_cancel"):
 		close_inventory()
 	
-	if event is InputEventMouseButton \
-		and event.is_pressed() \
-		and grabbed_slot_data:
-			mouse_button_check(event)
-			update_grabbed_slot()
+	#if event is InputEventMouseButton \
+		#and event.is_pressed() \
+		#and grabbed_slot_data:
+			#mouse_button_check(event)
+			#update_grabbed_slot()
 			
 	if Input.is_action_just_pressed("inventory_rotate_item") and grabbed_slot_data:
 		rotate_item()

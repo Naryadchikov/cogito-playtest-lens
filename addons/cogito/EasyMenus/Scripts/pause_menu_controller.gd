@@ -200,13 +200,6 @@ func _on_quit_button_pressed():
 	get_tree().quit()
 
 
-func _on_back_to_menu_button_pressed():
-	close_pause_menu()
-	var path_to_scene = CogitoGlobals.cogito_settings.main_menu_scene.resource_path
-	CogitoSceneManager.load_next_scene(path_to_scene, "", "temp", CogitoSceneManager.CogitoSceneLoadMode.RESET) #Load_mode 2 means there's no attempt to load a state.
-	Input
-
-
 func _on_save_button_pressed() -> void:
 	CogitoSceneManager._screenshot_to_save = temp_screenshot
 	save_load_menu.initialize()

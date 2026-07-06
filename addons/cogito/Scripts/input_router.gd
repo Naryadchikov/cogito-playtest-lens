@@ -35,7 +35,10 @@ func push(method: Callable) -> void:
 
 	if !input_stack.is_empty():
 		print("  - Disconnecting existing connection")
-		on_input.disconnect(input_stack.back())
+		if input_stack.back().is_null():
+			input_stack.pop_back()
+		else:
+			on_input.disconnect(input_stack.back())
 		
 	print("  - Inserting method to top of stack")
 	Input.flush_buffered_events()

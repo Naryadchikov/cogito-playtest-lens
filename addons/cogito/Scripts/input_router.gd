@@ -35,7 +35,7 @@ func push(method: Callable) -> void:
 
 	if !input_stack.is_empty():
 		print("  - Disconnecting existing connection")
-		if input_stack.back().is_null():
+		if input_stack.back().is_null() or !input_stack.back().is_valid():
 			input_stack.pop_back()
 		else:
 			on_input.disconnect(input_stack.back())

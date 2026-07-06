@@ -22,25 +22,25 @@ func push(method: Callable) -> void:
 		printerr("InputRouter / Cannot push null method!")
 		return
 		
-	print("InputRouter / Pushing new method")
+	CogitoGlobals.debug_log(true, "InputRouter", "Pushing new method")
 	
 	if input_stack.has(method):
-		print("  - Method is already in the stack")
+		CogitoGlobals.debug_log(true, "InputRouter", "  - Method is already in the stack")
 		if input_stack.back() == method:
-			print("  - And method is already the priority. Doing nothing.")
+			CogitoGlobals.debug_log(true, "InputRouter", "  - And method is already the priority. Doing nothing.")
 			return
 			
-		print("  - Removing method to push to front")
+		CogitoGlobals.debug_log(true, "InputRouter", "  - Removing method to push to front")
 		input_stack.erase(method)
 
 	if !input_stack.is_empty():
-		print("  - Disconnecting existing connection")
+		CogitoGlobals.debug_log(true, "InputRouter", "  - Disconnecting existing connection")
 		if input_stack.back().is_null() or !input_stack.back().is_valid():
 			input_stack.pop_back()
 		else:
 			on_input.disconnect(input_stack.back())
-		
-	print("  - Inserting method to top of stack")
+	
+	CogitoGlobals.debug_log(true, "InputRouter", "  - Inserting method to top of stack")
 	Input.flush_buffered_events()
 	input_stack.push_back(method)
 	on_input.connect(method)
@@ -49,16 +49,16 @@ func push(method: Callable) -> void:
 ## method becomes the one that's in control.
 func pop() -> Callable:
 	if input_stack.is_empty():
-		print("InputRouter / Nothing to pop!")
+		CogitoGlobals.debug_log(true, "InputRouter", "Nothing to pop!")
 		return Callable.create(null, "")
-		
-	print("InputRouter / Popping current method")
+	
+	CogitoGlobals.debug_log(true, "InputRouter", "Popping current method")
 	var callable = input_stack.pop_back()
 	if on_input.is_connected(callable): on_input.disconnect(callable)
 	Input.flush_buffered_events()
 	
 	if !input_stack.is_empty():
-		print("  - Connecting to previous object on stack")
+		CogitoGlobals.debug_log(true, "InputRouter", "  - Connecting to previous object on stack")
 		on_input.connect(input_stack.back())
 		
 	return callable

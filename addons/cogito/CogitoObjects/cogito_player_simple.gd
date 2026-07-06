@@ -223,7 +223,7 @@ func _ready():
 	
 	radius = _calculate_player_radius()
 	
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 	### NEW PLAYER ATTRIBUTE SETUP:
 	# Grabs all attached player attributes
@@ -337,13 +337,13 @@ func _on_pause_movement():
 		is_movement_paused = true
 		# Only show mouse cursor if input device is KBM
 		if InputHelper.device_index == -1:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
 func _on_resume_movement():
 	if is_movement_paused:
 		is_movement_paused = false
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
 func pause_before_interaction():
@@ -374,7 +374,7 @@ func _on_pause_menu_resume():
 	_on_resume_movement()
 
 
-func _input(event):
+func on_input(event):
 	if event is InputEventMouseMotion and !is_movement_paused:
 		var look_movement: Vector2 = Vector2(0.0,0.0)
 		

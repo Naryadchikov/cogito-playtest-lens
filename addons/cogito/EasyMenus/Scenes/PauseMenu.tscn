@@ -215,7 +215,6 @@ layout_mode = 2
 script = ExtResource("12_4c47n")
 main_menu_scene = "res://addons/cogito/DemoScenes/COGITO_0_MainMenu.tscn"
 
-[connection signal="back_to_main_pressed" from="." to="MenuSceneSwitcher" method="_on_pause_menu_back_to_main_pressed"]
 [connection signal="pressed" from="Content/GameMenu/VBoxContainer/ResumeGameButton" to="." method="_on_resume_game_button_pressed"]
 [connection signal="pressed" from="Content/GameMenu/VBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="Content/GameMenu/VBoxContainer/ReloadButton" to="." method="_on_reload_button_pressed"]

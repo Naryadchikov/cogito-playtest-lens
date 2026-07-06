@@ -64,19 +64,17 @@ var unlock_difficulty_modifier: float = 0 # Used if attribute influences difficu
 
 
 func _ready() -> void:
+	InputRouter.push(on_input)
 	lockpick_spot = max_range / 2 	# make the lockpick at the center
 	lockpick_health = lockpick_health_max
 	sweet_spot_range = default_sweet_spot_range
-	
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED) # capture the mosue (NOTE: you can remove this)
 	
 	animation_player.play(start_animation)
 	await animation_player.animation_finished
 	
 	place_sweetspot(max_range)
 
-
-func _input(event: InputEvent) -> void:
+func on_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		# if the keyhole isn't turning and we haven't unlocked it yet
 		if not is_turning_keyhole and not is_changing_lockpicks and not is_unlocked:
@@ -94,6 +92,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("menu"):
 		get_viewport().set_input_as_handled()
 		cancelled.emit()
+		InputRouter.pop()
 
 
 func _physics_process(delta: float) -> void:
@@ -198,6 +197,7 @@ func unlock_lock() -> void:
 		await animation_player.animation_finished
 		
 	unlocked.emit()
+	InputRouter.pop()
 
 
 func on_lockpick_break() -> void:
@@ -230,3 +230,4 @@ func exit_game() -> void:
 		await animation_player.animation_finished
 		
 	cancelled.emit()
+	InputRouter.pop()

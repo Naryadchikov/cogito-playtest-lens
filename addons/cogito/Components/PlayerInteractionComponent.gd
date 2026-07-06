@@ -84,40 +84,38 @@ func _process(_delta):
 	pass
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func on_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact") or event.is_action_pressed("interact2"):
 		var action: String = "interact" if event.is_action_pressed("interact") else "interact2"
 		_handle_interaction(action)
-	
-	if is_wielding and !get_parent().is_movement_paused and not interactable:
-		if event.is_action_pressed("change_ammo_type"):
-			attempt_change_ammo()
-		if event.is_action_pressed("reload"):
-			attempt_reload()
-
-
-func _input(event: InputEvent) -> void:
-	if is_carrying and !get_parent().is_movement_paused and is_instance_valid(carried_object):
-		if Input.is_action_just_pressed("action_primary"):
+		
+	if event.is_action_pressed("action_primary"):
+		if is_carrying and is_instance_valid(carried_object):
 			_attempt_throw()
 			get_viewport().set_input_as_handled()
-
-	# Wieldable primary Action Input
-	if is_wielding and !get_parent().is_movement_paused:
-		if Input.is_action_just_pressed("action_primary"):
+		elif is_wielding:
 			attempt_action_primary(false)
 			get_viewport().set_input_as_handled()
-		if Input.is_action_just_released("action_primary"):
+			
+	elif event.is_action_released("action_primary"):
+		if is_wielding and !is_carrying:
 			attempt_action_primary(true)
 			get_viewport().set_input_as_handled()
-		
-		if Input.is_action_just_pressed("action_secondary"):
+			
+	if event.is_action_pressed("action_secondary"):
+		if is_wielding:
 			attempt_action_secondary(false)
 			get_viewport().set_input_as_handled()
-		if Input.is_action_just_released("action_secondary"):
+	elif event.is_action_released("action_secondary"):
+		if is_wielding:
 			attempt_action_secondary(true)
 			get_viewport().set_input_as_handled()
-
+	
+	if event.is_action_pressed("change_ammo_type") and is_wielding:
+		attempt_change_ammo()
+		
+	if event.is_action_pressed("reload") and is_wielding:
+		attempt_reload()
 
 func _handle_interaction(action: String) -> void:
 	# if carrying an object, drop it.
@@ -256,6 +254,7 @@ func attempt_action_primary(is_released: bool):
 	if equipped_wieldable_node == null:
 		print("Nothing equipped, but is_wielding was true. This shouldn't happen!")
 		return
+		
 	equipped_wieldable_node.action_primary(equipped_wieldable_item, is_released)
 
 

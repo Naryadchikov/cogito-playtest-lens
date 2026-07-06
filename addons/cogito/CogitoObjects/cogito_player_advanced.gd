@@ -5,7 +5,6 @@ extends CogitoPlayer
 
 ## Emits when ESC/Menu input map action is pressed. Can be used to exit out other interfaces, etc.
 signal menu_pressed(player_interaction_component: PlayerInteractionComponent)
-signal toggle_inventory_interface()
 signal player_state_loaded()
 ## Used to hide UI elements like the crosshair when another interface is active (like a container or readable)
 signal toggled_interface(is_showing_ui:bool) 
@@ -15,9 +14,9 @@ signal mouse_movement(relative_mouse_movement:Vector2)
 
 #region Variables
 ## Reference to Pause menu node
-@export var pause_menu : NodePath
+@export var pause_menu : PackedScene
 ## Refereence to Player HUD node
-@export var player_hud : NodePath
+@export var player_hud : CogitoPlayerHudManager
 # Used for handling input when UI is open/displayed
 var is_showing_ui : bool
 ## Toggle printing debug messages or not. Works with the CogitoSceneManager
@@ -180,6 +179,7 @@ var head_offset : Vector3 = Vector3.ZERO
 var is_jumping_started : bool = false
 var is_in_air : bool = false
 
+var is_mouselook_active: bool = true
 var input_direction : Vector2 = Vector2.ZERO
 var joystick_h_event
 var joystick_v_event
@@ -197,7 +197,6 @@ var last_velocity : Vector3= Vector3.ZERO
 var direction : Vector3 = Vector3.ZERO
 var is_free_looking : bool  = false
 var is_roll_animation_finished : bool = false
-var is_movement_paused : bool = false
 var is_in_unpausable_state : bool = false
 var is_in_interaction_state : bool = true
 var is_dead : bool = false
@@ -283,8 +282,6 @@ func _ready():
 		ledge_climbing_shapecast_height = ledge_climbing_shapecast.shape.height
 	
 	crouch_shapecast.add_exception(self)
-	
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 	### NEW PLAYER ATTRIBUTE SETUP:
 	# Grabs all attached player attributes
@@ -306,22 +303,13 @@ func _ready():
 		visibility_attribute.attribute_changed.connect(sanity_attribute.on_visibility_changed)
 		visibility_attribute.check_current_visibility()
 
-
 	### CURRENCY SETUP
 	for currency in find_children("", "CogitoCurrency", false):
 		player_currencies[currency.currency_name] = currency
 		CogitoGlobals.debug_log(is_logging, "cogito_player.gd", "Cogito Currency found: " + currency.currency_name)
-
-
-	# Pause Menu setup
-	if pause_menu:
-		var pause_menu_node = get_node(pause_menu)
-		pause_menu_node.resume.connect(_on_pause_menu_resume) # Hookup resume signal from Pause Menu
-		pause_menu_node.close_pause_menu() # Making sure pause menu is closed on player scene load
-	else:
-		printerr("Player has no reference to pause menu.")
 	
 	_initialize_state_chart()
+	_reload_options()
 	
 	#Sittable Signals setup
 	CogitoSceneManager.connect("sit_requested", Callable(self, "_on_sit_requested"))
@@ -332,6 +320,9 @@ func _ready():
 
 	call_deferred("slide_audio_init")
 	call_deferred("swim_audio_init")
+	
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	InputRouter.push(on_input)
 
 
 func create_new_state() -> CogitoPlayerState:
@@ -401,34 +392,6 @@ func _on_death():
 	player_interaction_component.on_death()
 	is_dead = true
 
-
-# Methods to pause input (for Menu or Dialogues etc)
-func _on_pause_movement():
-	if !is_movement_paused:
-		is_movement_paused = true
-		state_chart.send_event("pause")
-		# Only show mouse cursor if input device is KBM
-		if InputHelper.device_index == -1:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
-
-func _on_resume_movement():
-	if is_movement_paused:
-		is_movement_paused = false
-		state_chart.send_event("resume")
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
-
-func pause_before_interaction():
-	is_movement_paused = true
-	state_chart.send_event("pause")
-
-
-func resume_after_interaction():
-	is_movement_paused = false
-	state_chart.send_event("resume")
-
-
 # reload options user may have changed while paused.
 func _reload_options():
 	var err = config.load(OptionsConstants.config_file_name)
@@ -446,11 +409,10 @@ func _reload_options():
 # Signal from Pause Menu
 func _on_pause_menu_resume():
 	_reload_options()
-	_on_resume_movement()
 
 
-func _input(event):
-	if event is InputEventMouseMotion and !is_movement_paused:
+func on_input(event):
+	if event is InputEventMouseMotion and is_mouselook_active:
 		var look_movement: Vector2 = Vector2(0.0,0.0)
 		
 		#If players sitting & look marker is present, use sittable look handling
@@ -474,36 +436,35 @@ func _input(event):
 			
 		mouse_movement.emit(look_movement)
 
-		
 	# Checking Analog stick input for mouse look
-	if event is InputEventJoypadMotion and !is_movement_paused:
+	if event is InputEventJoypadMotion and is_mouselook_active:
 		if event.get_axis() == 2:
 			joystick_v_event = event
 		if event.get_axis() == 3:
 			joystick_h_event = event
 	
+	player_interaction_component.on_input(event)
 	
 	# Opens Pause Menu if Menu button is proessed.
 	if event.is_action_pressed("menu"):
-		if CogitoSceneManager.is_currently_loading:
-			return
+		if CogitoSceneManager.is_currently_loading: return
+		
 		if is_showing_ui: #Behaviour when pressing ESC/menu while external UI is open (Readables, Keypad, etc)
 			menu_pressed.emit(player_interaction_component)
-			if get_node(player_hud).inventory_interface.is_inventory_open: #Behaviour when pressing ESC/menu while Inventory is open
-				toggle_inventory_interface.emit()
-		elif !is_in_unpausable_state and !is_movement_paused and !is_dead:
+			if player_hud.inventory_interface.is_inventory_open: #Behaviour when pressing ESC/menu while Inventory is open
+				pass
+		elif !is_in_unpausable_state and !is_dead:
 			if !currently_tweening:
-				_on_pause_movement()
-				get_node(pause_menu).open_pause_menu()
+				if pause_menu:
+					add_child(pause_menu.instantiate())
+				else:
+					CogitoGlobals.debug_log(true, "cogito_player_advanced", "Unable to open Pause Menu! Player has no reference to a Pause Menu PackedScene!")
 			else:
 				player_interaction_component.send_hint(null, "Wait until I’m seated or standing")
 
 	# Open/closes Inventory if Inventory button is pressed
 	if event.is_action_pressed("inventory") and !is_dead:
-		if !is_showing_ui: #Making sure now external UI is open.
-			toggle_inventory_interface.emit()
-		elif is_showing_ui and get_node(player_hud).inventory_interface.is_inventory_open: #Making sure Inventory is open, and if yes, close it.
-			toggle_inventory_interface.emit()
+		player_hud.set_inventory_visibility(true)
 
 
 func get_params(transform3d, motion):
@@ -519,6 +480,8 @@ func test_motion(transform3d: Transform3D, motion: Vector3) -> bool:
 
 
 func _process_analog_stick_mouselook():
+	if !InputRouter.is_input_active(self): return
+	
 	if joystick_h_event:
 			if abs(joystick_h_event.get_axis_value()) > JOY_DEADZONE:
 				if INVERT_Y_AXIS:
@@ -763,13 +726,8 @@ func _on_player_state_loaded():
 
 
 func _physics_process(delta):
-	if is_movement_paused:
-		return
-	
 	_process_analog_stick_mouselook()
-	
 	_free_look(delta)
-
 
 #region State Chart
 enum MovingState {
@@ -1047,11 +1005,11 @@ func _sliding_jump(_jump_target_speed) -> void:
 
 
 func _input_handling_and_movement(delta):
+	var active = InputRouter.is_input_active(self)
 	input_direction = Input.get_vector("left", "right", "forward", "back")
-
 	current_speed = clamp(current_speed, MIN_SPEED, MAX_SPEED)
 	
-	if direction:
+	if direction and active:
 		main_velocity.x = lerp(main_velocity.x, direction.x * current_speed, delta * current_lerp_speed)
 		main_velocity.z = lerp(main_velocity.z, direction.z * current_speed, delta * current_lerp_speed)
 	else:
@@ -1166,11 +1124,12 @@ func _on_grounded_state_physics_processing(delta: float) -> void:
 	elif last_velocity.y <= LANDING_MIN_VELOCITY:
 		animationPlayer.play("landing")
 		
-	if was_sliding:
-		if is_on_floor():
-			state_chart.send_event("slide")
-			return
-		
+	if was_sliding and is_on_floor():
+		state_chart.send_event("slide")
+		return
+	
+	if !InputRouter.is_input_active(self): return
+	
 	if current_moving_state != MovingState.Sliding and input_direction != Vector2.ZERO:
 		wiggle_vector.y = sin(wiggle_index)
 		wiggle_vector.x = sin(wiggle_index / 2) + 0.5
@@ -1245,7 +1204,7 @@ func _on_idle_state_physics_processing(delta: float) -> void:
 			state_chart.send_event("walk")
 			return
 	
-	if Input.is_action_pressed("jump") and jump_timer.is_stopped():
+	if Input.is_action_pressed("jump") and InputRouter.is_input_active(self) and jump_timer.is_stopped():
 		if not _can_jump():
 			return
 		
@@ -1263,6 +1222,8 @@ func _on_walking_state_exited() -> void:
 
 
 func _on_walking_state_physics_processing(delta: float) -> void:
+	if !InputRouter.is_input_active(self): return
+	
 	if current_body_posture_state == BodyPostureState.Crouching:
 		state_chart.send_event("sneak")
 		return
@@ -1297,6 +1258,8 @@ func _on_sprinting_state_exited() -> void:
 
 
 func _on_sprinting_state_physics_processing(delta: float) -> void:
+	if !InputRouter.is_input_active(self): return
+	
 	if Input.is_action_pressed("sprint"):
 		if !stamina_attribute or (stamina_attribute and stamina_attribute.value_current > 0):
 			if stamina_attribute and stamina_attribute.value_current <= 0.2:
@@ -1358,6 +1321,8 @@ func _on_sliding_state_exited() -> void:
 
 
 func _on_sliding_state_physics_processing(delta: float) -> void:
+	if !InputRouter.is_input_active(self): return
+	
 	if input_direction == Vector2.ZERO:
 		sliding_timer.stop()
 		state_chart.send_event("idle")
@@ -1398,6 +1363,8 @@ func _on_sneaking_state_exited() -> void:
 
 
 func _on_sneaking_state_physics_processing(delta: float) -> void:
+	if !InputRouter.is_input_active(self): return
+	
 	wiggle_index += WIGGLE_ON_CROUCHING_SPEED * delta
 	eyes.position.y = lerp(eyes.position.y, 0.0, delta * LERP_SPEED)
 	eyes.position.x = lerp(eyes.position.x, 0.0, delta * LERP_SPEED)
@@ -1448,12 +1415,12 @@ func _process_on_sittable(delta):
 	var sittable = CogitoSceneManager._current_sittable_node
 	# Processing analog stick mouselook  TODO Rewrite for Look angle marker support
 	if joystick_h_event:
-			if abs(joystick_h_event.get_axis_value()) > JOY_DEADZONE:
-				if INVERT_Y_AXIS:
-					head.rotate_x(deg_to_rad(joystick_h_event.get_axis_value() * JOY_H_SENS))
-				else:
-					head.rotate_x(-deg_to_rad(joystick_h_event.get_axis_value() * JOY_H_SENS))
-				head.rotation.x = clamp(head.rotation.x, deg_to_rad(-sittable.horizontal_look_angle), deg_to_rad(sittable.horizontal_look_angle))
+		if abs(joystick_h_event.get_axis_value()) > JOY_DEADZONE:
+			if INVERT_Y_AXIS:
+				head.rotate_x(deg_to_rad(joystick_h_event.get_axis_value() * JOY_H_SENS))
+			else:
+				head.rotate_x(-deg_to_rad(joystick_h_event.get_axis_value() * JOY_H_SENS))
+			head.rotation.x = clamp(head.rotation.x, deg_to_rad(-sittable.horizontal_look_angle), deg_to_rad(sittable.horizontal_look_angle))
 				
 	if joystick_v_event:
 		if abs(joystick_v_event.get_axis_value()) > JOY_DEADZONE:
@@ -1999,6 +1966,8 @@ func is_head_in_water() -> bool:
 
 
 func _handle_water_physics(delta) -> void:
+	if !InputRouter.is_input_active(self): return
+	
 	input_direction = Input.get_vector("left", "right", "forward", "back")
 	
 	var look_vector = camera.get_camera_transform().basis

@@ -1,3 +1,4 @@
+class_name CogitoInventoryInterface
 extends Control
 
 signal drop_slot_data(slot_data : InventorySlotPD)
@@ -47,7 +48,7 @@ func _ready():
 	grabbed_slot_node.set_focus_mode(0) # Setting focus mode to none.
 
 
-func _on_input_device_change(_device, _device_index):
+func _on_input_device_change(_device: String, _device_index: int):
 	if _device == "keyboard":
 		drop_prompt.hide()
 		assign_prompt.hide()
@@ -57,27 +58,28 @@ func _on_input_device_change(_device, _device_index):
 
 
 func open_inventory():
-	if !is_inventory_open:
-		is_inventory_open = true
-		info_panel.hide()
-		get_viewport().gui_focus_changed.connect(_on_focus_changed)
-		#inventory_ui.show()
-		#player_currencies_ui.show()
-		
-		for node in nodes_to_show:
-			node.show()
-		
-		# Setting tab menu to the first tab (inventory)
-		cogito_tab_menu.current_tab = 0
-		
-		if InputHelper.device_index != -1: # Check if gamepad is used
-			inventory_ui.slot_array[0].grab_focus.call_deferred() # Grab focus of inventory slot for gamepad users.
-#		inventory_interface.grabbed_slot_node.show()
-#		inventory_interface.external_inventory_ui.show()
+	if is_inventory_open: return
+	
+	is_inventory_open = true
+	info_panel.hide()
+	get_viewport().gui_focus_changed.connect(_on_focus_changed)
+	
+	InputRouter.push(on_input)
+	
+	for node in nodes_to_show:
+		node.show()
+	
+	# Setting tab menu to the first tab (inventory)
+	cogito_tab_menu.current_tab = 0
+	
+	if InputHelper.device_index != -1: # Check if gamepad is used
+		inventory_ui.slot_array[0].grab_focus.call_deferred() # Grab focus of inventory slot for gamepad users.
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
-		for slot_panel in inventory_ui.slot_array:
-			if !slot_panel.mouse_entered.is_connected(_slot_on_mouse_entered):
-				slot_panel.mouse_entered.connect(_slot_on_mouse_entered)
+	for slot_panel in inventory_ui.slot_array:
+		if !slot_panel.mouse_entered.is_connected(_slot_on_mouse_entered):
+			slot_panel.mouse_entered.connect(_slot_on_mouse_entered)
 
 
 func close_inventory():
@@ -96,8 +98,6 @@ func close_inventory():
 		
 		for node in nodes_to_show:
 			node.hide()
-		#inventory_ui.hide()
-		#player_currencies_ui.hide()
 		
 		if external_inventory_owner:
 			external_inventory_owner.close()
@@ -105,6 +105,10 @@ func close_inventory():
 		grabbed_slot_node.hide()
 		info_panel.hide()
 		external_inventory_ui.hide()
+		
+		InputRouter.pop()
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		inventory_open.emit(false)
 
 
 ## When the info panel is visible, this will check that if the mouse goes off the grid, 
@@ -221,7 +225,6 @@ func set_external_inventory(_external_inventory_owner):
 	var inventory_data = external_inventory_owner.inventory_data
 	
 	inventory_data.owner = external_inventory_owner # Setting reference to external inventory owner node
-#	inventory_data.inventory_interact.connect(on_inventory_interact)
 	inventory_data.inventory_button_press.connect(on_inventory_button_press.bind(external_inventory_ui))
 	external_inventory_ui.inventory_name = external_inventory_owner.display_name
 	external_inventory_ui.set_inventory_data(inventory_data)
@@ -245,7 +248,6 @@ func clear_external_inventory():
 	if external_inventory_owner:
 		var inventory_data = external_inventory_owner.inventory_data
 		
-#		inventory_data.inventory_interact.disconnect(on_inventory_interact)
 		inventory_data.inventory_button_press.disconnect(on_inventory_button_press)
 		external_inventory_ui.inventory_name = ""
 		external_inventory_ui.clear_inventory_data(inventory_data)
@@ -256,7 +258,6 @@ func clear_external_inventory():
 func set_player_inventory_data(inventory_data : CogitoInventory):
 	inventory_data.owner = CogitoSceneManager._current_player_node  # Setting player inventory owner reference to player node
 	
-#	inventory_data.inventory_interact.connect(on_inventory_interact)
 	if !inventory_data.inventory_button_press.is_connected(on_inventory_button_press):
 		inventory_data.inventory_button_press.connect(on_inventory_button_press.bind(inventory_ui))
 	inventory_ui.set_inventory_data(inventory_data)
@@ -376,18 +377,17 @@ func _on_bind_grabbed_slot_to_quickslot(quickslotcontainer: CogitoQuickslotConta
 	else:
 		CogitoGlobals.debug_log(true, "inventory_interface.gd", "No grabbed slot data.")
 
-
-# Grabbed slot data handling for mouse and keyboard
-func _on_gui_input(event):
-	if event is InputEventMouseButton \
-		and event.is_pressed() \
-		and grabbed_slot_data:
-			mouse_button_check(event)
-			update_grabbed_slot()
-
-
 # Rotating the item using the keyboard
-func _input(event: InputEvent) -> void:
+func on_input(event: InputEvent) -> void:
+	if event.is_action_pressed("inventory") or event.is_action_pressed("ui_cancel"):
+		close_inventory()
+	
+	#if event is InputEventMouseButton \
+		#and event.is_pressed() \
+		#and grabbed_slot_data:
+			#mouse_button_check(event)
+			#update_grabbed_slot()
+			
 	if Input.is_action_just_pressed("inventory_rotate_item") and grabbed_slot_data:
 		rotate_item()
 
@@ -444,7 +444,7 @@ func _drop_item(slot_data: InventorySlotPD) -> bool:
 	var player = get_parent().player
 	var player_radius = player.radius
 	var shape_cast = player.item_drop_shapecast
-	var item_drop_distance_offset = player.get_node(player.player_hud).item_drop_distance_offset
+	var item_drop_distance_offset = player.player_hud.item_drop_distance_offset
 	var camera_basis_z = get_viewport().get_camera_3d().get_global_transform().basis.z
 	
 	var drop_distance = abs(shape_cast.target_position.z - item_drop_distance_offset)

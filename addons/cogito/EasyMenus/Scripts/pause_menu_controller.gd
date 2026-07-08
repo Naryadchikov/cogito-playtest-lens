@@ -102,9 +102,9 @@ func update_load_related_gui():
 		%Label_SaveTime.visible = false
 	
 	if CogitoSceneManager.is_loaded_from_start_new_game or CogitoSceneManager.is_saved_slots_empty() or CogitoSceneManager.is_saved_slot_exist(CogitoSceneManager._active_slot):
-		%ReloadButton.disabled = false
+		%QuickLoadButton.disabled = false
 	else:
-		%ReloadButton.disabled = true
+		%QuickLoadButton.disabled = true
 	
 	if not CogitoSceneManager.is_saved_slots_empty():
 		load_button.disabled = false
@@ -162,7 +162,7 @@ func load_current_slot_data() -> bool:
 		%Screenshot_Spot.texture = texture
 	else:
 		%Screenshot_Spot.texture = empty_slot_texture
-		%Label_SaveTime2.visible = false
+		%Label_Lastsave.visible = false
 		%Label_SaveTime.visible = false
 		CogitoGlobals.debug_log(true,"pause_menu_controller.gd", "No screenshot for slot " + CogitoSceneManager._active_slot + " found.")
 		return false
@@ -172,13 +172,13 @@ func load_current_slot_data() -> bool:
 	if CogitoSceneManager._player_state:
 		savetime = CogitoSceneManager._player_state.player_state_savetime
 	if savetime == null or typeof(savetime) != TYPE_INT or savetime == 0:
-		%Label_SaveTime2.visible = false
+		%Label_Lastsave.visible = false
 		%Label_SaveTime.visible = false
 		return false
 	else:
 		var timeoffset = Time.get_time_zone_from_system().bias*60
 		var save_time_string = Time.get_datetime_string_from_unix_time(savetime+timeoffset,true)
-		%Label_SaveTime2.visible = true
+		%Label_Lastsave.visible = true
 		%Label_SaveTime.visible = true
 		%Label_SaveTime.text = save_time_string
 		return true
@@ -226,8 +226,8 @@ func _on_load_button_pressed() -> void:
 	CogitoSceneManager.game_menu = game_menu
 
 
-func _on_reload_button_pressed() -> void:
-	CogitoGlobals.debug_log(true,"pause_menu_controller.gd","RELOAD button pressed.")
+func _on_quickload_button_pressed() -> void:
+	CogitoGlobals.debug_log(true,"pause_menu_controller.gd","QUICK LOAD button pressed.")
 	if CogitoSceneManager.is_loaded_from_start_new_game or CogitoSceneManager.is_saved_slots_empty():
 		start_new_game()
 		return

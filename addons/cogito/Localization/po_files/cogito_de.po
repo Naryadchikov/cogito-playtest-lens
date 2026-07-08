@@ -160,24 +160,24 @@ msgid "BTN_Resume"
 msgstr "Fortsetzen"
 
 #: addons/cogito/EasyMenus/Scenes/PauseMenu.tscn
+msgid "LAB_Last_save"
+msgstr "Letzter Speicherstand"
+
+#: addons/cogito/EasyMenus/Scenes/PauseMenu.tscn
 msgid "LAB_Current Slot"
 msgstr "Aktueller Slot"
 
 #: addons/cogito/EasyMenus/Scenes/PauseMenu.tscn
-msgid "LAB_Last_save"
-msgstr "Letzter Speicherstand"
-
-#: addons/cogito/PackedScenes/death_screen.tscn
-msgid "BTN_Reload"
-msgstr "Neu Laden"
-
-#: addons/cogito/EasyMenus/Scenes/PauseMenu.tscn
-msgid "BTN_Load"
-msgstr "Laden"
+msgid "BTN_QuickLoad"
+msgstr "Schnellladen"
 
 #: addons/cogito/EasyMenus/Scenes/PauseMenu.tscn
 msgid "BTN_Save"
 msgstr "Speichern"
+
+#: addons/cogito/EasyMenus/Scenes/PauseMenu.tscn
+msgid "BTN_Load"
+msgstr "Laden"
 
 #: addons/cogito/EasyMenus/Scenes/PauseMenu.tscn
 msgid "BTN_Options"
@@ -437,15 +437,15 @@ msgstr "Du bist gestorben"
 
 #: addons/cogito/PackedScenes/death_screen.tscn
 msgid "LAB_current_slot"
-msgstr "Aktueller Slot"
+msgstr "Speicherstand"
 
 #: addons/cogito/PackedScenes/death_screen.tscn
 msgid "LAB_last_save"
 msgstr "Letzter Speicherstand"
 
 #: addons/cogito/PackedScenes/death_screen.tscn
-msgid "BTN_load"
-msgstr "Laden"
+msgid "BTN_Reload"
+msgstr "Neu Laden"
 
 #: addons/cogito/PackedScenes/death_screen.tscn
 msgid "BTN_back_to_menu"
@@ -956,8 +956,8 @@ msgid "HINT_ammo_change_blocked"
 msgstr "Munition kann momentan nicht gewechselt werden."
 
 #: addons/cogito/EasyMenus/Scenes/main_menu.tscn
-msgid "Continue"
-msgstr "Fortsetzen"
+msgid "Continue\n"
+msgstr "Fortsetzen\n"
 
 #: addons/cogito/EasyMenus/Scenes/main_menu.tscn
 msgid "New Game"
@@ -989,16 +989,6 @@ msgstr "NEUES SPIEL"
 msgid "TXT_SLOT"
 msgstr "SLOT"
 
-#. TRANSLATORS: item name
-#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
-msgid "Lockpick"
-msgstr "Dietrich"
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
-msgid "Breaks easily but can come in handy."
-msgstr "Sehr nützlich aber ist zerbrechlich."
-
 #. TRANSLATORS: translation_key_dict entry
 #: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
 msgid "TXT_EMPTY_SLOT"
@@ -1007,7 +997,7 @@ msgstr "Freier Slot"
 #. TRANSLATORS: translation_key_dict entry
 #: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
 msgid "TXT_CURRENT_SLOT"
-msgstr "Der aktuelle Slot"
+msgstr "Speicherstand"
 
 #. TRANSLATORS: translation_key_dict entry
 #: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
@@ -1044,6 +1034,22 @@ msgid "REMOVE_CONFIRMATION_DIALOG_TEXT"
 msgstr ""
 "Dieser Vorgang ist nicht rückgängig zu machen. Sind Sie sicher, dass Sie den "
 "Speicherstand löschen möchten?"
+
+#. TRANSLATORS: item name
+#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
+msgid "Lockpick"
+msgstr "Dietrich"
+
+#. TRANSLATORS: item description
+#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
+msgid "Breaks easily but can come in handy."
+msgstr "Sehr nützlich aber ist zerbrechlich."
+
+msgid "Cogito"
+msgstr ""
+
+#~ msgid "BTN_load"
+#~ msgstr "Laden"
 
 #~ msgid "Dart"
 #~ msgstr "Pfeil"

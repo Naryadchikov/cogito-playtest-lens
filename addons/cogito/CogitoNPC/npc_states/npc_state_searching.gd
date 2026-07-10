@@ -36,7 +36,12 @@ var search_point_two_label: Label3D
 var broken_los_point: Vector3
 ## The point where the player was when the line of sight timer finished
 var last_known_player_point: Vector3
-var player: CogitoPlayer
+
+var player: CogitoPlayer:
+	get:
+		if not player:
+			return CogitoSceneManager._current_player_node
+		return player
 
 var los_point_reached: bool = false
 var last_known_point_reached: bool = false

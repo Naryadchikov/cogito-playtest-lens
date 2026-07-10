@@ -319,6 +319,8 @@ func load_attention_target():
 func _on_hitbox_component_got_hit(object) -> void:
 	if object is CogitoProjectile:
 		sight_detection.generate_attention_target(object.throw_point)
+	elif object is CogitoWieldable:
+		sight_detection.generate_attention_target(object.global_position)
 	elif object is CogitoObject:
 		look_at(object.throw_point)
 		attention_target = object

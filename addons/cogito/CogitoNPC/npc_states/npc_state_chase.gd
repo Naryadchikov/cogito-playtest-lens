@@ -102,7 +102,9 @@ func start_waiting():
 
 func _on_chasing_state_entered() -> void:
 	super.enter_state()
-	chase_target = npc.attention_target
+	# Counter an edge case where the chase target could accidentally be a CogitoPoint
+	if npc.attention_target is CogitoPlayer:
+		chase_target = npc.attention_target
 	if !chase_target or npc.response_to_player == "Neutral":
 		CogitoGlobals.debug_log(true,"npc_state_chase.gd", "Chase target was null. Returning to state patrol")
 		state_chart.send_event("search")

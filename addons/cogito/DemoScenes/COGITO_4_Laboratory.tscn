@@ -73,7 +73,12 @@
 [ext_resource type="Shader" uid="uid://bqurxcbvm4a7a" path="res://addons/cogito/Assets/Shader/water_and_under.gdshader" id="68_r8380"]
 [ext_resource type="PackedScene" uid="uid://bb8pm2nk8hwon" path="res://addons/cogito/Wieldables/laser_rifle.tscn" id="68_ucks7"]
 [ext_resource type="PackedScene" uid="uid://b2cccsfb5tikx" path="res://addons/cogito/CogitoNPC/cogito_npc.tscn" id="68_wxy0x"]
-[ext_resource type="Resource" uid="uid://txiu5yxexevm" path="res://addons/cogito/InventoryPD/Items/Cogito_LaserRifle.tres" id="69_w80am"]
+[ext_resource type="Script" uid="uid://6vgnb68cqtwh" path="res://addons/cogito/InventoryPD/CustomResources/AmmoItemPD.gd" id="69_jpodq"]
+[ext_resource type="Resource" uid="uid://cvupo3p844nh2" path="res://addons/cogito/InventoryPD/Items/Cogito_LaserAmmo.tres" id="70_gg4s8"]
+[ext_resource type="Texture2D" uid="uid://bdh5i4gqsyn72" path="res://addons/cogito/Assets/Graphics/ItemIcons/Cogito_LaserRifle_new.png" id="71_dckl7"]
+[ext_resource type="Script" uid="uid://bkxgkf3pj8kb8" path="res://addons/cogito/InventoryPD/CustomResources/WieldableItemPD.gd" id="72_p1ri8"]
+[ext_resource type="AudioStream" uid="uid://npav2p2tk10i" path="res://addons/cogito/Assets/Audio/Kenney/handleSmallLeather.ogg" id="73_v0uas"]
+[ext_resource type="Texture2D" uid="uid://bidi8n5kbwi00" path="res://addons/cogito/Assets/Graphics/Crosshair_Kenney/crosshair188.png" id="74_5g5t0"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_wjbty"]
 panorama = ExtResource("2_akrjl")
@@ -100,7 +105,7 @@ volumetric_fog_ambient_inject = 0.1
 volumetric_fog_sky_affect = 0.1
 volumetric_fog_temporal_reprojection_amount = 0.85
 
-[sub_resource type="Resource" id="Resource_8nvk0"]
+[sub_resource type="Resource" id="Resource_nf5bb"]
 resource_local_to_scene = true
 script = ExtResource("5_fhmwi")
 grid = true
@@ -914,6 +919,25 @@ _data = {
 }
 point_count = 8
 
+[sub_resource type="Resource" id="Resource_r3w0o"]
+resource_local_to_scene = true
+script = ExtResource("72_p1ri8")
+wieldable_scene = ExtResource("68_ucks7")
+wieldable_crosshair = ExtResource("74_5g5t0")
+hint_on_empty = "Out of ammo."
+charge_max = 100.0
+ammo_types = Array[ExtResource("69_jpodq")]([ExtResource("70_gg4s8")])
+charge_current = 100.0
+wieldable_range = 100.0
+wieldable_damage = 1.0
+name = "Laser Rifle"
+description = "Goes pew pew pew. Needs Laser Ammo to reload."
+icon = ExtResource("71_dckl7")
+drop_scene = "res://addons/cogito/PackedScenes/Pickups/pickup_laser_rifle.tscn"
+sound_pickup = ExtResource("73_v0uas")
+can_auto_slot = true
+slot_number = 1
+
 [sub_resource type="Curve3D" id="Curve3D_w80am"]
 _data = {
 "points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3.9768982, 0.22985029, -0.4001999, 0, 0, 0, 0, 0, 0, 4.688942, -1.5201497, -4.1502, 0, 0, 0, 0, 0, 0, 4.7600183, -2.1426558, -5.239586, 0, 0, 0, 0, 0, 0, 4.8194323, -2.7701497, -6.1502, 0, 0, 0, 0, 0, 0, 5.2530994, -2.7701497, -12.797001, 0, 0, 0, 0, 0, 0, 4.8194323, -2.7701497, -6.1502, 0, 0, 0, 0, 0, 0, 4.7600193, -2.1426554, -5.239585, 0, 0, 0, 0, 0, 0, 4.688943, -1.5201497, -4.1502, 0, 0, 0, 0, 0, 0, 4.476898, 0.22985029, -0.9001999, 0, 0, 0, 0, 0, 0, 1.6335373, 0.22985029, 0.066114426, 0, 0, 0, 0, 0, 0, -4.273102, 0.22985029, -0.4001999, 0, 0, 0, 0, 0, 0, -4.7856007, -1.5201497, -4.1502, 0, 0, 0, 0, 0, 0, -4.7930336, -2.7026668, -6.082717, 0, 0, 0, 0, 0, 0, -4.80805, -2.7701497, -9.9869995),
@@ -994,34 +1018,34 @@ environment = SubResource("Environment_bftoa")
 
 [node name="Player" parent="." unique_id=2025047440 instance=ExtResource("3_ea58p")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.13854, 0.8, -5.43073)
-inventory_data = SubResource("Resource_8nvk0")
+inventory_data = SubResource("Resource_nf5bb")
 
 [node name="StateChartDebugger" parent="Player/GUI/Panel/AspectRatioContainer" parent_id_path=PackedInt32Array(2025047440, 1254528360) index="3" unique_id=2074939394]
 initial_node_to_watch = NodePath("../../../../../CogitoNPC/StateChart")
 
 [node name="Skeleton3D" parent="Player/Rig" parent_id_path=PackedInt32Array(2025047440, 731382254) index="0" unique_id=655408663]
-bones/1/position = Vector3(-0.00033775967, 0.085739836, 0.8715137)
-bones/1/rotation = Quaternion(0.7595933, -0.08627818, -0.07220387, 0.640594)
-bones/3/rotation = Quaternion(-0.033747807, -0.0002681972, -7.1427758e-06, 0.9994304)
-bones/4/rotation = Quaternion(0.12779775, -0.00085843715, 0.00091976783, 0.99179953)
-bones/5/rotation = Quaternion(0.025435537, 0.0003885356, -0.0008980907, 0.99967605)
-bones/6/rotation = Quaternion(-0.027991407, 0.09326737, 0.00024220129, 0.99524754)
-bones/7/rotation = Quaternion(-0.6090499, -0.36605152, -0.39867777, 0.5797592)
-bones/8/rotation = Quaternion(-0.25385755, 0.6662593, -0.5219833, 0.46817553)
-bones/9/rotation = Quaternion(0.25217482, 0.0062311613, 0.0012652826, 0.9676609)
-bones/10/rotation = Quaternion(0.10946094, 0.0063805915, -0.025113534, 0.99365336)
-bones/26/rotation = Quaternion(-0.6446601, 0.30521283, 0.33381057, 0.6163028)
-bones/27/rotation = Quaternion(-0.29043934, -0.6767542, 0.48166075, 0.47502804)
-bones/28/rotation = Quaternion(0.36415297, -0.14208297, 0.059311382, 0.91852456)
-bones/29/rotation = Quaternion(0.114227965, 0.0022021888, 0.043551035, 0.9924971)
-bones/45/rotation = Quaternion(0.96073043, 0.112900645, -0.014120025, 0.25308323)
-bones/46/rotation = Quaternion(0.21981154, -0.10581702, 0.024567977, 0.9694752)
-bones/47/rotation = Quaternion(-0.50731605, 0.02074385, 0.09226746, 0.8565552)
-bones/48/rotation = Quaternion(-0.00014781313, 0.9642369, -0.26504153, -0.0005019013)
-bones/49/rotation = Quaternion(0.9909074, -0.12593088, 0.014585238, 0.045069195)
-bones/50/rotation = Quaternion(0.16844463, 0.33954623, -0.06350542, 0.923202)
-bones/51/rotation = Quaternion(-0.59985936, -0.05260485, -0.15581566, 0.78302175)
-bones/52/rotation = Quaternion(-0.00013704861, 0.9643069, -0.26478696, -0.0004994202)
+bones/1/position = Vector3(0.00015025144, 0.086605035, 0.8720173)
+bones/1/rotation = Quaternion(0.76409316, -0.08547912, -0.07179112, 0.63537484)
+bones/3/rotation = Quaternion(-0.027174816, 0.0004342696, 0.00023341378, 0.9996306)
+bones/4/rotation = Quaternion(0.14989257, 0.001294286, 0.00012983302, 0.9887014)
+bones/5/rotation = Quaternion(0.010838277, -0.0007754564, 0.00019435193, 0.99994093)
+bones/6/rotation = Quaternion(-0.019980105, 0.092125714, -0.0022020226, 0.9955445)
+bones/7/rotation = Quaternion(-0.6093896, -0.36548373, -0.3981254, 0.5801398)
+bones/8/rotation = Quaternion(-0.25946674, 0.6692203, -0.5181181, 0.46516106)
+bones/9/rotation = Quaternion(0.270644, 0.013010624, 0.0020323, 0.96258944)
+bones/10/rotation = Quaternion(0.10356273, 0.006820421, -0.025129529, 0.994282)
+bones/26/rotation = Quaternion(-0.6441458, 0.30628055, 0.33483267, 0.6157561)
+bones/27/rotation = Quaternion(-0.2791938, -0.67071724, 0.4996677, 0.4717217)
+bones/28/rotation = Quaternion(0.3671655, -0.12506425, 0.056840286, 0.9199553)
+bones/29/rotation = Quaternion(0.12011001, 0.002739237, 0.043484244, 0.99180406)
+bones/45/rotation = Quaternion(0.95606387, 0.11410088, -0.0134258885, 0.26970866)
+bones/46/rotation = Quaternion(0.2192268, -0.10573638, 0.024525532, 0.9696175)
+bones/47/rotation = Quaternion(-0.5108446, 0.020852558, 0.09202086, 0.85447943)
+bones/48/rotation = Quaternion(-0.00013717602, 0.9643069, -0.26478696, -0.000499421)
+bones/49/rotation = Quaternion(0.99069923, -0.12665099, 0.015477515, 0.047277678)
+bones/50/rotation = Quaternion(0.17941159, 0.33902618, -0.06741319, 0.9210474)
+bones/51/rotation = Quaternion(-0.5998327, -0.05215113, -0.15546483, 0.78314215)
+bones/52/rotation = Quaternion(-0.00013704905, 0.9643069, -0.26478696, -0.0004994196)
 
 [node name="CONNECTOR_TO_LOBBY" type="Node3D" parent="." unique_id=1182780152]
 
@@ -4580,6 +4604,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0454833, 0)
 [node name="CogitoNPC2" parent="." unique_id=590797789 node_paths=PackedStringArray("patrol_path") instance=ExtResource("68_wxy0x")]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -3.634597, -2.6999998, 14.386071)
 patrol_path = NodePath("../EnemyPatrolpath")
+response_to_player = "Hostile"
 
 [node name="EnemyPatrolpath" type="Node3D" parent="." unique_id=1372882621 node_paths=PackedStringArray("starting_patrol_point", "simulate_with")]
 script = ExtResource("62_u5q7m")
@@ -4624,7 +4649,7 @@ weapon = NodePath("Laser Rifle")
 [node name="Laser Rifle" parent="CogitoNPC" unique_id=879862749 instance=ExtResource("68_ucks7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 default_position = Vector3(0, 0, 0)
-item_reference = ExtResource("69_w80am")
+item_reference = SubResource("Resource_r3w0o")
 
 [node name="EnemyPatrolpath2" type="Node3D" parent="." unique_id=693283155 node_paths=PackedStringArray("starting_patrol_point", "simulate_with")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.0044, 0, 15.0301)

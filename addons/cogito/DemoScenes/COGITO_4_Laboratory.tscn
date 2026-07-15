@@ -105,7 +105,7 @@ volumetric_fog_ambient_inject = 0.1
 volumetric_fog_sky_affect = 0.1
 volumetric_fog_temporal_reprojection_amount = 0.85
 
-[sub_resource type="Resource" id="Resource_nf5bb"]
+[sub_resource type="Resource" id="Resource_jpodq"]
 resource_local_to_scene = true
 script = ExtResource("5_fhmwi")
 grid = true
@@ -919,7 +919,7 @@ _data = {
 }
 point_count = 8
 
-[sub_resource type="Resource" id="Resource_r3w0o"]
+[sub_resource type="Resource" id="Resource_gg4s8"]
 resource_local_to_scene = true
 script = ExtResource("72_p1ri8")
 wieldable_scene = ExtResource("68_ucks7")
@@ -1018,34 +1018,34 @@ environment = SubResource("Environment_bftoa")
 
 [node name="Player" parent="." unique_id=2025047440 instance=ExtResource("3_ea58p")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.13854, 0.8, -5.43073)
-inventory_data = SubResource("Resource_nf5bb")
+inventory_data = SubResource("Resource_jpodq")
 
-[node name="StateChartDebugger" parent="Player/GUI/Panel/AspectRatioContainer" parent_id_path=PackedInt32Array(2025047440, 1254528360) index="3" unique_id=2074939394]
+[node name="StateChartDebugger" parent="Player/GUI/Panel/AspectRatioContainer" parent_id_path=PackedInt32Array(2025047440, 1254528360) index="2" unique_id=2074939394]
 initial_node_to_watch = NodePath("../../../../../CogitoNPC/StateChart")
 
 [node name="Skeleton3D" parent="Player/Rig" parent_id_path=PackedInt32Array(2025047440, 731382254) index="0" unique_id=655408663]
-bones/1/position = Vector3(0.00015025144, 0.086605035, 0.8720173)
-bones/1/rotation = Quaternion(0.76409316, -0.08547912, -0.07179112, 0.63537484)
-bones/3/rotation = Quaternion(-0.027174816, 0.0004342696, 0.00023341378, 0.9996306)
-bones/4/rotation = Quaternion(0.14989257, 0.001294286, 0.00012983302, 0.9887014)
-bones/5/rotation = Quaternion(0.010838277, -0.0007754564, 0.00019435193, 0.99994093)
-bones/6/rotation = Quaternion(-0.019980105, 0.092125714, -0.0022020226, 0.9955445)
-bones/7/rotation = Quaternion(-0.6093896, -0.36548373, -0.3981254, 0.5801398)
-bones/8/rotation = Quaternion(-0.25946674, 0.6692203, -0.5181181, 0.46516106)
-bones/9/rotation = Quaternion(0.270644, 0.013010624, 0.0020323, 0.96258944)
-bones/10/rotation = Quaternion(0.10356273, 0.006820421, -0.025129529, 0.994282)
-bones/26/rotation = Quaternion(-0.6441458, 0.30628055, 0.33483267, 0.6157561)
-bones/27/rotation = Quaternion(-0.2791938, -0.67071724, 0.4996677, 0.4717217)
-bones/28/rotation = Quaternion(0.3671655, -0.12506425, 0.056840286, 0.9199553)
-bones/29/rotation = Quaternion(0.12011001, 0.002739237, 0.043484244, 0.99180406)
-bones/45/rotation = Quaternion(0.95606387, 0.11410088, -0.0134258885, 0.26970866)
-bones/46/rotation = Quaternion(0.2192268, -0.10573638, 0.024525532, 0.9696175)
-bones/47/rotation = Quaternion(-0.5108446, 0.020852558, 0.09202086, 0.85447943)
-bones/48/rotation = Quaternion(-0.00013717602, 0.9643069, -0.26478696, -0.000499421)
-bones/49/rotation = Quaternion(0.99069923, -0.12665099, 0.015477515, 0.047277678)
-bones/50/rotation = Quaternion(0.17941159, 0.33902618, -0.06741319, 0.9210474)
-bones/51/rotation = Quaternion(-0.5998327, -0.05215113, -0.15546483, 0.78314215)
-bones/52/rotation = Quaternion(-0.00013704905, 0.9643069, -0.26478696, -0.0004994196)
+bones/1/position = Vector3(-0.0025515824, 0.08501609, 0.8747932)
+bones/1/rotation = Quaternion(0.7567346, -0.08423608, -0.07298064, 0.64415145)
+bones/3/rotation = Quaternion(-0.034751274, 0.00041306592, 0.00038520235, 0.9993959)
+bones/4/rotation = Quaternion(0.12563123, 0.0012348571, -0.00014041176, 0.9920763)
+bones/5/rotation = Quaternion(0.027010173, -0.0006845939, 0.00039840548, 0.9996349)
+bones/6/rotation = Quaternion(-0.012259292, 0.092268646, 0.0004240928, 0.9956587)
+bones/7/rotation = Quaternion(-0.6038814, -0.3691392, -0.39433214, 0.58614475)
+bones/8/rotation = Quaternion(-0.27675775, 0.67144936, -0.50541365, 0.4659592)
+bones/9/rotation = Quaternion(0.2628171, 0.031525586, -0.0029718704, 0.964326)
+bones/10/rotation = Quaternion(0.10601334, 0.0066336775, -0.02513434, 0.9940249)
+bones/26/rotation = Quaternion(-0.63822556, 0.30975977, 0.33237606, 0.62148476)
+bones/27/rotation = Quaternion(-0.28862056, -0.67633903, 0.47530442, 0.4830626)
+bones/28/rotation = Quaternion(0.36565536, -0.14323543, 0.06470656, 0.9173837)
+bones/29/rotation = Quaternion(0.117666006, 0.0025202117, 0.04352347, 0.9920959)
+bones/45/rotation = Quaternion(0.96241164, 0.112455375, -0.013098678, 0.24687254)
+bones/46/rotation = Quaternion(0.18999778, -0.10709616, 0.021439107, 0.9756903)
+bones/47/rotation = Quaternion(-0.50181204, 0.020394854, 0.09385889, 0.8596274)
+bones/48/rotation = Quaternion(-0.00013717591, 0.9643069, -0.26478696, -0.00049942033)
+bones/49/rotation = Quaternion(0.9933162, -0.11330988, 0.014583214, 0.016466575)
+bones/50/rotation = Quaternion(0.13857117, 0.34361064, -0.052629683, 0.92734027)
+bones/51/rotation = Quaternion(-0.5876332, -0.050192885, -0.15626797, 0.79230577)
+bones/52/rotation = Quaternion(0.00041175552, 0.9613752, -0.27524066, -0.0005216842)
 
 [node name="CONNECTOR_TO_LOBBY" type="Node3D" parent="." unique_id=1182780152]
 
@@ -4647,9 +4647,9 @@ response_to_player = "Hostile"
 weapon = NodePath("Laser Rifle")
 
 [node name="Laser Rifle" parent="CogitoNPC" unique_id=879862749 instance=ExtResource("68_ucks7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(0.70710677, 0.70710677, -3.090862e-08, 0, -4.371139e-08, -1, -0.70710677, 0.70710677, -3.090862e-08, 0, 0, 0)
 default_position = Vector3(0, 0, 0)
-item_reference = SubResource("Resource_r3w0o")
+item_reference = SubResource("Resource_gg4s8")
 
 [node name="EnemyPatrolpath2" type="Node3D" parent="." unique_id=693283155 node_paths=PackedStringArray("starting_patrol_point", "simulate_with")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.0044, 0, 15.0301)

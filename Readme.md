@@ -11,8 +11,8 @@ In short, with COGITO you get a quick start for a fully-featured first person ga
 ### [Cogito in the Godot Asset Store](https://store.godotengine.org/asset/philip-drobar/cogito/)
 
 ### Current Features
-- First person player controller with:
-  - Sprinting, jumping, crouching, sliding, stairs handling, ladder handling, sitting
+- First person player controller (simple OR state-based):
+  - Sprinting, jumping, crouching, sliding, stairs handling, ladder handling, sitting, swimming
   - Lots of exposed properties to tweak to your liking (speeds, headbob, fall damage, bunnyhop, etc.)
   - Easy-to-use dynamic footstep sound system
 - Player Attribute System
@@ -30,20 +30,20 @@ In short, with COGITO you get a quick start for a fully-featured first person ga
   - Examples for multiple item types (consumables, keys, ammo, weapons, combinable Items)
   - Base class to easily add your custom item types
   - Containers with their own inventories
-- Basic NPC
-  - NavigationAgent based enemy with component-based state machine + animation states
-  - Simple player detection system that uses detection areas + basic line-of-sight checks
+- Cogito NPC
+  - NavigationAgent based general purpose NPC with state machine + animation states
+  - Player detection system based on line-of-sight + simulated hearing.
 - Main menu, pause menu and Options menu
 - Rebindable controls
-- Full game pad support!
+- Basic Quest System
 - Save and Load System as well as scene persistency
+- Full game pad support!
 - Localization!
 - Support for other plugins:
   - Works with Dialogic
   - Works with Dialgue Manager
 - Work in progress:
   - Systemic Properties (wet/dry, flammable/on fire, soft, etc) (very WIP)
-  - Basic Quest System
 
 ### Comes with fully featured Demo Scenes
 - Set up like a game level including a variety of objects, weapons and quests
@@ -60,6 +60,6 @@ The structure of this template always tries to adhere to the following principle
 - **No Generative AI**: All included code and assets are made by humans and listed in our credits and cotnributors page.
 
 > [!IMPORTANT]  
-> COGITO v1.1 is not 100% bug-free. While most features are set, be aware that this open source software is offered "as is". Use at your own risk and check Issues and Discussion pages for more information.
+> COGITO v1.2 is not 100% bug-free. While most features are set, be aware that this open source software is offered "as is". Use at your own risk and check Issues and Discussion pages for more information.
 
 [Credits, Contributors and License](https://codeberg.org/Phazorknight/Cogito/wiki/Credits%2C-Contributors%2C-License)

@@ -10,6 +10,7 @@ class_name ImpactZone
 @export var outgoing: bool = false
 
 func _ready() -> void:
+	set_collision(false)
 	if outgoing:
 		monitoring = true
 		body_entered.connect(_outgoing_body_entered)

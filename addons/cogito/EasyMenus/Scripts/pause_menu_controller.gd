@@ -98,7 +98,7 @@ func update_load_related_gui():
 		CogitoSceneManager._active_slot = ""
 		%Screenshot_Spot.texture = empty_slot_texture
 		%Label_SaveTime.text = ""
-		%Label_SaveTime2.visible = false
+		%Label_Lastsave.visible = false
 		%Label_SaveTime.visible = false
 	
 	if CogitoSceneManager.is_loaded_from_start_new_game or CogitoSceneManager.is_saved_slots_empty() or CogitoSceneManager.is_saved_slot_exist(CogitoSceneManager._active_slot):
@@ -113,12 +113,12 @@ func update_load_related_gui():
 		else:
 			label_active_slot.visible = false
 			%Label_SaveTime.text = ""
-			%Label_SaveTime2.visible = false
+			%Label_Lastsave.visible = false
 			%Label_SaveTime.visible = false
 	else:
 		%Screenshot_Spot.texture = empty_slot_texture
 		%Label_SaveTime.text = ""
-		%Label_SaveTime2.visible = false
+		%Label_Lastsave.visible = false
 		%Label_SaveTime.visible = false
 		load_button.disabled = true
 		label_active_slot.visible = false

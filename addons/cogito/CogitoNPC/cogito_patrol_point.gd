@@ -12,22 +12,34 @@ class_name CogitoPatrolPoint
 var current_point_index: int = 0
 ## The previous patrol point being travelled from. Used to send the NPC back if next_patrol_points is empty
 var previous_patrol_point: CogitoPatrolPoint
-
+## Has this patrol point been traversed by the NPC?
 var traversed: bool = false
+
+
+## Resets traversal for all traversed points on the path
 func clear_traversals_bools():
 	traversed = false
 	if next_patrol_points.is_empty():
 		return
 	for point in next_patrol_points:
-		point.clear_traversals_bools()
+		# Avoid a possible recursion overflow by checking the point has already been traversed first if 
+		# a patrol point happens to reference another point that would form a traversal loop
+		if point.traversed:
+			point.clear_traversals_bools()
 
+
+## Returns the starting point if starting_point_as_next_on_end is enabled in CogitoPatrolPath, otherwise
+## returns the previous patrol point that was navigated to, effectively retracing the patrol in reverse
 func get_return_to_point() -> CogitoPatrolPoint:
 	if get_parent() is CogitoPatrolPath:
 		var parent = get_parent()
 		if parent.starting_point_as_next_on_end:
 			parent.starting_patrol_point.clear_traversals_bools()
 			return parent.starting_patrol_point
+		elif previous_patrol_point == parent.starting_patrol_point:
+			previous_patrol_point.clear_traversals_bools()
 	return previous_patrol_point
+
 
 ## Called once the NPC reached their currently selected patrol point.
 ## Will return the previous patrol point if this is the end or the starting one

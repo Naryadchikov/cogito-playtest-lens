@@ -1,7 +1,7 @@
 extends Node
 class_name HitboxComponent
 
-signal got_hit
+signal got_hit(object: Node3D)
 
 @export var health_attribute : CogitoHealthAttribute
 ## PackedScene that will get spawned on global hit position
@@ -16,23 +16,23 @@ signal got_hit
 @onready var parent = get_parent()
 
 func _ready() -> void:
-	if get_parent().has_signal("damage_received"):
-		if !get_parent().damage_received.is_connected(damage):
-			get_parent().damage_received.connect(damage)
+	if parent.has_signal("damage_received"):
+		if !parent.damage_received.is_connected(damage):
+			parent.damage_received.connect(damage)
 	else:
-		CogitoGlobals.debug_log(true, "HitboxComponent", "Parent " + get_parent().name + " is missing a damage_received() signal.")
+		CogitoGlobals.debug_log(true, "HitboxComponent", "Parent " + parent.name + " is missing a damage_received() signal.")
 
 
-func damage(damage_amount: float, _hit_direction:= Vector3.ZERO, _hit_position:= Vector3.ZERO):
+func damage(damage_amount: float, object: Node3D, _hit_direction:= Vector3.ZERO, _hit_position:= Vector3.ZERO):
 	if health_attribute:
 		health_attribute.subtract(damage_amount)
 	
-	if spawn_at_global_collision != null:
+	if spawn_at_global_collision:
 		var spawned_object = spawn_at_global_collision.instantiate()
 		spawned_object.position = _hit_position
 		get_tree().current_scene.add_child(spawned_object)
 		
-	if spawn_at_local_collision != null:
+	if spawn_at_local_collision:
 		var local_hit_position = parent.to_local(_hit_position)
 		var spawned_object = spawn_at_local_collision.instantiate()
 		spawned_object.position = local_hit_position
@@ -45,4 +45,4 @@ func damage(damage_amount: float, _hit_direction:= Vector3.ZERO, _hit_position:=
 		if parent is CharacterBody3D:
 			parent.apply_knockback(_hit_direction * damage_amount * applied_force_multipler)
 			
-	got_hit.emit()
+	got_hit.emit(object)

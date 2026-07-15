@@ -9,6 +9,7 @@ extends CogitoPlayerState
 
 @export var saved_wieldable_charges : Array
 
+@export var player_uid : int
 @export var player_position : Vector3
 @export var player_rotation : Vector3
 @export var player_try_crouch : bool
@@ -135,6 +136,7 @@ func populate_player_data(player):
 	for entry in local_dict_copy:
 		CogitoSceneManager._current_world_dict.get_or_add(entry, local_dict_copy[entry])
 	
+	player.uid = player_uid
 	player.global_position = self.player_position
 	player.body.global_rotation = self.player_rotation
 	player.try_crouch = self.player_try_crouch
@@ -211,6 +213,8 @@ func populate_save_data(player, slot):
 	self.player_current_scene = CogitoSceneManager._current_scene_name
 	CogitoGlobals.debug_log(true,"CSM","Save_player_state(): setting player_current_scene to " + CogitoSceneManager._current_scene_name)
 	self.player_current_scene_path = CogitoSceneManager._current_scene_path
+	
+	self.player_uid = player.uid
 	self.player_position = player.global_position
 	self.player_rotation = player.body.global_rotation
 	self.player_try_crouch = player.try_crouch

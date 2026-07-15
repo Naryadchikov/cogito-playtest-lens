@@ -404,7 +404,7 @@ func _attempt_throw() -> void:
 			return
 		else:
 			player.decrease_attribute(stamina_attribute.attribute_name, throw_stamina_drain)
-
+			
 	carried_object.throw(throw_force)
 
 

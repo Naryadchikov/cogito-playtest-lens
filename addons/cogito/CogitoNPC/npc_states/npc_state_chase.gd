@@ -1,29 +1,26 @@
-extends Node
-
-# These will be autofilled by the StateMachine
-var Host # is our Character node (parent of StateMachine)
-var States # is the StateMachine itself
-
-signal chase_ended
+extends StateProcessor
 
 enum ChaseStatus{ CAUGHT, LOST, CHASING, WAITING = 3 }
 var current_chase_status : ChaseStatus
 var chase_target : Node3D = null
 
-@export var target_action_distance : float = 1.0
+## How close does a target have to be before considered in melee distance
+@export var target_melee_distance : float = 1.5
+## How close does a target have to be within the wieldable range before a ranged attack happens?
+@export var target_ranged_distance_offset : float = 1
 @export var action_when_caught : String = "attack"
 ## If the NPC navigation agent can't reach the chase target for this amount of time (in sec), they'll return to their previous state.
-@export var giveup_chase_time : float = 10.0
+@export var giveup_chase_time : float = 5.0
+## If the NPC can no longer see the player for this duration (in sec), they'll start a search
+@export var wait_after_broken_los_time : float = 3.0
 @export var face_target_while_waiting : bool = true
+## Reference to the searching state processor so the variables can be set (software eng gods please dont strike me down)
+@export var searching_state: StateProcessor
+@export var chase_start_bark: AudioStream
 
-@export_group("Animation Settings")
-@export var chase_stance : String = ""
-@export var neutral_stance : String = ""
-
+var los_broken_timer : Timer
 var chase_wait_timer : Timer
-var host_animation_statemachine
-var state_before_chase : String
-
+var can_see_player: bool = false
 
 func _enter_tree() -> void:
 	chase_wait_timer = Timer.new()
@@ -31,104 +28,154 @@ func _enter_tree() -> void:
 	chase_wait_timer.one_shot = true
 	chase_wait_timer.timeout.connect(stop_chasing)
 	add_child(chase_wait_timer)
-
-
-func _state_enter():
-	chase_target = Host.attention_target
-	host_animation_statemachine = Host.animation_tree.get("parameters/UpperBodyState/playback")
 	
-	if !chase_target:
-		CogitoGlobals.debug_log(true,"npc_state_chase.gd", "Chase target was null. Returning to state = " + States.previous_state)
-		States.load_previous_state()
+	los_broken_timer = Timer.new()
+	los_broken_timer.wait_time = wait_after_broken_los_time
+	los_broken_timer.one_shot = true
+	los_broken_timer.timeout.connect(start_searching)
+	add_child(los_broken_timer)
+
+
+func _running(delta: float):
+	npc.nav_agent.target_position = chase_target.global_position
+	var distance_to_target = npc.global_position.distance_to(chase_target.global_position)
+
+	# Do a weapon distance check only if they can see the player
+	if can_see_player:
+		var ranged_distance = get_wieldable_range()
+		if ranged_distance > 0 and distance_to_target <= ranged_distance - target_ranged_distance_offset:
+			current_chase_status = ChaseStatus.CAUGHT
+		elif distance_to_target <= target_melee_distance:
+			current_chase_status = ChaseStatus.CAUGHT
+		
+	if not npc.nav_agent.is_target_reachable():
+		start_waiting()
+		
+	npc.move_npc_to_next_position(delta)
+
+## Abort the chase because the NPC died
+func npc_has_died() -> void:
+	current_chase_status = ChaseStatus.LOST
+
+
+## Call this to abort the chase. Switches status to lost target and goes to previous state.
+func stop_chasing() -> void:
+	#Switch back to walk_speed
+	npc.move_speed = npc.walk_speed
+	current_chase_status = ChaseStatus.LOST
+
+
+func start_searching() -> void:
+	var sight = npc.sight_detection
+	sight.current_suspicion -= (sight.aggro_threshold/4)
+	searching_state.player = chase_target
+	searching_state.last_known_player_point = npc.last_reachable_path
+	state_chart.send_event("body_walk")
+	state_chart.send_event("search")
+
+
+func get_wieldable_range() -> int:
+	if npc.weapon and npc.weapon.item_reference and npc.weapon.item_reference.wieldable_range > 0:
+		return npc.weapon.item_reference.wieldable_range
+	return 0
+
+
+## Fire a raycast at the player to see if they're visible to the npc
+func check_los_to_player() -> bool:	
+	# Get the space state of the world, construct a ray to fire from the chaser to the target
+	var space_state = npc.get_world_3d().direct_space_state
+	# Collision layers 1 (Environment) and 3 (Player) = 4+1 = 5
+	var query = PhysicsRayQueryParameters3D.create(npc.head.global_position, chase_target.global_position, 5)
+	query.exclude = [npc.get_rid()]
+	var result = space_state.intersect_ray(query)
+	# If there is a collision, check that the ray is hitting the player
+	if result:
+		return result["collider"] is CogitoPlayer
+	return false
+
+
+## Gets called when the line of sight has been broken for long enough
+func start_waiting():
+	chase_wait_timer.start()
+	current_chase_status = ChaseStatus.WAITING
+
+
+func _on_chasing_state_entered() -> void:
+	super.enter_state()
+	# Counter an edge case where the chase target could accidentally be a CogitoPoint
+	if npc.attention_target is CogitoPlayer:
+		chase_target = npc.attention_target
+	if !chase_target or npc.response_to_player == "Neutral":
+		CogitoGlobals.debug_log(true,"npc_state_chase.gd", "Chase target was null. Returning to state patrol")
+		state_chart.send_event("search")
+		state_chart.send_event("body_walk")
 	else:
-		host_animation_statemachine.travel(chase_stance)
-		Host.move_speed = Host.sprint_speed
+		# Don't bark if re-entering state from the attacking state
+		if not npc.previous_behaviour == behaviours.Attacking:
+			bark(chase_start_bark)
+		state_chart.send_event("body_run")
+		npc.move_speed = npc.sprint_speed
 		current_chase_status = ChaseStatus.CHASING
+		npc.head_turner.target_node = chase_target.get_path()
 
 
-func _state_exit():
+func _on_chasing_state_exited() -> void:
+	super.exit_state()
 	chase_target = null
 
 
-func _physics_process(_delta):
-	Host.update_animations(_delta)
+func _on_chasing_state_physics_processing(delta: float) -> void:
+	## When loading a game during a chase, the attention target needs to be reacquired
+	if not chase_target and npc.attention_target:
+		chase_target = npc.attention_target
+	
+	can_see_player = check_los_to_player()
+	if can_see_player:
+		npc.head_turner.active = true
+		los_broken_timer.stop()
+	else:
+		npc.head_turner.active = false
+		if los_broken_timer.is_stopped() and chase_wait_timer.is_stopped():
+			searching_state.broken_los_point = chase_target.global_position
+			los_broken_timer.start()
+		
+	
+	if not chase_target or (chase_target as CogitoPlayer).is_dead:
+		stop_chasing()
+		
+	if npc.is_dead():
+		npc_has_died()
 	
 	match current_chase_status:
 		ChaseStatus.WAITING:
 			# Lerping down the velocity
-			Host.velocity.x = move_toward(Host.velocity.x, 0, _delta * Host.move_speed)
-			Host.velocity.z = move_toward(Host.velocity.z, 0, _delta * Host.move_speed)
-			Host.move_and_slide()
+			npc.velocity.x = move_toward(npc.velocity.x, 0, delta * npc.move_speed)
+			npc.velocity.z = move_toward(npc.velocity.z, 0, delta * npc.move_speed)
+			npc.move_and_slide()
 
 			if face_target_while_waiting:
-				Host.face_direction(chase_target.global_position)
+				npc.face_direction(chase_target.global_position)
 			
-			# If chase target becomes reachable again, the chase is resumed.
-			Host.navigation_agent_3d.target_position = chase_target.global_position
-			if Host.navigation_agent_3d.is_target_reachable():
+			# The chase
+			npc.nav_agent.target_position = chase_target.global_position
+			if npc.nav_agent.is_target_reachable() or can_see_player:
 				chase_wait_timer.stop() 
 				current_chase_status = ChaseStatus.CHASING
 				
 			return
 			
 		ChaseStatus.CHASING:
-			_running(_delta)
+			_running(delta)
+			return
 			
 		ChaseStatus.CAUGHT:
-			States.goto(action_when_caught)
+			state_chart.send_event(action_when_caught)
+			return
 			
 		ChaseStatus.LOST: # Ends this state.
-			host_animation_statemachine.travel(neutral_stance)
-			chase_ended.emit()
-			CogitoGlobals.debug_log(true,"npc_state_chase.gd", "ChaseStatus LOST, going to state = " + States.previous_state)
-			States.load_previous_state()
+			start_searching()
+			CogitoGlobals.debug_log(true,"npc_state_chase.gd", "ChaseStatus LOST, going to state = search")
+			return
 
 
-	var look_ahead := Vector3(Host.global_position.x + Host.velocity.x, Host.global_position.y, Host.global_position.z + Host.velocity.z)
-
-
-func _running(delta: float):
-	Host.navigation_agent_3d.target_position = chase_target.global_position
-	var disance_to_target = Host.global_position.distance_to(chase_target.global_position)
-
-	if disance_to_target <= target_action_distance:
-		current_chase_status =  ChaseStatus.CAUGHT
-		
-	if not Host.navigation_agent_3d.is_target_reachable():
-		start_waiting(delta)
-		
-	move_host_to_next_position(delta)
-
-
-## Call this to abort the chase. Switches status to lost target and goes to previous state.
-func stop_chasing() -> void:
-	#Switch back to walk_speed
-	Host.move_speed = Host.walk_speed
-	current_chase_status = ChaseStatus.LOST
-
-
-## Gets called when chase_target can't be reached via nav agent.
-func start_waiting(_delta: float):
-	chase_wait_timer.start()
-	current_chase_status = ChaseStatus.WAITING
-
-
-func move_host_to_next_position(_delta: float) -> void:
-	var next_position = Host.navigation_agent_3d.get_next_path_position()
-	
-	# Add the gravity.
-	if not Host.is_on_floor():
-		Host.velocity += Host.get_gravity() * _delta
-
-	var direction = Host.global_position.direction_to(next_position)
-	var face_direction := Vector3(Host.global_position.x + Host.velocity.x, Host.global_position.y, Host.global_position.z + Host.velocity.z)
-
-	if direction:
-		Host.face_direction(face_direction)
-		Host.velocity.x = direction.x * Host.move_speed
-		Host.velocity.z = direction.z * Host.move_speed
-	else:
-		Host.velocity.x = move_toward(Host.velocity.x, 0, Host.move_speed)
-		Host.velocity.z = move_toward(Host.velocity.z, 0, Host.move_speed)
-		
-	Host.move_and_slide()
+	var look_ahead := Vector3(npc.global_position.x + npc.velocity.x, npc.global_position.y, npc.global_position.z + npc.velocity.z)

@@ -1,11 +1,5 @@
-extends Node
+extends StateProcessor
 
-# These will be autofilled by the StateMachine
-var Host # is our Character node (parent of StateMachine)
-var States # is the StateMachine itself
-
-@export var move_animation : String = ""
-@export var waiting_animation : String = ""
 @export var patrol_point_wait_time : float = 3.0
 @export var patrol_point_threshold : float = 0.4
 
@@ -24,64 +18,24 @@ func _enter_tree() -> void:
 	add_child(patrol_wait_timer)
 
 
-func _state_enter():
-	CogitoGlobals.debug_log(true, "npc_state_patrol_on_path.gd", name + " state entered")
-	if Host.patrol_path:
-		Host.navigation_agent_3d.target_position = set_next_patrol_point_destination()
-		current_travel_status = TravelStatus.RUNNING
-	else:
-		CogitoGlobals.debug_log(true, "npc_state_patrol_on_path.gd", "No patrol path assigned to NPC")
-
-
-func _state_exit():
-	States.save_state_as_previous(self.name,null)
-	pass
-
-
-func _physics_process(_delta):
-	Host.update_animations(_delta)
-	
-	match current_travel_status:
-		TravelStatus.WAITING:
-			# Lerping down the velocity
-			Host.velocity.x = move_toward(Host.velocity.x, 0, _delta * Host.move_speed)
-			Host.velocity.z = move_toward(Host.velocity.z, 0, _delta * Host.move_speed)
-			Host.move_and_slide()
-			return
-		TravelStatus.RUNNING:
-			_running(_delta)
-		TravelStatus.SUCCESS:
-			# This would end patrolling
-			pass
-		TravelStatus.FAILURE:
-			iterate_patrol_point_index() #Switches to the next patrol point if current one is not reachable.
-			if Host.patrol_path:
-				Host.navigation_agent_3d.target_position = set_next_patrol_point_destination()
-				current_travel_status = TravelStatus.RUNNING
-
-
-	var look_ahead := Vector3(Host.global_position.x + Host.velocity.x, Host.global_position.y, Host.global_position.z + Host.velocity.z)
-
-
 func set_next_patrol_point_destination():
-	if Host.patrol_path:
-		var new_destination = Host.patrol_path.patrol_points[patrol_point_index].global_position
+	if npc.patrol_path:
+		var new_destination = npc.patrol_path.target_next_patrol_point().global_position
 		return new_destination
 	else:
 		return null
 
 
 func _running(delta: float):
-	if not Host.navigation_agent_3d.is_target_reachable():
-		CogitoGlobals.debug_log(true,"NPC State Patrol on Path", "Patrol point at index " + str(patrol_point_index) + " is not reach able. Going to next one.")
-		iterate_patrol_point_index() #Switches to the next patrol point if current one is not reachable.
-		Host.navigation_agent_3d.target_position = set_next_patrol_point_destination()
+	if not npc.nav_agent.is_target_reachable():
+		CogitoGlobals.debug_log(true,"NPC State Patrol on Path", "Patrol point at is not reachable. Going back to start.")
+		npc.nav_agent.target_position = npc.patrol_path.starting_patrol_point.global_position
 	
-	if Host.navigation_agent_3d.is_navigation_finished():
+	if npc.nav_agent.is_navigation_finished():
 		wait_at_patrol_point(delta)
 		return
 	
-	move_host_to_next_position(delta)
+	npc.move_npc_to_next_position(delta)
 
 
 func wait_at_patrol_point(_delta: float):
@@ -90,38 +44,53 @@ func wait_at_patrol_point(_delta: float):
 
 
 func resume_patrolling() -> void:
-	iterate_patrol_point_index()
-	if Host.patrol_path:
-		Host.navigation_agent_3d.target_position = set_next_patrol_point_destination()
+	if npc.patrol_path:
+		npc.nav_agent.target_position = set_next_patrol_point_destination()
 		current_travel_status = TravelStatus.RUNNING
 
 
-func iterate_patrol_point_index():
-	# Checking to see if we've reached the end of the patrol point list.
-	if patrol_point_index == Host.patrol_path.patrol_points.size() - 1:
-		# If yes, we're starting over:
-		patrol_point_index = 0
+func _on_patrolling_state_entered() -> void:
+	super.enter_state()
+	state_chart.send_event("ubody_neutral")
+	CogitoGlobals.debug_log(true, "npc_state_patrol_on_path.gd", name + " state entered")
+	if npc.patrol_path:
+		npc.nav_agent.target_position = set_next_patrol_point_destination()
+		current_travel_status = TravelStatus.RUNNING
 	else:
-		# If no, we're going to the next point:
-		patrol_point_index += 1
+		CogitoGlobals.debug_log(true, "npc_state_patrol_on_path.gd", "No patrol path assigned to NPC")
 
 
-func move_host_to_next_position(_delta: float) -> void:
-	var next_position = Host.navigation_agent_3d.get_next_path_position()
+func _on_patrolling_state_exited() -> void:
+	super.exit_state()
+
+
+func _on_patrolling_state_physics_processing(delta: float) -> void:
+	for i in npc.get_slide_collision_count():
+		var collision = npc.get_slide_collision(i)
+		if collision.get_collider() is CogitoPlayer and npc.response_to_player == "Hostile":
+			npc.attention_target = collision.get_collider()
+			state_chart.send_event("ubody_raise_weapon")
+			state_chart.send_event("chase")
 	
-	# Add the gravity.
-	if not Host.is_on_floor():
-		Host.velocity += Host.get_gravity() * _delta
-
-	var direction = Host.global_position.direction_to(next_position)
-	var face_direction := Vector3(Host.global_position.x + Host.velocity.x, Host.global_position.y, Host.global_position.z + Host.velocity.z)
-
-	if direction:
-		Host.face_direction(face_direction)
-		Host.velocity.x = direction.x * Host.move_speed
-		Host.velocity.z = direction.z * Host.move_speed
-	else:
-		Host.velocity.x = move_toward(Host.velocity.x, 0, Host.move_speed)
-		Host.velocity.z = move_toward(Host.velocity.z, 0, Host.move_speed)
+	if npc.patrol_path == null:
+		return
 	
-	Host.move_and_slide()
+	match current_travel_status:
+		TravelStatus.WAITING:
+			# Lerping down the velocity
+			npc.velocity.x = move_toward(npc.velocity.x, 0, delta * npc.move_speed)
+			npc.velocity.z = move_toward(npc.velocity.z, 0, delta * npc.move_speed)
+			npc.move_and_slide()
+			return
+		TravelStatus.RUNNING:
+			_running(delta)
+		TravelStatus.SUCCESS:
+			# This would end patrolling
+			pass
+		TravelStatus.FAILURE:
+			if npc.patrol_path:
+				npc.nav_agent.target_position = set_next_patrol_point_destination()
+				current_travel_status = TravelStatus.RUNNING
+
+
+	var look_ahead := Vector3(npc.global_position.x + npc.velocity.x, npc.global_position.y, npc.global_position.z + npc.velocity.z)

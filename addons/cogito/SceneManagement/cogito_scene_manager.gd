@@ -384,6 +384,13 @@ func delete_temp_saves() -> void:
 	CogitoGlobals.debug_log(true,"CSM","Delete temp saves complete!")
 
 
+func find_object_from_uid(uid: int) -> Node3D:
+	for node in get_tree().get_nodes_in_group("Persist"):
+		if node.get("uid") == uid:
+			return node
+	return null
+
+
 func reset_scene_states() -> void:
 	# TODO: CREATE FUNCTION THAT DELETES SCENE STATE FILES.
 	var scene_state_files : Dictionary

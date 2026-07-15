@@ -171,5 +171,8 @@ func throw(power):
 		audio_stream_player_3d.stream = drop_sound
 		audio_stream_player_3d.play()
 	var impulse = player_interaction_component.get_look_direction() * power
+	if parent_object is CogitoObject:
+		parent_object.was_thrown = true
+		parent_object.throw_point = parent_object.global_position
 	parent_object.apply_central_impulse(impulse)
 	thrown.emit(impulse)

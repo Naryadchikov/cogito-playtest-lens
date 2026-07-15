@@ -74,11 +74,11 @@ msgid "LAB_MOUSE_SENS"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
-msgid "Inverts looking up and down direction."
+msgid "BTN_INVERT_Y"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
-msgid "BTN_INVERT_Y"
+msgid "Inverts looking up and down direction."
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/OptionsTabMenu.tscn
@@ -194,23 +194,23 @@ msgid "BTN_Resume"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/PauseMenu.tscn
+msgid "LAB_Last_save"
+msgstr ""
+
+#: addons/cogito/EasyMenus/Scenes/PauseMenu.tscn
 msgid "LAB_Current Slot"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/PauseMenu.tscn
-msgid "LAB_Last_save"
-msgstr ""
-
-#: addons/cogito/PackedScenes/death_screen.tscn
-msgid "BTN_Reload"
-msgstr ""
-
-#: addons/cogito/EasyMenus/Scenes/PauseMenu.tscn
-msgid "BTN_Load"
+msgid "BTN_QuickLoad"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/PauseMenu.tscn
 msgid "BTN_Save"
+msgstr ""
+
+#: addons/cogito/EasyMenus/Scenes/PauseMenu.tscn
+msgid "BTN_Load"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/PauseMenu.tscn
@@ -473,6 +473,10 @@ msgstr ""
 
 #: addons/cogito/PackedScenes/death_screen.tscn
 msgid "LAB_last_save"
+msgstr ""
+
+#: addons/cogito/PackedScenes/death_screen.tscn
+msgid "BTN_Reload"
 msgstr ""
 
 #: addons/cogito/PackedScenes/death_screen.tscn
@@ -743,13 +747,6 @@ msgstr ""
 msgid "Tends to get hot. One clip has a charge of 50."
 msgstr ""
 
-#. TRANSLATORS: item hint on use
-#: addons/cogito/InventoryPD/Items/Cogito_LaserAmmo.tres
-#: addons/cogito/InventoryPD/Items/Cogito_UselessItem.tres
-#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
-msgid ""
-msgstr ""
-
 #. TRANSLATORS: item name
 #: addons/cogito/InventoryPD/Items/Cogito_PageCombined.tres
 msgid "Combined Page"
@@ -973,19 +970,7 @@ msgid "HINT_ammo_change_blocked"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/main_menu.tscn
-msgid "Continue"
-msgstr ""
-
-#: addons/cogito/EasyMenus/Scenes/main_menu.tscn
-msgid "New Game"
-msgstr ""
-
-#: addons/cogito/EasyMenus/Scenes/main_menu.tscn
-msgid "Load"
-msgstr ""
-
-#: addons/cogito/EasyMenus/Scenes/main_menu.tscn
-msgid "Continue"
+msgid "Continue\n"
 msgstr ""
 
 #: addons/cogito/EasyMenus/Scenes/main_menu.tscn
@@ -1016,16 +1001,6 @@ msgstr ""
 #. TRANSLATORS: translation_key_dict entry
 #: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
 msgid "TXT_SLOT"
-msgstr ""
-
-#. TRANSLATORS: item name
-#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
-msgid "Lockpick"
-msgstr ""
-
-#. TRANSLATORS: item description
-#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
-msgid "Breaks easily but can come in handy."
 msgstr ""
 
 #. TRANSLATORS: translation_key_dict entry
@@ -1066,4 +1041,17 @@ msgstr ""
 #. TRANSLATORS: translation_key_dict entry
 #: addons/cogito/Localization/translation_keys_resources/loc_menus_and_options.tres
 msgid "REMOVE_CONFIRMATION_DIALOG_TEXT"
+msgstr ""
+
+#. TRANSLATORS: item name
+#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
+msgid "Lockpick"
+msgstr ""
+
+#. TRANSLATORS: item description
+#: addons/cogito/InventoryPD/Items/Cogito_LockpickItem.tres
+msgid "Breaks easily but can come in handy."
+msgstr ""
+
+msgid "Cogito"
 msgstr ""

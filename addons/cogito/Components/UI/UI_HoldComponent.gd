@@ -80,7 +80,6 @@ func start_holding(_hold_interaction: HoldInteraction) -> void:
 		progress_wheel.current_value = 1 - (hold_timer.time_left / hold_interaction.hold_time)
 		hold_timer.start()
 		hold_interaction = _hold_interaction
-		player_interaction_component.player.is_movement_paused = true
 
 
 func stop_holding() -> void:
@@ -89,4 +88,3 @@ func stop_holding() -> void:
 	is_holding = false
 	hold_interaction = null
 	progress_wheel.current_value = 0.0
-	player_interaction_component.player.is_movement_paused = false

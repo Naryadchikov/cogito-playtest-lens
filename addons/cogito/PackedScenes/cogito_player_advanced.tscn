@@ -17758,10 +17758,10 @@ bind/52/name = &"DEF-toe.R"
 bind/52/bone = -1
 bind/52/pose = Transform3D(-1, -4.08618e-08, 1.21778e-15, 4.87804e-15, -1.19209e-07, 1, -4.092e-08, 1, -2.98023e-08, -0.089, -0.1132, -0.0152)
 
-[node name="CogitoPlayer" type="CharacterBody3D" unique_id=1413948432 node_paths=PackedStringArray("item_drop_shapecast", "ledge_climbing_shapecast") groups=["Player"]]
+[node name="CogitoPlayer" type="CharacterBody3D" unique_id=1413948432 node_paths=PackedStringArray("player_hud", "item_drop_shapecast", "ledge_climbing_shapecast") groups=["Player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 script = ExtResource("1_87we8")
-pause_menu = NodePath("GUI/Panel/AspectRatioContainer/PauseMenu")
+pause_menu = ExtResource("22_haksr")
 player_hud = NodePath("GUI/Panel/AspectRatioContainer/Player_HUD")
 item_drop_shapecast = NodePath("Body/Neck/Head/Eyes/Camera/ItemDropShapeCast")
 ledge_climbing_shapecast = NodePath("LedgeClimbingShapeCast")
@@ -17925,9 +17925,6 @@ grow_vertical = 2
 layout_mode = 2
 player = NodePath("../../../..")
 item_drop_distance_offset = 0.0
-
-[node name="PauseMenu" parent="GUI/Panel/AspectRatioContainer" unique_id=1116056025 instance=ExtResource("22_haksr")]
-layout_mode = 2
 
 [node name="UnderWaterEffect" type="ColorRect" parent="GUI/Panel/AspectRatioContainer" unique_id=710774463]
 visible = false
@@ -18375,63 +18372,40 @@ delay_in_seconds = "0.0"
 
 [node name="BodyPosture" type="Node" parent="StateChart/Root" unique_id=1675641859]
 script = ExtResource("30_brxtl")
-initial_state = NodePath("IsActive")
-
-[node name="IsActive" type="Node" parent="StateChart/Root/BodyPosture" unique_id=107887745]
-script = ExtResource("30_brxtl")
 initial_state = NodePath("Standing")
 
-[node name="On Pause" type="Node" parent="StateChart/Root/BodyPosture/IsActive" unique_id=1407478416]
-script = ExtResource("32_cqpng")
-to = NodePath("../../PauseBodyPosture")
-event = &"pause"
-delay_in_seconds = "0.0"
-
-[node name="ResumeBodyPosture" type="Node" parent="StateChart/Root/BodyPosture/IsActive" unique_id=1659923310]
-script = ExtResource("38_3s35w")
-default_state = NodePath("../Standing")
-
-[node name="Crouching" type="Node" parent="StateChart/Root/BodyPosture/IsActive" unique_id=899223523]
+[node name="Crouching" type="Node" parent="StateChart/Root/BodyPosture" unique_id=899223523]
 script = ExtResource("31_74178")
 
-[node name="On Stand_Up" type="Node" parent="StateChart/Root/BodyPosture/IsActive/Crouching" unique_id=889604028]
+[node name="On Stand_Up" type="Node" parent="StateChart/Root/BodyPosture/Crouching" unique_id=889604028]
 script = ExtResource("32_cqpng")
 to = NodePath("../../Standing")
 event = &"stand_up"
 guard = SubResource("Resource_0xklh")
 delay_in_seconds = "0.0"
 
-[node name="Standing" type="Node" parent="StateChart/Root/BodyPosture/IsActive" unique_id=1835561106]
+[node name="Sitting" type="Node" parent="StateChart/Root/BodyPosture" unique_id=1038510749]
 script = ExtResource("31_74178")
 
-[node name="On Crouch" type="Node" parent="StateChart/Root/BodyPosture/IsActive/Standing" unique_id=724996995]
-script = ExtResource("32_cqpng")
-to = NodePath("../../Crouching")
-event = &"crouch"
-delay_in_seconds = "0.0"
-
-[node name="On Sit" type="Node" parent="StateChart/Root/BodyPosture/IsActive/Standing" unique_id=996969714]
-script = ExtResource("32_cqpng")
-to = NodePath("../../Sitting")
-event = &"sit"
-delay_in_seconds = "0.0"
-
-[node name="Sitting" type="Node" parent="StateChart/Root/BodyPosture/IsActive" unique_id=1038510749]
-script = ExtResource("31_74178")
-
-[node name="On Stand_Up" type="Node" parent="StateChart/Root/BodyPosture/IsActive/Sitting" unique_id=1979308012]
+[node name="On Stand_Up" type="Node" parent="StateChart/Root/BodyPosture/Sitting" unique_id=1979308012]
 script = ExtResource("32_cqpng")
 to = NodePath("../../Standing")
 event = &"stand_up"
 delay_in_seconds = "0.0"
 
-[node name="PauseBodyPosture" type="Node" parent="StateChart/Root/BodyPosture" unique_id=136938913]
+[node name="Standing" type="Node" parent="StateChart/Root/BodyPosture" unique_id=1835561106]
 script = ExtResource("31_74178")
 
-[node name="On Resume" type="Node" parent="StateChart/Root/BodyPosture/PauseBodyPosture" unique_id=1248059653]
+[node name="On Crouch" type="Node" parent="StateChart/Root/BodyPosture/Standing" unique_id=724996995]
 script = ExtResource("32_cqpng")
-to = NodePath("../../IsActive/ResumeBodyPosture")
-event = &"resume"
+to = NodePath("../../Crouching")
+event = &"crouch"
+delay_in_seconds = "0.0"
+
+[node name="On Sit" type="Node" parent="StateChart/Root/BodyPosture/Standing" unique_id=996969714]
+script = ExtResource("32_cqpng")
+to = NodePath("../../Sitting")
+event = &"sit"
 delay_in_seconds = "0.0"
 
 [node name="PushingObjects" type="Node" parent="StateChart/Root" unique_id=1535532207]
@@ -18883,12 +18857,12 @@ skeleton = NodePath("..")
 [connection signal="state_entered" from="StateChart/Root/Moving/LedgeClimb/IsActive/LedgeClimbing" to="." method="_on_ledge_climbing_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Moving/LedgeClimb/IsActive/LedgeClimbing" to="." method="_on_ledge_climbing_state_exited"]
 [connection signal="state_physics_processing" from="StateChart/Root/Moving/LedgeClimb/IsActive/LedgeClimbing" to="." method="_on_ledge_climbing_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/Root/BodyPosture/IsActive/Crouching" to="." method="_on_crouching_state_entered"]
-[connection signal="state_entered" from="StateChart/Root/BodyPosture/IsActive/Crouching" to="PlayerAnimationTree" method="crouch_down"]
-[connection signal="state_exited" from="StateChart/Root/BodyPosture/IsActive/Crouching" to="." method="_on_crouching_state_exited"]
-[connection signal="state_physics_processing" from="StateChart/Root/BodyPosture/IsActive/Crouching" to="." method="_on_crouching_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/Root/BodyPosture/IsActive/Standing" to="." method="_on_standing_state_entered"]
-[connection signal="state_entered" from="StateChart/Root/BodyPosture/IsActive/Standing" to="PlayerAnimationTree" method="standing_up"]
-[connection signal="state_exited" from="StateChart/Root/BodyPosture/IsActive/Standing" to="." method="_on_standing_state_exited"]
-[connection signal="state_physics_processing" from="StateChart/Root/BodyPosture/IsActive/Standing" to="." method="_on_standing_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/BodyPosture/Crouching" to="." method="_on_crouching_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/BodyPosture/Crouching" to="PlayerAnimationTree" method="crouch_down"]
+[connection signal="state_exited" from="StateChart/Root/BodyPosture/Crouching" to="." method="_on_crouching_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/Root/BodyPosture/Crouching" to="." method="_on_crouching_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/BodyPosture/Standing" to="." method="_on_standing_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/BodyPosture/Standing" to="PlayerAnimationTree" method="standing_up"]
+[connection signal="state_exited" from="StateChart/Root/BodyPosture/Standing" to="." method="_on_standing_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/Root/BodyPosture/Standing" to="." method="_on_standing_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/Root/PushingObjects" to="." method="_on_pushing_objects_state_physics_processing"]

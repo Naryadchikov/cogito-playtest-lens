@@ -54,7 +54,7 @@ var interaction_texture : Texture2D
 var previous_crosshair_texture : Texture
 
 @onready var damage_overlay = $DamageOverlay
-@onready var inventory_interface = $InventoryInterface
+@onready var inventory_interface: CogitoInventoryInterface = $InventoryInterface
 @onready var wieldable_hud: PanelContainer = $MarginContainer_BottomUI/WieldableHud # Displays wieldable icons and data. Hides when no wieldable equipped.
 @onready var prompt_area: Control = $PromptUI/PromptArea
 @onready var hint_area: Control = $HintArea
@@ -67,9 +67,6 @@ var previous_crosshair_texture : Texture
 
 
 func _ready():
-	# TESTING THIS
-	set_process_unhandled_input(false)
-	
 	# Connect to signal that detects change of input device
 	InputHelper.device_changed.connect(_on_input_device_change)
 	# Calling this function once to set proper input icons
@@ -114,7 +111,6 @@ func connect_to_player_signals():
 	player.player_interaction_component.updated_wieldable_data.connect(_on_update_wieldable_data)
 	player.player_interaction_component.update_crosshair.connect(_on_update_crosshair)
 	player.toggled_interface.connect(_on_external_ui_toggle)
-	player.toggle_inventory_interface.connect(toggle_inventory_interface)
 	player.player_state_loaded.connect(_on_player_state_load)
 
 
@@ -190,10 +186,32 @@ func _on_input_device_change(_device, _device_index):
 	pass
 
 
+func set_inventory_visibility(visible: bool, external_inventory: CogitoContainer = null) -> void:
+	if !inventory_interface: return
+	
+	if visible and !inventory_interface.is_inventory_open:
+		inventory_interface.open_inventory()
+		_on_external_ui_toggle(true)
+		inventory_interface.inventory_open.connect(_on_inventory_toggled)
+		if external_inventory:
+			inventory_interface.set_external_inventory(external_inventory)
+			external_inventory.open()
+		show_inventory.emit()
+	elif !visible and inventory_interface.is_inventory_open:
+		inventory_interface.close_inventory()
+		_on_external_ui_toggle(false)
+		hide_inventory.emit()
+
+func _on_inventory_toggled(is_showing: bool) -> void:
+	if !is_showing:
+		_on_external_ui_toggle(false)
+		inventory_interface.inventory_open.disconnect(_on_inventory_toggled)
+		
 func toggle_inventory_interface(external_inventory_owner = null):
 	if !inventory_interface.is_inventory_open:
 		inventory_interface.open_inventory()
 		_on_external_ui_toggle(true)
+		inventory_interface.inventory_open.connect(on_inventory_visibility_changed)
 		if external_inventory_owner:
 			external_inventory_owner.open()
 		show_inventory.emit()
@@ -209,6 +227,11 @@ func toggle_inventory_interface(external_inventory_owner = null):
 	else:
 		inventory_interface.clear_external_inventory()
 
+func on_inventory_visibility_changed(is_showing: bool):
+	if !is_showing:
+		_on_external_ui_toggle(false)
+		hide_inventory.emit()
+		inventory_interface.inventory_open.disconnect(on_inventory_visibility_changed)
 
 ### Interaction Prompt UI:
 func set_interaction_prompts(passed_interaction_nodes : Array[Node]):
@@ -286,15 +309,11 @@ func set_drop_prompt(_carrying_node):
 
 
 #What happens when an external UI is shown (like inventory, readbale document, keypad, external inventory)
-func _on_external_ui_toggle(is_showing:bool):
+func _on_external_ui_toggle(is_showing: bool):
 	if is_showing:
-		player._on_pause_movement()
-		player.is_showing_ui = true
 		prompt_area.hide()
 		crosshair.hide()
 	else:
-		player._on_resume_movement()
-		player.is_showing_ui = false
 		prompt_area.show()
 		crosshair.show()
 

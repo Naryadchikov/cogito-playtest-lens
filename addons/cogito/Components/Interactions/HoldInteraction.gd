@@ -1,7 +1,7 @@
 class_name HoldInteraction
 extends InteractionComponent
 
-signal is_being_held(time_left:float)
+signal is_being_held(time_left:float, delta_time: float)
 
 @export var hold_time : float = 3.0
 

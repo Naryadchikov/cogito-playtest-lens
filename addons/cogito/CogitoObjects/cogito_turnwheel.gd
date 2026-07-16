@@ -48,14 +48,14 @@ func _ready():
 			node.is_being_held.connect(_is_being_turned) 
 
 
-func _is_being_turned(_time_remaining:float):
+func _is_being_turned(_time_remaining:float, _delta_time: float):
 	if audio_stream_player_3d and !audio_stream_player_3d.playing:
 		audio_stream_player_3d.play()
 		
 	if has_been_turned:
-		self.rotate_object_local(rotation_axis * -1,rotation_speed)
+		self.rotate_object_local(rotation_axis * -1,rotation_speed * _delta_time)
 	else:
-		self.rotate_object_local(rotation_axis,rotation_speed)
+		self.rotate_object_local(rotation_axis,rotation_speed * _delta_time)
 	
 
 func interact(_player_interaction_component):

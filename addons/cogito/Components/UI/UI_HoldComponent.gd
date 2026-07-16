@@ -25,7 +25,7 @@ func _process(_delta: float) -> void:
 	if is_holding and hold_interaction:
 		if hold_timer.time_left  < hold_timer.wait_time-buffer_time:
 			show()
-		hold_interaction.is_being_held.emit(hold_timer.time_left)
+		hold_interaction.is_being_held.emit(hold_timer.time_left, _delta)
 		progress_wheel.current_value = 1 - (hold_timer.time_left / hold_interaction.hold_time)
 		
 		var interaction_distance = (hold_interaction.parent_node.global_position - player_interaction_component.global_position).length()

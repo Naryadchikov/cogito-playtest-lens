@@ -14,6 +14,9 @@ func _enter_tree():
 	add_autoload_singleton("MenuTemplateManager", "/EasyMenus/Nodes/menu_template_manager.tscn")
 	add_autoload_singleton("InputRouter", "/Scripts/input_router.gd")
 	
+	add_custom_type("FluidArea3D", "RigidBody3D", preload("res://addons/cogito/FloatableBody/fluid_area_3d.gd"), null)
+	add_custom_type("FloatableBody3D", "RigidBody3D", preload("res://addons/cogito/FloatableBody/floatable_body_3d.gd"), null)
+	
 	# Initialization of the plugin goes here.
 	parser_plugin = load("res://addons/cogito/Localization/scripts/loc_resource_parser.gd").new()
 	add_translation_parser_plugin(parser_plugin)
@@ -22,6 +25,10 @@ func _enter_tree():
 	
 
 func _exit_tree():
+	
+	remove_custom_type("FloatableBody3D")
+	remove_custom_type("FluidArea3D")
+
 	remove_autoload_singleton("InputRouter")
 	remove_autoload_singleton("CogitoQuestManager")
 	remove_autoload_singleton("MenuTemplateManager")

@@ -1024,28 +1024,28 @@ inventory_data = SubResource("Resource_jpodq")
 initial_node_to_watch = NodePath("../../../../../CogitoNPC/StateChart")
 
 [node name="Skeleton3D" parent="Player/Rig" parent_id_path=PackedInt32Array(2025047440, 731382254) index="0" unique_id=655408663]
-bones/1/position = Vector3(-0.0025515824, 0.08501609, 0.8747932)
-bones/1/rotation = Quaternion(0.7567346, -0.08423608, -0.07298064, 0.64415145)
-bones/3/rotation = Quaternion(-0.034751274, 0.00041306592, 0.00038520235, 0.9993959)
-bones/4/rotation = Quaternion(0.12563123, 0.0012348571, -0.00014041176, 0.9920763)
-bones/5/rotation = Quaternion(0.027010173, -0.0006845939, 0.00039840548, 0.9996349)
-bones/6/rotation = Quaternion(-0.012259292, 0.092268646, 0.0004240928, 0.9956587)
-bones/7/rotation = Quaternion(-0.6038814, -0.3691392, -0.39433214, 0.58614475)
-bones/8/rotation = Quaternion(-0.27675775, 0.67144936, -0.50541365, 0.4659592)
-bones/9/rotation = Quaternion(0.2628171, 0.031525586, -0.0029718704, 0.964326)
-bones/10/rotation = Quaternion(0.10601334, 0.0066336775, -0.02513434, 0.9940249)
-bones/26/rotation = Quaternion(-0.63822556, 0.30975977, 0.33237606, 0.62148476)
-bones/27/rotation = Quaternion(-0.28862056, -0.67633903, 0.47530442, 0.4830626)
-bones/28/rotation = Quaternion(0.36565536, -0.14323543, 0.06470656, 0.9173837)
-bones/29/rotation = Quaternion(0.117666006, 0.0025202117, 0.04352347, 0.9920959)
-bones/45/rotation = Quaternion(0.96241164, 0.112455375, -0.013098678, 0.24687254)
-bones/46/rotation = Quaternion(0.18999778, -0.10709616, 0.021439107, 0.9756903)
-bones/47/rotation = Quaternion(-0.50181204, 0.020394854, 0.09385889, 0.8596274)
-bones/48/rotation = Quaternion(-0.00013717591, 0.9643069, -0.26478696, -0.00049942033)
-bones/49/rotation = Quaternion(0.9933162, -0.11330988, 0.014583214, 0.016466575)
-bones/50/rotation = Quaternion(0.13857117, 0.34361064, -0.052629683, 0.92734027)
-bones/51/rotation = Quaternion(-0.5876332, -0.050192885, -0.15626797, 0.79230577)
-bones/52/rotation = Quaternion(0.00041175552, 0.9613752, -0.27524066, -0.0005216842)
+bones/1/position = Vector3(-0.001239083, 0.086417094, 0.87350637)
+bones/1/rotation = Quaternion(0.7631752, -0.086340755, -0.071839, 0.63635534)
+bones/3/rotation = Quaternion(-0.02746517, -0.00017332699, 9.786882e-05, 0.9996228)
+bones/4/rotation = Quaternion(0.15032856, -0.0005875595, 0.0006485547, 0.9886357)
+bones/5/rotation = Quaternion(0.011203852, 0.00026278815, -0.00063331606, 0.99993706)
+bones/6/rotation = Quaternion(-0.015498791, 0.093121566, -0.0035910506, 0.9955277)
+bones/7/rotation = Quaternion(-0.6074292, -0.36705756, -0.39739192, 0.5817029)
+bones/8/rotation = Quaternion(-0.26160488, 0.6679011, -0.5170236, 0.4670735)
+bones/9/rotation = Quaternion(0.27745658, 0.014655334, -0.0010072201, 0.96062595)
+bones/10/rotation = Quaternion(0.10991912, 0.006347952, -0.025108393, 0.9936031)
+bones/26/rotation = Quaternion(-0.64273113, 0.3065228, 0.3332749, 0.617955)
+bones/27/rotation = Quaternion(-0.28456306, -0.6734975, 0.49384564, 0.47068194)
+bones/28/rotation = Quaternion(0.36499086, -0.1320819, 0.055843752, 0.91990083)
+bones/29/rotation = Quaternion(0.11377111, 0.0021591985, 0.043552205, 0.99254966)
+bones/45/rotation = Quaternion(0.95783067, 0.11349096, -0.013507594, 0.26362464)
+bones/46/rotation = Quaternion(0.22590676, -0.105816424, 0.025135789, 0.9680585)
+bones/47/rotation = Quaternion(-0.50054693, 0.020744508, 0.09271048, 0.86048084)
+bones/48/rotation = Quaternion(-0.00013717436, 0.9643069, -0.26478696, -0.0004994194)
+bones/49/rotation = Quaternion(0.9911646, -0.123776294, 0.014868322, 0.04529027)
+bones/50/rotation = Quaternion(0.1624565, 0.34064034, -0.06150919, 0.92400694)
+bones/51/rotation = Quaternion(-0.5994527, -0.05196081, -0.15500733, 0.78353655)
+bones/52/rotation = Quaternion(-0.00013704853, 0.9643069, -0.26478696, -0.00049942033)
 
 [node name="CONNECTOR_TO_LOBBY" type="Node3D" parent="." unique_id=1182780152]
 
@@ -2938,9 +2938,6 @@ transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -27, 0, 
 [node name="KSI_wall_painted_alt32" parent="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES" unique_id=449044017 instance=ExtResource("15_u4ws3")]
 transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -27, 0, 2)
 
-[node name="KSI_wall_painted_alt33" parent="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES" unique_id=1747260393 instance=ExtResource("15_u4ws3")]
-transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -27, 0, 8)
-
 [node name="KSI_wall_painted_alt34" parent="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES" unique_id=842822266 instance=ExtResource("15_u4ws3")]
 transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -27, 0, 5)
 
@@ -4025,6 +4022,12 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 9, 0, 
 [node name="KSI_wall_doorway_wide_painted4" parent="NavigationRegion3D/SHOOTING_RANGE" unique_id=2001022805 instance=ExtResource("22_ymaj1")]
 transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 3, 0, -10)
 
+[node name="KSI_wall_doorway_wide_painted_alt" parent="NavigationRegion3D/SHOOTING_RANGE" unique_id=1959107348 instance=ExtResource("14_dfhb4")]
+transform = Transform3D(-1, 0, -2.622678e-07, 0, 1, 0, 2.622678e-07, 0, -1, -27.000002, 0, 5.000001)
+
+[node name="KSI_wall_doorway_wide_painted8" parent="NavigationRegion3D/SHOOTING_RANGE" unique_id=918061246 instance=ExtResource("22_ymaj1")]
+transform = Transform3D(1, 0, 3.4969e-07, 0, 1, 0, -3.4969e-07, 0, 1, -27.000002, 0, 8.000001)
+
 [node name="KSI_wall_doorway_wide_painted7" parent="NavigationRegion3D/SHOOTING_RANGE" unique_id=213724805 instance=ExtResource("22_ymaj1")]
 transform = Transform3D(1, 0, 1.74845e-07, 0, 1, 0, -1.74845e-07, 0, 1, -9, 0, -4)
 
@@ -5076,9 +5079,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 4.5, 17)
 [node name="KSI_wall_painted29" parent="SwimmingTest" unique_id=2135897475 instance=ExtResource("15_u4ws3")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -28, 0, 2)
 
-[node name="KSI_wall_painted32" parent="SwimmingTest" unique_id=1784926980 instance=ExtResource("15_u4ws3")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -28, 0, 5)
-
 [node name="KSI_wall_painted33" parent="SwimmingTest" unique_id=1853138855 instance=ExtResource("15_u4ws3")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -28, 0, 8)
 
@@ -5696,46 +5696,6 @@ skeleton = NodePath("../..")
 [node name="StaticBody3D" type="StaticBody3D" parent="LedgeClimbingTests/ClimbingTest20" unique_id=796489011]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LedgeClimbingTests/ClimbingTest20/StaticBody3D" unique_id=381845810]
-shape = SubResource("ConcavePolygonShape3D_q0htc")
-
-[node name="ClimbingTest21" type="MeshInstance3D" parent="LedgeClimbingTests" unique_id=1351924470]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.745, 0.5, 5)
-mesh = SubResource("BoxMesh_7u7hp")
-skeleton = NodePath("../..")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="LedgeClimbingTests/ClimbingTest21" unique_id=83954130]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LedgeClimbingTests/ClimbingTest21/StaticBody3D" unique_id=1948424364]
-shape = SubResource("ConcavePolygonShape3D_q0htc")
-
-[node name="ClimbingTest22" type="MeshInstance3D" parent="LedgeClimbingTests" unique_id=1973497021]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.745, 1.5, 5)
-mesh = SubResource("BoxMesh_7u7hp")
-skeleton = NodePath("../..")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="LedgeClimbingTests/ClimbingTest22" unique_id=165702667]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LedgeClimbingTests/ClimbingTest22/StaticBody3D" unique_id=442782858]
-shape = SubResource("ConcavePolygonShape3D_q0htc")
-
-[node name="ClimbingTest23" type="MeshInstance3D" parent="LedgeClimbingTests" unique_id=844157798]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.745, 2.5, 5)
-mesh = SubResource("BoxMesh_7u7hp")
-skeleton = NodePath("../..")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="LedgeClimbingTests/ClimbingTest23" unique_id=348233504]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LedgeClimbingTests/ClimbingTest23/StaticBody3D" unique_id=932611243]
-shape = SubResource("ConcavePolygonShape3D_q0htc")
-
-[node name="ClimbingTest24" type="MeshInstance3D" parent="LedgeClimbingTests" unique_id=1143367235]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.9629, 3.5, 5)
-mesh = SubResource("BoxMesh_7u7hp")
-skeleton = NodePath("../..")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="LedgeClimbingTests/ClimbingTest24" unique_id=1092580152]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LedgeClimbingTests/ClimbingTest24/StaticBody3D" unique_id=1254852855]
 shape = SubResource("ConcavePolygonShape3D_q0htc")
 
 [node name="ClimbingTest7" type="MeshInstance3D" parent="LedgeClimbingTests" unique_id=987814508]

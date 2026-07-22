@@ -1,3 +1,5 @@
+
+
 extends Node
 #Loads options like volume and graphic options on game startup
 
@@ -57,7 +59,8 @@ func load_settings():
 
 
 func _ready():
-	load_settings()
+	#load_settings()
+	pass
 
 
 func set_msaa(mode, index):

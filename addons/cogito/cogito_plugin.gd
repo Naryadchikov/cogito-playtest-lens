@@ -9,6 +9,7 @@ var parser_plugin: EditorTranslationParserPlugin
 
 func _enter_tree():
 	add_autoload_singleton("CogitoGlobals", "/cogito_globals.gd")
+	add_autoload_singleton("CogitoGameConfig", "/Scripts/cogito_game_config.gd")
 	add_autoload_singleton("CogitoSceneManager", "/SceneManagement/cogito_scene_manager.gd")
 	add_autoload_singleton("CogitoQuestManager", "/QuestSystem/cogito_quest_manager.gd")
 	add_autoload_singleton("MenuTemplateManager", "/EasyMenus/Nodes/menu_template_manager.tscn")
@@ -33,6 +34,7 @@ func _exit_tree():
 	remove_autoload_singleton("CogitoQuestManager")
 	remove_autoload_singleton("MenuTemplateManager")
 	remove_autoload_singleton("CogitoSceneManager")
+	remove_autoload_singleton("CogitoGameConfig")
 	remove_autoload_singleton("CogitoGlobals")
 
 	remove_translation_parser_plugin(parser_plugin)

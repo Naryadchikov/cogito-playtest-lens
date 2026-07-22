@@ -81,7 +81,8 @@ func on_input(event):
 		if options_tab_menu.visible:
 			accept_event()
 			options_tab_menu.hide()
-			options_tab_menu.load_options()
+			#options_tab_menu.load_options()
+			CogitoGameConfig.load_options()
 			CogitoSceneManager.previous_menu_button_pressed = ""
 			save_load_menu.hide()
 			game_menu.show()
@@ -134,7 +135,8 @@ func load_slot_data():
 
 func open_options_menu():
 	options_tab_menu.show()
-	options_tab_menu.load_options(true)
+	#options_tab_menu.load_options(true)
+	CogitoGameConfig.load_options()
 	options_tab_menu.have_options_changed = false
 	
 	var current_tab: int = options_tab_menu.tab_container.current_tab

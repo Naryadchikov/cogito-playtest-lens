@@ -98,7 +98,8 @@ func _physics_process(_delta):
 		
 		if (carry_position-parent_object.global_position).length() >= drop_distance:
 			leave()
-			
+
+
 func _input(event: InputEvent) -> void:
 	if !is_being_rotated: return
 	

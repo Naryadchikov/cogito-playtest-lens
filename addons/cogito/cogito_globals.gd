@@ -127,7 +127,6 @@ static func _create_wirecube_mesh(color := Color.WHITE) -> ArrayMesh:
 	return mesh
 
 
-
 func _on_check_box_print_logs_toggled(toggled_on: bool) -> void:
 	is_logging = toggled_on
 

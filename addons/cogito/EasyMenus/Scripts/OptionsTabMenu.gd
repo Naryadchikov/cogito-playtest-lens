@@ -62,10 +62,13 @@ func _ready() -> void:
 	headbob_option_button.item_selected.connect(on_headbob_selected)
 	mouse_sens_slider.value_changed.connect(_on_mouse_sens_slider_value_changed)
 	gp_look_sens_slider.value_changed.connect(_on_gp_looksens_slider_value_changed)
+	invert_y_check_button.toggled.connect(_on_invert_y_toggled)
+	toggle_crouching_check_button.toggled.connect(_on_toggle_crouch_toggled)
 	
 	# GRAPHICS
 	init_fullscreen_mode()
 	init_windowed_resolution()
+	vsync_check_button.toggled.connect(_on_v_sync_check_button_toggled)
 	fullscreen_mode_check_button.toggled.connect(_on_fullscreen_mode_toggled)
 	windowed_resolution_option_button.item_selected.connect(CogitoGameConfig._on_resolution_selected)
 	gui_scale_slider.value_changed.connect(_on_gui_scale_slider_value_changed)
@@ -91,6 +94,7 @@ func on_open():
 	pass
 
 
+#region GAMEPLAY OPTIONS
 # Adding headbob options to the button
 func add_headbob_items() -> void:
 	for headbob_option in CogitoGameConfig.HEADBOB_DICTIONARY:
@@ -110,6 +114,16 @@ func _on_gp_looksens_slider_value_changed(value):
 	CogitoGameConfig.gp_looksens = value
 	gp_look_sens_value_label.text = str(value)
 
+
+func _on_invert_y_toggled(is_on: bool) -> void:
+	CogitoGameConfig.invert_y = is_on
+
+
+func _on_toggle_crouch_toggled(is_on: bool) -> void:
+	CogitoGameConfig.toggle_crouching = is_on
+
+
+#endregion
 
 # Initialize the fullscreen mode check button to reflect current state.
 func init_fullscreen_mode() -> void:
@@ -182,28 +196,21 @@ func _on_fullscreen_resolution_slider_value_changed(value: float) -> void:
 	have_options_changed = true
 
 func _on_sfx_volume_slider_value_changed(value):
-	set_volume(CogitoGameConfig.sfx_bus_index, value)
+	CogitoGameConfig.set_volume(CogitoGameConfig.sfx_bus_index, value)
 
 
 func _on_music_volume_slider_value_changed(value):
-	set_volume(CogitoGameConfig.music_bus_index, value)
-
-
-# Sets the volume for the given audio bus
-func set_volume(bus_index, value):
-	AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
-
+	CogitoGameConfig.set_volume(CogitoGameConfig.music_bus_index, value)
 
 
 # Loads options and sets the controls values to loaded values. Uses default values if config file does not exist
 func _on_options_loaded(skip_applying:bool):
-	
 	# LOADING GAMEPLAY CFG
 	invert_y_check_button.set_pressed_no_signal(CogitoGameConfig.invert_y)
 	toggle_crouching_check_button.set_pressed(CogitoGameConfig.toggle_crouching)
 	
-	invert_y_check_button.toggled.emit()
-	toggle_crouching_check_button.toggled.emit()
+	invert_y_check_button.toggled.emit(invert_y_check_button.is_pressed())
+	toggle_crouching_check_button.toggled.emit(invert_y_check_button.is_pressed())
 	
 	match CogitoGameConfig.headbob_strength:
 		1: headbob_option_button.selected = 0
@@ -229,7 +236,7 @@ func _on_options_loaded(skip_applying:bool):
 	
 	# Need to set it like that to guarantee signal to be triggered
 	vsync_check_button.set_pressed_no_signal(CogitoGameConfig.vsync)
-	vsync_check_button.toggled.emit()
+	vsync_check_button.toggled.emit(vsync_check_button.is_pressed())
 	
 	anti_aliasing_2d_option_button.selected = CogitoGameConfig.msaa_2d
 	anti_aliasing_3d_option_button.selected = CogitoGameConfig.msaa_3d

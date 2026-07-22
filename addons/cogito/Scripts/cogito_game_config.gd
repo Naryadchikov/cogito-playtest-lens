@@ -18,8 +18,8 @@ var headbob_strength: int
 
 var HEADBOB_DICTIONARY: Dictionary = {
 	"1": 1,
-	"2": 5,
-	"3": 7,
+	"3": 3,
+	"7": 7,
 }
 
 # AUDIO
@@ -43,7 +43,7 @@ var msaa_2d: int
 var msaa_3d: int
 
 const window_operations_delay = 0.25
-const max_gui_scale_ratio = 0.75
+const max_gui_scale_ratio = 1.00
 
 var RESOLUTION_DICTIONARY: Dictionary = {
 	"800x600 (4:3)": Vector2i(800, 600),
@@ -177,6 +177,7 @@ func refresh_render():
 	msaa_3d = config.get_value(OptionsConstants.section_name, OptionsConstants.msaa_3d_key, 0)
 	set_msaa("msaa_2d", msaa_2d)
 	set_msaa("msaa_3d", msaa_3d)
+	set_vsync(vsync)
 
 
 # Function to change resolution. Hooked up to the windowed_resolution_option_button.
@@ -200,6 +201,13 @@ func _on_resolution_selected(index: int) -> void:
 # Sets the volume for the given audio bus
 func set_volume(bus_index, value):
 	AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
+	match bus_index:
+		music_bus_index:
+			music_volume = value
+		sfx_bus_index:
+			sfx_volume = value
+
+	options_have_changed.emit()
 
 
 # Saves the options
@@ -232,6 +240,8 @@ func save_options():
 		CogitoGlobals.debug_log(true, "OptionsTabMenu.gd", "Saving config file failed.")
 	else:
 		CogitoGlobals.debug_log(true, "OptionsTabMenu.gd", "Saving config file OK")
+		
+	options_saved.emit()
 
 
 # Loads options and sets the controls values to loaded values. Uses default values if config file does not exist
@@ -292,6 +302,7 @@ func set_vsync(is_enabled:bool):
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+	vsync = is_enabled
 
 
 func set_msaa(mode, index):

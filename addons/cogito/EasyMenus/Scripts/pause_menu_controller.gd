@@ -3,7 +3,10 @@ extends Control
 
 ## You can override this class to add buttons to your pause menu
 ## look at the function open_options_menu for an example of showing a submenu
-## also remember to add a hide call for your menu in _input
+
+
+# Signals
+signal pause_menu_closed
 
 #region Variables
 @export var nodes_to_focus: Array[Control]
@@ -75,6 +78,7 @@ func _ready() -> void:
 	InputRouter.push(on_input)
 	if InputHelper.device_index == -1:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
 
 func on_input(event):
 	if (event.is_action_pressed("ui_cancel") or event.is_action_pressed("menu")):
@@ -190,6 +194,7 @@ func close_pause_menu():
 	get_tree().paused = false
 	InputRouter.pop()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	pause_menu_closed.emit()
 	queue_free()
 
 

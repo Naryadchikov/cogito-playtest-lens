@@ -73,11 +73,6 @@ func _ready() -> void:
 	windowed_resolution_option_button.item_selected.connect(CogitoGameConfig._on_resolution_selected)
 	gui_scale_slider.value_changed.connect(_on_gui_scale_slider_value_changed)
 	
-	# Setting index based on the option button.
-	CogitoGameConfig.current_resolution_index = windowed_resolution_option_button.selected
-	
-	refresh_resolution_controls()
-	
 	# AUDIO
 	CogitoGameConfig.sfx_bus_index = AudioServer.get_bus_index(OptionsConstants.sfx_bus_name)
 	CogitoGameConfig.music_bus_index = AudioServer.get_bus_index(OptionsConstants.music_bus_name)
@@ -121,22 +116,11 @@ func _on_invert_y_toggled(is_on: bool) -> void:
 
 func _on_toggle_crouch_toggled(is_on: bool) -> void:
 	CogitoGameConfig.toggle_crouching = is_on
-
-
 #endregion
 
 # Initialize the fullscreen mode check button to reflect current state.
 func init_fullscreen_mode() -> void:
 	fullscreen_mode_check_button.set_pressed_no_signal(CogitoGameConfig.is_fullscreen())
-
-
-func get_resolution_index_for_window_size(size: Vector2i) -> int:
-	var resolution_values = CogitoGameConfig.RESOLUTION_DICTIONARY.values();
-	for i in resolution_values.size():
-		var v := Vector2i(resolution_values[i])
-		if v == size:
-			return i
-	return -1
 
 
 # Initialize all windowed resolutions and set the current windowed resolution on the button
@@ -147,7 +131,7 @@ func init_windowed_resolution() -> void:
 	CogitoGameConfig.windowed_resolution = get_window().size
 	CogitoGameConfig.prev_windowed_resolution = CogitoGameConfig.windowed_resolution
 
-	var idx := get_resolution_index_for_window_size(get_window().size)
+	var idx := CogitoGameConfig.get_resolution_index_for_window_size(get_window().size)
 	if idx != -1:
 		windowed_resolution_option_button.selected = idx
 
@@ -231,6 +215,10 @@ func _on_options_loaded(skip_applying:bool):
 	music_volume_slider.hslider.value = CogitoGameConfig.music_volume
 
 	# LOADING GRAPHICS CFG
+	# Setting index based on the option button.
+	#windowed_resolution_option_button.selected = CogitoGameConfig.current_resolution_index
+	refresh_resolution_controls()
+	
 	update_fullscreen_resolution_slider_value()
 	update_fullscreen_resolution_slider_label()
 	
@@ -243,7 +231,7 @@ func _on_options_loaded(skip_applying:bool):
 	
 	fullscreen_mode_check_button.set_pressed_no_signal(CogitoGameConfig.fullscreen_mode)
 	if CogitoGameConfig.resolution_index:
-		windowed_resolution_option_button.selected = CogitoGameConfig.resolution_index
+		windowed_resolution_option_button.selected = CogitoGameConfig.current_resolution_index
 	
 	if CogitoGameConfig.fullscreen_mode:
 		gui_scale_slider.max_value = get_gui_scale_max_value(DisplayServer.screen_get_size().y)
@@ -261,9 +249,10 @@ func _on_options_loaded(skip_applying:bool):
 	if !skip_applying and CogitoGameConfig.have_cfg:
 		anti_aliasing_2d_option_button.emit_signal("item_selected", CogitoGameConfig.msaa_2d)
 		anti_aliasing_3d_option_button.emit_signal("item_selected", CogitoGameConfig.msaa_3d)
-		windowed_resolution_option_button.item_selected.emit(CogitoGameConfig.resolution_index)
+		windowed_resolution_option_button.select(CogitoGameConfig.current_resolution_index)
+		#windowed_resolution_option_button.item_selected.emit(CogitoGameConfig.current_resolution_index)
 		fullscreen_mode_check_button.toggled.emit(CogitoGameConfig.fullscreen_mode)
-		CogitoGameConfig.refresh_render()
+		#CogitoGameConfig.refresh_render()
 
 	refresh_resolution_controls()
 

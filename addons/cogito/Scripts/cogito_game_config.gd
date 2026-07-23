@@ -136,15 +136,16 @@ func get_resolution_index_for_window_size(size: Vector2i) -> int:
 	return -1
 
 
-
 func toggle_fullscreen(is_fullscreen: bool) -> void:
 	if is_fullscreen:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 		apply_content_scale_factor(gui_scale)
+		fullscreen_mode = true
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, false)
 		apply_content_scale_factor(gui_scale)
+		fullscreen_mode = false
 		
 		var window = get_window()
 		await get_tree().create_timer(window_operations_delay).timeout
@@ -165,8 +166,12 @@ func is_fullscreen() -> bool:
 
 func refresh_render():
 	var window = get_window()
+	print("CogitoGameConfig: refresh_render() : Current resolution index is ", current_resolution_index)
+	windowed_resolution = RESOLUTION_DICTIONARY.values()[current_resolution_index]
 	
-	if CogitoGameConfig.is_fullscreen():
+	toggle_fullscreen(fullscreen_mode)
+	
+	if fullscreen_mode:
 		window.scaling_3d_scale = fullscreen_resolution_scale_val
 	else:
 		window.size = windowed_resolution
@@ -182,8 +187,11 @@ func refresh_render():
 
 # Function to change resolution. Hooked up to the windowed_resolution_option_button.
 func _on_resolution_selected(index: int) -> void:
+	# Setting the current_resolution index to the passed index from the drop down button.
+	current_resolution_index = index
+	
 	prev_windowed_resolution = windowed_resolution
-	windowed_resolution = RESOLUTION_DICTIONARY.values()[index]
+	windowed_resolution = RESOLUTION_DICTIONARY.values()[current_resolution_index]
 	
 	# gui_scale_slider.max_value = get_gui_scale_max_value(windowed_resolution.y)
 	apply_content_scale_factor(gui_scale)
@@ -265,7 +273,7 @@ func load_options(skip_applying: bool = false):
 	headbob_strength = config.get_value(OptionsConstants.section_name, OptionsConstants.head_bobble_key, 2)
 	fullscreen_mode = config.get_value(OptionsConstants.section_name, OptionsConstants.fullscreen_mode_key_name, is_fullscreen())
 	# current_resolution_index := windowed_resolution_option_button.selected
-	resolution_index = config.get_value(OptionsConstants.section_name, OptionsConstants.resolution_index_key_name, current_resolution_index)
+	current_resolution_index = config.get_value(OptionsConstants.section_name, OptionsConstants.resolution_index_key_name, 0)
 	fullscreen_resolution_scale_val = config.get_value(OptionsConstants.section_name, OptionsConstants.fullscreen_resolution_scale_key, 1.0)
 	gui_scale = config.get_value(OptionsConstants.section_name, OptionsConstants.gui_scale_key, 1)
 	vsync = config.get_value(OptionsConstants.section_name, OptionsConstants.vsync_key, true)

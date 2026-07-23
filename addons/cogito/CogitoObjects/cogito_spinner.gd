@@ -7,9 +7,15 @@ extends CogitoStaticInteractable
 #region inspector settings
 @export_group("Spinner settings")
 @export var rotating_object : Node3D
+## Sets the spinning axis for the rotating object.
 @export var spinning_axis : Vector3
-@export var rotation_speed : float = .1
+## In radian
+@export var rotation_speed : float = .05
+## The amount of values needed to be collected before spin gets registered. This has the biggest impact to responsiveness. The lower, the more responsive, but also the easier to overtrigger.
+@export var array_threshold : int = 10
 @export var angle_threshold : float = 200.00
+## The threshold for mouse movement change to register for spinning.
+@export var mouse_effort : float = 1.0
 
 
 #region Cogito interaction variables
@@ -90,7 +96,7 @@ func mouse_spin_detection():
 	current_angle = mouse_pos_relative_to_center.angle() * -1
 	current_angle = rad_to_deg(current_angle)
 	
-	if abs(current_angle - previous_angle) > 2.0:
+	if abs(current_angle - previous_angle) > mouse_effort:
 		spin_detection(current_angle)
 	else:
 		# if stick input doesn't pass dead zone, variables are reset.
@@ -134,7 +140,7 @@ func spin_detection(angle:float) -> void:
 		angle_array.push_front(angle_diff)
 		array_size += 1
 	# check when list is long enough / enough time has passed
-	if angle_array.size() > 20:
+	if angle_array.size() > array_threshold:
 		var mean = calculate_mean(angle_array)
 		# depending on if the average is positive or negative, plus past a certain threshold
 		# slow spinning will mean the threshold will not get met

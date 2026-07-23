@@ -21,8 +21,11 @@
 [ext_resource type="PackedScene" uid="uid://bavlamv6h43uw" path="res://addons/cogito/DemoScenes/DemoPrefabs/ksi_wall_painted.tscn" id="19_vw7xg"]
 [ext_resource type="PackedScene" uid="uid://cqmqm6b13w6g" path="res://addons/cogito/DemoScenes/DemoPrefabs/ksi_wall_doorway_painted.tscn" id="20_i3iqk"]
 [ext_resource type="PackedScene" uid="uid://1p4vcn6myoet" path="res://addons/cogito/DemoScenes/DemoPrefabs/ksi_wall.tscn" id="21_6l7s2"]
+[ext_resource type="PackedScene" uid="uid://drfalkw7krees" path="res://addons/cogito/DemoScenes/DemoPrefabs/SpinnerKnob.tscn" id="21_p1ri8"]
 [ext_resource type="PackedScene" uid="uid://bwide2wobjajt" path="res://addons/cogito/DemoScenes/DemoPrefabs/ksi_wall_doorway_wide_painted.tscn" id="22_ymaj1"]
 [ext_resource type="PackedScene" uid="uid://cs6raqlyejqul" path="res://addons/cogito/DemoScenes/DemoPrefabs/generic_button.tscn" id="23_0rveh"]
+[ext_resource type="Script" uid="uid://b6o7vbprfgrp5" path="res://addons/cogito/Scripts/cogito_meter.gd" id="23_5g5t0"]
+[ext_resource type="Texture2D" uid="uid://cyagrdasje82c" path="res://addons/cogito/Assets/Graphics/Crosshair_Kenney/flair_arrow_3.png" id="23_v0uas"]
 [ext_resource type="FontFile" uid="uid://bu5on5evfoljs" path="res://addons/cogito/Assets/Fonts/Montserrat/Montserrat-Bold.ttf" id="24_u2ls4"]
 [ext_resource type="PackedScene" uid="uid://bho0nwh5rlnua" path="res://addons/cogito/PackedScenes/target_destructable.tscn" id="25_s7t53"]
 [ext_resource type="PackedScene" uid="uid://o0xgl5obc551" path="res://addons/cogito/PackedScenes/Pickups/pickup_pistol.tscn" id="26_gtpm7"]
@@ -106,7 +109,7 @@ volumetric_fog_ambient_inject = 0.1
 volumetric_fog_sky_affect = 0.1
 volumetric_fog_temporal_reprojection_amount = 0.85
 
-[sub_resource type="Resource" id="Resource_dckl7"]
+[sub_resource type="Resource" id="Resource_v0uas"]
 resource_local_to_scene = true
 script = ExtResource("5_fhmwi")
 grid = true
@@ -775,6 +778,16 @@ size = Vector3(0.895866, 0.710388, 1.39068)
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_40433"]
 points = PackedVector3Array(0, 0, 0, 0.85, 0, 0, 0.35, 0.3, 0, 0.07, 0.3, 0, 0, 0, 1.4, 0.85, 0, 1.4, 0.35, 0.3, 1.4, 0.07, 0.3, 1.4)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5g5t0"]
+transparency = 1
+albedo_color = Color(0, 1, 1, 1)
+albedo_texture = ExtResource("23_v0uas")
+metallic_specular = 0.0
+roughness = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_nf5bb"]
+material = SubResource("StandardMaterial3D_5g5t0")
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_hmon6"]
 size = Vector3(8, 1, 6.10059)
 
@@ -920,7 +933,7 @@ _data = {
 }
 point_count = 8
 
-[sub_resource type="Resource" id="Resource_p1ri8"]
+[sub_resource type="Resource" id="Resource_5g5t0"]
 resource_local_to_scene = true
 script = ExtResource("72_p1ri8")
 wieldable_scene = ExtResource("68_ucks7")
@@ -1019,34 +1032,34 @@ environment = SubResource("Environment_bftoa")
 
 [node name="Player" parent="." unique_id=2025047440 instance=ExtResource("3_ea58p")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.13854, 0.8, -5.43073)
-inventory_data = SubResource("Resource_dckl7")
+inventory_data = SubResource("Resource_v0uas")
 
 [node name="StateChartDebugger" parent="Player/GUI/Panel/AspectRatioContainer" parent_id_path=PackedInt32Array(2025047440, 1254528360) index="2" unique_id=2074939394]
 initial_node_to_watch = NodePath("../../../../../CogitoNPC/StateChart")
 
 [node name="Skeleton3D" parent="Player/Rig" parent_id_path=PackedInt32Array(2025047440, 731382254) index="0" unique_id=655408663]
-bones/1/position = Vector3(-0.0010354049, 0.08621826, 0.8736964)
-bones/1/rotation = Quaternion(0.7621659, -0.08659319, -0.07184077, 0.6375293)
-bones/3/rotation = Quaternion(-0.027864056, -0.0002672716, -1.7269018e-05, 0.99961174)
-bones/4/rotation = Quaternion(0.14970034, -0.0008698192, 0.00090013153, 0.98873067)
-bones/5/rotation = Quaternion(0.0118192, 0.00037624565, -0.0009106448, 0.9999297)
-bones/6/rotation = Quaternion(-0.011517175, 0.093223445, -0.004205351, 0.99556977)
-bones/7/rotation = Quaternion(-0.6055187, -0.36848226, -0.39644733, 0.58343595)
-bones/8/rotation = Quaternion(-0.26425898, 0.66740185, -0.5145901, 0.46897662)
-bones/9/rotation = Quaternion(0.28189078, 0.01733959, -0.0026175086, 0.9592863)
-bones/10/rotation = Quaternion(0.10940849, 0.006384346, -0.025114082, 0.993659)
-bones/26/rotation = Quaternion(-0.6410828, 0.30713862, 0.33200452, 0.6200417)
-bones/27/rotation = Quaternion(-0.2870347, -0.67495245, 0.48934385, 0.47179747)
-bones/28/rotation = Quaternion(0.36453763, -0.13603047, 0.05680684, 0.91944605)
-bones/29/rotation = Quaternion(0.11428027, 0.0022070988, 0.043550856, 0.99249107)
-bones/45/rotation = Quaternion(0.96141857, 0.111875735, -0.014021134, 0.25092173)
-bones/46/rotation = Quaternion(0.20791782, -0.10667022, 0.023353554, 0.9720321)
-bones/47/rotation = Quaternion(-0.50272983, 0.019717257, 0.092501864, 0.85925406)
-bones/48/rotation = Quaternion(-0.00015642802, 0.96418023, -0.26524773, -0.00050391135)
-bones/49/rotation = Quaternion(0.99152106, -0.12110611, 0.014003988, 0.044980347)
-bones/50/rotation = Quaternion(0.15745153, 0.3414759, -0.059529733, 0.92469424)
-bones/51/rotation = Quaternion(-0.5955478, -0.051753342, -0.15534762, 0.78645504)
-bones/52/rotation = Quaternion(-0.00013704861, 0.9643069, -0.26478696, -0.00049942016)
+bones/1/position = Vector3(0.0007072121, 0.08686738, 0.8698943)
+bones/1/rotation = Quaternion(0.7646107, -0.086666346, -0.07159083, 0.63461334)
+bones/3/rotation = Quaternion(-0.029085567, -0.00021627927, 5.4793123e-05, 0.999577)
+bones/4/rotation = Quaternion(0.14408457, -0.000713792, 0.00075944624, 0.98956484)
+bones/5/rotation = Quaternion(0.014636975, 0.00031832277, -0.0007481311, 0.9998926)
+bones/6/rotation = Quaternion(-0.03033474, 0.09320994, -0.0014419107, 0.9951832)
+bones/7/rotation = Quaternion(-0.61272544, -0.36343047, -0.40086374, 0.5760157)
+bones/8/rotation = Quaternion(-0.24403103, 0.66562194, -0.52879965, 0.4666554)
+bones/9/rotation = Quaternion(0.25962934, -0.0036048528, 0.004161244, 0.9656927)
+bones/10/rotation = Quaternion(0.10983738, 0.0063537555, -0.025109349, 0.9936121)
+bones/26/rotation = Quaternion(-0.64822376, 0.30341431, 0.3358359, 0.61233974)
+bones/27/rotation = Quaternion(-0.28261724, -0.67255515, 0.4983249, 0.46847558)
+bones/28/rotation = Quaternion(0.36510378, -0.12858102, 0.054108545, 0.9204556)
+bones/29/rotation = Quaternion(0.11385258, 0.0021668775, 0.043552034, 0.99254024)
+bones/45/rotation = Quaternion(0.9546111, 0.11474636, -0.013934563, 0.27451187)
+bones/46/rotation = Quaternion(0.24220237, -0.104789615, 0.026904441, 0.964175)
+bones/47/rotation = Quaternion(-0.510115, 0.021316808, 0.09159972, 0.854949)
+bones/48/rotation = Quaternion(-0.0001371742, 0.9643069, -0.26478696, -0.00049941934)
+bones/49/rotation = Quaternion(0.9892065, -0.13309146, 0.01573407, 0.059242725)
+bones/50/rotation = Quaternion(0.18512118, 0.33741993, -0.069745004, 0.9203335)
+bones/51/rotation = Quaternion(-0.6070682, -0.05313805, -0.15541811, 0.77748954)
+bones/52/rotation = Quaternion(-0.00013704856, 0.9643069, -0.26478696, -0.0004994203)
 
 [node name="CONNECTOR_TO_LOBBY" type="Node3D" parent="." unique_id=1182780152]
 
@@ -3243,6 +3256,46 @@ mesh = SubResource("ArrayMesh_64oen")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_counter4" unique_id=1719519447]
 shape = SubResource("ConcavePolygonShape3D_j3b43")
 
+[node name="KSI_console_spinner" type="StaticBody3D" parent="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES" unique_id=1849035032]
+transform = Transform3D(-1, 0, 8.742279e-08, 0, 1, 0, -8.742279e-08, 0, -1, -9.102652, 0, -11.138354)
+
+[node name="object_053" type="MeshInstance3D" parent="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner" unique_id=1078334930]
+mesh = SubResource("ArrayMesh_pi8qp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner" unique_id=467666959]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.447011, 0.341298, -0.699625)
+shape = SubResource("BoxShape3D_dvhp1")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner" unique_id=1778885907]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.047, 0.7, -1.4)
+shape = SubResource("ConvexPolygonShape3D_40433")
+
+[node name="Label_TargetSpawn" type="Label3D" parent="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner" unique_id=1859347398]
+transform = Transform3D(-4.37114e-08, -0.8678, 0.496913, 1.06581e-14, 0.496913, 0.8678, -1, 3.79328e-08, -2.17208e-08, 0.641761, 0.849452, -0.938262)
+text = "SPINNER"
+font = ExtResource("24_u2ls4")
+font_size = 24
+outline_size = 6
+horizontal_alignment = 2
+
+[node name="CogitoSpinner" parent="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner" unique_id=1340053332 instance=ExtResource("21_p1ri8")]
+transform = Transform3D(0.8660253, 0.5, 0, -0.49999997, 0.8660254, 0, 0, 0, 0.99999994, 0.6591711, 0.8787442, -1.1093512)
+
+[node name="CircleArrowDecal" type="MeshInstance3D" parent="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner" unique_id=1465692334]
+transform = Transform3D(-1.3113417e-08, -0.25980765, 0.14999999, 0, 0.14999999, 0.25980765, -0.3, 1.1356552e-08, -6.556708e-09, 0.6401716, 0.85171634, -1.112958)
+mesh = SubResource("QuadMesh_nf5bb")
+
+[node name="MeterDisplay" type="Node3D" parent="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner" unique_id=1862552894 node_paths=PackedStringArray("display_label")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 1.1, -1.034955)
+script = ExtResource("23_5g5t0")
+display_label = NodePath("Label3D")
+suffix = "%"
+
+[node name="Label3D" type="Label3D" parent="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/MeterDisplay" unique_id=371373003]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.11495275e-08, 0, -0.25507146)
+text = "000%"
+horizontal_alignment = 2
+
 [node name="WALLS_LVL01" type="Node3D" parent="NavigationRegion3D" unique_id=1383327839]
 
 [node name="KSI_wall_painted" parent="NavigationRegion3D/WALLS_LVL01" unique_id=274235297 instance=ExtResource("19_vw7xg")]
@@ -4652,7 +4705,7 @@ weapon = NodePath("NpcBlaster")
 
 [node name="NpcBlaster" parent="CogitoNPC" unique_id=879862749 instance=ExtResource("68_gg4s8")]
 transform = Transform3D(0.70710677, 0.70710677, -3.090862e-08, 0, -4.371139e-08, -1, -0.70710677, 0.70710677, -3.090862e-08, 0, 0, 0)
-item_reference = SubResource("Resource_p1ri8")
+item_reference = SubResource("Resource_5g5t0")
 
 [node name="EnemyPatrolpath2" type="Node3D" parent="." unique_id=693283155 node_paths=PackedStringArray("starting_patrol_point", "simulate_with")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.0044, 0, 15.0301)
@@ -5798,6 +5851,8 @@ skeleton = NodePath("../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LedgeClimbingTests/MeshInstance3D2/StaticBody3D" unique_id=102480684]
 shape = SubResource("ConcavePolygonShape3D_r8380")
 
+[connection signal="spin_clockwise" from="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/CogitoSpinner" to="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/MeterDisplay" method="increase_value"]
+[connection signal="spin_counterclockwise" from="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/CogitoSpinner" to="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/MeterDisplay" method="decrease_value"]
 [connection signal="pressed" from="NavigationRegion3D/SHOOTING_RANGE/KSI_console_spawn/GenericButton" to="NavigationRegion3D/SHOOTING_RANGE/Spawnzone_Targets" method="_on_generic_button_pressed"]
 [connection signal="object_placed" from="NavigationRegion3D/SYSTEMIC_PROPERTIES/SnapSlotMetalbar" to="NavigationRegion3D/SYSTEMIC_PROPERTIES/Cathode_B/CogitoProperties" method="make_electric"]
 [connection signal="object_removed" from="NavigationRegion3D/SYSTEMIC_PROPERTIES/SnapSlotMetalbar" to="NavigationRegion3D/SYSTEMIC_PROPERTIES/Cathode_B/CogitoProperties" method="loose_electricity"]

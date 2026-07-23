@@ -1,0 +1,200 @@
+## This object takes over input to then detect spinning motions by either mouse or gamepad thumbsticks / joysticks.
+## It then rotates an object in the spinning direction
+class_name CogitoSpinner
+extends CogitoStaticInteractable
+
+
+#region inspector settings
+@export_group("Spinner settings")
+@export var rotating_object : Node3D
+@export var spinning_axis : Vector3
+@export var rotation_speed : float = .1
+@export var angle_threshold : float = 200.00
+
+
+#region Cogito interaction variables
+# Check for if this object is being interacted with
+var is_being_controlled : bool
+var player_interaction_component : PlayerInteractionComponent
+signal object_state_updated(interaction_text : String)
+#endregion
+
+#region Spin detection variables
+var current_angle : float = 0.0
+var previous_angle : float = 0.0
+var angle_array : Array = [0.0]
+var spinning_clockwise : bool = false
+var spinning_anticlockwise : bool = false
+var array_size : int = 1
+
+signal spin_clockwise
+signal spin_counterclockwise
+
+var screen_center : Vector2
+#endregion
+
+
+func _ready() -> void:
+	super._ready()
+	is_being_controlled = false
+	add_to_group("save_object_state")
+	
+
+## Input event for input routing
+func on_input(event: InputEvent) -> void:
+	if event.is_action_pressed("interact") or event.is_action_pressed("ui_cancel"):
+		exit(player_interaction_component)
+
+
+func interact(_player_interaction_component: PlayerInteractionComponent):
+	if is_being_controlled:
+		exit(_player_interaction_component)
+	else:
+		enter(_player_interaction_component)
+
+
+func enter(_pic: PlayerInteractionComponent):
+	player_interaction_component = _pic
+	InputRouter.push(on_input)
+	player_interaction_component.get_parent().toggled_interface.emit(true)
+
+	screen_center = Vector2(get_window().size.x / 2, get_window().size.y / 2 )
+	
+	is_being_controlled = true
+
+	if InputHelper.device_index == -1:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+
+func exit(_player: PlayerInteractionComponent):
+	_player.get_parent().toggled_interface.emit(false)
+	InputRouter.pop()
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	is_being_controlled = false
+
+
+func _physics_process(delta: float) -> void:
+	if is_being_controlled:
+		# Switch between mouse spin detection or gamepad spin detection based on input device
+		if InputHelper.device_index == -1:
+			mouse_spin_detection()
+		else:
+			gamepad_spin_detection()
+		signal_bools()
+
+
+func mouse_spin_detection():
+	var mouse_position := get_viewport().get_mouse_position()
+	var mouse_pos_relative_to_center = mouse_position - screen_center
+	
+	current_angle = mouse_pos_relative_to_center.angle() * -1
+	current_angle = rad_to_deg(current_angle)
+	
+	if abs(current_angle - previous_angle) > 2.0:
+		spin_detection(current_angle)
+	else:
+		# if stick input doesn't pass dead zone, variables are reset.
+		array_size = 1
+		angle_array.resize(array_size)
+		reset_bools()
+		
+	previous_angle = current_angle
+
+
+# Detecting spinning the right thumb stick on gamepad
+func gamepad_spin_detection():
+	# get joystick vector
+	var stick_rotation: Vector2 = Vector2(Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y), Input.get_joy_axis(0, JOY_AXIS_RIGHT_X))
+	# reverse stick value (so it’s pointing the right way)
+	#stick_rotation *= -1.0
+	if stick_rotation.length() > 0.3:
+		# convert to angle
+		current_angle = stick_rotation.angle()
+		current_angle = rad_to_deg(current_angle)
+
+		spin_detection(current_angle)
+	else:
+		# if stick input doesn't pass dead zone, variables are reset.
+		array_size = 1
+		angle_array.resize(array_size)
+		reset_bools()
+	# finally, set previous frame's angle to current angle
+	previous_angle = current_angle
+
+
+func spin_detection(angle:float) -> void:
+	# compare current angle to previous angle
+	var angle_diff = previous_angle - angle
+	# throw away angle differences if they’re too big a difference
+	# this discounts the change that can happen between 179 to -179 or vice versa
+	if (angle_diff >= angle_threshold) or (angle_diff <= -angle_threshold):
+		pass
+	else:
+		angle_array.resize(array_size)
+		angle_array.push_front(angle_diff)
+		array_size += 1
+	# check when list is long enough / enough time has passed
+	if angle_array.size() > 20:
+		var mean = calculate_mean(angle_array)
+		# depending on if the average is positive or negative, plus past a certain threshold
+		# slow spinning will mean the threshold will not get met
+		if mean < -10:
+			spinning_anticlockwise = true
+			spinning_clockwise = false
+		elif mean > 10:
+			spinning_clockwise = true
+			spinning_anticlockwise = false
+		elif mean < 10 or mean > -10:
+			reset_bools()
+		# once the array reaches the threshold size and the logic has been applied the array is cleared
+		# this allows spinning to be detected in either direction without having to reset to deadzone to reset the array
+		array_size = 1
+		angle_array.resize(array_size)
+
+
+func calculate_mean(arr):
+	var sum = 0.0
+	var count = arr.size()
+	for i in arr:
+		sum += i
+	var mean : float = sum / count
+	return mean
+
+
+func signal_bools():
+	if spinning_clockwise:
+		spin_clockwise.emit()
+		apply_rotation(1)
+	elif spinning_anticlockwise:
+		spin_counterclockwise.emit()
+		apply_rotation(-1)
+
+
+func reset_bools():
+	spinning_clockwise = false
+	spinning_anticlockwise = false
+
+
+func apply_rotation(direction:int) -> void:
+	if !rotating_object:
+		return
+	
+	rotating_object.rotate_object_local(spinning_axis,rotation_speed * direction)
+
+
+func _on_waggler_waggle_signal():
+	pass # Replace with function body.
+
+
+func save():
+	var state_dict = {
+		"node_path" : self.get_path(),
+		"pos_x" : position.x,
+		"pos_y" : position.y,
+		"pos_z" : position.z,
+		"rot_x" : rotation.x,
+		"rot_y" : rotation.y,
+		"rot_z" : rotation.z,
+		
+	}
+	return state_dict

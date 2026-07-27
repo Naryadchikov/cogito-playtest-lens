@@ -394,6 +394,7 @@ func _on_death():
 	player_interaction_component.on_death()
 	is_dead = true
 
+
 # reload options user may have changed while paused.
 func _reload_options():
 	var err = config.load(OptionsConstants.config_file_name)

@@ -74,7 +74,7 @@ func _input(event):
 			return
 		
 		options_tab_menu.hide()
-		options_tab_menu.load_options()
+		CogitoGameConfig.load_options()
 		v_box_container_title.show()
 		CogitoSceneManager.previous_menu_button_pressed = ""
 		save_load_menu.hide()

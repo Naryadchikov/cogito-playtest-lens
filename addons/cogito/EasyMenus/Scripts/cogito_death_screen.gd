@@ -51,9 +51,20 @@ func _play_pressed() -> void:
 	playback.play_stream(sound_click, 0, 0, 1)
 
 
+# Empty Input Event to take over inputs.
+func on_input(event : InputEvent) -> void:
+	pass
+
+
 func open_death_screen():
 	#Stops game and shows pause menu
 	get_tree().paused = true
+	
+	InputRouter.push(on_input)
+	
+	if InputHelper.device_index == -1:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
 	
 	if CogitoSceneManager.is_loaded_from_start_new_game:
 		label_active_slot.text = ""
@@ -125,6 +136,8 @@ func change_load_btn_to_new_game_btn() -> void:
 
 func _on_new_game_button_pressed() -> void:
 	CogitoSceneManager.delete_temp_saves()
+	InputRouter.pop()
+	get_tree().paused = false
 	start_new_game()
 
 
@@ -143,11 +156,17 @@ func _on_quit_button_pressed():
 	get_tree().quit()
 
 
-func _on_back_to_menu_button_pressed():
-	get_tree().paused = false
-	hide()
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	back_to_main_pressed.emit()
+func _on_back_to_main_menu_pressed() -> void:
+	if CogitoGlobals.cogito_settings.main_menu_scene:
+		var path_to_scene = CogitoGlobals.cogito_settings.main_menu_scene.resource_path
+		
+		# Cleanup
+		get_tree().paused = false
+		InputRouter.pop()
+		
+		CogitoSceneManager.load_next_scene(path_to_scene, "", "temp", CogitoSceneManager.CogitoSceneLoadMode.RESET) #Load_mode 2 means there's no attempt to load a state.
+	else:
+		CogitoGlobals.debug_log(true, "CogitoPauseMenu", "ISSUE: No main menu scene set.")
 
 
 func _on_reload_button_pressed() -> void:
@@ -159,10 +178,12 @@ func _on_reload_button_pressed() -> void:
 	CogitoSceneManager.delete_temp_saves()
 	CogitoSceneManager.copy_slot_saves_to_temp(CogitoSceneManager._active_slot)
 	
+	InputRouter.pop()
 	# Ensure the game resumes properly when loading after death
 	var player = CogitoSceneManager._current_player_node as CogitoPlayer
 	player.is_dead = false
 	player._on_pause_menu_resume()
-	player.get_node(player.pause_menu).close_pause_menu()
+	# player.get_node(player.pause_menu).close_pause_menu()
 	player.is_showing_ui = false
 	player.animationPlayer.stop()
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED

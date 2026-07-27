@@ -362,7 +362,7 @@ func _on_player_damage_taken():
 
 # Function called when player dies.
 func _on_player_death():
-	player._on_pause_movement()
+	# player._on_pause_movement()
 	$DeathScreen.open_death_screen()
 
 

@@ -90,13 +90,21 @@ func on_input(event):
 			CogitoSceneManager.previous_menu_button_pressed = ""
 			save_load_menu.hide()
 			game_menu.show()
-			
 			update_load_related_gui()
-			
 			resume_game_button.grab_focus.call_deferred()
+			
+		elif save_load_menu.visible:
+			accept_event()
+			save_load_menu.hide()
+			CogitoSceneManager.previous_menu_button_pressed = ""
+			game_menu.show()
+			update_load_related_gui()
+			resume_game_button.grab_focus.call_deferred()
+			
 		else:
 			accept_event()
 			close_pause_menu()
+
 
 func update_load_related_gui():
 	if CogitoSceneManager.is_loaded_from_start_new_game:
@@ -257,4 +265,17 @@ func start_new_game():
 	#if start_game_scene: 
 		#CogitoSceneManager.load_next_scene(start_game_scene, "", "temp", CogitoSceneManager.CogitoSceneLoadMode.RESET) #Load_mode 2 means there's no attempt to load a state.
 	else:
-		print("ISSUE: No start game scene set.")
+		CogitoGlobals.debug_log(true, "CogitoPauseManu", "ISSUE: No start game scene set.")
+
+
+func _on_back_to_main_menu_pressed() -> void:
+	if CogitoGlobals.cogito_settings.main_menu_scene:
+		var path_to_scene = CogitoGlobals.cogito_settings.main_menu_scene.resource_path
+		
+		# Cleanup
+		get_tree().paused = false
+		InputRouter.pop()
+		
+		CogitoSceneManager.load_next_scene(path_to_scene, "", "temp", CogitoSceneManager.CogitoSceneLoadMode.RESET) #Load_mode 2 means there's no attempt to load a state.
+	else:
+		CogitoGlobals.debug_log(true, "CogitoPauseMenu", "ISSUE: No main menu scene set.")

@@ -54,7 +54,7 @@ var last_direction
 @export var sight_detection: SightDetection
 @export var hearing_detection: HearingDetection
 @export var behaviour_compound_state: CompoundState
-@export var weapon: CogitoWieldable
+@export var weapon: NpcWieldable
 
 @export_group("Head LookAt")
 @export var head_turner: LookAtModifier3D
@@ -81,7 +81,7 @@ var wiggle_index : float = 0.0
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var velocity_debug_shape: MeshInstance3D = $VelocityDebugShape
-@onready var hand_attachment: BoneAttachment3D = %HandAttachment
+@onready var hand_slot: Node3D = %HandSlot
 
 # NPC State related vars
 @onready var state_chart: StateChart = $StateChart
@@ -159,7 +159,7 @@ func find_cogito_properties():
 func connect_weapon_to_hand():
 	# Look for a cogito wieldable childed to the NPC, then automatically connect it to the hand attachment if applicable
 	if weapon:
-		weapon.reparent(hand_attachment, false)
+		weapon.reparent(hand_slot, false)
 		weapon.npc_wielding = true
 
 

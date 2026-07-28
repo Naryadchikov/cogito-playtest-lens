@@ -35,6 +35,10 @@
 resource_local_to_scene = true
 bg_color = Color(1, 1, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bdq5t"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_1f12m"]
 blend_mode = 1
 
@@ -46,15 +50,15 @@ font_size = 24
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bdq5t"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bdq5t"]
-resource_local_to_scene = true
-bg_color = Color(1, 1, 1, 1)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwrdl"]
 resource_local_to_scene = true
 bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v5266"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ajas"]
 resource_local_to_scene = true
 bg_color = Color(1, 1, 1, 1)
 
@@ -65,7 +69,7 @@ content_margin_right = 0.0
 content_margin_bottom = 0.0
 bg_color = Color(0.101961, 0.101961, 0.101961, 0.784314)
 
-[node name="Player_HUD" type="Control" unique_id=1667585056 node_paths=PackedStringArray("fixed_stamina_bar", "ui_currency_area", "attribute_display_node")]
+[node name="Player_HUD" type="Control" unique_id=1667585056 node_paths=PackedStringArray("fixed_stamina_bar", "fixed_oxygen_bar", "ui_currency_area", "attribute_display_node")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -79,6 +83,7 @@ hint_component = ExtResource("17_bidre")
 ui_attribute_prefab = ExtResource("20_lscav")
 ui_currency_prefab = ExtResource("6_kmqyf")
 fixed_stamina_bar = NodePath("FixedStaminaBar")
+fixed_oxygen_bar = NodePath("FixedOxygenBar")
 default_crosshair = ExtResource("7_eu3l5")
 interaction_crosshair = ExtResource("8_vmpwe")
 ui_currency_area = NodePath("InventoryInterface/CogitoTabMenu/TAB_player_inventory/PlayerCurrencies/MarginContainer/VBoxContainer")
@@ -106,6 +111,29 @@ time_before_fadeout = 1.5
 bar_stylebox = SubResource("StyleBoxFlat_j4em4")
 
 [node name="AttributeLabel" parent="FixedStaminaBar/HBoxContainer" parent_id_path=PackedInt32Array(1474131867, 135025022) index="2" unique_id=1211953253]
+visible = false
+
+[node name="FixedOxygenBar" parent="." unique_id=1512472031 instance=ExtResource("20_lscav")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -148.0
+offset_right = 100.0
+offset_bottom = -123.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("7_gti6b")
+start_fade_at_value_max = true
+fade_on_attribute_increase = true
+blink_fade_at_value_max = true
+time_before_fadeout = 1.5
+bar_stylebox = SubResource("StyleBoxFlat_bdq5t")
+
+[node name="AttributeLabel" parent="FixedOxygenBar/HBoxContainer" parent_id_path=PackedInt32Array(1512472031, 135025022) index="2" unique_id=1211953253]
 visible = false
 
 [node name="DamageOverlay" type="Control" parent="." unique_id=635992673]
@@ -458,15 +486,15 @@ metadata/_tab_index = 0
 
 [node name="UiAttributeDisplay" parent="InventoryInterface/CogitoTabMenu/TAB_stats/StatsDisplay/VBoxContainer/TabContainer/Attributes" unique_id=135787190 instance=ExtResource("20_3jei3")]
 layout_mode = 2
-bar_stylebox = SubResource("StyleBoxFlat_bdq5t")
+bar_stylebox = SubResource("StyleBoxFlat_wwrdl")
 
 [node name="UiAttributeDisplay2" parent="InventoryInterface/CogitoTabMenu/TAB_stats/StatsDisplay/VBoxContainer/TabContainer/Attributes" unique_id=1356627681 instance=ExtResource("20_3jei3")]
 layout_mode = 2
-bar_stylebox = SubResource("StyleBoxFlat_wwrdl")
+bar_stylebox = SubResource("StyleBoxFlat_v5266")
 
 [node name="UiAttributeDisplay3" parent="InventoryInterface/CogitoTabMenu/TAB_stats/StatsDisplay/VBoxContainer/TabContainer/Attributes" unique_id=251053297 instance=ExtResource("20_3jei3")]
 layout_mode = 2
-bar_stylebox = SubResource("StyleBoxFlat_v5266")
+bar_stylebox = SubResource("StyleBoxFlat_7ajas")
 
 [node name="ExternalInventoryUI" parent="InventoryInterface" unique_id=2133946926 instance=ExtResource("3_krf2d")]
 visible = false
@@ -708,6 +736,7 @@ theme = ExtResource("5_j6s1a")
 [connection signal="quickslot_pressed" from="InventoryInterface/QuickSlots/CogitoQuickslotContainer4" to="InventoryInterface" method="_on_bind_grabbed_slot_to_quickslot"]
 
 [editable path="FixedStaminaBar"]
+[editable path="FixedOxygenBar"]
 [editable path="InventoryInterface/QuickSlots/CogitoQuickslotContainer1"]
 [editable path="InventoryInterface/QuickSlots/CogitoQuickslotContainer3"]
 [editable path="InventoryInterface/QuickSlots/CogitoQuickslotContainer4"]

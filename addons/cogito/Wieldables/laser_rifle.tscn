@@ -405,6 +405,7 @@ draw_pass_1 = SubResource("BoxMesh_rxstj")
 
 [node name="LaserRifleMesh" type="Node3D" parent="." unique_id=1467018494]
 transform = Transform3D(1, 0, 0, 0, 0.54030216, 0.8414708, 0, -0.8414708, 0.54030216, 0, 0, 0)
+visible = false
 
 [node name="blasterA" type="MeshInstance3D" parent="LaserRifleMesh" unique_id=1277050309]
 transform = Transform3D(-0.8, 0, 1.20797e-07, 0, 0.8, 0, -1.20797e-07, 0, -0.8, 0, 0, 0)

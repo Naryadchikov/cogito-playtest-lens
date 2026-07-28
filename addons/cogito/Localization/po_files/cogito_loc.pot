@@ -399,6 +399,11 @@ msgstr ""
 msgid "ATTR_visibility"
 msgstr ""
 
+#. TRANSLATORS: translation_key_dict entry
+#: addons/cogito/Localization/translation_keys_resources/loc_keys_attributes.tres
+msgid "ATTR_oxygen"
+msgstr ""
+
 #: addons/cogito/PackedScenes/Player_HUD.tscn
 msgid "00"
 msgstr ""

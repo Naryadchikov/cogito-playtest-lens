@@ -35,6 +35,8 @@ signal hide_inventory
 @export var ui_currency_prefab : PackedScene
 ## If you want to have the stamina bar outside of the other attributes, you can set a reference here. This will remove it from the main attribute container
 @export var fixed_stamina_bar : CogitoAttributeUi
+## If you want to have the oxygen bar outside of the other attributes, you can set a reference here. This will remove it from the main attribute container
+@export var fixed_oxygen_bar : CogitoAttributeUi
 @export var default_crosshair : Texture2D
 ## Crosshair that appears when a interactable object is detected. Leave empty if you don't want to use an interaction crosshair.
 @export var interaction_crosshair : Texture2D
@@ -122,6 +124,8 @@ func instantiate_player_attribute_ui():
 	for attribute in player.player_attributes.values():
 		if fixed_stamina_bar and attribute.attribute_name == "stamina":
 			fixed_stamina_bar.initiate_attribute_ui(attribute)
+		elif fixed_oxygen_bar and attribute.attribute_name == "oxygen":
+			fixed_oxygen_bar.initiate_attribute_ui(attribute)
 		else:
 			if attribute.attribute_visibility == 0 or attribute.attribute_visibility == 1: # Only instantiates Attributes that have visibility set to HUD
 				var spawned_attribute_ui = ui_attribute_prefab.instantiate()

@@ -247,7 +247,6 @@ _data = {
 
 [node name="NpcBlaster" type="Node3D" unique_id=879862749 node_paths=PackedStringArray("wieldable_mesh", "audio_stream_player_3d", "animation_player")]
 script = ExtResource("1_f65k6")
-attack_type = 0
 projectile_prefab = ExtResource("2_1w16x")
 tracer = ExtResource("2_f65k6")
 collision_scene = ExtResource("3_1w16x")

@@ -1,6 +1,9 @@
 extends StateProcessor
 
+## Which state to move back to once they finish attacking
 @export var state_after_attack : String
+## If the NPC has a ranged weapon can they can immediately attack once in range?
+@export var can_attack_while_moving: bool = false
 
 @export_group("Unarmed Attack Properties")
 ## The collider that checks for the player or is checked by the player
@@ -22,7 +25,8 @@ func _on_attacking_state_entered() -> void:
 		state_chart.send_event(state_after_attack)
 	else:
 		count_down = attack_duration
-		attempt_attack()
+		if attack_while_moving():
+			attempt_attack()
 
 
 func _on_attacking_state_exited() -> void:
@@ -38,11 +42,18 @@ func _on_attacking_state_physics_processing(delta: float) -> void:
 	npc.face_direction(target.global_position)
 	npc.move_and_slide()
 	
-	if count_down <= 0:
+	if count_down <= 0 and attack_while_moving():
 		attempt_attack()
 		state_chart.send_event(state_after_attack)
 	else:
 		count_down -= delta
+
+
+func attack_while_moving() -> bool:
+	# NPC can attack while moving if they have a melee weapon or can_attack_while_moving is true
+	if can_attack_while_moving or not npc.weapon:
+		return true
+	return npc.velocity.length_squared() == 0
 
 
 func attempt_attack():

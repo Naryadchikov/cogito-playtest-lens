@@ -4,7 +4,7 @@ class_name CogitoWieldable
 
 @export_group("General Wieldable Settings")
 ## Item resource that this wieldable refers to.
-@export var item_reference : WieldableItemPD
+var item_reference : WieldableItemPD
 ## Visible parts of the wieldable. Used to hide/show on equip/unequip.
 @export var wieldable_mesh : Node3D
 ## Which ammo type the Wieldable is currently using. Set by the WieldableItemPD
@@ -49,19 +49,19 @@ func unequip():
 	animation_player.play(anim_unequip)
 
 
-# Primary action called by the Player Interaction Component when flashlight is wielded.
+# Primary action called by the Player Interaction Component when wieldable is wielded.
 func action_primary(_passed_item_reference:InventoryItemPD, _is_released: bool):
 	pass
 
 
-# Secondary action called by the Player Interaction Component when flashlight is wielded.
+# Secondary action called by the Player Interaction Component when wieldable is wielded.
 func action_secondary(_is_released: bool):
 	pass
 
 
 # Function called when wieldable reload is attempted
 func reload() -> bool:
-	var player: Node3D = get_parent().get_parent().get_parent().get_parent().get_parent()
+	var player: CogitoPlayer = player_interaction_component.player if player_interaction_component else CogitoSceneManager._current_player_node
 	var inventory: CogitoInventory = player.inventory_data
 	# Some safety checks if reload should even be triggered.
 	if inventory == null:

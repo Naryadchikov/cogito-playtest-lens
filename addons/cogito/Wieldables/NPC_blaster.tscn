@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://dn3ldbym7cl7v"]
 
 [ext_resource type="Script" uid="uid://crcdpgqvn4kdp" path="res://addons/cogito/Wieldables/npc_wieldable.gd" id="1_f65k6"]
+[ext_resource type="PackedScene" uid="uid://c1umit2vtv22v" path="res://addons/cogito/PackedScenes/projectile_pistol.tscn" id="2_1w16x"]
 [ext_resource type="PackedScene" uid="uid://dnauxhdncgngx" path="res://addons/cogito/PackedScenes/laser_ray.tscn" id="2_f65k6"]
 [ext_resource type="PackedScene" uid="uid://0sgkovmwf71d" path="res://addons/cogito/PackedScenes/particles_impact_sparks.tscn" id="3_1w16x"]
 [ext_resource type="AudioStream" uid="uid://clsajk36s7luk" path="res://addons/cogito/Assets/Audio/Kenney/error_004.ogg" id="4_oamo7"]
@@ -246,8 +247,9 @@ _data = {
 
 [node name="NpcBlaster" type="Node3D" unique_id=879862749 node_paths=PackedStringArray("wieldable_mesh", "audio_stream_player_3d", "animation_player")]
 script = ExtResource("1_f65k6")
-ray_prefab = ExtResource("2_f65k6")
-ray_lifespan = 2.0
+attack_type = 0
+projectile_prefab = ExtResource("2_1w16x")
+tracer = ExtResource("2_f65k6")
 collision_scene = ExtResource("3_1w16x")
 sound_primary_use = ExtResource("4_oamo7")
 wieldable_mesh = NodePath("BlasterMesh")

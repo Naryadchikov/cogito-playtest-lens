@@ -75,8 +75,8 @@ func start_searching() -> void:
 
 
 func get_wieldable_range() -> int:
-	if npc.weapon and npc.weapon.item_reference and npc.weapon.item_reference.wieldable_range > 0:
-		return npc.weapon.item_reference.wieldable_range
+	if npc.weapon:
+		return npc.weapon.npc_wieldable_range
 	return 0
 
 

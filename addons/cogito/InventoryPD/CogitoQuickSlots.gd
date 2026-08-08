@@ -92,7 +92,7 @@ func unbind_itemslot_from_quickslots(itemslot_to_unbind: InventorySlotPD):
 			quickslot.clear_this_quickslot()
 
 
-func _unhandled_input(event):
+func on_input(event: InputEvent) -> void:
 	if !self.visible:
 		return
 	

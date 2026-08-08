@@ -470,6 +470,9 @@ func on_input(event):
 	# Open/closes Inventory if Inventory button is pressed
 	if event.is_action_pressed("inventory") and !is_dead:
 		player_hud.set_inventory_visibility(true)
+		
+	if player_hud and player_hud.inventory_interface and player_hud.inventory_interface.quick_slots:
+		player_hud.inventory_interface.quick_slots.on_input(event)
 
 
 func get_params(transform3d, motion):

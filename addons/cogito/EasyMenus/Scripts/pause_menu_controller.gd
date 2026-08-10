@@ -64,6 +64,8 @@ func _ready() -> void:
 	#Stops game and shows pause menu
 	get_tree().paused = true
 	
+	InputHelper.device_changed.connect(_on_input_device_changed)
+	
 	CogitoSceneManager.switch_active_slot_to(CogitoSceneManager._active_slot)
 	if CogitoSceneManager._player_state:
 		label_active_slot.text = tr("TXT_CURRENT_SLOT") + ": " + CogitoSceneManager._active_slot
@@ -79,6 +81,8 @@ func _ready() -> void:
 	if InputHelper.device_index == -1:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
+func _exit_tree() -> void:
+	InputHelper.device_changed.disconnect(_on_input_device_changed)
 
 func on_input(event):
 	if (event.is_action_pressed("ui_cancel") or event.is_action_pressed("menu")):
@@ -279,3 +283,6 @@ func _on_back_to_main_menu_pressed() -> void:
 		CogitoSceneManager.load_next_scene(path_to_scene, "", "temp", CogitoSceneManager.CogitoSceneLoadMode.RESET) #Load_mode 2 means there's no attempt to load a state.
 	else:
 		CogitoGlobals.debug_log(true, "CogitoPauseMenu", "ISSUE: No main menu scene set.")
+
+func _on_input_device_changed(device: String, device_index: int) -> void:
+	Input.mouse_mode = Input.MouseMode.MOUSE_MODE_VISIBLE if device_index < 0 else Input.MouseMode.MOUSE_MODE_CAPTURED

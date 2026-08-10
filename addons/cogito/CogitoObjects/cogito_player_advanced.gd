@@ -470,6 +470,9 @@ func on_input(event):
 	# Open/closes Inventory if Inventory button is pressed
 	if event.is_action_pressed("inventory") and !is_dead:
 		player_hud.set_inventory_visibility(true)
+		
+	if player_hud and player_hud.inventory_interface and player_hud.inventory_interface.quick_slots:
+		player_hud.inventory_interface.quick_slots.on_input(event)
 
 
 func get_params(transform3d, motion):
@@ -2178,15 +2181,17 @@ func _on_standing_state_entered() -> void:
 func _on_standing_state_exited() -> void:
 	current_body_posture_state = BodyPostureState.Undefined
 	crouch_shapecast.enabled = true
+
+func _on_standing_state_input(event: InputEvent) -> void:
+	if !InputRouter.is_input_active(self): return
 	
+	if event.is_action_pressed("crouch") and TOGGLE_CROUCH:
+		try_crouch = !try_crouch
+	elif !TOGGLE_CROUCH:
+		try_crouch = event.is_action("crouch")
 
 func _on_standing_state_physics_processing(delta: float) -> void:
 	if current_moving_state != MovingState.LedgeClimbing:
-		if TOGGLE_CROUCH and Input.is_action_just_pressed("crouch"):
-			try_crouch = !try_crouch
-		elif !TOGGLE_CROUCH:
-			try_crouch = Input.is_action_pressed("crouch")
-		
 		if try_crouch or crouch_shapecast.is_colliding():
 			state_chart.send_event("crouch")
 			return

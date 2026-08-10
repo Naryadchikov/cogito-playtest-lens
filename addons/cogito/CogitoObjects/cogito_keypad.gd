@@ -58,7 +58,7 @@ var interaction_nodes : Array[Node]
 var cogito_properties : CogitoProperties = null
 var entered_code: String
 var player: PlayerInteractionComponent
-
+var can_interact: bool = true
 
 func _ready():
 	code_display.text = ""
@@ -86,6 +86,7 @@ func open(_player: PlayerInteractionComponent):
 	keypad_ui.show()
 	grab_focus_button.grab_focus()
 	InputRouter.push(on_input)
+	can_interact = true
 	
 	if InputHelper.device_index == -1:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -98,7 +99,7 @@ func close(_player: PlayerInteractionComponent):
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func on_input(event: InputEvent) -> void:
-	if event.is_action_pressed("menu") and event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("menu") and event.is_action_pressed("ui_cancel") and can_interact:
 		close(player)
 
 func _on_button_received(_passed_string:String):
@@ -143,6 +144,7 @@ func unlock_keypad():
 	lock_color.modulate = correct_code_color
 	interaction_text = interaction_text_when_unlocked
 	object_state_updated.emit(interaction_text)
+	can_interact = false
 
 	await get_tree().create_timer(unlock_wait_time).timeout
 	

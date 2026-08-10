@@ -115,7 +115,12 @@ func on_input(event: InputEvent) -> void:
 		attempt_change_ammo()
 		
 	if event.is_action_pressed("reload") and is_wielding:
-		attempt_reload()
+		# The below is a fix to avoid triggering reload when player attempts to interact and both actions are bound to same (gamepad) button
+		if InputHelper.device_index == -1: # If mouse/keyboard
+			attempt_reload()
+		else:
+			if interactable == null:
+				attempt_reload()
 
 func _handle_interaction(action: String) -> void:
 	# if carrying an object, drop it.

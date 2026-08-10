@@ -99,7 +99,7 @@ func close(_player: PlayerInteractionComponent):
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func on_input(event: InputEvent) -> void:
-	if event.is_action_pressed("menu") and event.is_action_pressed("ui_cancel") and can_interact:
+	if event.is_action_pressed("menu") or event.is_action_pressed("ui_cancel") and can_interact:
 		close(player)
 
 func _on_button_received(_passed_string:String):

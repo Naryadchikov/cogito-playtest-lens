@@ -1008,33 +1008,6 @@ environment = SubResource("Environment_bftoa")
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.13854, 0.8, -5.43073)
 inventory_data = SubResource("Resource_7u7hp")
 
-[node name="StateChartDebugger" parent="Player/GUI/Panel/AspectRatioContainer" parent_id_path=PackedInt32Array(2025047440, 1254528360) index="2" unique_id=2074939394]
-initial_node_to_watch = NodePath("../../../../../CogitoNPC/StateChart")
-
-[node name="Skeleton3D" parent="Player/Rig" parent_id_path=PackedInt32Array(2025047440, 731382254) index="0" unique_id=655408663]
-bones/1/position = Vector3(0.0028984253, 0.08666251, 0.86996084)
-bones/1/rotation = Quaternion(0.7643984, -0.08668875, -0.07135734, 0.63489234)
-bones/3/rotation = Quaternion(-0.030989738, -6.7496294e-05, -7.182103e-05, 0.99951977)
-bones/4/rotation = Quaternion(0.13838212, -0.0002759262, 0.00094158895, 0.9903785)
-bones/5/rotation = Quaternion(0.018501269, -6.7169967e-06, -0.00080434344, 0.9998285)
-bones/6/rotation = Quaternion(-0.034966294, 0.092864536, -0.00047887128, 0.99506456)
-bones/7/rotation = Quaternion(-0.6133625, -0.36307132, -0.4014664, 0.5751439)
-bones/8/rotation = Quaternion(-0.24171259, 0.6652435, -0.5302455, 0.46676108)
-bones/9/rotation = Quaternion(0.25078443, -0.006091117, 0.0053198067, 0.9680092)
-bones/10/rotation = Quaternion(0.105716035, 0.006656023, -0.02513471, 0.9940564)
-bones/26/rotation = Quaternion(-0.64909214, 0.3027289, 0.33593863, 0.6117025)
-bones/27/rotation = Quaternion(-0.28416842, -0.67341036, 0.49529377, 0.469522)
-bones/28/rotation = Quaternion(0.36527574, -0.13117565, 0.055533484, 0.9199362)
-bones/29/rotation = Quaternion(0.11796249, 0.002547169, 0.043519642, 0.9920607)
-bones/45/rotation = Quaternion(0.9552096, 0.1135767, -0.013796885, 0.27291855)
-bones/46/rotation = Quaternion(0.23516189, -0.10503968, 0.026218867, 0.96590793)
-bones/47/rotation = Quaternion(-0.5157448, 0.021068765, 0.091033764, 0.85163164)
-bones/48/rotation = Quaternion(-0.0005176304, 0.96211535, -0.27264214, -0.00051125867)
-bones/49/rotation = Quaternion(0.98851097, -0.13512433, 0.01496974, 0.066056244)
-bones/50/rotation = Quaternion(0.19251844, 0.33635947, -0.072079055, 0.9190232)
-bones/51/rotation = Quaternion(-0.6064492, -0.0530891, -0.15659909, 0.77773875)
-bones/52/rotation = Quaternion(-0.00013704882, 0.9643069, -0.26478696, -0.0004994199)
-
 [node name="CONNECTOR_TO_LOBBY" type="Node3D" parent="." unique_id=1182780152]
 
 [node name="FloorUnit11" type="StaticBody3D" parent="CONNECTOR_TO_LOBBY" unique_id=225647711]
@@ -5843,7 +5816,6 @@ shape = SubResource("ConcavePolygonShape3D_r8380")
 [connection signal="plate_deactivated" from="Cogito_Pressureplate" to="CeilingLamp" method="switch_off"]
 [connection signal="body_entered" from="TargetPractice_QuestStarter" to="TargetPractice_QuestStarter" method="_on_body_entered"]
 
-[editable path="Player"]
 [editable path="NavigationRegion3D/SHOOTING_RANGE/TARGETS/TargetDestructable"]
 [editable path="NavigationRegion3D/MOVEMENT/Ladder"]
 [editable path="SwimmingTest/Ladder2"]

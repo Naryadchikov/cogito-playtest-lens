@@ -980,7 +980,7 @@ func _jump(_jump_target_speed) -> void:
 		decrease_attribute("stamina",stamina_attribute.jump_exhaustion)
 	
 	animationPlayer.play("jump")
-	var audio_player := Audio.play_sound(jump_sound, false)
+	var audio_player = Audio.play_sound(jump_sound, false)
 	audio_player.bus = "SFX"
 	audio_player.play()
 	
@@ -2023,7 +2023,7 @@ func _handle_water_physics(delta) -> void:
 	
 	if is_moving and main_velocity.length() >= 0.2:
 		if can_play_swim_movement && wiggle_vector.y > 0.9:
-			var audio_player := Audio.play_sound_3d(swim_movement_sound, false)
+			var audio_player = Audio.play_sound_3d(swim_movement_sound, false)
 			audio_player.reparent(self, false)
 			audio_player.bus = "SFX"
 			audio_player.play()

@@ -131,7 +131,7 @@ func init_windowed_resolution() -> void:
 	CogitoGameConfig.windowed_resolution = get_window().size
 	CogitoGameConfig.prev_windowed_resolution = CogitoGameConfig.windowed_resolution
 
-	var idx := CogitoGameConfig.get_resolution_index_for_window_size(get_window().size)
+	var idx = CogitoGameConfig.get_resolution_index_for_window_size(get_window().size)
 	if idx != -1:
 		windowed_resolution_option_button.selected = idx
 

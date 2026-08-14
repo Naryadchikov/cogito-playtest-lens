@@ -412,6 +412,19 @@ func _reload_options():
 # Signal from Pause Menu
 func _on_pause_menu_resume() -> void:
 	_reload_options()
+	resume()
+
+
+func _on_pause_menu_pause() -> void:
+	pause()
+
+
+func pause() -> void:
+	state_chart.send_event("pause")
+
+
+func resume() -> void:
+	state_chart.send_event("resume")
 
 
 func on_input(event):
@@ -460,8 +473,9 @@ func on_input(event):
 			if !currently_tweening:
 				if pause_menu:
 					var current_pause_menu = pause_menu.instantiate()
-					add_child(current_pause_menu)
 					current_pause_menu.pause_menu_closed.connect(_on_pause_menu_resume)
+					current_pause_menu.pause_menu_opened.connect(_on_pause_menu_pause)
+					add_child(current_pause_menu)
 				else:
 					CogitoGlobals.debug_log(true, "cogito_player_advanced", "Unable to open Pause Menu! Player has no reference to a Pause Menu PackedScene!")
 			else:

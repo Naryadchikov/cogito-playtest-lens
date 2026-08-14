@@ -182,7 +182,7 @@ func _on_reload_button_pressed() -> void:
 	# Ensure the game resumes properly when loading after death
 	var player = CogitoSceneManager._current_player_node as CogitoPlayer
 	player.is_dead = false
-	player._on_pause_menu_resume()
+	player.resume()
 	# player.get_node(player.pause_menu).close_pause_menu()
 	player.is_showing_ui = false
 	player.animationPlayer.stop()

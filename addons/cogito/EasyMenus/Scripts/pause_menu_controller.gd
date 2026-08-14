@@ -7,6 +7,7 @@ extends Control
 
 # Signals
 signal pause_menu_closed
+signal pause_menu_opened
 
 #region Variables
 @export var nodes_to_focus: Array[Control]
@@ -63,6 +64,7 @@ func _play_pressed() -> void:
 func _ready() -> void:
 	#Stops game and shows pause menu
 	get_tree().paused = true
+	pause_menu_opened.emit()
 	
 	InputHelper.device_changed.connect(_on_input_device_changed)
 	

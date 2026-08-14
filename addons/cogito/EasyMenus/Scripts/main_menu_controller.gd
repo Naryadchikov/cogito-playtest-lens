@@ -170,4 +170,3 @@ func _on_main_menu_continue_pressed() -> void:
 	CogitoSceneManager.delete_temp_saves()
 	CogitoSceneManager.copy_slot_saves_to_temp(last_saved_slot)
 	CogitoSceneManager._active_slot = last_saved_slot
-	

@@ -215,6 +215,7 @@ visible = false
 layout_mode = 2
 
 [connection signal="pressed" from="Content/GameMenu/VBoxContainer/ResumeGameButton" to="." method="_on_resume_game_button_pressed"]
+[connection signal="pressed" from="Content/GameMenu/VBoxContainer/PanelContainer/VBoxContainer/QuickLoadButton" to="." method="_on_quickload_button_pressed"]
 [connection signal="pressed" from="Content/GameMenu/VBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="Content/GameMenu/VBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
 [connection signal="pressed" from="Content/GameMenu/VBoxContainer/OptionsButton" to="." method="open_options_menu"]

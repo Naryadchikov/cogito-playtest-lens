@@ -59,6 +59,8 @@ var cogito_properties : CogitoProperties = null
 var entered_code: String
 var player: PlayerInteractionComponent
 var can_interact: bool = true
+var is_closed: bool
+
 
 func _ready():
 	code_display.text = ""
@@ -81,6 +83,7 @@ func interact(_player: PlayerInteractionComponent):
 
 
 func open(_player: PlayerInteractionComponent):
+	is_closed = false
 	_player.get_parent().toggled_interface.emit(true)
 	_player.get_parent().menu_pressed.connect(close) #Connecting input action menu to close function.
 	keypad_ui.show()
@@ -92,6 +95,7 @@ func open(_player: PlayerInteractionComponent):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 func close(_player: PlayerInteractionComponent):
+	is_closed = true
 	keypad_ui.hide()
 	_player.get_parent().menu_pressed.disconnect(close)
 	_player.get_parent().toggled_interface.emit(false)
@@ -100,6 +104,8 @@ func close(_player: PlayerInteractionComponent):
 
 func on_input(event: InputEvent) -> void:
 	if event.is_action_pressed("menu") or event.is_action_pressed("ui_cancel") and can_interact:
+		if is_closed:
+			return
 		close(player)
 
 func _on_button_received(_passed_string:String):
@@ -157,6 +163,8 @@ func unlock_keypad():
 			if open_when_unlocked:
 				door.open_door(player)
 	
+	if is_closed:
+		return
 	close(player)
 	
 

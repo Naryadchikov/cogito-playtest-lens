@@ -33,6 +33,7 @@ var external_inventory_owner : Node
 
 var previously_focused_slot: SlotPanel
 var slot_in_focus: SlotPanel
+var input_event = null
 
 func _ready():
 	# Connect to signal that detects change of input device
@@ -211,6 +212,10 @@ func _apply_grabbed_slot_position_after_layout():
 
 func _physics_process(_delta):
 	if InputHelper.device_index == -1: #Checking for keyboard/mouse control.
+		if input_event:
+			mouse_button_check(input_event)
+			input_event = null
+			update_grabbed_slot()
 		if grabbed_slot_node.visible:
 			grabbed_slot_node.global_position = get_global_mouse_position() + Vector2(5, 5)
 			return
@@ -280,6 +285,7 @@ func on_inventory_button_press(inventory_data: CogitoInventory, index: int, acti
 		[_, "inventory_rotate_item"]:
 			rotate_item()
 		[null, "inventory_move_item"]:
+			input_event = null
 			# Check if item is being wielded before grabbing it.
 			var temp_slot_data = inventory_data.get_slot_data(index)
 			if temp_slot_data and temp_slot_data.inventory_item and temp_slot_data.inventory_item.is_being_wielded:
@@ -288,6 +294,7 @@ func on_inventory_button_press(inventory_data: CogitoInventory, index: int, acti
 			else:
 				grabbed_slot_data = inventory_data.grab_slot_data(index)
 		[_, "inventory_move_item"]:
+			input_event = null
 			grabbed_slot_data = inventory_data.drop_slot_data(grabbed_slot_data, index)
 		[null, "inventory_use_item"]:
 			inventory_data.use_slot_data(index)
@@ -377,17 +384,17 @@ func _on_bind_grabbed_slot_to_quickslot(quickslotcontainer: CogitoQuickslotConta
 	else:
 		CogitoGlobals.debug_log(true, "inventory_interface.gd", "No grabbed slot data.")
 
+
 # Rotating the item using the keyboard
 func on_input(event: InputEvent) -> void:
 	if event.is_action_pressed("inventory") or event.is_action_pressed("ui_cancel"):
 		close_inventory()
 	
-	#if event is InputEventMouseButton \
-		#and event.is_pressed() \
-		#and grabbed_slot_data:
-			#mouse_button_check(event)
-			#update_grabbed_slot()
-			
+	if event is InputEventMouseButton \
+		and event.is_pressed() \
+		and grabbed_slot_data:
+			input_event = event
+	
 	if Input.is_action_just_pressed("inventory_rotate_item") and grabbed_slot_data:
 		rotate_item()
 

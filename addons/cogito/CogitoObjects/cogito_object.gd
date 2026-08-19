@@ -96,15 +96,27 @@ func _ready():
 				fluid_interactor.add_collision_shape(collision)
 
 
-func get_aabb():
+func get_aabb() -> AABB:
 	if custom_aabb:
 		return custom_aabb
-		
-	var aabb : AABB = AABB()
+	
+	var aabb: AABB = AABB()
+	var is_first: bool = true
 	
 	for child in find_children("*", "MeshInstance3D", true, false):
-		if child.visible:
-			aabb = aabb.merge(child.transform * child.get_aabb())
+		if not child.visible:
+			continue
+	
+		var child_aabb: AABB = child.get_aabb()
+	
+		var transform = global_transform.affine_inverse() * child.global_transform
+		child_aabb = transform * child_aabb
+	
+		if is_first:
+			aabb = child_aabb
+			is_first = false
+		else:
+			aabb = aabb.merge(child_aabb)
 	
 	return aabb
 

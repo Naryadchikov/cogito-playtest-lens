@@ -197,7 +197,19 @@ func get_carryable_destination_point(distance_offset: float) -> Vector3:
 		print("PIC: Error, no carryable position reference set!")
 		return self.global_position
 	
-	var destination_point = carryable_position.global_position - distance_offset * get_viewport().get_camera_3d().get_global_transform().basis.z
+	var camera = get_viewport().get_camera_3d()
+	var looking_vector = -camera.global_transform.basis.z.normalized()
+	var pitch = atan2(looking_vector.y, Vector2(looking_vector.x, looking_vector.z).length())
+	var look_down_factor = clamp(pitch, -PI / 2.0, 0.0) / (-PI / 2.0)
+	var safe_distance_offset = look_down_factor
+	
+	var carried_object_parent = carried_object.get_parent()
+	if carried_object_parent and carried_object_parent.has_method("get_aabb"):
+		var aabb = carried_object.get_parent().get_aabb()
+		var biggest_dimension = max(aabb.size.x,max(aabb.size.y, aabb.size.z))
+		safe_distance_offset = biggest_dimension * 0.5 + look_down_factor
+	
+	var destination_point = carryable_position.global_position + (distance_offset + safe_distance_offset) * looking_vector
 	
 	if interaction_raycast.is_colliding():
 		var collision_point = interaction_raycast.get_collision_point()

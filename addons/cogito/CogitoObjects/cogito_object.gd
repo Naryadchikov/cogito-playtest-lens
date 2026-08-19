@@ -109,7 +109,13 @@ func get_aabb() -> AABB:
 	
 		var child_aabb: AABB = child.get_aabb()
 	
-		var transform = global_transform.affine_inverse() * child.global_transform
+		var transform = child.transform
+	
+		var current = child.get_parent()
+		while current != self:
+			transform = current.transform * transform
+			current = current.get_parent()
+	
 		child_aabb = transform * child_aabb
 	
 		if is_first:

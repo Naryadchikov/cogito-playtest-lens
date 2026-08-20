@@ -373,6 +373,7 @@ func update_grabbed_slot():
 
 func _on_bind_grabbed_slot_to_quickslot(quickslotcontainer: CogitoQuickslotContainer):
 	if grabbed_slot_data:
+		input_event = null
 		CogitoGlobals.debug_log(true, "inventory_interface.gd", "Binding to quickslot container: " + str(grabbed_slot_data) + " -> " + str(quickslotcontainer) )
 		#get_parent().player.inventory_data.pick_up_slot_data(grabbed_slot_data) #Swapped with line below
 		quick_slots.bind_to_quickslot(grabbed_slot_data, quickslotcontainer)
@@ -399,7 +400,7 @@ func on_input(event: InputEvent) -> void:
 
 
 func mouse_button_check(event):
-	if event.button_index == MOUSE_BUTTON_LEFT or event.button_index == MOUSE_BUTTON_RIGHT:
+	if event.button_index == MOUSE_BUTTON_LEFT:
 		if !grabbed_slot_data:
 			return
 		if !grabbed_slot_data.inventory_item.is_droppable:

@@ -8,7 +8,7 @@ func _ready():
 
 func interact(body):
 	if body.get_parent().inventory_data.pick_up_slot_data(slot_data):
-		body.send_hint(slot_data.inventory_item.icon, slot_data.inventory_item.name + " added to inventory.")
+		body.send_hint(slot_data.inventory_item.square_icon, slot_data.inventory_item.name + " added to inventory.")
 		Audio.play_sound(slot_data.inventory_item.sound_pickup)
 		queue_free()
 

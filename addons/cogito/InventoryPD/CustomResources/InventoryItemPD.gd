@@ -45,6 +45,27 @@ var wielded_item
 var rotated: bool = false
 var rotated_texture: Texture2D
 
+var square_icon: Texture2D:
+	get: return get_square_icon()
+var cached_sq_icon: Texture2D
+
+func get_square_icon() -> Texture2D:
+	if cached_sq_icon:
+		return cached_sq_icon
+	# Get the difference in pixels between the height and the width and check if its wider
+	var width_diff = icon.get_width() - icon.get_height()
+	var wider = width_diff > 0 
+	# Get the buffer by halving the diff, then define offset based on if its wider or taller
+	var buffer := int(abs(width_diff) / 2)
+	var offset := Vector2i(0 if wider else buffer, buffer if wider else 0)
+	# Create an empty square image, then copy the icon onto it with the offset
+	var square_dim = icon.get_width() if wider else icon.get_height()
+	var square_image = Image.create_empty(square_dim, square_dim, false, Image.FORMAT_RGBA8)
+	square_image.blit_rect(icon.get_image(), Rect2i(Vector2i.ZERO, icon.get_size()), offset)
+	# Cache the icon, and you're done!
+	cached_sq_icon = ImageTexture.create_from_image(square_image)
+	return cached_sq_icon
+
 func rotate():
 	rotated = !rotated
 	item_size = Vector2i(item_size.y, item_size.x) # why does godot not have orthogonal for vec2is????

@@ -16,6 +16,8 @@ extends CogitoStaticInteractable
 @export var angle_threshold : float = 200.00
 ## The threshold for mouse movement change to register for spinning.
 @export var mouse_effort : float = 1.0
+## Move object as you rotate it
+@export var rise_when_rotate : float = 0
 
 
 #region Cogito interaction variables
@@ -52,14 +54,14 @@ func on_input(event: InputEvent) -> void:
 		exit(player_interaction_component)
 
 
-func interact(_player_interaction_component: PlayerInteractionComponent):
+func interact(_player_interaction_component: PlayerInteractionComponent) -> void:
 	if is_being_controlled:
 		exit(_player_interaction_component)
 	else:
 		enter(_player_interaction_component)
 
 
-func enter(_pic: PlayerInteractionComponent):
+func enter(_pic: PlayerInteractionComponent) -> void:
 	player_interaction_component = _pic
 	InputRouter.push(on_input)
 	player_interaction_component.get_parent().toggled_interface.emit(true)
@@ -72,11 +74,16 @@ func enter(_pic: PlayerInteractionComponent):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
-func exit(_player: PlayerInteractionComponent):
+func exit(_player: PlayerInteractionComponent) -> void:
 	_player.get_parent().toggled_interface.emit(false)
 	InputRouter.pop()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	is_being_controlled = false
+
+
+func force_exit() -> void:
+	if is_being_controlled:
+		exit(player_interaction_component)
 
 
 func _physics_process(delta: float) -> void:
@@ -186,6 +193,11 @@ func apply_rotation(direction:int) -> void:
 		return
 	
 	rotating_object.rotate_object_local(spinning_axis,rotation_speed * direction)
+	
+	if rise_when_rotate:
+		rotating_object.position.y += rise_when_rotate * direction * -1
+		if rotating_object.position.y < 0: # Avoid object sinking below zero.
+			rotating_object.position.y = 0
 
 
 func _on_waggler_waggle_signal():

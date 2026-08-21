@@ -7944,7 +7944,6 @@ transform = Transform3D(0.845402, 0, -0.534131, 0, 1, 0, 0.534131, 0, 0.845402, 
 [connection signal="on_hold_complete" from="UPPER_OFFICE_CEO/WindowedDoor/FrontDoor/DualInteraction" to="UPPER_OFFICE_CEO/WindowedDoor/FrontDoor/LockInteraction" method="interact"]
 [connection signal="on_quick_press" from="UPPER_OFFICE_CEO/WindowedDoor/FrontDoor/DualInteraction" to="UPPER_OFFICE_CEO/WindowedDoor/FrontDoor/BasicInteraction" method="interact"]
 [connection signal="pressed" from="ARCHIVE/CameraButton" to="ARCHIVE/SecurityCamera" method="turn_off"]
-[connection signal="maximum_reached" from="BATHROOM_STALL2/DuctDoorPuzzle/CogitoMeter" to="BATHROOM_STALL2/DuctDoorPuzzle/ScrewInteractable" method="force_exit"]
 [connection signal="maximum_reached" from="BATHROOM_STALL2/DuctDoorPuzzle/CogitoMeter" to="BATHROOM_STALL2/DuctDoor" method="unlock_door"]
 [connection signal="spin_counterclockwise" from="BATHROOM_STALL2/DuctDoorPuzzle/ScrewInteractable" to="BATHROOM_STALL2/DuctDoorPuzzle/CogitoMeter" method="increase_value"]
 [connection signal="body_entered" from="CUBICLE_AREA/WaterFeature/WetZone" to="CUBICLE_AREA/WaterFeature/WetZone" method="_on_body_entered"]

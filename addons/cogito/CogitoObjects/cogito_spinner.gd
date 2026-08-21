@@ -46,7 +46,12 @@ func _ready() -> void:
 	super._ready()
 	is_being_controlled = false
 	add_to_group("save_object_state")
-	
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		force_exit()
+
 
 ## Input event for input routing
 func on_input(event: InputEvent) -> void:

@@ -225,7 +225,37 @@ func drop_single_slot_data(grabbed_slot_data: InventorySlotPD, index: int) -> In
 		#return null
 
 
-func pick_up_slot_data(slot_data: InventorySlotPD) -> bool:
+## Attempt to pick up slot data by first attempting a merge, then attempt an add if there is space.
+## Will perform an item rotation on the first failed attempt at either strategy.
+func pick_up_slot_data(slot_data: InventorySlotPD) -> bool:	
+	# Try and merge slots if they exist, rotate the item on failure
+	var merged = try_merge_slots(slot_data)
+	if not merged:
+		slot_data.inventory_item.rotate()
+		merged = try_merge_slots(slot_data)
+	# If merge was successful return true, else rotate the item back to normal
+	if merged:
+		return true
+	else:
+		slot_data.inventory_item.rotate()
+	
+	# Try and add slots if there is space, rotate the item on failure	
+	var added = try_add_slots(slot_data)
+	if not added:
+		slot_data.inventory_item.rotate()
+		added = try_add_slots(slot_data)
+	# If add was successful return true, else rotate the item back to normal
+	if added:
+		return true
+	else:
+		slot_data.inventory_item.rotate()
+	
+	CogitoSceneManager._current_player_node.player_interaction_component.send_hint(null, "Unable to pick up item.")	
+	return false
+
+
+## Try and merge existing slots if they exist. Return true if this was successful.
+func try_merge_slots(slot_data: InventorySlotPD) -> bool:
 	for index in inventory_slots.size():
 		slot_data.origin_index = index
 		if inventory_slots[index] and inventory_slots[index].can_fully_merge_with(slot_data):
@@ -233,7 +263,11 @@ func pick_up_slot_data(slot_data: InventorySlotPD) -> bool:
 			inventory_slots[index].fully_merge_with(slot_data)
 			inventory_updated.emit(self)
 			return true
-	
+	return false
+
+
+## Try and add an item if there is existing space. Return true if this was successful.
+func try_add_slots(slot_data: InventorySlotPD) -> bool:
 	for index in inventory_slots.size():
 		slot_data.origin_index = index
 		if not inventory_slots[index] and is_enough_space(slot_data, index, true):
@@ -242,8 +276,6 @@ func pick_up_slot_data(slot_data: InventorySlotPD) -> bool:
 			inventory_updated.emit(self)
 			picked_up_new_inventory_item.emit(slot_data)
 			return true
-	
-	CogitoSceneManager._current_player_node.player_interaction_component.send_hint(null, "Unable to pick up item.")	
 	return false
 
 

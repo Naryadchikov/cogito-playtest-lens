@@ -18,7 +18,7 @@ func update_wieldable_data(wieldable_item: WieldableItemPD, _carried_ammo:int, _
 	if wieldable_item.wieldable_data_icon:
 		wieldable_icon.texture = wieldable_item.wieldable_data_icon
 	else:
-		wieldable_icon.texture = wieldable_item.icon
+		wieldable_icon.texture = wieldable_item.square_icon
 		
 	if wieldable_item.no_reload:
 		wieldable_charge_label.text = ""
@@ -28,7 +28,7 @@ func update_wieldable_data(wieldable_item: WieldableItemPD, _carried_ammo:int, _
 	# Hides ammo data ui elements if player doesn't have any ammo in their inventory (or if wieldable doesn't use ammo)
 	if _ammo_item:
 		ammo_data.show()
-		ammo_icon.texture = _ammo_item.icon
+		ammo_icon.texture = _ammo_item.square_icon
 		ammo_label.text = str(_carried_ammo)
 	else:
 		ammo_data.hide()

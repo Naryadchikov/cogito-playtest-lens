@@ -86,7 +86,10 @@ func open_inventory():
 func close_inventory():
 	if is_inventory_open:
 		if grabbed_slot_data != null: # If the player was holding/moving items, these will be added back to the inventory.
-			get_parent().player.inventory_data.pick_up_slot_data(grabbed_slot_data)
+			# Checking edge case for if inventory is closed and grabbed item has no space to be picked back up
+			var is_space = get_parent().player.inventory_data.pick_up_slot_data(grabbed_slot_data)
+			if not is_space:
+				_dump_item(grabbed_slot_data)
 			grabbed_slot_data = null
 		is_inventory_open = false
 		get_viewport().gui_focus_changed.disconnect(_on_focus_changed)
@@ -449,6 +452,24 @@ func rotate_item() -> void:
 	update_grabbed_slot()
 
 
+# This will dump an item at the players feet if the object cannot be dropped normally.
+func _dump_item(slot_data: InventorySlotPD):
+	var player = get_parent().player
+	var scene_to_drop = load(slot_data.inventory_item.drop_scene)
+	var dropped_item = scene_to_drop.instantiate()
+	
+	# Pass the existing data of the slot to the object, otherwise infinite ammo glitch
+	dropped_item.pass_inventory_data(slot_data.duplicate())
+	
+	CogitoSceneManager._current_scene_root_node.add_child(dropped_item)
+	dropped_item.global_rotation = player.body.global_rotation
+	dropped_item.position = player.position + Vector3(0, 0.5, 0)
+	dropped_item.find_interaction_nodes()
+	for node in dropped_item.interaction_nodes:
+		if node.has_method("get_item_type"):
+			node.slot_data = slot_data
+	
+
 func _drop_item(slot_data: InventorySlotPD) -> bool:
 	var player = get_parent().player
 	var player_radius = player.radius
@@ -461,7 +482,7 @@ func _drop_item(slot_data: InventorySlotPD) -> bool:
 	var scene_to_drop = load(slot_data.inventory_item.drop_scene)
 	var dropped_item = scene_to_drop.instantiate()
 	
-	if dropped_item is not CogitoObject:
+	if dropped_item is not CogitoObject:		
 		return false
 	
 	# Pass the existing data of the slot to the object, otherwise infinite ammo glitch

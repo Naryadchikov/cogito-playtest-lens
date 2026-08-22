@@ -33,6 +33,7 @@ var external_inventory_owner : Node
 
 var previously_focused_slot: SlotPanel
 var slot_in_focus: SlotPanel
+var input_event = null
 
 func _ready():
 	# Connect to signal that detects change of input device
@@ -211,6 +212,10 @@ func _apply_grabbed_slot_position_after_layout():
 
 func _physics_process(_delta):
 	if InputHelper.device_index == -1: #Checking for keyboard/mouse control.
+		if input_event:
+			mouse_button_check(input_event)
+			input_event = null
+			update_grabbed_slot()
 		if grabbed_slot_node.visible:
 			grabbed_slot_node.global_position = get_global_mouse_position() + Vector2(5, 5)
 			return
@@ -275,6 +280,7 @@ func set_player_inventory_data(inventory_data : CogitoInventory):
 func on_inventory_button_press(inventory_data: CogitoInventory, index: int, action: String, local_inventory_ui):
 	# Update slot_in_focus immediately to ensure grabbed slot positioning is correct
 	slot_in_focus = local_inventory_ui.slot_array[index]
+	input_event = null
 	
 	match [grabbed_slot_data, action]:
 		[_, "inventory_rotate_item"]:
@@ -367,6 +373,7 @@ func update_grabbed_slot():
 
 func _on_bind_grabbed_slot_to_quickslot(quickslotcontainer: CogitoQuickslotContainer):
 	if grabbed_slot_data:
+		input_event = null
 		CogitoGlobals.debug_log(true, "inventory_interface.gd", "Binding to quickslot container: " + str(grabbed_slot_data) + " -> " + str(quickslotcontainer) )
 		#get_parent().player.inventory_data.pick_up_slot_data(grabbed_slot_data) #Swapped with line below
 		quick_slots.bind_to_quickslot(grabbed_slot_data, quickslotcontainer)
@@ -377,23 +384,25 @@ func _on_bind_grabbed_slot_to_quickslot(quickslotcontainer: CogitoQuickslotConta
 	else:
 		CogitoGlobals.debug_log(true, "inventory_interface.gd", "No grabbed slot data.")
 
+
 # Rotating the item using the keyboard
 func on_input(event: InputEvent) -> void:
 	if event.is_action_pressed("inventory") or event.is_action_pressed("ui_cancel"):
 		close_inventory()
 	
-	#if event is InputEventMouseButton \
-		#and event.is_pressed() \
-		#and grabbed_slot_data:
-			#mouse_button_check(event)
-			#update_grabbed_slot()
-			
+	if event is InputEventMouseButton \
+		and event.is_pressed() \
+		and grabbed_slot_data:
+			input_event = event
+	
 	if Input.is_action_just_pressed("inventory_rotate_item") and grabbed_slot_data:
 		rotate_item()
 
 
 func mouse_button_check(event):
-	if event.button_index == MOUSE_BUTTON_LEFT or event.button_index == MOUSE_BUTTON_RIGHT:
+	if event.button_index == MOUSE_BUTTON_LEFT:
+		if !grabbed_slot_data:
+			return
 		if !grabbed_slot_data.inventory_item.is_droppable:
 			error_log("This item isn't droppable.")
 			return

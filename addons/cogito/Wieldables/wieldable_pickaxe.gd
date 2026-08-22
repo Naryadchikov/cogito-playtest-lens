@@ -80,4 +80,4 @@ func _on_body_entered(collider):
 				hit_position = result.position
 				bullet_direction = (hit_position - hitbox_origin).normalized()
 		
-		collider.damage_received.emit(item_reference.wieldable_damage, bullet_direction, hit_position)
+		collider.damage_received.emit(item_reference.wieldable_damage, self, bullet_direction, hit_position)

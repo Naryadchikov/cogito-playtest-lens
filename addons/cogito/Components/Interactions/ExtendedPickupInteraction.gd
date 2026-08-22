@@ -167,5 +167,5 @@ func attempt_wield(wieldable: WieldableItemPD) -> void:
 		player_interaction_component.interaction_raycast._set_interactable(null)
 		get_parent().queue_free()
 	else:
-		player_interaction_component.send_hint(wieldable.icon, wieldable.name + " couldn't be picked up.")
+		player_interaction_component.send_hint(wieldable.square_icon, wieldable.name + " couldn't be picked up.")
 #endregion

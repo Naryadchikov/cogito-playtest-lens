@@ -18,6 +18,18 @@ signal minimum_reached
 @export var suffix : String
 @export var change_increment : float = 1.0
 
+enum MeterEvent {
+  None,
+  MaxValReached,
+  MinValReached,
+}
+
+@export_group("Event Settings")
+@export var meter_event : MeterEvent = MeterEvent.None
+@export var destroy_on_event : Array[Node3D]
+@export var sound_on_event : AudioStream
+
+
 var current_value : float:
 	set(value):
 		current_value = value
@@ -51,8 +63,12 @@ func change_value(change:float) -> void:
 	
 	if current_value == val_min:
 		minimum_reached.emit()
+		if meter_event == MeterEvent.MinValReached:
+			trigger_event_actions()
 	elif current_value == val_max:
 		maximum_reached.emit()
+		if meter_event == MeterEvent.MaxValReached:
+			trigger_event_actions()
 	
 	update_display_label()
 
@@ -70,6 +86,13 @@ func update_display_label() -> void:
 	
 	display_label.text = prefix + str(current_value) + suffix
 
+
+func trigger_event_actions() -> void:
+	if sound_on_event:
+		Audio.play_sound_3d(sound_on_event).position = self.position
+	if destroy_on_event:
+		for node in destroy_on_event:
+			node.queue_free()
 
 
 func set_state():

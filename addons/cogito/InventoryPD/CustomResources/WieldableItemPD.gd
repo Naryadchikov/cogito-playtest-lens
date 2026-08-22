@@ -157,7 +157,7 @@ func unload_wieldable():
 ## Attempts a switch to another available ammo type. Returns true if it was successful.
 func switch_to_next_ammo_type() -> bool:
 	if len(ammo_types) <= 1:
-		player_interaction_component.send_hint(icon, "There are no other ammo types for this weapon.")
+		player_interaction_component.send_hint(square_icon, "There are no other ammo types for this weapon.")
 		return false
 	var inventory = player_interaction_component.get_inventory()
 	var next_type = current_ammo_type
@@ -168,9 +168,9 @@ func switch_to_next_ammo_type() -> bool:
 			# Unload the Wieldable if it is currently loaded, change ammo type to next
 			unload_wieldable()
 			current_ammo_type = next_type
-			player_interaction_component.send_hint(next_ammo.icon, tr(hint_changed_ammo_type) + " " + tr(next_ammo.name) )
+			player_interaction_component.send_hint(next_ammo.square_icon, tr(hint_changed_ammo_type) + " " + tr(next_ammo.name) )
 			return true
-	player_interaction_component.send_hint(icon, tr(hint_no_other_ammo_types) )
+	player_interaction_component.send_hint(square_icon, tr(hint_no_other_ammo_types) )
 	return false
 
 func save():

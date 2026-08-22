@@ -28,7 +28,7 @@ func pick_up(_player_interaction_component: PlayerInteractionComponent):
 			self.get_parent().queue_free()
 			return
 		else:
-			_player_interaction_component.send_hint(slot_data.inventory_item.icon, tr(slot_data.inventory_item.name) + " " +tr("HINT_cant_pick_up") )
+			_player_interaction_component.send_hint(slot_data.inventory_item.square_icon, tr(slot_data.inventory_item.name) + " " +tr("HINT_cant_pick_up") )
 			return
 	
 	if not _player_interaction_component.get_parent().inventory_data.pick_up_slot_data(slot_data):
@@ -43,7 +43,7 @@ func pick_up(_player_interaction_component: PlayerInteractionComponent):
 			_player_interaction_component.equipped_wieldable_item.update_wieldable_data(_player_interaction_component)
 
 
-	_player_interaction_component.send_hint(slot_data.inventory_item.icon, tr(slot_data.inventory_item.name) + " " + tr("INVENTORY_add_item") )
+	_player_interaction_component.send_hint(slot_data.inventory_item.square_icon, tr(slot_data.inventory_item.name) + " " + tr("INVENTORY_add_item") )
 	was_interacted_with.emit(interaction_text, input_map_action)
 	Audio.play_sound(slot_data.inventory_item.sound_pickup)
 	self.get_parent().queue_free()

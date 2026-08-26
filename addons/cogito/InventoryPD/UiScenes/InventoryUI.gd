@@ -96,7 +96,6 @@ func override_slot_focus_neighbors():
 		index += 1
 
 
-
 func apply_slot_icon_regions():
 	var added_items = []
 	for slot in slot_array:
@@ -111,8 +110,9 @@ func apply_item_icons(item_data : InventoryItemPD, origin_index: int):
 	var icon_slot_size = item_data.item_size
 	for x in icon_slot_size.x:
 		for y in icon_slot_size.y:
+			var index = origin_index + x + (y*grid_container.columns)
+			slot_array[index].set_icon_region(x, y)
 			CogitoGlobals.debug_log(true,"InventoryUI.gd","apply_item_icons: item_data=" + item_data.name + " set_icon_region(" + str(x) + "," + str(y) + ")")
-			slot_array[origin_index + x + (y*grid_container.columns)].set_icon_region(x, y)
 
 
 func unhighlight_all_slots():
@@ -120,9 +120,11 @@ func unhighlight_all_slots():
 		slot.highlight_panel.hide()
 		slot.selection_panel.hide()
 
+
 func detach_grabbed_slot():
 	unhighlight_all_slots()
 	grabbed_slot = null
+
 
 ## Highlight all the slots an item occupies when hovered over.
 func highlight_item(focused_slot, highlight: bool):
@@ -167,6 +169,7 @@ func highlight_slots_if_grabbed(index: int, highlight: bool):
 				fill.hide()
 	change_slot_colours(highlight_size, index, item_intersections)
 	return true
+
 
 func change_slot_colours(slot_group: Vector2i, index, item_intersections):
 	for x in slot_group.x:

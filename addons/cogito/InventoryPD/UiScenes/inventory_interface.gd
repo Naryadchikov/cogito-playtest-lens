@@ -29,6 +29,7 @@ var is_inventory_open : bool:
 		set_process_input(is_inventory_open)
 		inventory_open.emit(is_inventory_open)
 var grabbed_slot_data: InventorySlotPD
+		
 var external_inventory_owner : Node
 
 var previously_focused_slot: SlotPanel
@@ -81,15 +82,18 @@ func open_inventory():
 	for slot_panel in inventory_ui.slot_array:
 		if !slot_panel.mouse_entered.is_connected(_slot_on_mouse_entered):
 			slot_panel.mouse_entered.connect(_slot_on_mouse_entered)
+			
+	# Cache the valid state of the inventory on open
+	inventory_ui.loaded_inventory_data.refresh_valid_state()
 
 
 func close_inventory():
 	if is_inventory_open:
 		if grabbed_slot_data != null: # If the player was holding/moving items, these will be added back to the inventory.
-			# Checking edge case for if inventory is closed and grabbed item has no space to be picked back up
+			# If there is space, return the item. If not, drop the item. If the item can't be dropped, reset the inventory to a previously valid state
 			var is_space = get_parent().player.inventory_data.pick_up_slot_data(grabbed_slot_data)
-			if not is_space:
-				_dump_item(grabbed_slot_data)
+			if not is_space and not _drop_item(grabbed_slot_data):
+				inventory_ui.loaded_inventory_data.reset_to_valid_state()
 			grabbed_slot_data = null
 		is_inventory_open = false
 		get_viewport().gui_focus_changed.disconnect(_on_focus_changed)
@@ -297,12 +301,12 @@ func on_inventory_button_press(inventory_data: CogitoInventory, index: int, acti
 			else:
 				grabbed_slot_data = inventory_data.grab_slot_data(index)
 		[_, "inventory_move_item"]:
-			grabbed_slot_data = inventory_data.drop_slot_data(grabbed_slot_data, index)
+			grabbed_slot_data = inventory_data.release_slot_data(grabbed_slot_data, index)
 		[null, "inventory_use_item"]:
 			inventory_data.use_slot_data(index)
 		[_, "inventory_use_item"]:
-			print("Inventory_interface.gd: Gamepad use_item pressed while grabbed_slot_data. Calling drop_single_slot_data...")
-			grabbed_slot_data = inventory_data.drop_single_slot_data(grabbed_slot_data, index)
+			print("Inventory_interface.gd: Gamepad use_item pressed while grabbed_slot_data. Calling release_single_slot_data...")
+			grabbed_slot_data = inventory_data.release_single_slot_data(grabbed_slot_data, index)
 		[null, "inventory_drop_item"]:
 			grabbed_slot_data = inventory_data.get_slot_data(index)
 			if grabbed_slot_data:
@@ -325,6 +329,7 @@ func on_inventory_button_press(inventory_data: CogitoInventory, index: int, acti
 						CogitoGlobals.debug_log(true, "inventory_interface.gd", "Can't drop because there isn't enough space.")
 					else:
 						grabbed_slot_data = null
+						inventory_ui.loaded_inventory_data.refresh_valid_state()
 		
 		[null, "inventory_assign_item"]: # Pressing "Assign quickslot" on gamepad
 			CogitoGlobals.debug_log(true, "inventory_interface.gd", "Grabbing focus of quickslots.")
@@ -419,6 +424,7 @@ func mouse_button_check(event):
 				grabbed_slot_data.create_single_slot_data(grabbed_slot_data.origin_index)
 				if grabbed_slot_data.quantity < 1:
 					grabbed_slot_data = null
+					inventory_ui.loaded_inventory_data.refresh_valid_state()
 
 
 func error_log(error: String):
@@ -451,24 +457,6 @@ func rotate_item() -> void:
 	inventory_ui.highlight_slots_if_grabbed(slot_in_focus.get_index(), true)
 	update_grabbed_slot()
 
-
-# This will dump an item at the players feet if the object cannot be dropped normally.
-func _dump_item(slot_data: InventorySlotPD):
-	var player = get_parent().player
-	var scene_to_drop = load(slot_data.inventory_item.drop_scene)
-	var dropped_item = scene_to_drop.instantiate()
-	
-	# Pass the existing data of the slot to the object, otherwise infinite ammo glitch
-	dropped_item.pass_inventory_data(slot_data.duplicate())
-	
-	CogitoSceneManager._current_scene_root_node.add_child(dropped_item)
-	dropped_item.global_rotation = player.body.global_rotation
-	dropped_item.position = player.position + Vector3(0, 0.5, 0)
-	dropped_item.find_interaction_nodes()
-	for node in dropped_item.interaction_nodes:
-		if node.has_method("get_item_type"):
-			node.slot_data = slot_data
-	
 
 func _drop_item(slot_data: InventorySlotPD) -> bool:
 	var player = get_parent().player

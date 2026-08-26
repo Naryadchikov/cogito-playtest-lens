@@ -19,6 +19,20 @@ var owner : Node
 
 @export var first_slot : InventorySlotPD
 
+# Cache a valid inventory state. Origin indexes are tracked in a separate array
+# since InventorySlotPD are RefCounted and thus aren't affected by deep copy duplication
+var valid_inventory_state : Array[InventoryState]
+class InventoryState:
+	var slot: InventorySlotPD
+	var origin_index: int
+	var rotated: bool
+	
+	func _init(_slot, _origin_index):
+		slot = _slot
+		origin_index = _origin_index
+		if slot and slot.inventory_item:
+			rotated = slot.inventory_item.rotated
+
 
 func _init():
 	if inventory_slots.size() > 0:
@@ -34,6 +48,28 @@ func apply_initial_inventory():
 		first_slot = inventory_slots[0]
 
 
+## Cache the current state of the inventory. Only called when opening inventory or dropping items. 
+func refresh_valid_state():
+	CogitoGlobals.debug_log(true, "cogito_inventory.gd", "Refreshing valid state for inventory...")
+	valid_inventory_state.clear()
+	for slot in inventory_slots:
+		valid_inventory_state.append(InventoryState.new(slot, slot.origin_index if slot else -1))
+
+
+## If an item cannot be dropped and cannot be returned to the inventory, reset the inventory to its last cached valid state.
+func reset_to_valid_state():
+	CogitoGlobals.debug_log(true, "cogito_inventory.gd", "Inventory state is invalid, resetting to previously good state...")
+	# Rewrite each inventory slot with the state of the original, as well as origin index and rotation state
+	for index in range(valid_inventory_state.size()):
+		var slot = valid_inventory_state[index].slot
+		inventory_slots[index] = slot
+		if slot:
+			inventory_slots[index].origin_index = valid_inventory_state[index].origin_index
+			if slot.inventory_item and slot.inventory_item.rotated != valid_inventory_state[index].rotated:
+				slot.inventory_item.rotate()
+	inventory_updated.emit(self)
+
+
 func on_slot_clicked(index: int, mouse_button: int):
 	inventory_interact.emit(self, index, mouse_button)
 
@@ -43,7 +79,7 @@ func on_slot_button_pressed(index: int, action: String):
 	inventory_button_press.emit(self, index, action)
 
 
-func null_out_slots(slot_data):
+func null_out_slots(slot_data: InventorySlotPD):
 	if not slot_data:
 		return
 	var size = slot_data.inventory_item.item_size if grid else Vector2i(1,1)
@@ -148,7 +184,11 @@ func remove_item_from_stack(slot_data: InventorySlotPD):
 		inventory_updated.emit(self)
 
 
-func drop_slot_data(grabbed_slot_data: InventorySlotPD, index: int) -> InventorySlotPD:
+## Try to put the grabbed item back into the inventory. Returns a new 'grabbed' item:
+## grabbed_slot_data: The original grabbed item if there was a failure to release it
+## item_to_swap: An item displaced by the released item
+## null: Nothing is grabbed now, item was successfully released
+func release_slot_data(grabbed_slot_data: InventorySlotPD, index: int) -> InventorySlotPD:
 	var slot_data = inventory_slots[index]
 	
 	var return_slot_data : InventorySlotPD
@@ -175,30 +215,30 @@ func drop_slot_data(grabbed_slot_data: InventorySlotPD, index: int) -> Inventory
 	inventory_updated.emit(self)
 	return return_slot_data
 
-
-func drop_single_slot_data(grabbed_slot_data: InventorySlotPD, index: int) -> InventorySlotPD:
+## See release_slot_data above. This is for releasing an item when invoked by a gamepad.
+func release_single_slot_data(grabbed_slot_data: InventorySlotPD, index: int) -> InventorySlotPD:
 	var slot_data = inventory_slots[index]
 	
 	if not slot_data and is_enough_space(grabbed_slot_data, index, false):
 		inventory_slots[index] = grabbed_slot_data.create_single_slot_data(index)
 		add_adjacent_slots(index)
-		CogitoGlobals.debug_log(true,"cogito_inventory.gd", "drop_single_slot_data(...): grabbed item placed in inventory.")
+		CogitoGlobals.debug_log(true,"cogito_inventory.gd", "release_single_slot_data(...): grabbed item placed in inventory.")
 	elif not slot_data:
 		return grabbed_slot_data
 	elif slot_data.can_merge_with(grabbed_slot_data):
 		slot_data.fully_merge_with(grabbed_slot_data.create_single_slot_data(slot_data.origin_index))
-		CogitoGlobals.debug_log(true,"cogito_inventory.gd", "drop_single_slot_data(...): grabbed item fully merged with target.")
+		CogitoGlobals.debug_log(true,"cogito_inventory.gd", "release_single_slot_data(...): grabbed item fully merged with target.")
 		#return null
 	# Logic for ammo items
 	elif slot_data.inventory_item.has_method("update_wieldable_data") and grabbed_slot_data.inventory_item.has_method("is_ammo_item") and slot_data.inventory_item.get_current_ammo().name == grabbed_slot_data.inventory_item.name:
-		CogitoGlobals.debug_log(true,"cogito_inventory.gd", "drop_single_slot_data(...): AmmoItem detected. Attempting to reload target.")
+		CogitoGlobals.debug_log(true,"cogito_inventory.gd", "release_single_slot_data(...): AmmoItem detected. Attempting to reload target.")
 		# Check if there's room for charge
 		if slot_data.inventory_item.charge_max - slot_data.inventory_item.charge_current >= grabbed_slot_data.inventory_item.reload_amount:
 			CogitoSceneManager._current_player_node.player_interaction_component.send_hint(null,"Charging " + slot_data.inventory_item.name + " by " + str(grabbed_slot_data.inventory_item.reload_amount))
 			slot_data.inventory_item.add(grabbed_slot_data.inventory_item.reload_amount)
 			grabbed_slot_data.quantity -= 1
 		else:
-			CogitoGlobals.debug_log(true,"cogito_inventory.gd", "drop_single_slot_data(...): AmmoItem detected. Target charge is too high to be reloaded.")
+			CogitoGlobals.debug_log(true,"cogito_inventory.gd", "release_single_slot_data(...): AmmoItem detected. Target charge is too high to be reloaded.")
 	# Check if grabbed item is a combinable AND check if slot item is the target combine item:
 	elif grabbed_slot_data.inventory_item.has_method("is_combinable") and slot_data.inventory_item.name == grabbed_slot_data.inventory_item.target_item_combine :
 		# Reduce/destroy both items.
@@ -221,7 +261,7 @@ func drop_single_slot_data(grabbed_slot_data: InventorySlotPD, index: int) -> In
 		#return grabbed_slot_data
 	#else:
 		## Placing items
-		#print("cogito_inventory.gd: drop_single_slot_data( grabbed item name=", grabbed_slot_data.inventory_item.name, ", ", index, "): Placing items reached.")
+		#print("cogito_inventory.gd: release_single_slot_data( grabbed item name=", grabbed_slot_data.inventory_item.name, ", ", index, "): Placing items reached.")
 		#return null
 
 

@@ -237,7 +237,8 @@ func set_external_inventory(_external_inventory_owner):
 	var inventory_data = external_inventory_owner.inventory_data
 	
 	inventory_data.owner = external_inventory_owner # Setting reference to external inventory owner node
-	inventory_data.inventory_button_press.connect(on_inventory_button_press.bind(external_inventory_ui))
+	if !inventory_data.inventory_button_press.is_connected(on_inventory_button_press):
+		inventory_data.inventory_button_press.connect(on_inventory_button_press.bind(external_inventory_ui))
 	external_inventory_ui.inventory_name = external_inventory_owner.display_name
 	external_inventory_ui.set_inventory_data(inventory_data)
 	

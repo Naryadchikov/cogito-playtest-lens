@@ -86,4 +86,4 @@ func _on_body_entered(collider: Node3D) -> void:
 
 
 func deal_damage(collider: Node,damage_dir):
-	collider.damage_received.emit(damage_amount,damage_dir,Vector3.ZERO)
+	collider.damage_received.emit(damage_amount, self, damage_dir, Vector3.ZERO)

@@ -192,19 +192,34 @@ func fire_raycast_at(node: Node3D) -> bool:
 	var result = space_state.intersect_ray(query)
 	# If the raycast hits a player, check that they are visible via attribute
 	last_raycasted_target = result["collider"] if result else null
-	if not last_raycasted_target or last_raycasted_target is not CogitoPlayer:
+	if not last_raycasted_target:
 		player_sight_collision_point = Vector3.ZERO
 		return false
-	if last_raycasted_target is CogitoPlayer:
-		player_sight_collision_point = result["position"]
-		if show_detection_line:
-			debug_line.draw_3d_line(npc.head.global_position, node.global_position, Color(1,0,0), 0.1)
-		ref_to_player = last_raycasted_target as CogitoPlayer
-		if ref_to_player.visibility_attribute:
-			return ref_to_player.visibility_attribute.value_current >= minimum_visibility
-		else:
-			return true
+	if last_raycasted_target is not CogitoPlayer:
+		var object: CogitoObject = last_raycasted_target as CogitoObject
+		if object:
+			for interaction_component: InteractionComponent in object.interaction_nodes:
+				if interaction_component is CogitoCarryableComponent and interaction_component.is_being_carried and interaction_component.carrier is CogitoPlayer:
+					var player: CogitoPlayer = interaction_component.carrier as CogitoPlayer
+					return _fire_raycast_at_player_result(player.global_position, player)
+		player_sight_collision_point = Vector3.ZERO
+		return false
+	else:
+		var player: CogitoPlayer = last_raycasted_target as CogitoPlayer
+		return _fire_raycast_at_player_result(result["position"], player)
+	
 	return false
+
+
+func _fire_raycast_at_player_result(position: Vector3, player: CogitoPlayer) -> bool:
+	player_sight_collision_point = position
+	if show_detection_line:
+		debug_line.draw_3d_line(npc.head.global_position, player.global_position, Color(1,0,0), 0.1)
+	ref_to_player = player
+	if ref_to_player.visibility_attribute:
+		return ref_to_player.visibility_attribute.value_current >= minimum_visibility
+	else:
+		return true
 
 
 func reset():

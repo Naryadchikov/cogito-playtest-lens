@@ -68,7 +68,6 @@ shadow_mesh = SubResource("ArrayMesh_e3ah2")
 size = Vector3(0.56499, 0.0528076, 0.23623)
 
 [node name="computerKeyboard" type="StaticBody3D" unique_id=1823674224]
-transform = Transform3D(-0.993704, 0, -0.112041, 0, 1, 0, 0.112041, 0, -0.993704, 5.46514, 0.7688, -0.552476)
 
 [node name="computerKeyboard(Clone)" type="MeshInstance3D" parent="." unique_id=2120680768]
 mesh = SubResource("ArrayMesh_mks0y")

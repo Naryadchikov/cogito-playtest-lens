@@ -70,7 +70,6 @@ height = 0.03
 radius = 0.92
 
 [node name="rugRound" type="StaticBody3D" unique_id=896798231]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.76556, -4.84288e-08, 3.84106)
 
 [node name="rugRound(Clone)" type="MeshInstance3D" parent="." unique_id=758916267]
 mesh = SubResource("ArrayMesh_qdt05")

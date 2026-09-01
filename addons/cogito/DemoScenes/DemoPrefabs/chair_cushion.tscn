@@ -86,7 +86,6 @@ stream_0/stream = ExtResource("4_vtjpn")
 size = Vector3(1.40192, 1.05004, 1.21932)
 
 [node name="chairCushion" type="RigidBody3D" unique_id=93524143]
-transform = Transform3D(-0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, -0.866025, -6.9349, 7.07805e-08, -13.1487)
 collision_layer = 3
 contact_monitor = true
 max_contacts_reported = 6

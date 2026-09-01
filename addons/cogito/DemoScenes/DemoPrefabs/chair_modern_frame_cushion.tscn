@@ -79,7 +79,6 @@ size = Vector3(0.40033, 0.439453, 0.0610352)
 size = Vector3(1.40192, 1.05004, 1.21932)
 
 [node name="chairModernFrameCushion" type="RigidBody3D" unique_id=2019436789]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 4.09671, -4.84288e-08, 13.6537)
 collision_layer = 3
 script = ExtResource("1_yrmkr")
 physics_sittable = true

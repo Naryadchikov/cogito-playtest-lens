@@ -112,7 +112,6 @@ size = Vector3(0.671021, 0.714905, 0.136169)
 size = Vector3(1.40192, 1.05004, 1.21932)
 
 [node name="chairDesk" type="RigidBody3D" unique_id=695520690 node_paths=PackedStringArray("vehicle_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0202361, -0.543261, -0.168468)
 collision_layer = 3
 axis_lock_angular_x = true
 axis_lock_angular_z = true

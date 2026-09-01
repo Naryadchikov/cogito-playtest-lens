@@ -41,7 +41,6 @@ shadow_mesh = SubResource("ArrayMesh_p2vuo")
 size = Vector3(0.2, 2.25, 1.5)
 
 [node name="KSI_wall_ridges_half" type="StaticBody3D" unique_id=808468203]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 8.5, 3, -7)
 
 [node name="object_044" type="MeshInstance3D" parent="." unique_id=1212896059]
 mesh = SubResource("ArrayMesh_wwp7m")

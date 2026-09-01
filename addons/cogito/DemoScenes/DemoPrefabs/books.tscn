@@ -122,7 +122,6 @@ shadow_mesh = SubResource("ArrayMesh_pshnx")
 size = Vector3(0.301562, 0.204126, 0.190112)
 
 [node name="books" type="StaticBody3D" unique_id=94175526]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.05588, 1.22, 9.32646)
 
 [node name="books(Clone)" type="MeshInstance3D" parent="." unique_id=2112146161]
 mesh = SubResource("ArrayMesh_1ddpc")

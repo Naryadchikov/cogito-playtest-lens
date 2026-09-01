@@ -1232,6 +1232,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 24)
 [node name="Movement_Trench_Floor" type="Node3D" parent="NavigationRegion3D/BASE_FLOOR" unique_id=1367581560]
 
 [node name="FloorDirt_3x3_" parent="NavigationRegion3D/BASE_FLOOR/Movement_Trench_Floor" unique_id=1591878651 instance=ExtResource("10_v7lrs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -3, 12)
 
 [node name="FloorDirt_3x3_2" parent="NavigationRegion3D/BASE_FLOOR/Movement_Trench_Floor" unique_id=847350785 instance=ExtResource("10_v7lrs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -3, 9)
@@ -2497,6 +2498,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -23.95
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -25.45, 3, 28.75)
 
 [node name="KSI_floor_recessed_end" parent="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES" unique_id=1420672128 instance=ExtResource("17_pco8l")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6, 0, -4)
 
 [node name="KSI_floor_recessed_straight" parent="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES" unique_id=1671456634 instance=ExtResource("18_myaha")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3, 0, -4)
@@ -2579,8 +2581,10 @@ horizontal_alignment = 2
 [node name="WALLS_LVL01" type="Node3D" parent="NavigationRegion3D" unique_id=1383327839]
 
 [node name="KSI_wall_painted" parent="NavigationRegion3D/WALLS_LVL01" unique_id=274235297 instance=ExtResource("19_vw7xg")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 9, 0, -4)
 
 [node name="KSI_wall_painted46" parent="NavigationRegion3D/WALLS_LVL01" unique_id=795438268 instance=ExtResource("19_vw7xg")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 9, 0, -4)
 
 [node name="KSI_wall_painted6" parent="NavigationRegion3D/WALLS_LVL01" unique_id=652180467 instance=ExtResource("19_vw7xg")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 9, 0, -10)
@@ -2730,6 +2734,7 @@ transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -9, 0, 2
 transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -9, 0, 23)
 
 [node name="KSI_wall_doorway_painted" parent="NavigationRegion3D/WALLS_LVL01" unique_id=145605548 instance=ExtResource("20_i3iqk")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 9, 0, -7)
 
 [node name="WALLS_LVL02_RIDGED" type="Node3D" parent="NavigationRegion3D" unique_id=701711332]
 
@@ -2812,6 +2817,7 @@ transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 9, 3, 28
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 7.5, 3, 28.5)
 
 [node name="KSI_wall_ridges_half3" parent="NavigationRegion3D/WALLS_LVL02_RIDGED" unique_id=1971088575 instance=ExtResource("16_bee3s")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 8.5, 3, -7)
 
 [node name="KSI_wall_ridges_half4" parent="NavigationRegion3D/WALLS_LVL02_RIDGED" unique_id=1380191554 instance=ExtResource("16_bee3s")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 8.5, 3, -5.5)
@@ -3352,6 +3358,7 @@ transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 6, 0, -1
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 9, 0, -10)
 
 [node name="KSI_wall_doorway_wide_painted3" parent="NavigationRegion3D/SHOOTING_RANGE" unique_id=1501488321 instance=ExtResource("22_ymaj1")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6, 0, -10)
 
 [node name="KSI_wall_doorway_wide_painted4" parent="NavigationRegion3D/SHOOTING_RANGE" unique_id=2001022805 instance=ExtResource("22_ymaj1")]
 transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 3, 0, -10)
@@ -3385,6 +3392,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.047, 0.7, -1.4)
 shape = SubResource("ConvexPolygonShape3D_40433")
 
 [node name="GenericButton" parent="NavigationRegion3D/SHOOTING_RANGE/KSI_console_spawn" unique_id=724890288 instance=ExtResource("23_0rveh")]
+transform = Transform3D(-4.37114e-08, 0.5, 0.866025, 1.06581e-14, 0.866025, -0.5, -1, -2.18557e-08, -3.78552e-08, 0.671964, 0.88812, -1.10062)
 
 [node name="Label_TargetSpawn" type="Label3D" parent="NavigationRegion3D/SHOOTING_RANGE/KSI_console_spawn" unique_id=1023136422]
 transform = Transform3D(-4.37114e-08, -0.8678, 0.496913, 1.06581e-14, 0.496913, 0.8678, -1, 3.79328e-08, -2.17208e-08, 0.641761, 0.849452, -0.938262)
@@ -3514,6 +3522,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.665604, 1.00006, -11.7358)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.390677, 1.00006, -11.7358)
 
 [node name="KSI_table_long" parent="NavigationRegion3D/SHOOTING_RANGE" unique_id=1824638422 instance=ExtResource("33_qijth")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2, 0, -12)
 
 [node name="Spawnzone_Targets" type="Area3D" parent="NavigationRegion3D/SHOOTING_RANGE" unique_id=2128847783 node_paths=PackedStringArray("spawn_area")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.139261, 1.65833, -23.875)
@@ -3570,6 +3579,7 @@ transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -6, 0, 2
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3, 0, 2)
 
 [node name="KSI_wall_window_painted" parent="NavigationRegion3D/MOVEMENT" unique_id=2102283022 instance=ExtResource("35_12m6n")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 2)
 
 [node name="KSI_wall_window_painted2" parent="NavigationRegion3D/MOVEMENT" unique_id=1033188343 instance=ExtResource("35_12m6n")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -3, 0, 2)
@@ -3660,11 +3670,13 @@ transform = Transform3D(1, 0, 1.39091e-08, 0, 1, 0, -1.39091e-08, 0, 1, -2.94677
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0999999, 0.0460688, 0)
 
 [node name="KSI_steps_flat" parent="NavigationRegion3D/MOVEMENT" unique_id=729934522 instance=ExtResource("41_4ulgp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 5)
 
 [node name="KSI_steps_flat2" parent="NavigationRegion3D/MOVEMENT" unique_id=1371266872 instance=ExtResource("41_4ulgp")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -9, 0, 8)
 
 [node name="KSI_steps_flat_corner" parent="NavigationRegion3D/MOVEMENT" unique_id=1797614684 instance=ExtResource("42_g7vdf")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -3, 0, 5)
 
 [node name="CarriableBox" parent="NavigationRegion3D/MOVEMENT" unique_id=1958051000 instance=ExtResource("43_fsc02")]
 transform = Transform3D(0.952555, 0, 0.304366, 0, 1, 0, -0.304366, 0, 0.952555, -6.66945, 1, 4.34045)
@@ -3913,6 +3925,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0635595, 0.0773926, 0.0280
 shape = SubResource("BoxShape3D_6s5b0")
 
 [node name="SlidingDoor" parent="." unique_id=792810877 instance=ExtResource("57_0ie8b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.7, 0, -4.75)
 
 [node name="HazardZone" parent="." unique_id=1669825935 instance=ExtResource("59_0q6qq")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7.2487, 1.505, -2.4549)

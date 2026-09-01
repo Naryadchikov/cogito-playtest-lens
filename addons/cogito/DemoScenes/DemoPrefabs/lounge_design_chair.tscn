@@ -76,7 +76,6 @@ size = Vector3(0.821186, 0.699875, 0.264954)
 size = Vector3(0.821186, 0.361839, 0.562393)
 
 [node name="loungeDesignChair" type="AnimatableBody3D" unique_id=1491679076]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 6.33074, -4.84288e-08, -9.9916)
 metadata/_edit_group_ = true
 
 [node name="loungeDesignChair(Clone)" type="MeshInstance3D" parent="." unique_id=489665117]

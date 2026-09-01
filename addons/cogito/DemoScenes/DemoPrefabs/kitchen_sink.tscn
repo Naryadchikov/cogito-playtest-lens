@@ -247,7 +247,6 @@ shadow_mesh = SubResource("ArrayMesh_phvm3")
 size = Vector3(0.750641, 0.553436, 0.0401245)
 
 [node name="kitchenSink" type="StaticBody3D" unique_id=1421691448]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3411e-07, 0, 1.66471)
 
 [node name="kitchenSink(Clone)" type="MeshInstance3D" parent="." unique_id=1807577204]
 mesh = SubResource("ArrayMesh_qo8lf")

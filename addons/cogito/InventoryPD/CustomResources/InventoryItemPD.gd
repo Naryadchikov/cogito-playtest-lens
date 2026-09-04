@@ -42,8 +42,9 @@ var is_being_wielded : bool
 var wielded_item 
 
 ## Item rotation variables
-var rotated: bool = false
-var rotated_texture: Texture2D
+@export var rotated: bool = false
+var rotated_texture: Texture2D:
+	get: return rotated_texture if rotated_texture else set_rotated_icon()
 
 var square_icon: Texture2D:
 	get: return get_square_icon()
@@ -66,12 +67,16 @@ func get_square_icon() -> Texture2D:
 	cached_sq_icon = ImageTexture.create_from_image(square_image)
 	return cached_sq_icon
 
-func rotate():
-	rotated = !rotated
-	item_size = Vector2i(item_size.y, item_size.x) # why does godot not have orthogonal for vec2is????
+func set_rotated_icon() -> Texture2D:
 	var rotated_image = icon.get_image()
 	rotated_image.rotate_90(CLOCKWISE if rotated else COUNTERCLOCKWISE)
 	rotated_texture = ImageTexture.create_from_image(rotated_image)
+	return rotated_texture
+
+func rotate():
+	rotated = !rotated
+	item_size = Vector2i(item_size.y, item_size.x) # why does godot not have orthogonal for vec2is????
+	set_rotated_icon()
 
 func get_region(x, y) -> Image:
 	var image: Image = rotated_texture.get_image() if rotated else icon.get_image()

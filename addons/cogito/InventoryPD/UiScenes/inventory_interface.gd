@@ -18,6 +18,8 @@ signal inventory_open(is_true: bool)
 
 ## Sound that plays as a generic error.
 @export var sound_error : AudioStream
+## If true, try to drop a grabbed item if there is no space to return it when closing inventory
+@export var drop_item_on_close : bool = false
 
 @export_group("Inventory Screen")
 @export var nodes_to_show : Array[Node]
@@ -90,9 +92,9 @@ func open_inventory():
 func close_inventory():
 	if is_inventory_open:
 		if grabbed_slot_data != null: # If the player was holding/moving items, these will be added back to the inventory.
-			# If there is space, return the item. If not, drop the item. If the item can't be dropped, reset the inventory to a previously valid state
+			# If there is space, return the item. If not, drop the item (short circuit if drop_item_on_close is false). If the item can't be dropped, reset the inventory to a previously valid state
 			var is_space = get_parent().player.inventory_data.pick_up_slot_data(grabbed_slot_data)
-			if not is_space and not _drop_item(grabbed_slot_data):
+			if not is_space and (not drop_item_on_close or not _drop_item(grabbed_slot_data)):
 				inventory_ui.loaded_inventory_data.reset_to_valid_state()
 			grabbed_slot_data = null
 		is_inventory_open = false

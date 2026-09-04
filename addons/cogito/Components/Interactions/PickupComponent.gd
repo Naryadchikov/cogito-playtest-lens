@@ -32,6 +32,7 @@ func pick_up(_player_interaction_component: PlayerInteractionComponent):
 			return
 	
 	if not _player_interaction_component.get_parent().inventory_data.pick_up_slot_data(slot_data):
+		_player_interaction_component.send_hint(slot_data.inventory_item.square_icon, "Unable to pick up %s." % slot_data.inventory_item.name)
 		return
 
 	# Update wieldable UI if we have picked up ammo for current wieldable

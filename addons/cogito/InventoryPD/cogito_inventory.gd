@@ -19,8 +19,8 @@ var owner : Node
 
 @export var first_slot : InventorySlotPD
 
-# Cache a valid inventory state. Origin indexes are tracked in a separate array
-# since InventorySlotPD are RefCounted and thus aren't affected by deep copy duplication
+# Cache a valid inventory state. Contains origin_index and rotation state since inventory slots
+# are resources and thus aren't affected by deep copy duplication
 var valid_inventory_state : Array[InventoryState]
 class InventoryState:
 	var slot: InventorySlotPD
@@ -289,8 +289,7 @@ func pick_up_slot_data(slot_data: InventorySlotPD) -> bool:
 		return true
 	else:
 		slot_data.inventory_item.rotate()
-	
-	CogitoSceneManager._current_player_node.player_interaction_component.send_hint(null, "Unable to pick up item.")	
+
 	return false
 
 
@@ -337,6 +336,8 @@ func take_all_items(target_inventory: CogitoInventory):
 				print("Grabbed ", slot.inventory_item.name)
 				remove_slot_data(slot) #Empty the slot
 				force_inventory_update()
+			else:
+				CogitoSceneManager.send_player_hint(slot.inventory_item.square_icon, "Unable to pick-up %s." % slot.inventory_item.name)
 
 
 func force_inventory_update():

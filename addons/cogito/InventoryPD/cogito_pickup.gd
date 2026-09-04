@@ -8,9 +8,11 @@ func _ready():
 
 func interact(body):
 	if body.get_parent().inventory_data.pick_up_slot_data(slot_data):
-		body.send_hint(slot_data.inventory_item.square_icon, slot_data.inventory_item.name + " added to inventory.")
+		body.send_hint(slot_data.inventory_item.square_icon, "%s added to inventory." % slot_data.inventory_item.name)
 		Audio.play_sound(slot_data.inventory_item.sound_pickup)
 		queue_free()
+	else:
+		body.send_hint(slot_data.inventory_item.square_icon, "Unable to pick-up %s." % slot_data.inventory_item.name)
 
 
 func get_item_type() -> int:

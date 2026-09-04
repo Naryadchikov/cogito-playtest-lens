@@ -64,6 +64,10 @@ func _ready() -> void:
 	instantiate_fade_panel()
 
 
+func send_player_hint(hint_icon: Texture2D, hint_text: String):
+	_current_player_node.player_interaction_component.send_hint(hint_icon, hint_text)
+
+
 func switch_active_slot_to(slot_name:String) -> void:
 	_player_state = null
 	_player_state = get_existing_player_state(slot_name)

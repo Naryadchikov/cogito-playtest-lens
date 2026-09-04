@@ -18,6 +18,8 @@ signal inventory_open(is_true: bool)
 
 ## Sound that plays as a generic error.
 @export var sound_error : AudioStream
+## If true, try to drop a grabbed item if there is no space to return it when closing inventory
+@export var drop_item_on_close : bool = false
 
 @export_group("Inventory Screen")
 @export var nodes_to_show : Array[Node]
@@ -29,6 +31,7 @@ var is_inventory_open : bool:
 		set_process_input(is_inventory_open)
 		inventory_open.emit(is_inventory_open)
 var grabbed_slot_data: InventorySlotPD
+		
 var external_inventory_owner : Node
 
 var previously_focused_slot: SlotPanel
@@ -81,12 +84,18 @@ func open_inventory():
 	for slot_panel in inventory_ui.slot_array:
 		if !slot_panel.mouse_entered.is_connected(_slot_on_mouse_entered):
 			slot_panel.mouse_entered.connect(_slot_on_mouse_entered)
+			
+	# Cache the valid state of the inventory on open
+	inventory_ui.loaded_inventory_data.refresh_valid_state()
 
 
 func close_inventory():
 	if is_inventory_open:
 		if grabbed_slot_data != null: # If the player was holding/moving items, these will be added back to the inventory.
-			get_parent().player.inventory_data.pick_up_slot_data(grabbed_slot_data)
+			# If there is space, return the item. If not, drop the item (short circuit if drop_item_on_close is false). If the item can't be dropped, reset the inventory to a previously valid state
+			var is_space = get_parent().player.inventory_data.pick_up_slot_data(grabbed_slot_data)
+			if not is_space and (not drop_item_on_close or not _drop_item(grabbed_slot_data)):
+				inventory_ui.loaded_inventory_data.reset_to_valid_state()
 			grabbed_slot_data = null
 		is_inventory_open = false
 		get_viewport().gui_focus_changed.disconnect(_on_focus_changed)
@@ -295,12 +304,12 @@ func on_inventory_button_press(inventory_data: CogitoInventory, index: int, acti
 			else:
 				grabbed_slot_data = inventory_data.grab_slot_data(index)
 		[_, "inventory_move_item"]:
-			grabbed_slot_data = inventory_data.drop_slot_data(grabbed_slot_data, index)
+			grabbed_slot_data = inventory_data.release_slot_data(grabbed_slot_data, index)
 		[null, "inventory_use_item"]:
 			inventory_data.use_slot_data(index)
 		[_, "inventory_use_item"]:
-			print("Inventory_interface.gd: Gamepad use_item pressed while grabbed_slot_data. Calling drop_single_slot_data...")
-			grabbed_slot_data = inventory_data.drop_single_slot_data(grabbed_slot_data, index)
+			print("Inventory_interface.gd: Gamepad use_item pressed while grabbed_slot_data. Calling release_single_slot_data...")
+			grabbed_slot_data = inventory_data.release_single_slot_data(grabbed_slot_data, index)
 		[null, "inventory_drop_item"]:
 			grabbed_slot_data = inventory_data.get_slot_data(index)
 			if grabbed_slot_data:
@@ -323,6 +332,7 @@ func on_inventory_button_press(inventory_data: CogitoInventory, index: int, acti
 						CogitoGlobals.debug_log(true, "inventory_interface.gd", "Can't drop because there isn't enough space.")
 					else:
 						grabbed_slot_data = null
+						inventory_ui.loaded_inventory_data.refresh_valid_state()
 		
 		[null, "inventory_assign_item"]: # Pressing "Assign quickslot" on gamepad
 			CogitoGlobals.debug_log(true, "inventory_interface.gd", "Grabbing focus of quickslots.")
@@ -417,6 +427,7 @@ func mouse_button_check(event):
 				grabbed_slot_data.create_single_slot_data(grabbed_slot_data.origin_index)
 				if grabbed_slot_data.quantity < 1:
 					grabbed_slot_data = null
+					inventory_ui.loaded_inventory_data.refresh_valid_state()
 
 
 func error_log(error: String):
@@ -462,7 +473,7 @@ func _drop_item(slot_data: InventorySlotPD) -> bool:
 	var scene_to_drop = load(slot_data.inventory_item.drop_scene)
 	var dropped_item = scene_to_drop.instantiate()
 	
-	if dropped_item is not CogitoObject:
+	if dropped_item is not CogitoObject:		
 		return false
 	
 	# Pass the existing data of the slot to the object, otherwise infinite ammo glitch

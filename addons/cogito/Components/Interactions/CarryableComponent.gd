@@ -32,6 +32,7 @@ var is_being_rotated : bool = false
 var player_interaction_component : PlayerInteractionComponent
 var carry_position : Vector3 #Position the carriable "floats towards".
 var gamepad_rotation: Vector2
+var carrier = null
 
 
 func _ready():
@@ -148,6 +149,7 @@ func hold():
 		audio_stream_player_3d.play()
 	
 	is_being_carried = true
+	carrier = player_interaction_component.player
 	carry_state_changed.emit(is_being_carried)
 
 
@@ -163,6 +165,7 @@ func leave():
 		player_interaction_component.auto_equip_last_wieldable()
 		player_interaction_component.interaction_raycast.remove_exception(parent_object)
 	is_being_carried = false
+	carrier = null
 	carry_state_changed.emit(is_being_carried)
 
 

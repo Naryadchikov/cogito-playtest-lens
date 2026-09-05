@@ -9,6 +9,7 @@ var is_logging : bool
 var player_state_prefix : String
 var scene_state_prefix : String
 var default_transition_duration : float = .4
+var screenshot_scale : float = 0.25
 
 ### Debug shape variables
 var _debug_shape_pool : Array[MeshInstance3D]
@@ -32,7 +33,7 @@ func load_cogito_project_settings():
 		player_state_prefix = cogito_settings.player_state_prefix
 		scene_state_prefix = cogito_settings.scene_state_prefix
 		default_transition_duration = cogito_settings.default_transition_duration
-		
+		screenshot_scale = cogito_settings.screenshot_scale
 	else:
 		print("COGITO: No cogito settings found.")
 

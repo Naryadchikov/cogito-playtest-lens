@@ -74,7 +74,7 @@ func _ready() -> void:
 	else:
 		label_active_slot.visible = false
 		
-	temp_screenshot = grab_temp_screenshot()
+	temp_screenshot = CogitoSceneManager.grab_screenshot(CogitoGlobals.screenshot_scale)
 	options_tab_menu.hide()
 	update_load_related_gui()
 	nodes_to_focus[0].grab_focus.call_deferred()
@@ -167,10 +167,6 @@ func open_options_menu():
 			temp_button.grab_focus.call_deferred()
 	
 	game_menu.hide()
-
-
-func grab_temp_screenshot() -> Image:
-	return get_viewport().get_texture().get_image()
 
 
 func load_current_slot_data() -> bool:

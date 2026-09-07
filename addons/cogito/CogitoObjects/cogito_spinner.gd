@@ -18,6 +18,8 @@ extends CogitoStaticInteractable
 @export var mouse_effort : float = 1.0
 ## Move object as you rotate it
 @export var rise_when_rotate : float = 0
+## Show when interacting
+@export var interacting_gizmo : Node
 
 
 #region Cogito interaction variables
@@ -45,7 +47,9 @@ var screen_center : Vector2
 func _ready() -> void:
 	super._ready()
 	is_being_controlled = false
-	add_to_group("save_object_state")
+	if interacting_gizmo: interacting_gizmo.set_visible(false)
+	# add_to_group("save_object_state")
+	self.add_to_group("Persist")
 
 
 func _notification(what: int) -> void:
@@ -74,12 +78,14 @@ func enter(_pic: PlayerInteractionComponent) -> void:
 	screen_center = Vector2(get_window().size.x / 2, get_window().size.y / 2 )
 	
 	is_being_controlled = true
+	if interacting_gizmo: interacting_gizmo.set_visible(true)
 
 	if InputHelper.device_index == -1:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
 func exit(_player: PlayerInteractionComponent) -> void:
+	if interacting_gizmo: interacting_gizmo.set_visible(false)
 	_player.get_parent().toggled_interface.emit(false)
 	InputRouter.pop()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED

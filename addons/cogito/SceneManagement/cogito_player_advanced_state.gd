@@ -399,5 +399,6 @@ func clear_saved_interaction_component_state():
 func append_saved_wieldable_charges(saved_item_data):
 	saved_wieldable_charges.append(saved_item_data)
 
+
 func clear_saved_wieldable_charges():
 	saved_wieldable_charges.clear()

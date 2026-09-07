@@ -71,7 +71,7 @@ func open_death_screen():
 	else:
 		label_active_slot.text = tr("TXT_CURRENT_SLOT") + ": " + CogitoSceneManager._active_slot
 		
-	temp_screenshot = grab_temp_screenshot()
+	temp_screenshot = CogitoSceneManager.grab_screenshot(CogitoGlobals.screenshot_scale)
 	show()
 	if CogitoSceneManager.is_loaded_from_start_new_game or !load_current_slot_data():
 		#load_button.disabled = true
@@ -93,10 +93,6 @@ func show_saved_slot_display():
 	#%Screenshot_Spot.visible = true
 	%Label_SaveTime2.visible = true
 	%Label_SaveTime.visible = true
-
-
-func grab_temp_screenshot() -> Image:
-	return get_viewport().get_texture().get_image()
 
 
 func load_current_slot_data() -> bool:

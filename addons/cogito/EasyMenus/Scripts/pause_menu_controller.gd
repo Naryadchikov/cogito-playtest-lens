@@ -74,7 +74,7 @@ func _ready() -> void:
 	else:
 		label_active_slot.visible = false
 		
-	temp_screenshot = grab_temp_screenshot()
+	temp_screenshot = CogitoSceneManager.grab_screenshot(CogitoGlobals.screenshot_scale)
 	options_tab_menu.hide()
 	update_load_related_gui()
 	nodes_to_focus[0].grab_focus.call_deferred()
@@ -169,10 +169,6 @@ func open_options_menu():
 	game_menu.hide()
 
 
-func grab_temp_screenshot() -> Image:
-	return get_viewport().get_texture().get_image()
-
-
 func load_current_slot_data() -> bool:
 	# Load screenshot
 	var image_path : String = CogitoSceneManager.get_active_slot_player_state_screenshot_path()
@@ -264,6 +260,7 @@ func _on_quickload_button_pressed() -> void:
 
 func start_new_game():
 	if CogitoGlobals.cogito_settings.new_game_start_scene:
+		CogitoSceneManager.delete_temp_saves()
 		var path_to_scene = CogitoGlobals.cogito_settings.new_game_start_scene.resource_path
 		CogitoSceneManager.load_next_scene(path_to_scene, "", "temp", CogitoSceneManager.CogitoSceneLoadMode.RESET) #Load_mode 2 means there's no attempt to load a state.
 		#Setting new game world state:
@@ -277,6 +274,7 @@ func start_new_game():
 
 func _on_back_to_main_menu_pressed() -> void:
 	if CogitoGlobals.cogito_settings.main_menu_scene:
+		CogitoSceneManager.delete_temp_saves()
 		var path_to_scene = CogitoGlobals.cogito_settings.main_menu_scene.resource_path
 		
 		# Cleanup

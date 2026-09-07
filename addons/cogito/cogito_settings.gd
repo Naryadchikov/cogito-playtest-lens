@@ -26,6 +26,8 @@ const settings_filename := "CogitoSettings"
 ## The default fade duration on scene changes.
 @export var default_transition_duration : float = .5
 
+@export var screenshot_scale : float = 0.25
+
 @export_group("Cogito Core References")
 ## Scene path to Loading Screen scene.
 @export_file_path(".tscn") var loading_screen_scene_path : String

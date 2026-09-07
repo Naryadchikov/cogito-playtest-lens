@@ -31,7 +31,9 @@ extends InteractionComponent
 	## Push a blocking input method to the router and unhide the mouse. on_input doesn't do anything
 	## but it will keep the player from moving
 	#InputRouter.push(on_input)
-	#Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
+	#if InputHelper.device_index == -1:
+		#Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	#player_interaction_component.get_parent().toggled_interface.emit(true)
 	#if !player_interaction_component.get_parent().menu_pressed.is_connected(abort_dialogue):
 		#player_interaction_component.get_parent().menu_pressed.connect(abort_dialogue) #Connecting input action menu to close function.

@@ -64,6 +64,12 @@ func _ready() -> void:
 	instantiate_fade_panel()
 
 
+func grab_screenshot(scale: float = 1.0) -> Image:
+	var image: Image = get_viewport().get_texture().get_image()
+	image.resize(int(image.get_width() * scale), int(image.get_height() * scale), Image.INTERPOLATE_LANCZOS)
+	return image
+
+
 func send_player_hint(hint_icon: Texture2D, hint_text: String):
 	_current_player_node.player_interaction_component.send_hint(hint_icon, hint_text)
 
@@ -431,7 +437,7 @@ func _save_autosave_state() -> void:
 	_current_scene_path = get_tree().current_scene.scene_file_path
 	# Use the class variable instead of creating a new local variable
 	if not _screenshot_to_save:
-		_screenshot_to_save = get_viewport().get_texture().get_image()
+		_screenshot_to_save = grab_screenshot(CogitoGlobals.screenshot_scale)
 	
 	save_player_state(_current_player_node, CogitoGlobals.cogito_settings.auto_save_name)
 	save_scene_state(_current_scene_name, CogitoGlobals.cogito_settings.auto_save_name)

@@ -102,7 +102,6 @@ shadow_mesh = SubResource("ArrayMesh_uujmw")
 size = Vector3(0.85, 2, 0.1)
 
 [node name="WindowedDoor" type="Node3D" unique_id=467360117]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6.02995, 0.0352557, -2.58097)
 
 [node name="FrontDoor" type="AnimatableBody3D" parent="." unique_id=1468207346 node_paths=PackedStringArray("prompt_marker", "audio_player")]
 collision_layer = 3

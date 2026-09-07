@@ -24,7 +24,6 @@ size = Vector3(0.2, 0.05, 0.2)
 size = Vector3(0.150977, 0.069043, 0.147333)
 
 [node name="GenericButton" type="AnimatableBody3D" unique_id=2111704684]
-transform = Transform3D(-4.37114e-08, 0.5, 0.866025, 1.06581e-14, 0.866025, -0.5, -1, -2.18557e-08, -3.78552e-08, 0.671964, 0.88812, -1.10062)
 collision_layer = 3
 script = ExtResource("1_l32yq")
 press_sound = ExtResource("2_awyad")

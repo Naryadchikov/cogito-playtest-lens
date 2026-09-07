@@ -55,7 +55,6 @@ size = Vector3(1.60211, 0.0600204, 0.501233)
 size = Vector3(1.60211, 0.0621243, 0.462039)
 
 [node name="bookcaseClosedWide" type="StaticBody3D" unique_id=1846980188]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 8.51997)
 
 [node name="bookcaseClosedWide(Clone)" type="MeshInstance3D" parent="." unique_id=624927571]
 mesh = SubResource("ArrayMesh_r66ej")

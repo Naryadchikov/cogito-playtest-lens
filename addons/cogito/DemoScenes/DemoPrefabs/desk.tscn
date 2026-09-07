@@ -122,7 +122,6 @@ margin = 0.01
 size = Vector3(0.39, 0.02, 0.287158)
 
 [node name="desk" type="Node3D" unique_id=1057144242]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 6.26102, -4.84288e-08, -1.74617)
 metadata/_edit_group_ = true
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1953018584]

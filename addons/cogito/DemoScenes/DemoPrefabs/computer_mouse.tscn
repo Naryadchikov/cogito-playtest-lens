@@ -41,7 +41,6 @@ shadow_mesh = SubResource("ArrayMesh_ocncn")
 size = Vector3(0.1, 0.0459961, 0.167944)
 
 [node name="computerMouse" type="StaticBody3D" unique_id=821564]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.7004, 0.7688, -0.334117)
 
 [node name="computerMouse(Clone)" type="MeshInstance3D" parent="." unique_id=1777365941]
 mesh = SubResource("ArrayMesh_orw55")

@@ -10,7 +10,6 @@ size = Vector3(3, 0.2, 3)
 size = Vector3(3, 0.2, 3)
 
 [node name="FloorDirt_3x3_" type="StaticBody3D" unique_id=1600488225]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -3, 12)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1923208508]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -0.1, 1.5)

@@ -157,7 +157,6 @@ shadow_mesh = SubResource("ArrayMesh_oq3xn")
 size = Vector3(0.747883, 0.552597, 0.0376404)
 
 [node name="kitchenCabinet" type="Node3D" unique_id=172942829]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=28202884]
 collision_layer = 3

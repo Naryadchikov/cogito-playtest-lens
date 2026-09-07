@@ -61,7 +61,6 @@ stream_3/stream = ExtResource("7_id6of")
 stream_4/stream = ExtResource("8_wslkh")
 
 [node name="CoffeeMug" type="RigidBody3D" unique_id=490369351]
-transform = Transform3D(0.969501, 0, 0.245088, 0, 1, 0, -0.245088, 0, 0.969501, 0.885151, 0.851885, -0.218148)
 collision_layer = 3
 contact_monitor = true
 max_contacts_reported = 4

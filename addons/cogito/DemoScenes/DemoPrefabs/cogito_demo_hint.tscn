@@ -33,7 +33,6 @@ metallic = 1.0
 metallic_specular = 1.0
 
 [node name="COGITO_HINT" type="StaticBody3D" unique_id=1369460404]
-transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0)
 collision_layer = 8
 script = ExtResource("1_vm8jf")
 

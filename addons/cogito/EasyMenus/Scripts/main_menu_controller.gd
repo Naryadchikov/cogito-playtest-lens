@@ -12,6 +12,7 @@ signal start_game_pressed
 
 var sub_menu : Node
 var is_sub_menu_open : bool = false
+var previously_focused_button : Button = null
 
 #region UI AUDIO
 @export var sound_hover : AudioStream
@@ -104,6 +105,9 @@ func open_options_menu():
 
 
 func _open_sub_menu(credits_scene : PackedScene) -> Node:
+	# Store button the focus was on before submenu.
+	previously_focused_button = get_viewport().gui_get_focus_owner() 
+	
 	is_sub_menu_open = true
 	sub_menu = credits_scene.instantiate()
 	add_child(sub_menu)
@@ -127,6 +131,9 @@ func _close_sub_menu() -> void:
 	await get_tree().create_timer(0.25).timeout
 	v_box_container_title.show()
 	game_menu.show()
+	# When using gamepad, set focus back to previously focused button:
+	if InputHelper.device_index != -1:
+		if previously_focused_button : previously_focused_button.grab_focus()
 
 
 func _on_start_game_button_pressed():

@@ -2565,6 +2565,7 @@ transform = Transform3D(0.8660253, 0.5, 0, -0.49999997, 0.8660254, 0, 0, 0, 0.99
 
 [node name="CircleArrowDecal" type="MeshInstance3D" parent="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner" unique_id=1465692334]
 transform = Transform3D(-1.3113417e-08, -0.25980765, 0.14999999, 0, 0.14999999, 0.25980765, -0.3, 1.1356552e-08, -6.556708e-09, 0.6401716, 0.85171634, -1.112958)
+visible = false
 mesh = SubResource("QuadMesh_nf5bb")
 
 [node name="MeterDisplay" type="Node3D" parent="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner" unique_id=1862552894 node_paths=PackedStringArray("display_label")]
@@ -5128,8 +5129,8 @@ skeleton = NodePath("../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LedgeClimbingTests/MeshInstance3D2/StaticBody3D" unique_id=102480684]
 shape = SubResource("ConcavePolygonShape3D_r8380")
 
-[connection signal="spin_clockwise" from="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/CogitoSpinner" to="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/MeterDisplay" method="increase_value"]
-[connection signal="spin_counterclockwise" from="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/CogitoSpinner" to="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/MeterDisplay" method="decrease_value"]
+[connection signal="spin_clockwise" from="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/CogitoSpinner/SpinnerInteraction" to="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/MeterDisplay" method="increase_value"]
+[connection signal="spin_counterclockwise" from="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/CogitoSpinner/SpinnerInteraction" to="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/MeterDisplay" method="decrease_value"]
 [connection signal="pressed" from="NavigationRegion3D/SHOOTING_RANGE/KSI_console_spawn/GenericButton" to="NavigationRegion3D/SHOOTING_RANGE/Spawnzone_Targets" method="_on_generic_button_pressed"]
 [connection signal="object_placed" from="NavigationRegion3D/SYSTEMIC_PROPERTIES/SnapSlotMetalbar" to="NavigationRegion3D/SYSTEMIC_PROPERTIES/Cathode_B/CogitoProperties" method="make_electric"]
 [connection signal="object_removed" from="NavigationRegion3D/SYSTEMIC_PROPERTIES/SnapSlotMetalbar" to="NavigationRegion3D/SYSTEMIC_PROPERTIES/Cathode_B/CogitoProperties" method="loose_electricity"]
@@ -5147,6 +5148,7 @@ shape = SubResource("ConcavePolygonShape3D_r8380")
 [connection signal="plate_deactivated" from="Cogito_Pressureplate" to="CeilingLamp" method="switch_off"]
 [connection signal="body_entered" from="TargetPractice_QuestStarter" to="TargetPractice_QuestStarter" method="_on_body_entered"]
 
+[editable path="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/CogitoSpinner"]
 [editable path="NavigationRegion3D/SHOOTING_RANGE/TARGETS/TargetDestructable"]
 [editable path="NavigationRegion3D/MOVEMENT/Ladder"]
 [editable path="SwimmingTest/Ladder2"]

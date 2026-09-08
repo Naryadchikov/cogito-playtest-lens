@@ -1,7 +1,8 @@
 [gd_scene format=4 uid="uid://drfalkw7krees"]
 
-[ext_resource type="Script" uid="uid://bgl8b4louov54" path="res://addons/cogito/CogitoObjects/cogito_spinner.gd" id="1_0b2bk"]
-[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://addons/cogito/Components/Interactions/BasicInteraction.tscn" id="2_mkcnl"]
+[ext_resource type="Script" uid="uid://d041v6palciio" path="res://addons/cogito/CogitoObjects/cogito_static_interactable.gd" id="1_0b2bk"]
+[ext_resource type="PackedScene" uid="uid://dj0gfxwalruly" path="res://addons/cogito/Components/Interactions/SpinnerInteraction.tscn" id="2_mkcnl"]
+[ext_resource type="Texture2D" uid="uid://cyagrdasje82c" path="res://addons/cogito/Assets/Graphics/Crosshair_Kenney/flair_arrow_3.png" id="3_mkcnl"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_af7i7"]
 resource_name = "carpetWhite"
@@ -44,12 +45,20 @@ shadow_mesh = SubResource("ArrayMesh_46pyy")
 height = 0.1
 radius = 0.1
 
-[node name="CogitoSpinner" type="AnimatableBody3D" unique_id=1340053332 node_paths=PackedStringArray("rotating_object")]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hephg"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("3_mkcnl")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_de2r2"]
+material = SubResource("StandardMaterial3D_hephg")
+size = Vector2(0.4, 0.4)
+
+[node name="CogitoSpinner" type="AnimatableBody3D" unique_id=1340053332]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
 collision_layer = 3
 script = ExtResource("1_0b2bk")
-rotating_object = NodePath("Knob")
-spinning_axis = Vector3(0, -1, 0)
 
 [node name="Knob" type="Node3D" parent="." unique_id=1901273853]
 
@@ -61,5 +70,13 @@ mesh = SubResource("ArrayMesh_dckl7")
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, -0.013389409, 0)
 shape = SubResource("CylinderShape3D_dckl7")
 
-[node name="BasicInteraction" parent="." unique_id=844697758 instance=ExtResource("2_mkcnl")]
-interaction_text = "Spin"
+[node name="SpinnerInteraction" parent="." unique_id=609842808 node_paths=PackedStringArray("rotating_object") instance=ExtResource("2_mkcnl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.030472562, 0)
+rotating_object = NodePath("../Knob")
+spinning_axis = Vector3(0, -1, 0)
+
+[node name="ArrowGizmo" parent="SpinnerInteraction" index="0" unique_id=1512974942]
+transform = Transform3D(-1, 8.742278e-08, 0, 8.742278e-08, 1, 8.742278e-08, 7.642742e-15, 8.742278e-08, -1, 0, 0, 0)
+mesh = SubResource("PlaneMesh_de2r2")
+
+[editable path="SpinnerInteraction"]

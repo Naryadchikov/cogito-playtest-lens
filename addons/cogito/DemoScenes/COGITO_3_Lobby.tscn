@@ -104,7 +104,6 @@
 [ext_resource type="PackedScene" uid="uid://co8ksolr40ocf" path="res://addons/cogito/Assets/Models/Kenney/Furniture/GLTF format/wallDoorway.glb" id="74_uog82"]
 [ext_resource type="PackedScene" uid="uid://blll0724l8foj" path="res://addons/cogito/DemoScenes/DemoPrefabs/rug_rectangle.tscn" id="75_26fkw"]
 [ext_resource type="PackedScene" uid="uid://i0ybayaeafds" path="res://addons/cogito/DemoScenes/DemoPrefabs/ksi_ledge_painted.tscn" id="75_ga2h6"]
-[ext_resource type="Script" uid="uid://b6o7vbprfgrp5" path="res://addons/cogito/Scripts/cogito_meter.gd" id="77_fay3r"]
 [ext_resource type="PackedScene" uid="uid://ctu5r81mtd57v" path="res://addons/cogito/DemoScenes/DemoPrefabs/ScrewInteractable.tscn" id="78_gxiae"]
 [ext_resource type="PackedScene" uid="uid://dkibop8hrrmm5" path="res://addons/cogito/Assets/Models/Kenney/Furniture/GLTF format/paneling.glb" id="79_c1p1i"]
 [ext_resource type="PackedScene" uid="uid://dqsod8j0c6qag" path="res://addons/cogito/DemoScenes/DemoPrefabs/note_welcome.tscn" id="80_g3r0x"]
@@ -164,7 +163,7 @@ volumetric_fog_temporal_reprojection_amount = 0.85
 density = 0.04
 albedo = Color(0.694118, 0.694118, 0.694118, 1)
 
-[sub_resource type="Resource" id="Resource_fnh21"]
+[sub_resource type="Resource" id="Resource_mwtb2"]
 resource_local_to_scene = true
 script = ExtResource("4_0kggm")
 grid = true
@@ -1223,7 +1222,7 @@ shadow_mesh = SubResource("ArrayMesh_3ecdw")
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_upcaa"]
 data = PackedVector3Array(0.6928, 0.0903, -1.6, 0, 0.0903, -1.2, 0.6128, 0.0903, -0.88, 0.6128, 0.0903, -0.88, 0.7728, 0.0903, -0.88, 0.6928, 0.0903, -1.6, 0.7728, 0.0903, -0.88, 1.3856, 0.0903, -1.2, 0.6928, 0.0903, -1.6, 0.7728, 0.0903, -0.88, 0.7728, 0.0903, -0.72, 1.3856, 0.0903, -1.2, 0.6128, 0.0903, -0.72, 0.6128, 0.0903, -0.88, 0, 0.0903, -1.2, 0.6928, 0.0903, 0, 0.6128, 0.0903, -0.72, 0, 0.0903, -1.2, 0.6928, 0.0903, 0, 0.7728, 0.0903, -0.72, 0.6128, 0.0903, -0.72, 0, 0.0903, -0.4, 0.6928, 0.0903, 0, 0, 0.0903, -1.2, 0, 0.0903, -1.2, 0, 0.0903, -0.8, 0, 0.0903, -0.4, 0.6928, 0.0903, 0, 1.3856, 0.0903, -0.4, 0.7728, 0.0903, -0.72, 1.3856, 0.0903, -0.4, 1.3856, 0.0903, -1.2, 0.7728, 0.0903, -0.72, 1.3856, 0.0903, -0.4, 1.3856, 0.0903, -0.8, 1.3856, 0.0903, -1.2, 0.6928, 0.1935, 0, 0, 0.1935, -0.4, 0, 0.1935, -1.2, 0, 0.1935, -1.2, 0.6928, 0.1935, -1.6, 0.6928, 0.1935, 0, 0.6928, 0.1935, -1.6, 1.3856, 0.1935, -0.4, 0.6928, 0.1935, 0, 0.6928, 0.1935, -1.6, 1.3856, 0.1935, -1.2, 1.3856, 0.1935, -0.4, 0.6928, 0.1935, -1.6, 0.6928, 0.0903, -1.6, 1.3856, 0.0903, -1.2, 1.3856, 0.0903, -1.2, 1.3856, 0.1935, -1.2, 0.6928, 0.1935, -1.6, 1.3856, 0.0903, -0.8, 1.3856, 0.0903, -0.4, 1.3856, 0.1935, -0.4, 1.3856, 0.1935, -0.4, 1.3856, 0.1935, -1.2, 1.3856, 0.0903, -0.8, 1.3856, 0.1935, -1.2, 1.3856, 0.0903, -1.2, 1.3856, 0.0903, -0.8, 1.3856, 0.1935, -0.4, 1.3856, 0.0903, -0.4, 0.6928, 0.0903, 0, 0.6928, 0.0903, 0, 0.6928, 0.1935, 0, 1.3856, 0.1935, -0.4, 0.6928, 0.1935, 0, 0.6928, 0.0903, 0, 0, 0.0903, -0.4, 0, 0.0903, -0.4, 0, 0.1935, -0.4, 0.6928, 0.1935, 0, 0, 0.1935, -1.2, 0, 0.1935, -0.4, 0, 0.0903, -0.4, 0, 0.0903, -0.4, 0, 0.0903, -0.8, 0, 0.1935, -1.2, 0, 0.0903, -0.8, 0, 0.0903, -1.2, 0, 0.1935, -1.2, 0, 0.1935, -1.2, 0, 0.0903, -1.2, 0.6928, 0.0903, -1.6, 0.6928, 0.0903, -1.6, 0.6928, 0.1935, -1.6, 0, 0.1935, -1.2, 0.7728, 0.0903, -0.72, 0.7728, -0.4, -0.72, 0.6128, -0.4, -0.72, 0.6128, -0.4, -0.72, 0.6128, 0.0903, -0.72, 0.7728, 0.0903, -0.72, 0.6128, 0.0903, -0.88, 0.6128, 0.0903, -0.72, 0.6128, -0.4, -0.72, 0.6128, -0.4, -0.72, 0.6128, -0.4, -0.88, 0.6128, 0.0903, -0.88, 0.6128, 0.0903, -0.88, 0.6128, -0.4, -0.88, 0.7728, -0.4, -0.88, 0.7728, -0.4, -0.88, 0.7728, 0.0903, -0.88, 0.6128, 0.0903, -0.88, 0.7728, -0.4, -0.88, 0.7728, -0.4, -0.72, 0.7728, 0.0903, -0.72, 0.7728, 0.0903, -0.72, 0.7728, 0.0903, -0.88, 0.7728, -0.4, -0.88, 0.8128, -0.4, -0.68, 0.8128, -0.44, -0.68, 0.5728, -0.44, -0.68, 0.5728, -0.44, -0.68, 0.5728, -0.4, -0.68, 0.8128, -0.4, -0.68, 0.5728, -0.4, -0.92, 0.5728, -0.4, -0.68, 0.5728, -0.44, -0.68, 0.5728, -0.44, -0.68, 0.5728, -0.44, -0.92, 0.5728, -0.4, -0.92, 0.8128, -0.44, -0.92, 0.8128, -0.44, -0.68, 0.8128, -0.4, -0.68, 0.8128, -0.4, -0.68, 0.8128, -0.4, -0.92, 0.8128, -0.44, -0.92, 0.5728, -0.4, -0.68, 0.5728, -0.4, -0.92, 0.6128, -0.4, -0.72, 0.6128, -0.4, -0.72, 0.8128, -0.4, -0.68, 0.5728, -0.4, -0.68, 0.6128, -0.4, -0.72, 0.7728, -0.4, -0.72, 0.8128, -0.4, -0.68, 0.7728, -0.4, -0.72, 0.7728, -0.4, -0.88, 0.8128, -0.4, -0.68, 0.6128, -0.4, -0.88, 0.6128, -0.4, -0.72, 0.5728, -0.4, -0.92, 0.5728, -0.4, -0.92, 0.8128, -0.4, -0.92, 0.6128, -0.4, -0.88, 0.8128, -0.4, -0.92, 0.7728, -0.4, -0.88, 0.6128, -0.4, -0.88, 0.8128, -0.4, -0.92, 0.8128, -0.4, -0.68, 0.7728, -0.4, -0.88, 0.4928, -0.44, -1, 0.4928, -0.44, -0.6, 0.4928, -0.5, -0.6, 0.4928, -0.5, -0.6, 0.4928, -0.5, -1, 0.4928, -0.44, -1, 0.4928, -0.44, -1, 0.4928, -0.5, -1, 0.8928, -0.5, -1, 0.8928, -0.5, -1, 0.8928, -0.44, -1, 0.4928, -0.44, -1, 0.8928, -0.44, -0.6, 0.8928, -0.5, -0.6, 0.4928, -0.5, -0.6, 0.4928, -0.5, -0.6, 0.4928, -0.44, -0.6, 0.8928, -0.44, -0.6, 0.8928, -0.5, -1, 0.8928, -0.5, -0.6, 0.8928, -0.44, -0.6, 0.8928, -0.44, -0.6, 0.8928, -0.44, -1, 0.8928, -0.5, -1, 0.4928, -0.44, -0.6, 0.4928, -0.44, -1, 0.5728, -0.44, -0.68, 0.5728, -0.44, -0.68, 0.8928, -0.44, -0.6, 0.4928, -0.44, -0.6, 0.5728, -0.44, -0.68, 0.8128, -0.44, -0.68, 0.8928, -0.44, -0.6, 0.8128, -0.44, -0.68, 0.8128, -0.44, -0.92, 0.8928, -0.44, -0.6, 0.5728, -0.44, -0.92, 0.5728, -0.44, -0.68, 0.4928, -0.44, -1, 0.4928, -0.44, -1, 0.8928, -0.44, -1, 0.5728, -0.44, -0.92, 0.8928, -0.44, -1, 0.8128, -0.44, -0.92, 0.5728, -0.44, -0.92, 0.8928, -0.44, -1, 0.8928, -0.44, -0.6, 0.8128, -0.44, -0.92, 0.9128, -0.54, -1.02, 0.4728, -0.54, -1.02, 0.4728, -0.54, -0.58, 0.4728, -0.54, -0.58, 0.9128, -0.54, -0.58, 0.9128, -0.54, -1.02, 0.4928, -0.5, -1, 0.4728, -0.54, -1.02, 0.9128, -0.54, -1.02, 0.9128, -0.54, -1.02, 0.8928, -0.5, -1, 0.4928, -0.5, -1, 0.9128, -0.54, -1.02, 0.9128, -0.54, -0.58, 0.8928, -0.5, -0.6, 0.8928, -0.5, -0.6, 0.8928, -0.5, -1, 0.9128, -0.54, -1.02, 0.8928, -0.5, -0.6, 0.9128, -0.54, -0.58, 0.4728, -0.54, -0.58, 0.4728, -0.54, -0.58, 0.4928, -0.5, -0.6, 0.8928, -0.5, -0.6, 0.4928, -0.5, -0.6, 0.4728, -0.54, -0.58, 0.4728, -0.54, -1.02, 0.4728, -0.54, -1.02, 0.4928, -0.5, -1, 0.4928, -0.5, -0.6, 0.5728, -0.4, -0.92, 0.5728, -0.44, -0.92, 0.8128, -0.44, -0.92, 0.8128, -0.44, -0.92, 0.8128, -0.4, -0.92, 0.5728, -0.4, -0.92)
 
-[sub_resource type="Resource" id="Resource_6ce46"]
+[sub_resource type="Resource" id="Resource_fnh21"]
 resource_local_to_scene = true
 script = ExtResource("4_0kggm")
 grid = true
@@ -1846,7 +1845,7 @@ material = SubResource("FogMaterial_4avjx")
 
 [node name="Player" parent="." unique_id=537958483 instance=ExtResource("3_mgle8")]
 transform = Transform3D(-1, 0, 7.45058e-07, 0, 1, 0, -7.45058e-07, 0, -1, 3.03073, 0.905039, -17.9321)
-inventory_data = SubResource("Resource_fnh21")
+inventory_data = SubResource("Resource_mwtb2")
 step_height_camera_lerp = 1.5
 
 [node name="QUESTS" type="Node3D" parent="." unique_id=1019805407]
@@ -2069,7 +2068,7 @@ metadata/_edit_lock_ = true
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -11.922, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="wallDoorway(Clone)" parent="MAIN_LOBBY/LAB_CONNECTOR/wallDoorway2/wallDoorway(Clone)" parent_id_path=PackedInt32Array(921413195, 446391847) index="0" unique_id=331675651]
+[node name="wallDoorway(Clone)" parent="MAIN_LOBBY/LAB_CONNECTOR/wallDoorway2/wallDoorway(Clone)" parent_id_path=PackedInt32Array(921413195, 446391847) index="0"]
 surface_material_override/1 = SubResource("StandardMaterial3D_tm0k0")
 
 [node name="Wall90" parent="MAIN_LOBBY/LAB_CONNECTOR" unique_id=2023805588 instance=ExtResource("12_fnh21")]
@@ -2206,48 +2205,48 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.1, 4)
 [node name="floorFull(Clone)" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom" unique_id=2030209718 instance=ExtResource("9_ec70c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 
-[node name="floorFull(Clone)" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom/floorFull(Clone)" index="0" unique_id=68285301]
+[node name="floorFull(Clone)" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom/floorFull(Clone)" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_c51ac")
 
 [node name="floorFull(Clone)2" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom" unique_id=1704109722 instance=ExtResource("9_ec70c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
 
-[node name="floorFull(Clone)" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom/floorFull(Clone)2" index="0" unique_id=68285301]
+[node name="floorFull(Clone)" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom/floorFull(Clone)2" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_c51ac")
 
 [node name="floorFull(Clone)3" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom" unique_id=1119149496 instance=ExtResource("9_ec70c")]
 
-[node name="floorFull(Clone)" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom/floorFull(Clone)3" index="0" unique_id=68285301]
+[node name="floorFull(Clone)" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom/floorFull(Clone)3" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_c51ac")
 
 [node name="floorFull(Clone)4" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom" unique_id=1761468169 instance=ExtResource("9_ec70c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
-[node name="floorFull(Clone)" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom/floorFull(Clone)4" index="0" unique_id=68285301]
+[node name="floorFull(Clone)" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom/floorFull(Clone)4" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_c51ac")
 
 [node name="floorFull(Clone)5" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom" unique_id=2075690810 instance=ExtResource("9_ec70c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 2)
 
-[node name="floorFull(Clone)" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom/floorFull(Clone)5" index="0" unique_id=68285301]
+[node name="floorFull(Clone)" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom/floorFull(Clone)5" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_c51ac")
 
 [node name="floorFull(Clone)6" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom" unique_id=888876770 instance=ExtResource("9_ec70c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
 
-[node name="floorFull(Clone)" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom/floorFull(Clone)6" index="0" unique_id=68285301]
+[node name="floorFull(Clone)" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom/floorFull(Clone)6" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_c51ac")
 
 [node name="floorFull(Clone)7" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom" unique_id=936209053 instance=ExtResource("9_ec70c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 
-[node name="floorFull(Clone)" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom/floorFull(Clone)7" index="0" unique_id=68285301]
+[node name="floorFull(Clone)" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom/floorFull(Clone)7" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_c51ac")
 
 [node name="floorFull(Clone)8" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom" unique_id=1440822747 instance=ExtResource("9_ec70c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
 
-[node name="floorFull(Clone)" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom/floorFull(Clone)8" index="0" unique_id=68285301]
+[node name="floorFull(Clone)" parent="MAIN_LOBBY/FloorUnit2/floorConferenceRoom/floorFull(Clone)8" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_c51ac")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MAIN_LOBBY/FloorUnit2" unique_id=2009875452]
@@ -2944,14 +2943,14 @@ metadata/_edit_lock_ = true
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -8, 0, 6)
 metadata/_edit_lock_ = true
 
-[node name="wall(Clone)" parent="MAIN_LOBBY/Wall38/wall(Clone)" parent_id_path=PackedInt32Array(1769716240, 285617634) index="0" unique_id=1690717772]
+[node name="wall(Clone)" parent="MAIN_LOBBY/Wall38/wall(Clone)" parent_id_path=PackedInt32Array(1769716240, 285617634) index="0"]
 surface_material_override/2 = SubResource("StandardMaterial3D_cibll")
 
 [node name="Wall39" parent="MAIN_LOBBY" unique_id=1742195068 instance=ExtResource("12_fnh21")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -8, 0, 4)
 metadata/_edit_lock_ = true
 
-[node name="wall(Clone)" parent="MAIN_LOBBY/Wall39/wall(Clone)" parent_id_path=PackedInt32Array(1742195068, 285617634) index="0" unique_id=1690717772]
+[node name="wall(Clone)" parent="MAIN_LOBBY/Wall39/wall(Clone)" parent_id_path=PackedInt32Array(1742195068, 285617634) index="0"]
 surface_material_override/2 = SubResource("StandardMaterial3D_cibll")
 
 [node name="Wall40" parent="MAIN_LOBBY" unique_id=1538241205 instance=ExtResource("12_fnh21")]
@@ -2998,14 +2997,14 @@ metadata/_edit_lock_ = true
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -8, 0, -6)
 metadata/_edit_lock_ = true
 
-[node name="wall(Clone)" parent="MAIN_LOBBY/Wall52/wall(Clone)" parent_id_path=PackedInt32Array(1963782872, 285617634) index="0" unique_id=1690717772]
+[node name="wall(Clone)" parent="MAIN_LOBBY/Wall52/wall(Clone)" parent_id_path=PackedInt32Array(1963782872, 285617634) index="0"]
 surface_material_override/2 = SubResource("StandardMaterial3D_cibll")
 
 [node name="Wall53" parent="MAIN_LOBBY" unique_id=719405340 instance=ExtResource("12_fnh21")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -8, 0, -8)
 metadata/_edit_lock_ = true
 
-[node name="wall(Clone)" parent="MAIN_LOBBY/Wall53/wall(Clone)" parent_id_path=PackedInt32Array(719405340, 285617634) index="0" unique_id=1690717772]
+[node name="wall(Clone)" parent="MAIN_LOBBY/Wall53/wall(Clone)" parent_id_path=PackedInt32Array(719405340, 285617634) index="0"]
 surface_material_override/2 = SubResource("StandardMaterial3D_cibll")
 
 [node name="Wall54" parent="MAIN_LOBBY" unique_id=878126072 instance=ExtResource("12_fnh21")]
@@ -3427,7 +3426,7 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 6, 0, 
 [node name="wallDoorway" parent="MAIN_LOBBY" unique_id=1248387107 instance=ExtResource("14_cbgj7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -19.9)
 
-[node name="wallDoorway(Clone)" parent="MAIN_LOBBY/wallDoorway/wallDoorway(Clone)" parent_id_path=PackedInt32Array(1248387107, 446391847) index="0" unique_id=331675651]
+[node name="wallDoorway(Clone)" parent="MAIN_LOBBY/wallDoorway/wallDoorway(Clone)" parent_id_path=PackedInt32Array(1248387107, 446391847) index="0"]
 surface_material_override/1 = SubResource("StandardMaterial3D_tm0k0")
 
 [node name="Label_LABORATORY" type="Label3D" parent="MAIN_LOBBY" unique_id=2116369223]
@@ -3886,13 +3885,13 @@ material = SubResource("StandardMaterial3D_f8x52")
 [node name="Wall50" parent="UPPER_OFFICE_CEO" unique_id=79065245 instance=ExtResource("12_fnh21")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 4, -0.00172591, -4.2)
 
-[node name="wall(Clone)" parent="UPPER_OFFICE_CEO/Wall50/wall(Clone)" parent_id_path=PackedInt32Array(79065245, 285617634) index="0" unique_id=1690717772]
+[node name="wall(Clone)" parent="UPPER_OFFICE_CEO/Wall50/wall(Clone)" parent_id_path=PackedInt32Array(79065245, 285617634) index="0"]
 surface_material_override/1 = SubResource("StandardMaterial3D_f8x52")
 
 [node name="Wall81" parent="UPPER_OFFICE_CEO" unique_id=1320696149 instance=ExtResource("12_fnh21")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 6, -0.00172591, -4.2)
 
-[node name="wall(Clone)" parent="UPPER_OFFICE_CEO/Wall81/wall(Clone)" parent_id_path=PackedInt32Array(1320696149, 285617634) index="0" unique_id=1690717772]
+[node name="wall(Clone)" parent="UPPER_OFFICE_CEO/Wall81/wall(Clone)" parent_id_path=PackedInt32Array(1320696149, 285617634) index="0"]
 surface_material_override/1 = SubResource("StandardMaterial3D_f8x52")
 
 [node name="loungeChair" parent="UPPER_OFFICE_CEO" unique_id=1272374935 instance=ExtResource("20_rf47m")]
@@ -4109,19 +4108,19 @@ transform = Transform3D(-1.31134e-07, -8.74228e-08, -1, 1, -4.37114e-08, -1.3113
 [node name="bookcaseOpen" parent="ARCHIVE" unique_id=1468298425 instance=ExtResource("52_61ar2")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.1246, -4.84288e-08, -0.176973)
 
-[node name="bookcaseOpen(Clone)" parent="ARCHIVE/bookcaseOpen/bookcaseOpen(Clone)" parent_id_path=PackedInt32Array(1468298425, 133684347) index="0" unique_id=1348093150]
+[node name="bookcaseOpen(Clone)" parent="ARCHIVE/bookcaseOpen/bookcaseOpen(Clone)" parent_id_path=PackedInt32Array(1468298425, 133684347) index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_dnxal")
 
 [node name="bookcaseOpen2" parent="ARCHIVE" unique_id=1929800223 instance=ExtResource("52_61ar2")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.1246, -4.84288e-08, -0.976974)
 
-[node name="bookcaseOpen(Clone)" parent="ARCHIVE/bookcaseOpen2/bookcaseOpen(Clone)" parent_id_path=PackedInt32Array(1929800223, 133684347) index="0" unique_id=1348093150]
+[node name="bookcaseOpen(Clone)" parent="ARCHIVE/bookcaseOpen2/bookcaseOpen(Clone)" parent_id_path=PackedInt32Array(1929800223, 133684347) index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_dnxal")
 
 [node name="bookcaseOpen3" parent="ARCHIVE" unique_id=1325415236 instance=ExtResource("52_61ar2")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.1246, -4.84288e-08, -1.77697)
 
-[node name="bookcaseOpen(Clone)" parent="ARCHIVE/bookcaseOpen3/bookcaseOpen(Clone)" parent_id_path=PackedInt32Array(1325415236, 133684347) index="0" unique_id=1348093150]
+[node name="bookcaseOpen(Clone)" parent="ARCHIVE/bookcaseOpen3/bookcaseOpen(Clone)" parent_id_path=PackedInt32Array(1325415236, 133684347) index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_dnxal")
 
 [node name="cardboardBoxClosed" parent="ARCHIVE" unique_id=1302539647 instance=ExtResource("31_7fexb")]
@@ -4154,13 +4153,13 @@ outline_size = 10
 [node name="table" parent="ARCHIVE" unique_id=1584783846 instance=ExtResource("56_fhyyv")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.07095, -4.84288e-08, -4.3657)
 
-[node name="table(Clone)" parent="ARCHIVE/table/table(Clone)" parent_id_path=PackedInt32Array(1584783846, 2075758453) index="0" unique_id=1475144464]
+[node name="table(Clone)" parent="ARCHIVE/table/table(Clone)" parent_id_path=PackedInt32Array(1584783846, 2075758453) index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_dg8i0")
 
 [node name="table2" parent="ARCHIVE" unique_id=2116931521 instance=ExtResource("56_fhyyv")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.07095, -4.84288e-08, -6.23132)
 
-[node name="table(Clone)" parent="ARCHIVE/table2/table(Clone)" parent_id_path=PackedInt32Array(2116931521, 2075758453) index="0" unique_id=1475144464]
+[node name="table(Clone)" parent="ARCHIVE/table2/table(Clone)" parent_id_path=PackedInt32Array(2116931521, 2075758453) index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_dg8i0")
 
 [node name="computerScreen" parent="ARCHIVE" unique_id=659055478 instance=ExtResource("52_8322x")]
@@ -4450,7 +4449,7 @@ shape = SubResource("ConcavePolygonShape3D_upcaa")
 [node name="kitchenFridgeContainer2" parent="BREAK_ROOM" unique_id=1059783529 instance=ExtResource("57_fdyfl")]
 transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 3.65301, -4.84288e-08, 6.17191)
 display_name = "Fridge"
-inventory_data = SubResource("Resource_6ce46")
+inventory_data = SubResource("Resource_fnh21")
 
 [node name="kitchenMicrowave2" parent="BREAK_ROOM" unique_id=1343950105 instance=ExtResource("61_1x4um")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.98491, 0.84, 6.39503)
@@ -4510,7 +4509,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -2.58, 2)
 
 [node name="wallDoorway(Clone)" parent="BATHROOM_STALL/wallDoorway2" unique_id=446391847 instance=ExtResource("74_uog82")]
 
-[node name="wallDoorway(Clone)" parent="BATHROOM_STALL/wallDoorway2/wallDoorway(Clone)" index="0" unique_id=331675651]
+[node name="wallDoorway(Clone)" parent="BATHROOM_STALL/wallDoorway2/wallDoorway(Clone)" index="0"]
 surface_material_override/2 = SubResource("StandardMaterial3D_cibll")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BATHROOM_STALL/wallDoorway2" unique_id=1974417093]
@@ -4531,25 +4530,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.85838, -2.58, -2.07944)
 [node name="Wall82" parent="BATHROOM_STALL" unique_id=1544150358 instance=ExtResource("12_fnh21")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2.9, -2.58, -0.0999999)
 
-[node name="wall(Clone)" parent="BATHROOM_STALL/Wall82/wall(Clone)" parent_id_path=PackedInt32Array(1544150358, 285617634) index="0" unique_id=1690717772]
+[node name="wall(Clone)" parent="BATHROOM_STALL/Wall82/wall(Clone)" parent_id_path=PackedInt32Array(1544150358, 285617634) index="0"]
 surface_material_override/2 = SubResource("StandardMaterial3D_cibll")
 
 [node name="Wall83" parent="BATHROOM_STALL" unique_id=1302222478 instance=ExtResource("12_fnh21")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2.9, -2.58, -2.1)
 
-[node name="wall(Clone)" parent="BATHROOM_STALL/Wall83/wall(Clone)" parent_id_path=PackedInt32Array(1302222478, 285617634) index="0" unique_id=1690717772]
+[node name="wall(Clone)" parent="BATHROOM_STALL/Wall83/wall(Clone)" parent_id_path=PackedInt32Array(1302222478, 285617634) index="0"]
 surface_material_override/2 = SubResource("StandardMaterial3D_cibll")
 
 [node name="wallHalf3" parent="BATHROOM_STALL" unique_id=461499093 instance=ExtResource("66_f3lfu")]
 transform = Transform3D(-1, 0, -8.7423e-08, 0, 1, 0, 8.7423e-08, 0, -1, 0.999999, -2.58, 1.9007)
 
-[node name="wallHalf(Clone)" parent="BATHROOM_STALL/wallHalf3/wallHalf(Clone)" parent_id_path=PackedInt32Array(461499093, 25621279) index="0" unique_id=80647734]
+[node name="wallHalf(Clone)" parent="BATHROOM_STALL/wallHalf3/wallHalf(Clone)" parent_id_path=PackedInt32Array(461499093, 25621279) index="0"]
 surface_material_override/2 = SubResource("StandardMaterial3D_cibll")
 
 [node name="paneling2" parent="BATHROOM_STALL" unique_id=1928026813 instance=ExtResource("79_c1p1i")]
 transform = Transform3D(4.37114e-08, -0.9, -1.42109e-14, 1, 3.93403e-08, 0, -1.42109e-14, -1.07716e-14, 0.9, 1.60031, -2.57775, -2.1004)
 
-[node name="paneling(Clone)" parent="BATHROOM_STALL/paneling2" index="0" unique_id=963007795]
+[node name="paneling(Clone)" parent="BATHROOM_STALL/paneling2" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_dg8i0")
 
 [node name="EmergencyInjector" parent="BATHROOM_STALL" unique_id=927875959 instance=ExtResource("73_jpxt7")]
@@ -4575,7 +4574,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, -2.58, 2)
 [node name="wallDoorway(Clone)" parent="BATHROOM_STALL2/wallDoorway2" unique_id=91393785 instance=ExtResource("74_uog82")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0999999, 0, 0)
 
-[node name="wallDoorway(Clone)" parent="BATHROOM_STALL2/wallDoorway2/wallDoorway(Clone)" index="0" unique_id=331675651]
+[node name="wallDoorway(Clone)" parent="BATHROOM_STALL2/wallDoorway2/wallDoorway(Clone)" index="0"]
 surface_material_override/2 = SubResource("StandardMaterial3D_cibll")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BATHROOM_STALL2/wallDoorway2" unique_id=1489781793]
@@ -4620,31 +4619,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.524313, -2.58, -1.97157)
 [node name="Wall82" parent="BATHROOM_STALL2" unique_id=1467489911 instance=ExtResource("12_fnh21")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.76837e-07, -2.58, -0.1)
 
-[node name="wall(Clone)" parent="BATHROOM_STALL2/Wall82/wall(Clone)" parent_id_path=PackedInt32Array(1467489911, 285617634) index="0" unique_id=1690717772]
+[node name="wall(Clone)" parent="BATHROOM_STALL2/Wall82/wall(Clone)" parent_id_path=PackedInt32Array(1467489911, 285617634) index="0"]
 surface_material_override/2 = SubResource("StandardMaterial3D_cibll")
 
 [node name="Wall83" parent="BATHROOM_STALL2" unique_id=603946850 instance=ExtResource("12_fnh21")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.76837e-07, -2.58, -2.08717)
 
-[node name="wall(Clone)" parent="BATHROOM_STALL2/Wall83/wall(Clone)" parent_id_path=PackedInt32Array(603946850, 285617634) index="0" unique_id=1690717772]
+[node name="wall(Clone)" parent="BATHROOM_STALL2/Wall83/wall(Clone)" parent_id_path=PackedInt32Array(603946850, 285617634) index="0"]
 surface_material_override/2 = SubResource("StandardMaterial3D_cibll")
 
 [node name="wallHalf3" parent="BATHROOM_STALL2" unique_id=1578992445 instance=ExtResource("66_f3lfu")]
 transform = Transform3D(-1, 0, -8.7423e-08, 0, 1, 0, 8.7423e-08, 0, -1, 3, -2.58, 1.9)
 
-[node name="wallHalf(Clone)" parent="BATHROOM_STALL2/wallHalf3/wallHalf(Clone)" parent_id_path=PackedInt32Array(1578992445, 25621279) index="0" unique_id=80647734]
+[node name="wallHalf(Clone)" parent="BATHROOM_STALL2/wallHalf3/wallHalf(Clone)" parent_id_path=PackedInt32Array(1578992445, 25621279) index="0"]
 surface_material_override/2 = SubResource("StandardMaterial3D_cibll")
 
 [node name="DuctDoorPuzzle" type="Node3D" parent="BATHROOM_STALL2" unique_id=1263325252]
 transform = Transform3D(0.9999999, -8.742279e-08, 8.7422784e-08, 8.742279e-08, -4.371139e-08, -0.99999994, 8.742279e-08, 0.99999994, -4.3711374e-08, 1.4478478, -1.617345, -1.948988)
-
-[node name="CogitoMeter" type="Node3D" parent="BATHROOM_STALL2/DuctDoorPuzzle" unique_id=180589983 node_paths=PackedStringArray("destroy_on_event")]
-script = ExtResource("77_fay3r")
-val_max = 50.0
-meter_event = 1
-destroy_on_event = [NodePath("../ScrewInteractable")]
-sound_on_event = ExtResource("18_sk7n4")
-metadata/_custom_type_script = "uid://b6o7vbprfgrp5"
 
 [node name="ScrewInteractable" parent="BATHROOM_STALL2/DuctDoorPuzzle" unique_id=1340053332 instance=ExtResource("78_gxiae")]
 transform = Transform3D(1, 0, -7.1054274e-15, -3.1058804e-22, 0.9999999, 1.0658141e-14, 1.4210855e-14, -1.0658141e-14, 0.9999999, 0, 0.00025367737, 0)
@@ -4655,14 +4646,13 @@ collision_layer = 3
 script = ExtResource("13_5x4ip")
 prompt_pos_mode = 2
 audio_player = NodePath("AudioStreamPlayer3D")
-is_locked = true
 open_rotation = Vector3(0, 92, 0)
 door_speed = 2.0
 
 [node name="paneling" parent="BATHROOM_STALL2/DuctDoor" unique_id=1596203426 instance=ExtResource("79_c1p1i")]
 transform = Transform3D(-4.37114e-08, 0.9, -7.86805e-08, -1, -3.93403e-08, -7.86805e-08, -8.74228e-08, 7.86805e-08, 0.9, -1.06911, 1.00577, -0.000542641)
 
-[node name="paneling(Clone)" parent="BATHROOM_STALL2/DuctDoor/paneling" index="0" unique_id=963007795]
+[node name="paneling(Clone)" parent="BATHROOM_STALL2/DuctDoor/paneling" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_dg8i0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BATHROOM_STALL2/DuctDoor" unique_id=818199898]
@@ -4970,7 +4960,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.54327, 0, -19.1124)
 [node name="rugDoormat(Clone)" parent="ENTRANCE_AREA/rugDoormat" unique_id=1900310327 instance=ExtResource("106_ahrvf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.130249)
 
-[node name="rugDoormat(Clone)" parent="ENTRANCE_AREA/rugDoormat/rugDoormat(Clone)" index="0" unique_id=138591432]
+[node name="rugDoormat(Clone)" parent="ENTRANCE_AREA/rugDoormat/rugDoormat(Clone)" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_yhahm")
 
 [node name="DEMO_HINTS" type="Node3D" parent="." unique_id=1121424774]
@@ -5215,7 +5205,7 @@ objects_call_interact = [NodePath("..")]
 
 [node name="floorFull(Clone)" parent="Platform" unique_id=946781793 instance=ExtResource("9_ec70c")]
 
-[node name="floorFull(Clone)" parent="Platform/floorFull(Clone)" index="0" unique_id=68285301]
+[node name="floorFull(Clone)" parent="Platform/floorFull(Clone)" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_ewq1u")
 
 [node name="hoodModern(Clone)" parent="Platform" unique_id=1066983529 instance=ExtResource("112_8tlki")]
@@ -5379,8 +5369,7 @@ transform = Transform3D(0.845402, 0, -0.534131, 0, 1, 0, 0.534131, 0, 0.845402, 
 [connection signal="on_hold_complete" from="UPPER_OFFICE_CEO/WindowedDoor/FrontDoor/DualInteraction" to="UPPER_OFFICE_CEO/WindowedDoor/FrontDoor/LockInteraction" method="interact"]
 [connection signal="on_quick_press" from="UPPER_OFFICE_CEO/WindowedDoor/FrontDoor/DualInteraction" to="UPPER_OFFICE_CEO/WindowedDoor/FrontDoor/BasicInteraction" method="interact"]
 [connection signal="pressed" from="ARCHIVE/CameraButton" to="ARCHIVE/SecurityCamera" method="turn_off"]
-[connection signal="maximum_reached" from="BATHROOM_STALL2/DuctDoorPuzzle/CogitoMeter" to="BATHROOM_STALL2/DuctDoor" method="unlock_door"]
-[connection signal="spin_counterclockwise" from="BATHROOM_STALL2/DuctDoorPuzzle/ScrewInteractable" to="BATHROOM_STALL2/DuctDoorPuzzle/CogitoMeter" method="increase_value"]
+[connection signal="object_exits_tree" from="BATHROOM_STALL2/DuctDoorPuzzle/ScrewInteractable" to="BATHROOM_STALL2/DuctDoor" method="unlock_door"]
 [connection signal="body_entered" from="CUBICLE_AREA/WaterFeature/WetZone" to="CUBICLE_AREA/WaterFeature/WetZone" method="_on_body_entered"]
 [connection signal="body_entered" from="CUBICLE_AREA/WaterFeature2/WetZone2" to="CUBICLE_AREA/WaterFeature2/WetZone2" method="_on_body_entered"]
 [connection signal="switched" from="LabPowerSwitch" to="LabPowerSwitch/Set_LabPower" method="on_bool_signal"]

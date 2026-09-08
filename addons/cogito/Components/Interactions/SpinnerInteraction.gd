@@ -1,25 +1,30 @@
-## This object takes over input to then detect spinning motions by either mouse or gamepad thumbsticks / joysticks.
-## It then rotates an object in the spinning direction
-class_name CogitoSpinner
-extends CogitoStaticInteractable
-
+extends InteractionComponent
 
 #region inspector settings
-@export_group("Spinner settings")
+@export_group("Spinner Settings")
 @export var rotating_object : Node3D
 ## Sets the spinning axis for the rotating object.
 @export var spinning_axis : Vector3
 ## In radian
 @export var rotation_speed : float = .05
+## Move object as you rotate it
+@export var rise_when_rotate : float = 0
+## Show when interacting
+@export var interacting_gizmo : Node
+
+@export_group("Spinner Input Settings")
 ## The amount of values needed to be collected before spin gets registered. This has the biggest impact to responsiveness. The lower, the more responsive, but also the easier to overtrigger.
 @export var array_threshold : int = 10
 @export var angle_threshold : float = 200.00
 ## The threshold for mouse movement change to register for spinning.
 @export var mouse_effort : float = 1.0
-## Move object as you rotate it
-@export var rise_when_rotate : float = 0
-## Show when interacting
-@export var interacting_gizmo : Node
+
+@export_group("Spinner Signal Setting")
+## Spinner value starts at 0. If spinner goal gets hit, a signal is sent. Set to 0 if not using.
+@export var spinner_goal_value : float = 0
+## Destroys the object if spinner goal is met.
+@export var destroy_on_goal_met : bool = false
+@export var sound_on_goal_met : AudioStream
 
 
 #region Cogito interaction variables
@@ -36,20 +41,20 @@ var angle_array : Array = [0.0]
 var spinning_clockwise : bool = false
 var spinning_anticlockwise : bool = false
 var array_size : int = 1
+## Spinner value is used as a goal for signals. Eg. Spin from 0 to 100 to meet the goal.
+var spinner_value : float = 0.0
 
 signal spin_clockwise
 signal spin_counterclockwise
+signal spinner_goal_met
 
 var screen_center : Vector2
 #endregion
 
 
 func _ready() -> void:
-	super._ready()
 	is_being_controlled = false
 	if interacting_gizmo: interacting_gizmo.set_visible(false)
-	# add_to_group("save_object_state")
-	self.add_to_group("Persist")
 
 
 func _notification(what: int) -> void:
@@ -105,6 +110,13 @@ func _physics_process(delta: float) -> void:
 		else:
 			gamepad_spin_detection()
 		signal_bools()
+		
+		if ( spinner_goal_value < 0 and spinner_value <= spinner_goal_value ) or ( spinner_goal_value > 0 and spinner_value >= spinner_goal_value ) :
+			spinner_goal_met.emit()
+			if sound_on_goal_met :
+				Audio.play_sound_3d(sound_on_goal_met).position = self.position
+			if destroy_on_goal_met:
+				get_parent().queue_free()
 
 
 func mouse_spin_detection():
@@ -188,9 +200,12 @@ func calculate_mean(arr):
 func signal_bools():
 	if spinning_clockwise:
 		spin_clockwise.emit()
+		spinner_value += 1
 		apply_rotation(1)
+		
 	elif spinning_anticlockwise:
 		spin_counterclockwise.emit()
+		spinner_value -= 1
 		apply_rotation(-1)
 
 
@@ -209,21 +224,3 @@ func apply_rotation(direction:int) -> void:
 		rotating_object.position.y += rise_when_rotate * direction * -1
 		if rotating_object.position.y < 0: # Avoid object sinking below zero.
 			rotating_object.position.y = 0
-
-
-func _on_waggler_waggle_signal():
-	pass # Replace with function body.
-
-
-func save():
-	var state_dict = {
-		"node_path" : self.get_path(),
-		"pos_x" : position.x,
-		"pos_y" : position.y,
-		"pos_z" : position.z,
-		"rot_x" : rotation.x,
-		"rot_y" : rotation.y,
-		"rot_z" : rotation.z,
-		
-	}
-	return state_dict

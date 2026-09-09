@@ -9,6 +9,8 @@ extends InteractionComponent
 @export var rotation_speed : float = .05
 ## Move object as you rotate it
 @export var rise_when_rotate : float = 0
+## Keep rotating even when a spinner min or max value is hit.
+@export var overrotate : bool = true
 ## Show when interacting
 @export var interacting_gizmo : Node
 
@@ -20,7 +22,9 @@ extends InteractionComponent
 @export var mouse_effort : float = 1.0
 
 @export_group("Spinner Signal Setting")
-## Spinner value starts at 0. If spinner goal gets hit, a signal is sent. Set to 0 if not using.
+## The value the spinner starts at. Does not get saved.
+@export var spinner_min_value : float = 0
+## Spinner value starts at 0. If spinner goal gets hit, a signal is sent. Set bigger than min_value for clockwise, smaller for counter-clockwise. Set to 0 if not using. Does not get saved.
 @export var spinner_goal_value : float = 0
 ## Destroys the object if spinner goal is met.
 @export var destroy_on_goal_met : bool = false
@@ -42,7 +46,13 @@ var spinning_clockwise : bool = false
 var spinning_anticlockwise : bool = false
 var array_size : int = 1
 ## Spinner value is used as a goal for signals. Eg. Spin from 0 to 100 to meet the goal.
-var spinner_value : float = 0.0
+var spinner_value : float = 0.0 :
+	set(value):
+		if spinner_min_value < spinner_goal_value : # Goal is going clockwise
+			spinner_value = clampf(value, spinner_min_value, spinner_goal_value)
+		elif spinner_min_value > spinner_goal_value : # Goal is going counter-clockwise
+			spinner_value = clampf(value, spinner_goal_value, spinner_min_value)
+
 
 signal spin_clockwise
 signal spin_counterclockwise
@@ -216,6 +226,9 @@ func reset_bools():
 
 func apply_rotation(direction:int) -> void:
 	if !rotating_object:
+		return
+		
+	if !overrotate and ( spinner_value == spinner_goal_value or spinner_value == spinner_min_value):
 		return
 	
 	rotating_object.rotate_object_local(spinning_axis,rotation_speed * direction)

@@ -31,6 +31,7 @@ shape = SubResource("CylinderShape3D_dckl7")
 rotating_object = NodePath("../Screw")
 spinning_axis = Vector3(0, -1, 0)
 rise_when_rotate = 0.001
+overrotate = false
 spinner_goal_value = -50.0
 destroy_on_goal_met = true
 sound_on_goal_met = ExtResource("4_8t76p")

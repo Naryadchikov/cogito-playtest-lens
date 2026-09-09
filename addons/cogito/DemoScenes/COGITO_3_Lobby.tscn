@@ -4646,6 +4646,7 @@ collision_layer = 3
 script = ExtResource("13_5x4ip")
 prompt_pos_mode = 2
 audio_player = NodePath("AudioStreamPlayer3D")
+is_locked = true
 open_rotation = Vector3(0, 92, 0)
 door_speed = 2.0
 
@@ -4909,7 +4910,7 @@ transform = Transform3D(0.771402, 0, 0.636348, 0, 1, 0, -0.636348, 0, 0.771402, 
 transform = Transform3D(0.999709, 0, -0.0240999, 0, 1, 0, 0.0240999, 0, 0.999709, -7.02733, 0.423091, -7.60032)
 
 [node name="trashcan3" parent="ENTRANCE_AREA" unique_id=1835066067 instance=ExtResource("58_no7q4")]
-transform = Transform3D(-0.999709, 0, 0.0240998, 0, 1, 0, -0.0240998, 0, -0.999709, -7.0371, 0.446065, 7.38105)
+transform = Transform3D(-0.999709, 0, 0.0240998, 0, 1, 0, -0.0240998, 0, -0.999709, -7.108366, 0.446065, 7.38105)
 
 [node name="coatRackStanding" type="RigidBody3D" parent="ENTRANCE_AREA" unique_id=447368363]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5281, -4.84288e-08, -19.158)

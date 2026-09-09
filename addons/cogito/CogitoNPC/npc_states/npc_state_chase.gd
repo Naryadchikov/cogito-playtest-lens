@@ -84,8 +84,8 @@ func get_wieldable_range() -> int:
 func check_los_to_player() -> bool:	
 	# Get the space state of the world, construct a ray to fire from the chaser to the target
 	var space_state = npc.get_world_3d().direct_space_state
-	# Collision layers 1 (Environment) and 3 (Player) = 4+1 = 5
-	var query = PhysicsRayQueryParameters3D.create(npc.head.global_position, chase_target.global_position, 5)
+	var collision_mask: int = CogitoPhysics.CollisionMask.ENVIRONMENT | CogitoPhysics.CollisionMask.PLAYER
+	var query = PhysicsRayQueryParameters3D.create(npc.head.global_position, chase_target.global_position, collision_mask)
 	query.exclude = [npc.get_rid()]
 	var result = space_state.intersect_ray(query)
 	# If there is a collision, check that the ray is hitting the player

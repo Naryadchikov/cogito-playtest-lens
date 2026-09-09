@@ -21,6 +21,7 @@ disable_receive_shadows = true
 
 [node name="HazardZone" type="Area3D" unique_id=658394726]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2487, 1.505, 1.5451)
+collision_mask = 17
 script = ExtResource("1_vwqvk")
 player_attribute = "health"
 hint_icon = ExtResource("2_ut4mo")

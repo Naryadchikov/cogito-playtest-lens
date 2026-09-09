@@ -47,7 +47,7 @@ node_a = NodePath("swing")
 node_b = NodePath("../frame/MeshInstance3D/StaticBody3D")
 angular_limit/enable = true
 
-[node name="swing" type="RigidBody3D" parent="Swing" unique_id=1087162049 node_paths=PackedStringArray("enable_on_sit")]
+[node name="swing" type="RigidBody3D" parent="Swing" unique_id=1087162049]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.36643, 0)
 script = ExtResource("1_ljpjm")
 physics_sittable = true
@@ -57,7 +57,6 @@ sit_position_node_path = NodePath("Sit Marker")
 look_marker_node_path = NodePath("Look Marker")
 sit_area_node_path = NodePath("sit_area")
 leave_node_path = NodePath("Leave Marker")
-enable_on_sit = NodePath("SitCollisionShape3D")
 
 [node name="ImpactSounds" parent="Swing/swing" unique_id=31912015 instance=ExtResource("3_4okg1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0063231, 0)
@@ -105,6 +104,7 @@ bus = &"SFX"
 
 [node name="sit_area" type="Area3D" parent="Swing/swing" unique_id=924731284]
 transform = Transform3D(0.037725, 0, -0.999288, 0, 1, 0, 0.999288, 0, 0.037725, 0.522945, 0.108153, -0.088229)
+collision_mask = 17
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Swing/swing/sit_area" unique_id=184657802]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0179863, -0.188456, 0.380226)

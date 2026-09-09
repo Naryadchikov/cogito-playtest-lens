@@ -21,6 +21,7 @@ disable_receive_shadows = true
 
 [node name="HealZone" type="Area3D" unique_id=24854627]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.2487, 1.505, 1.5451)
+collision_mask = 17
 script = ExtResource("1_38o7t")
 player_attribute = "health"
 is_recovery_zone = true

@@ -20,6 +20,7 @@ backlight = Color(0.509804, 0.294118, 0.294118, 1)
 disable_receive_shadows = true
 
 [node name="StaminaDrainAttributeZone" type="Area3D" unique_id=284839128]
+collision_mask = 17
 script = ExtResource("1_720gr")
 player_attribute = "stamina"
 hint_icon = ExtResource("2_8mk41")

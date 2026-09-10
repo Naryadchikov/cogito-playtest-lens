@@ -7,7 +7,7 @@ data = PackedVector3Array(-12, 11.9996, -4, -12, 11.9996, 3.9999, -12, -12, 3.99
 
 [node name="shelf" unique_id=435870907 instance=ExtResource("1_xedtq")]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="generated(Clone)" parent_id_path=PackedInt32Array(75699440) index="0" unique_id=1701324115]
+[node name="StaticBody3D" type="StaticBody3D" parent="generated(Clone)" parent_id_path=PackedInt32Array(414580737) index="0" unique_id=1701324115]
 collision_layer = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="generated(Clone)/StaticBody3D" index="0" unique_id=787333241]

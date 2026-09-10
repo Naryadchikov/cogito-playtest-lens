@@ -14,7 +14,7 @@ data = PackedVector3Array(0, 2.579, -0.1, 0, 2.579, 0, 0, 0, 0, 0, 0, 0, 0, 0, -
 
 [node name="wallDoorway(Clone)" parent="." unique_id=446391847 instance=ExtResource("1_gwkn1")]
 
-[node name="wallDoorway(Clone)" parent="wallDoorway(Clone)" index="0" unique_id=331675651]
+[node name="wallDoorway(Clone)" parent="wallDoorway(Clone)" index="0" unique_id=1730887963]
 surface_material_override/1 = SubResource("StandardMaterial3D_tm0k0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1629999236]

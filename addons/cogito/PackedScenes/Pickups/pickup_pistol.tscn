@@ -63,7 +63,7 @@ size = Vector3(0.439306, 0.0828058, 0.0807639)
 [sub_resource type="BoxShape3D" id="BoxShape3D_5prt8"]
 size = Vector3(0.0942247, 0.2, 0.0599624)
 
-[sub_resource type="Resource" id="Resource_c3msj"]
+[sub_resource type="Resource" id="Resource_fbfr7"]
 resource_local_to_scene = true
 script = ExtResource("7_72yqe")
 wieldable_scene = ExtResource("10_781g4")
@@ -81,10 +81,10 @@ drop_scene = "res://addons/cogito/PackedScenes/Pickups/pickup_pistol.tscn"
 sound_pickup = ExtResource("8_evcs5")
 can_auto_slot = true
 
-[sub_resource type="Resource" id="Resource_23fj4"]
+[sub_resource type="Resource" id="Resource_onqv8"]
 resource_local_to_scene = true
 script = ExtResource("3_xoy07")
-inventory_item = SubResource("Resource_c3msj")
+inventory_item = SubResource("Resource_fbfr7")
 
 [node name="pickup_pistol" type="RigidBody3D" unique_id=1703678965]
 collision_layer = 3
@@ -107,6 +107,6 @@ shape = SubResource("BoxShape3D_5prt8")
 transform = Transform3D(1, 0, -1.81899e-12, 0, 1, 0, 0, 0, 1, 0.277335, 0.0601448, 0.00182778)
 
 [node name="PickupComponent" parent="." unique_id=1220955357 instance=ExtResource("2_okim2")]
-slot_data = SubResource("Resource_23fj4")
+slot_data = SubResource("Resource_onqv8")
 
 [node name="CarryableComponent" parent="." unique_id=1217092457 instance=ExtResource("5_cx8or")]

@@ -4,5 +4,3 @@
 
 [node name="DialogueManagerInteraction" type="Node3D" unique_id=612001718]
 script = ExtResource("1_3rdly")
-input_map_action = "interact"
-interaction_text = "Start dialogue"

@@ -5149,6 +5149,7 @@ shape = SubResource("ConcavePolygonShape3D_r8380")
 [connection signal="body_entered" from="TargetPractice_QuestStarter" to="TargetPractice_QuestStarter" method="_on_body_entered"]
 
 [editable path="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/CogitoSpinner"]
+[editable path="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/CogitoSpinner/SpinnerInteraction"]
 [editable path="NavigationRegion3D/SHOOTING_RANGE/TARGETS/TargetDestructable"]
 [editable path="NavigationRegion3D/MOVEMENT/Ladder"]
 [editable path="SwimmingTest/Ladder2"]

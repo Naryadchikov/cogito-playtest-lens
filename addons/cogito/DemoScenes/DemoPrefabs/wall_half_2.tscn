@@ -13,7 +13,7 @@ points = PackedVector3Array(0, 0, -0.1, 0, 0, 0, 0, 2.57881, -0.1, 1, 0, -0.1, 1
 
 [node name="wallHalf(Clone)" parent="." unique_id=25621279 instance=ExtResource("1_1eefl")]
 
-[node name="wallHalf(Clone)" parent="wallHalf(Clone)" index="0" unique_id=80647734]
+[node name="wallHalf(Clone)" parent="wallHalf(Clone)" index="0" unique_id=1045308672]
 surface_material_override/2 = SubResource("StandardMaterial3D_cibll")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1225858394]

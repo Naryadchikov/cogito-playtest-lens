@@ -63,7 +63,7 @@ spot_range = 8.0
 spot_angle = 30.0
 
 [node name="PotionMesh" type="Node3D" parent="." unique_id=361356484]
-transform = Transform3D(0.7337406, -0.6794282, -8.38609e-07, 0.6794282, 0.7337406, 2.31695e-06, -9.588798e-07, -2.269815e-06, 1, 0.267942, -0.522989, -0.532988)
+transform = Transform3D(0.7337406, -0.67942816, -8.38609e-07, 0.67942816, 0.7337406, 2.31695e-06, -9.588797e-07, -2.269815e-06, 1, 0.267942, -0.522989, -0.532988)
 script = ExtResource("4_djm27")
 
 [node name="CSGMesh3D2" type="CSGMesh3D" parent="PotionMesh" unique_id=1500363830]

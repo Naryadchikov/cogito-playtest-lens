@@ -14,7 +14,7 @@ data = PackedVector3Array(1.586, 0.097, -0.3958, 0.097, 0.097, -0.3958, 0.097, 0
 
 [node name="table(Clone)" parent="." unique_id=2075758453 instance=ExtResource("1_d6jsa")]
 
-[node name="table(Clone)" parent="table(Clone)" index="0" unique_id=1475144464]
+[node name="table(Clone)" parent="table(Clone)" index="0" unique_id=875745502]
 surface_material_override/0 = SubResource("StandardMaterial3D_dg8i0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=351817407]

@@ -7257,10 +7257,13 @@ transform = Transform3D(0.813121, -0.582094, 2.54442e-08, -3.07674e-15, -4.37114
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="computerKeyboard" parent="CUBICLE_AREA" unique_id=1720363697 instance=ExtResource("51_ysw6n")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 5.7699885, 0.76880014, -0.5631474)
 
 [node name="computerScreen" parent="CUBICLE_AREA" unique_id=1878240506 instance=ExtResource("52_8322x")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 5.864329, 0.7686887, -0.24129617)
 
 [node name="computerMouse" parent="CUBICLE_AREA" unique_id=1597520461 instance=ExtResource("53_7i3co")]
+transform = Transform3D(0.97538084, 0, 0.2205272, 0, 1, 0, -0.2205272, 0, 0.97538084, 5.0037346, 0.76880026, -0.36340368)
 
 [node name="computerKeyboard2" parent="CUBICLE_AREA" unique_id=1375014819 instance=ExtResource("51_ysw6n")]
 transform = Transform3D(-0.999908, 0, 0.0136135, 0, 1, 0, -0.0136135, 0, -0.999908, 6.88372, 0.7688, -0.616116)

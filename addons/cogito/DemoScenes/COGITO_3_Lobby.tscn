@@ -6206,6 +6206,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.3, -0.0500011)
 shape = SubResource("BoxShape3D_ecok4")
 
 [node name="WindowedDoor" parent="UPPER_OFFICE_CEO" unique_id=1419523907 instance=ExtResource("17_2lcsn")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6.02995, 0.0352557, -2.58097)
 
 [node name="FrontDoor" parent="UPPER_OFFICE_CEO/WindowedDoor" index="0" unique_id=1468207346]
 unlock_sound = ExtResource("18_sk7n4")
@@ -6347,6 +6348,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.12195, 0.80538, -5.77168)
 transform = Transform3D(0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, 3.02288, 0.84246, -0.4164)
 
 [node name="sideTable" parent="UPPER_OFFICE_CEO" unique_id=530872714 instance=ExtResource("37_ic45t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.54667, 0.03, -5.52418)
 
 [node name="rugSquare2" parent="UPPER_OFFICE_CEO" unique_id=2089364194 instance=ExtResource("70_rt25y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.82088, 0.0300002, -2.05562)
@@ -7013,6 +7015,7 @@ mesh = SubResource("ArrayMesh_y6m1y")
 shape = SubResource("ConcavePolygonShape3D_si7uc")
 
 [node name="CoffeeMug" parent="BREAK_ROOM" unique_id=1059193824 instance=ExtResource("44_harbr")]
+transform = Transform3D(0.969501, 0, 0.245088, 0, 1, 0, -0.245088, 0, 0.969501, 0.885151, 0.851885, -0.218148)
 
 [node name="CoffeeMug2" parent="BREAK_ROOM" unique_id=1273254434 instance=ExtResource("44_harbr")]
 transform = Transform3D(0.969501, 0, 0.245088, 0, 1, 0, -0.245088, 0, 0.969501, 1.1868, 0.493418, -0.279196)
@@ -7027,6 +7030,7 @@ transform = Transform3D(-0.787774, 0, -0.615964, 0, 1, 0, 0.615964, 0, -0.787774
 transform = Transform3D(-0.927595, 0, -0.373587, 0, 1, 0, 0.373587, 0, -0.927595, 1.29253, 0.493418, -0.176573)
 
 [node name="rugRound" parent="BREAK_ROOM" unique_id=1283988139 instance=ExtResource("62_m13s3")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.76556, -4.84288e-08, 3.84106)
 
 [node name="VendingMachine" parent="BREAK_ROOM" unique_id=75674758 instance=ExtResource("63_uchdi")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 7.35901, 0, 2.81656)
@@ -7062,6 +7066,7 @@ surface_material_override/2 = SubResource("StandardMaterial3D_sifgr")
 shape = SubResource("ConcavePolygonShape3D_mja1u")
 
 [node name="DoorBasic" parent="BATHROOM_STALL/wallDoorway2" unique_id=589262270 instance=ExtResource("45_xp8oa")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.44, 0, -0.054)
 
 [node name="bathroomMirror" parent="BATHROOM_STALL" unique_id=1500581236 instance=ExtResource("46_dfquo")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.3, -1.39335, 1.13161)
@@ -7317,6 +7322,7 @@ transform = Transform3D(-0.661482, 0, -0.749961, 0, 1, 0, 0.749961, 0, -0.661482
 transform = Transform3D(-0.945904, 0, -0.324446, 0, 1, 0, 0.324446, 0, -0.945904, 7.15862, -1.67638e-07, 0.929278)
 
 [node name="plantSmall2" parent="CUBICLE_AREA" unique_id=845862990 instance=ExtResource("55_s7anr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.79886, 0.7688, 0.289945)
 
 [node name="KSI_steps_single" parent="CUBICLE_AREA" unique_id=107845728 instance=ExtResource("88_u6glq")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.03513, -0.5, -3.98671)
@@ -7457,6 +7463,7 @@ elemental_properties = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.02877, 0.475497, -13.8082)
 
 [node name="rugRectangle" parent="ENTRANCE_AREA" unique_id=1400380915 instance=ExtResource("75_26fkw")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6.34114, -4.84288e-08, -10.2007)
 
 [node name="rugRectangle3" parent="ENTRANCE_AREA" unique_id=1547664205 instance=ExtResource("75_26fkw")]
 transform = Transform3D(0.0160039, 0, 0.999872, 0, 1, 0, -0.999872, 0, 0.0160039, 6.34114, -4.84288e-08, 10.8562)
@@ -7465,11 +7472,13 @@ transform = Transform3D(0.0160039, 0, 0.999872, 0, 1, 0, -0.999872, 0, 0.0160039
 transform = Transform3D(0.999399, 0, 0.0346727, 0, 1, 0, -0.0346727, 0, 0.999399, -10.5489, -4.84288e-08, 0.946023)
 
 [node name="loungeDesignChair" parent="ENTRANCE_AREA" unique_id=369729390 instance=ExtResource("81_yj30c")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 6.33074, -4.84288e-08, -9.9916)
 
 [node name="loungeDesignChair2" parent="ENTRANCE_AREA" unique_id=1165393056 instance=ExtResource("81_yj30c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.684, 2.7, 5.062)
 
 [node name="loungeDesignSofa" parent="ENTRANCE_AREA" unique_id=1620611318 instance=ExtResource("81_12qcq")]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 6.39401, -4.84288e-08, -12.8363)
 
 [node name="loungeDesignSofa2" parent="ENTRANCE_AREA" unique_id=161466746 instance=ExtResource("81_12qcq")]
 transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 6.394, 0, 8.164)
@@ -7478,6 +7487,7 @@ transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 6.394, 0
 transform = Transform3D(0.374526, 0, -0.927217, 0, 1, 0, 0.927217, 0, 0.374526, 7.02877, 0.408329, 11.3186)
 
 [node name="lampRoundFloor" parent="ENTRANCE_AREA" unique_id=121889278 instance=ExtResource("25_ohpwf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.71507, -4.84288e-08, -9.94791)
 
 [node name="lampRoundFloor2" parent="ENTRANCE_AREA" unique_id=2046390963 instance=ExtResource("25_ohpwf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.6196346, 2.6661499, 4.365829)
@@ -7519,6 +7529,7 @@ shape = SubResource("BoxShape3D_io2u0")
 [node name="CarryableComponent" parent="ENTRANCE_AREA/coatRackStanding" unique_id=938961049 instance=ExtResource("60_oc6pu")]
 
 [node name="tableCoffeeGlass" parent="ENTRANCE_AREA" unique_id=1654771027 instance=ExtResource("61_jhsd0")]
+transform = Transform3D(0.0676322, 0, 0.99771, 0, 1, 0, -0.99771, 0, 0.0676322, 5.60126, -4.84288e-08, -11.8701)
 
 [node name="coatRack" type="StaticBody3D" parent="ENTRANCE_AREA" unique_id=2124432072]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.72777, 1.23627, -17.2652)
@@ -7710,6 +7721,7 @@ rich_text = true
 shape = SubResource("SphereShape3D_n25yf")
 
 [node name="Note_Welcome" parent="." unique_id=1448464118 instance=ExtResource("80_g3r0x")]
+transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0.0518305, -4.59182e-08, 0.998656, -0.998656, 4.13871e-08, 0.0518305, 0.0156556, 1.44901, -11.8935)
 
 [node name="FrontDoor" type="AnimatableBody3D" parent="." unique_id=183064587 node_paths=PackedStringArray("audio_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.57, 0, -20)
@@ -7740,6 +7752,7 @@ volume_db = -12.0
 bus = &"SFX"
 
 [node name="GenericSwitch" parent="." unique_id=453009037 instance=ExtResource("66_4pwwj")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 5.72934, 1.10623, -15.8447)
 is_on = true
 objects_call_interact = Array[NodePath]([NodePath("../LIGHTS_CEILING_WALL/lampSquareCeiling8"), NodePath("../LIGHTS_CEILING_WALL/lampSquareCeiling9"), NodePath("../LIGHTS_CEILING_WALL/lampSquareCeiling10"), NodePath("../LIGHTS_CEILING_WALL/lampSquareCeiling11"), NodePath("../LIGHTS_CEILING_WALL/lampSquareCeiling12"), NodePath("../LIGHTS_CEILING_WALL/lampSquareCeiling13")])
 objects_call_delay = 0.3

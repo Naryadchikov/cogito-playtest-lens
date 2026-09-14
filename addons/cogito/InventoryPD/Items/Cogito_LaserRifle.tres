@@ -23,6 +23,7 @@ name = "Laser Rifle"
 description = "Goes pew pew pew. Needs Laser Ammo to reload."
 icon = ExtResource("1_jjb1o")
 drop_scene = "res://addons/cogito/PackedScenes/Pickups/pickup_laser_rifle.tscn"
+item_size = Vector2i(3, 2)
 sound_pickup = ExtResource("3_yhudh")
 can_auto_slot = true
 slot_number = 1

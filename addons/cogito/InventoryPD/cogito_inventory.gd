@@ -10,7 +10,7 @@ signal picked_up_new_inventory_item(slot_data: InventorySlotPD)
 ## Enables grid inventory. If using, make sure player and ALL interactables have this set to true.
 @export var grid: bool
 ## Injects items from this into the inventory slots
-@export var starter_inventory : Array[InventorySlotPD]
+# @export var starter_inventory : Array[InventorySlotPD]
 @export var inventory_size : Vector2i = Vector2i(4,1)
 @export var inventory_slots : Array[InventorySlotPD]
 
@@ -40,12 +40,12 @@ func _init():
 
 
 # Call this in your initial scene
-func apply_initial_inventory():
-	inventory_slots.resize(inventory_size.x * inventory_size.y)
-	for item in starter_inventory:
-		pick_up_slot_data(item)
-	if inventory_slots.size() > 0:
-		first_slot = inventory_slots[0]
+#func apply_initial_inventory():
+	#inventory_slots.resize(inventory_size.x * inventory_size.y)
+	#for item in starter_inventory:
+		#pick_up_slot_data(item)
+	#if inventory_slots.size() > 0:
+		#first_slot = inventory_slots[0]
 
 
 ## Cache the current state of the inventory. Only called when opening inventory or dropping items. 
@@ -327,7 +327,7 @@ func get_all_items() -> Array[InventoryItemPD]:
 	return result
 
 
-# Function to attempt to take all the items in a given inventory.
+# Function to attempt to take all the items from this inventory into target inventory.
 func take_all_items(target_inventory: CogitoInventory):
 	for slot in inventory_slots:
 		if slot != null:

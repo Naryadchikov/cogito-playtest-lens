@@ -16,6 +16,9 @@ const settings_filename := "CogitoSettings"
 @export var new_game_start_scene : PackedScene
 ## The world state that sets world state variables on a new game
 @export var new_game_world_state : CogitoWorldState
+
+@export var new_game_starter_items : Array[InventorySlotPD]
+
 ## The prefix used in scene state save files, followed by the save slot name. Be aware that changing this will impact if/how Cogito detects existing save files.
 @export var scene_state_prefix : String = "COGITO_scene_state_"
 ## The prefix used in player state save files, followed by the save slot name. Be aware that changing this will impact if/how Cogito detects existing save files.

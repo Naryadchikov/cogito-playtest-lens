@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dq6tvhqcy2aps" path="res://addons/cogito/EasyMenus/Scenes/main_menu.tscn" id="1_vakxm"]
 [ext_resource type="PackedScene" uid="uid://e31n36p8i6an" path="res://addons/cogito/DemoScenes/COGITO_3_Lobby.tscn" id="1_xsjm0"]
 [ext_resource type="Resource" uid="uid://bgm0r2pp8mwmp" path="res://addons/cogito/DemoScenes/DemoWorldState.tres" id="2_d7g0j"]
+[ext_resource type="Script" uid="uid://di15gqemrkk0x" path="res://addons/cogito/InventoryPD/CustomResources/InventorySlotPD.gd" id="2_o0q81"]
 
 [resource]
 script = ExtResource("1_usejk")

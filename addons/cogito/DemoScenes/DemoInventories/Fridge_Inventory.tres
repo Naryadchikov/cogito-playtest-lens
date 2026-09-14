@@ -7,3 +7,4 @@
 script = ExtResource("1_dedrx")
 grid = true
 inventory_size = Vector2i(4, 2)
+inventory_slots = Array[ExtResource("1_3nfhe")]([null, null, null, null, null, null, null, null])

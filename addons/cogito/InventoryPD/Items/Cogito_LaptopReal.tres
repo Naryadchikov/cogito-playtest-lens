@@ -11,4 +11,5 @@ description = "The CEO's laptop. There's probably a lot of valuable data on here
 icon = ExtResource("1_bw20e")
 drop_scene = "res://addons/cogito/DemoScenes/DemoPrefabs/laptop_real.tscn"
 hint_text_on_use = "I was supposed to do somoething with this."
+item_size = Vector2i(2, 2)
 sound_pickup = ExtResource("2_d64qt")

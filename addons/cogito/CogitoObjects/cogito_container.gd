@@ -15,7 +15,11 @@ enum PromptPositionMode{
 @export var prompt_pos_mode : PromptPositionMode = PromptPositionMode.ORIGIN
 @export var prompt_marker : Marker3D
 
+## The container inventory. *Do not add items to this.* Use this to define the container's inventory size and shape.
 @export var inventory_data : CogitoInventory
+
+## Use this to pre-fill the container with items.
+@export var starter_contents : Array[InventorySlotPD]
 @export var text_when_closed : String = "DOOR_Open"
 @export var text_when_open : String = "DOOR_Close"
 
@@ -43,7 +47,13 @@ func _ready():
 	interaction_nodes = find_children("","InteractionComponent",true) #Grabs all attached interaction components
 	interaction_text = tr(text_when_closed)
 	object_state_updated.emit(interaction_text)
-	inventory_data.apply_initial_inventory()
+	
+	if starter_contents and starter_contents.size() > 0:
+		print("Container contents found, adding to container inventory.")
+		for slot_data in starter_contents:
+			inventory_data.pick_up_slot_data(slot_data)
+		starter_contents.clear()
+		print("Container: Cleared container contents.")
 
 func interact(_player_interaction_component: PlayerInteractionComponent):
 	toggle_inventory.emit(self)
@@ -83,6 +93,7 @@ func save():
 		"inventory_data" : inventory_data,
 		"interaction_nodes" : interaction_nodes,
 		"animation_player" : animation_player,
+		"starter_contents" : starter_contents,
 		"pos_x" : position.x,
 		"pos_y" : position.y,
 		"pos_z" : position.z,

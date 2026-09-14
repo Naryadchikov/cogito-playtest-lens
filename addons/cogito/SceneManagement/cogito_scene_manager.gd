@@ -161,9 +161,9 @@ func save_player_state(player, slot:String) -> void:
 	
 	if slot=="temp" and is_loaded_from_start_new_game:
 		CogitoGlobals.debug_log(true, "CSM", "New game. Adding new game start inventory to player inventory...")
-		var temp_item_list = CogitoGlobals.cogito_settings.new_game_starter_items.duplicate(true)
+		var temp_item_list = CogitoGlobals.cogito_settings.new_game_starter_items.duplicate_deep(2)
 		for slot_data in temp_item_list:
-			player.inventory_data.pick_up_slot_data(slot_data.duplicate(true))
+			player.inventory_data.pick_up_slot_data(slot_data)
 
 	# Write to temp directory first
 	_player_state.write_state("temp")

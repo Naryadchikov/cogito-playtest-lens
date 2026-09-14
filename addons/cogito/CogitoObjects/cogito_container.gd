@@ -34,6 +34,7 @@ enum PromptPositionMode{
 var interaction_text
 var interaction_nodes : Array[Node]
 var cogito_properties : CogitoProperties = null
+var is_filled_with_starter_items : bool = false
 
 signal toggle_inventory(external_inventory_owner)
 signal object_state_updated(interaction_text:String)
@@ -46,14 +47,8 @@ func _ready():
 	add_to_group("save_object_state")
 	interaction_nodes = find_children("","InteractionComponent",true) #Grabs all attached interaction components
 	interaction_text = tr(text_when_closed)
+	set_state()
 	object_state_updated.emit(interaction_text)
-	
-	if starter_contents and starter_contents.size() > 0:
-		print("Container contents found, adding to container inventory.")
-		for slot_data in starter_contents:
-			inventory_data.pick_up_slot_data(slot_data)
-		starter_contents.clear()
-		print("Container: Cleared container contents.")
 
 func interact(_player_interaction_component: PlayerInteractionComponent):
 	toggle_inventory.emit(self)
@@ -80,6 +75,15 @@ func close():
 func set_state():
 	interaction_text = tr(text_when_closed)
 	animation_player = $AnimationPlayer
+	
+	if not is_filled_with_starter_items:
+		if starter_contents and starter_contents.size() > 0:
+			print("Container contents found, adding to container inventory.")
+			var temp_starter_contents = starter_contents.duplicate_deep(2)
+			for slot_data in temp_starter_contents:
+				inventory_data.pick_up_slot_data(slot_data)
+		is_filled_with_starter_items = true
+	
 	object_state_updated.emit(interaction_text)
 
 
@@ -93,7 +97,7 @@ func save():
 		"inventory_data" : inventory_data,
 		"interaction_nodes" : interaction_nodes,
 		"animation_player" : animation_player,
-		"starter_contents" : starter_contents,
+		"is_filled_with_starter_items" : is_filled_with_starter_items,
 		"pos_x" : position.x,
 		"pos_y" : position.y,
 		"pos_z" : position.z,

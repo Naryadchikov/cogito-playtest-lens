@@ -223,6 +223,7 @@ func _sit_down(play_sound: bool = true):
 		node.hide()
 	
 	is_occupied = true
+	player_sit_down.emit()
 
 
 func _stand_up(play_sound: bool = true):
@@ -255,6 +256,7 @@ func _stand_up(play_sound: bool = true):
 		node.show()
 	
 	is_occupied = false
+	player_stand_up.emit()
 
 
 func switch():

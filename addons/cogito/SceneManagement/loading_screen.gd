@@ -50,7 +50,7 @@ func _process(_delta):
 		else:
 			CogitoGlobals.debug_log(true, "loading_screen.gd", "Load mode 2 (RESET), ignoring scene and player states.")
 			if CogitoSceneManager.is_starting_new_game:
-				CogitoSceneManager.starting_a_new_game()
+				CogitoSceneManager.starting_a_new_game.call_deferred()
 		
 		get_tree().current_scene = new_scene_node # Assigns new scene as current scene
 		

@@ -45,7 +45,10 @@ enum CogitoSceneLoadMode {TEMP, LOAD_SAVE, RESET}
 var saves_data_file_path : String = cogito_state_dir + "saves.data"
 
 var is_currently_loading : bool = false
+# This flag is used for save slot displays when new game has been started but not saved yet.
 var is_loaded_from_start_new_game : bool = false
+# This flag is used to call a function only when a new game is started.
+var is_starting_new_game : bool = false
 var previous_menu = ""
 var previous_menu_button_pressed = ""
 var pause_menu
@@ -146,6 +149,7 @@ func load_player_state(player, passed_slot:String) -> void:
 		# Applying the save state to player node.
 		_player_state.populate_player_data(player)
 		player.player_state_loaded.emit()
+		
 		fade_in()
 	else:
 		CogitoGlobals.debug_log(true,"CSM","Player state of slot " + passed_slot + " doesn't exist.")
@@ -158,12 +162,6 @@ func save_player_state(player, slot:String) -> void:
 	
 	# Writing the save state from current player node.
 	_player_state.populate_save_data(player, slot)
-	
-	if slot=="temp" and is_loaded_from_start_new_game:
-		CogitoGlobals.debug_log(true, "CSM", "New game. Adding new game start inventory to player inventory...")
-		var temp_item_list = CogitoGlobals.cogito_settings.new_game_starter_items.duplicate_deep(2)
-		for slot_data in temp_item_list:
-			player.inventory_data.pick_up_slot_data(slot_data)
 
 	# Write to temp directory first
 	_player_state.write_state("temp")
@@ -432,6 +430,16 @@ func reset_scene_states() -> void:
 			
 	else:
 		CogitoGlobals.debug_log(true,"CSM","An error occurred when trying to access the path.")
+
+
+func starting_a_new_game() -> void:
+	CogitoGlobals.debug_log(true, "CSM", "New game. Adding new game start inventory to player inventory...")
+	var temp_item_list = CogitoGlobals.cogito_settings.new_game_starter_items.duplicate_deep(Resource.DeepDuplicateMode.DEEP_DUPLICATE_ALL)
+	for slot_data in temp_item_list:
+		_current_player_node.inventory_data.pick_up_slot_data(slot_data)
+		
+	fade_in()
+	is_starting_new_game = false
 
 
 func _exit_tree() -> void:

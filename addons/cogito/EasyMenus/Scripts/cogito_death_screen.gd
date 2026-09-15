@@ -65,7 +65,6 @@ func open_death_screen():
 	if InputHelper.device_index == -1:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
-	
 	if CogitoSceneManager.is_loaded_from_start_new_game:
 		label_active_slot.text = ""
 	else:

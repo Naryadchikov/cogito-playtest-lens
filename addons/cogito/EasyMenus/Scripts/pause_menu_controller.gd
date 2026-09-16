@@ -260,6 +260,7 @@ func _on_quickload_button_pressed() -> void:
 
 func start_new_game():
 	if CogitoGlobals.cogito_settings.new_game_start_scene:
+		CogitoSceneManager.is_starting_new_game = true
 		CogitoSceneManager.delete_temp_saves()
 		var path_to_scene = CogitoGlobals.cogito_settings.new_game_start_scene.resource_path
 		CogitoSceneManager.load_next_scene(path_to_scene, "", "temp", CogitoSceneManager.CogitoSceneLoadMode.RESET) #Load_mode 2 means there's no attempt to load a state.

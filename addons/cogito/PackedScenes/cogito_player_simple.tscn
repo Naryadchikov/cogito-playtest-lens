@@ -120,6 +120,7 @@ root_node = NodePath("../..")
 libraries/ = ExtResource("10_tp6cj")
 
 [node name="Camera" type="Camera3D" parent="Body/Neck/Head/Eyes" unique_id=944936599]
+current = true
 
 [node name="InteractionRaycast" parent="Body/Neck/Head/Eyes/Camera" unique_id=1338438364 instance=ExtResource("10_2dndr")]
 collision_mask = 11

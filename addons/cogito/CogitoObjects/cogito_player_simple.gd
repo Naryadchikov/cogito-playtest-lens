@@ -409,6 +409,7 @@ func on_input(event):
 		if event.get_axis() == 3:
 			joystick_h_event = event
 	
+	player_interaction_component.on_input(event)
 	
 	# Opens Pause Menu if Menu button is proessed.
 	if event.is_action_pressed("menu"):

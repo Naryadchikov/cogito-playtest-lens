@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dnauxhdncgngx" path="res://addons/cogito/PackedScenes/laser_ray.tscn" id="2_f65k6"]
 [ext_resource type="PackedScene" uid="uid://0sgkovmwf71d" path="res://addons/cogito/PackedScenes/particles_impact_sparks.tscn" id="3_1w16x"]
 [ext_resource type="AudioStream" uid="uid://clsajk36s7luk" path="res://addons/cogito/Assets/Audio/Kenney/error_004.ogg" id="4_oamo7"]
+[ext_resource type="PackedScene" uid="uid://c2ptmtes2fp8c" path="res://addons/cogito/Assets/VFX/Impacts/bullet_decal.tscn" id="4_swafs"]
 [ext_resource type="PackedScene" uid="uid://fln735e7a3wa" path="res://addons/cogito/Assets/Models/Kenney/Blaster/GLTF format/blasterB.glb" id="5_f65k6"]
 [ext_resource type="AnimationLibrary" uid="uid://dak8sas3mfo8v" path="res://addons/cogito/Wieldables/Animations/WieldableNPC_Blaster.res" id="7_1w16x"]
 
@@ -249,6 +250,7 @@ _data = {
 script = ExtResource("1_f65k6")
 projectile_prefab = ExtResource("2_1w16x")
 tracer = ExtResource("2_f65k6")
+bullet_decal_prefab = ExtResource("4_swafs")
 collision_scene = ExtResource("3_1w16x")
 sound_primary_use = ExtResource("4_oamo7")
 wieldable_mesh = NodePath("BlasterMesh")

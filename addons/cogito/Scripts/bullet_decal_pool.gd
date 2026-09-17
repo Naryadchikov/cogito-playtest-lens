@@ -6,14 +6,14 @@ class_name BulletDecalPool
 const MAX_BULLET_DECALS = 1000
 static var decal_pool := []
 
-static func spawn_bullet_decal(global_pos : Vector3, normal : Vector3, parent : Node3D, bullet_basis : Basis, texture_override = null):
+static func spawn_bullet_decal(decal_scene : PackedScene, global_pos : Vector3, normal : Vector3, parent : Node3D, bullet_basis : Basis, texture_override = null):
 	var decal_instance : Node3D
 	if len(decal_pool) >= MAX_BULLET_DECALS and is_instance_valid(decal_pool[0]):
 		decal_instance = decal_pool.pop_front()
 		decal_pool.push_back(decal_instance)
 		decal_instance.reparent(parent)
 	else:
-		decal_instance = preload("res://addons/cogito/Assets/VFX/Impacts/bullet_decal.tscn").instantiate()
+		decal_instance = decal_scene.instantiate()
 		parent.add_child(decal_instance)
 		decal_pool.push_back(decal_instance)
 	

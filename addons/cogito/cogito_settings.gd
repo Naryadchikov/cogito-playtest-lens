@@ -38,6 +38,8 @@ const settings_filename := "CogitoSettings"
 @export_group("Cogito Core References")
 ## Scene path to Loading Screen scene.
 @export_file_path(".tscn") var loading_screen_scene_path : String
+## List of paths to shaders to get preloaded on loading screen.
+@export var shaders_to_preload : Array[Shader]
 
 #@export var save_slot_container_scene : PackedScene
 

@@ -52,6 +52,8 @@ func _process(_delta):
 			if CogitoSceneManager.is_starting_new_game:
 				CogitoSceneManager.starting_a_new_game.call_deferred()
 		
+		shader_precompilation()
+		
 		get_tree().current_scene = new_scene_node # Assigns new scene as current scene
 		
 		if connector_name != "": #If a connector name has been passed, move the player to it. This requires the target scene to have a cogito scene script attached to it's root scene node.
@@ -66,3 +68,13 @@ func _process(_delta):
 		var progress_percentage := remap(progress_value, 0.4, 1.0, 0, 99)
 		progress_percentage = snapped(progress_percentage, 0.1)
 		label_progress.text = str(progress_percentage) + "%"
+		
+		
+func shader_precompilation() -> void:
+	# Iterrating through shaders
+	for shader in CogitoGlobals.cogito_settings.shaders_to_preload:
+		var dummy_material = ShaderMaterial.new()
+		dummy_material.shader = shader
+		CogitoGlobals.debug_log(true, "loading_screen", "Shader cached: " + shader.resource_path)
+		dummy_material = null
+	CogitoGlobals.debug_log(true, "loading_screen", "Shader precompilation complete.")

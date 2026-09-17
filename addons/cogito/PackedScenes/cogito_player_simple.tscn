@@ -52,10 +52,10 @@ stream_4/stream = ExtResource("16_buq0c")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bpb0d"]
 
-[node name="CogitoPlayer" type="CharacterBody3D" unique_id=433126596 node_paths=PackedStringArray("item_drop_shapecast") groups=["Player"]]
+[node name="CogitoPlayer" type="CharacterBody3D" unique_id=433126596 node_paths=PackedStringArray("player_hud", "item_drop_shapecast") groups=["Player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 script = ExtResource("1_87we8")
-pause_menu = NodePath("GUI/Panel/AspectRatioContainer/PauseMenu")
+pause_menu = ExtResource("22_haksr")
 player_hud = NodePath("GUI/Panel/AspectRatioContainer/Player_HUD")
 item_drop_shapecast = NodePath("Body/Neck/Head/Eyes/Camera/ItemDropShapeCast")
 fall_damage = 10
@@ -194,9 +194,6 @@ grow_vertical = 2
 layout_mode = 2
 player = NodePath("../../../..")
 item_drop_distance_offset = 0.0
-
-[node name="PauseMenu" parent="GUI/Panel/AspectRatioContainer" unique_id=232375072 instance=ExtResource("22_haksr")]
-layout_mode = 2
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=992935611]
 

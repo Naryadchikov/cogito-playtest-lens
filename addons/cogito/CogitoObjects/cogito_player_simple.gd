@@ -15,9 +15,9 @@ signal mouse_movement(relative_mouse_movement:Vector2)
 
 #region Variables
 ## Reference to Pause menu node
-@export var pause_menu : NodePath
+@export var pause_menu : PackedScene
 ## Refereence to Player HUD node
-@export var player_hud : NodePath
+@export var player_hud : CogitoPlayerHudManager
 # Used for handling input when UI is open/displayed
 var is_showing_ui : bool
 ## Toggle printing debug messages or not. Works with the CogitoSceneManager
@@ -66,8 +66,8 @@ var is_showing_ui : bool
 ## Lowest pitch for hardest landing sound
 @export var min_pitch = 0.7
 #Setup Dynamic Pitch & Volume for Landing Audio, used to store velocity based results
-var LandingPitch: float = 1.0
-var LandingVolume: float = 0.8
+var landing_pitch: float = 1.0
+var landing_volume: float = 0.8
 
 @export_group("Movement Properties")
 @export var JUMP_VELOCITY : float= 4.5
@@ -154,6 +154,7 @@ var joystick_v_event
 var initial_carryable_height #DEPRECATED Used to change carryable position based if player is standing or crouching
 
 var config = ConfigFile.new()
+var uid: int = -1
 
 var current_speed : float = 5.0
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -216,6 +217,8 @@ var radius : float
 
 func _ready():
 	#Some Setup steps
+	if uid == -1:
+		uid = get_instance_id()
 	CogitoSceneManager._current_player_node = self
 	player_interaction_component.exclude_player(get_rid())
 	
@@ -224,13 +227,13 @@ func _ready():
 	radius = _calculate_player_radius()
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-
+	
 	### NEW PLAYER ATTRIBUTE SETUP:
 	# Grabs all attached player attributes
 	for attribute in find_children("","CogitoAttribute",false):
 		player_attributes[attribute.attribute_name] = attribute
 		CogitoGlobals.debug_log(is_logging, "cogito_player.gd", "Cogito Attribute found: " + attribute.attribute_name)
-
+	
 	# If found, hookup health attribute signal to detect player death
 	var health_attribute = player_attributes.get("health")
 	if health_attribute:
@@ -244,21 +247,11 @@ func _ready():
 	if sanity_attribute and visibility_attribute:
 		visibility_attribute.attribute_changed.connect(sanity_attribute.on_visibility_changed)
 		visibility_attribute.check_current_visibility()
-
-
+	
 	### CURRENCY SETUP
 	for currency in find_children("", "CogitoCurrency", false):
 		player_currencies[currency.currency_name] = currency
 		CogitoGlobals.debug_log(is_logging, "cogito_player.gd", "Cogito Currency found: " + currency.currency_name)
-
-
-	# Pause Menu setup
-	if pause_menu:
-		var pause_menu_node = get_node(pause_menu)
-		pause_menu_node.resume.connect(_on_pause_menu_resume) # Hookup resume signal from Pause Menu
-		pause_menu_node.close_pause_menu() # Making sure pause menu is closed on player scene load
-	else:
-		printerr("Player has no reference to pause menu.")
 	
 	#Sittable Signals setup
 	CogitoSceneManager.connect("sit_requested", Callable(self, "_on_sit_requested"))
@@ -266,8 +259,10 @@ func _ready():
 	CogitoSceneManager.connect("seat_move_requested", Callable(self, "_on_seat_move_requested"))
 	
 	CogitoGlobals.debug_log(is_logging, "cogito_player.gd", "Player has no reference to pause menu.")
-
+	
 	call_deferred("slide_audio_init")
+	
+	InputRouter.push(on_input)
 
 
 func create_new_state() -> CogitoPlayerState:
@@ -373,6 +368,13 @@ func _on_pause_menu_resume():
 	_reload_options()
 	_on_resume_movement()
 
+func pause() -> void:
+	pass
+
+
+func resume() -> void:
+	pass
+
 
 func on_input(event):
 	if event is InputEventMouseMotion and !is_movement_paused:
@@ -414,21 +416,28 @@ func on_input(event):
 			return
 		if is_showing_ui: #Behaviour when pressing ESC/menu while external UI is open (Readables, Keypad, etc)
 			menu_pressed.emit(player_interaction_component)
-			if get_node(player_hud).inventory_interface.is_inventory_open: #Behaviour when pressing ESC/menu while Inventory is open
+			if player_hud.inventory_interface.is_inventory_open: #Behaviour when pressing ESC/menu while Inventory is open
 				toggle_inventory_interface.emit()
 		elif !is_movement_paused and !is_dead:
 			if !currently_tweening:
-				_on_pause_movement()
-				get_node(pause_menu).open_pause_menu()
+				if pause_menu:
+					var current_pause_menu = pause_menu.instantiate()
+					current_pause_menu.pause_menu_closed.connect(_on_pause_menu_resume)
+					#current_pause_menu.pause_menu_opened.connect(_on_pause_menu_pause)
+					add_child(current_pause_menu)
+				else:
+					CogitoGlobals.debug_log(true, "cogito_player_simple", "Unable to open Pause Menu! Player has no reference to a Pause Menu PackedScene!")
+				#_on_pause_movement()
+				#get_node(pause_menu).open_pause_menu()
 			else:
 				player_interaction_component.send_hint(null, "Wait until I’m seated or standing")
-
+	
 	# Open/closes Inventory if Inventory button is pressed
 	if event.is_action_pressed("inventory") and !is_dead:
-		if !is_showing_ui: #Making sure now external UI is open.
-			toggle_inventory_interface.emit()
-		elif is_showing_ui and get_node(player_hud).inventory_interface.is_inventory_open: #Making sure Inventory is open, and if yes, close it.
-			toggle_inventory_interface.emit()
+		player_hud.set_inventory_visibility(true)
+		
+	if player_hud and player_hud.inventory_interface and player_hud.inventory_interface.quick_slots:
+		player_hud.inventory_interface.quick_slots.on_input(event)
 
 
 func get_params(transform3d, motion):
@@ -813,10 +822,10 @@ func _physics_process(delta):
 			# Calculate the volume and pitch based on the landing velocity
 			var velocity_ratio = clamp((last_velocity.y - min_landing_velocity) / (max_landing_velocity - min_landing_velocity), 0.0, 1.0)
 			# Set the volume and pitch of the landing sound
-			LandingVolume = lerp(min_volume_db, max_volume_db, velocity_ratio)
-			LandingPitch = lerp(max_pitch, min_pitch, velocity_ratio)
+			landing_volume = lerp(min_volume_db, max_volume_db, velocity_ratio)
+			landing_pitch = lerp(max_pitch, min_pitch, velocity_ratio)
 			# Play the landing sound
-			footstep_player._play_interaction("landing")
+			footstep_player._play_interaction("landing", LERP_SPEED)
 		was_in_air = false  # Reset airborne state
 	else:
 		was_in_air = true  # Set airborne state
@@ -1146,7 +1155,7 @@ func _physics_process(delta):
 					footstep_player.volume_db = crouch_volume_db
 				elif is_sprinting:
 					footstep_player.volume_db = sprint_volume_db
-				footstep_player._play_interaction("footstep")
+				footstep_player._play_interaction("footstep", main_velocity.length())
 					
 				can_play_footstep = false
 				

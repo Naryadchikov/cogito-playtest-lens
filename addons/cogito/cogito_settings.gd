@@ -18,7 +18,11 @@ const settings_filename := "CogitoSettings"
 @export var new_game_world_state : CogitoWorldState
 
 @export var new_game_starter_items : Array[InventorySlotPD]
-
+## Quest system settings
+@export_subgroup("Quest System Settings", "quest_")
+@export var quest_start_sound : Resource
+@export var quest_complete_sound : Resource
+@export var quest_failed_sound : Resource
 ## The prefix used in scene state save files, followed by the save slot name. Be aware that changing this will impact if/how Cogito detects existing save files.
 @export var scene_state_prefix : String = "COGITO_scene_state_"
 ## The prefix used in player state save files, followed by the save slot name. Be aware that changing this will impact if/how Cogito detects existing save files.

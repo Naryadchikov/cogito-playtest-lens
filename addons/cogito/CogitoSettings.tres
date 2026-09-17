@@ -6,6 +6,9 @@
 [ext_resource type="Resource" uid="uid://bgm0r2pp8mwmp" path="res://addons/cogito/DemoScenes/DemoWorldState.tres" id="2_d7g0j"]
 [ext_resource type="Script" uid="uid://di15gqemrkk0x" path="res://addons/cogito/InventoryPD/CustomResources/InventorySlotPD.gd" id="2_o0q81"]
 [ext_resource type="Resource" uid="uid://txiu5yxexevm" path="res://addons/cogito/InventoryPD/Items/Cogito_LaserRifle.tres" id="4_o0q81"]
+[ext_resource type="AudioStream" uid="uid://bb4msh10jgao0" path="res://addons/cogito/Assets/Audio/Phazorknight/Cogito_QuestComplete.wav" id="6_xjj5t"]
+[ext_resource type="AudioStream" uid="uid://dqfkx2gild50x" path="res://addons/cogito/Assets/Audio/Phazorknight/Cogito_QuestFailed.wav" id="7_1nfea"]
+[ext_resource type="AudioStream" uid="uid://bb17d2na61tbv" path="res://addons/cogito/Assets/Audio/Phazorknight/Cogito_QuestStart.wav" id="8_6hdsx"]
 
 [sub_resource type="Resource" id="Resource_wksqc"]
 script = ExtResource("2_o0q81")
@@ -18,5 +21,8 @@ main_menu_scene = ExtResource("1_vakxm")
 new_game_start_scene = ExtResource("1_xsjm0")
 new_game_world_state = ExtResource("2_d7g0j")
 new_game_starter_items = Array[ExtResource("2_o0q81")]([SubResource("Resource_wksqc")])
+quest_start_sound = ExtResource("8_6hdsx")
+quest_complete_sound = ExtResource("6_xjj5t")
+quest_failed_sound = ExtResource("7_1nfea")
 default_transition_duration = 0.4
 loading_screen_scene_path = "res://addons/cogito/SceneManagement/LoadingScene.tscn"

@@ -40,6 +40,8 @@ var _last_index := -1
 @export var tracer : PackedScene
 ## How long tracer lingers in the air
 @export var tracer_lifespan : float = 5.0
+## Prefab of bullet_decal
+@export var bullet_decal_prefab : PackedScene
 
 @export_group("Collisions")
 ## Spawn hit decal on Collision hit
@@ -179,7 +181,7 @@ func hit_scan_collision(collision_point:Vector3):
 			var bullet_collision_normal = bullet_collision.normal
 			var bullet_global_basis = bullet_point.get_global_transform().basis
 			# Spawn bullet decal with collision parameters
-			BulletDecalPool.spawn_bullet_decal(bullet_collision_position, bullet_collision_normal, bullet_collider, bullet_global_basis,decal_texture)
+			BulletDecalPool.spawn_bullet_decal(bullet_decal_prefab, bullet_collision_position, bullet_collision_normal, bullet_collider, bullet_global_basis,decal_texture)
 
 
 func hit_scan_damage(collider, bullet_direction, bullet_position):

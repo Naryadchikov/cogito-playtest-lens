@@ -9,6 +9,8 @@ extends CogitoWieldable
 @export var laser_ray_prefab : PackedScene
 ## How long laser rays linger in the air
 @export var ray_lifespan : float = 5.0
+## Prefab of bullet_decal
+@export var bullet_decal_prefab : PackedScene
 ## The Field Of View change when aiming down sight. In degrees.
 @export var ads_fov = 65
 ## Default position for tweening from ADS
@@ -127,7 +129,7 @@ func hit_scan_collision(collision_point:Vector3):
 			var bullet_collision_normal = bullet_collision.normal
 			var bullet_global_basis = bullet_point.get_global_transform().basis
 			# Spawn bullet decal with collision parameters
-			BulletDecalPool.spawn_bullet_decal(bullet_collision_position, bullet_collision_normal, bullet_collider, bullet_global_basis,decal_texture)
+			BulletDecalPool.spawn_bullet_decal(bullet_decal_prefab, bullet_collision_position, bullet_collision_normal, bullet_collider, bullet_global_basis,decal_texture)
 
 
 func hit_scan_damage(collider, bullet_direction, bullet_position):

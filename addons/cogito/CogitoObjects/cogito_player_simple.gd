@@ -253,6 +253,8 @@ func _ready():
 		player_currencies[currency.currency_name] = currency
 		CogitoGlobals.debug_log(is_logging, "cogito_player.gd", "Cogito Currency found: " + currency.currency_name)
 	
+	_reload_options()
+	
 	#Sittable Signals setup
 	CogitoSceneManager.connect("sit_requested", Callable(self, "_on_sit_requested"))
 	CogitoSceneManager.connect("stand_requested", Callable(self, "_on_stand_requested"))

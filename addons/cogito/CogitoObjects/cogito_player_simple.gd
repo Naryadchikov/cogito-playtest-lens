@@ -148,6 +148,7 @@ var head_offset : Vector3 = Vector3.ZERO
 var is_jumping : bool = false
 var is_in_air : bool = false
 
+var is_mouselook_active: bool = true
 var joystick_h_event
 var joystick_v_event
  
@@ -260,6 +261,9 @@ func _ready():
 	CogitoSceneManager.connect("stand_requested", Callable(self, "_on_stand_requested"))
 	CogitoSceneManager.connect("seat_move_requested", Callable(self, "_on_seat_move_requested"))
 	
+	# Invntory Interface signal setup
+	player_hud.inventory_interface.inventory_open.connect(on_inventory_interface_open)
+	
 	CogitoGlobals.debug_log(is_logging, "cogito_player.gd", "Player has no reference to pause menu.")
 	
 	call_deferred("slide_audio_init")
@@ -351,6 +355,13 @@ func resume_after_interaction():
 	is_movement_paused = false
 
 
+func on_inventory_interface_open(is_open: bool) -> void:
+	if is_open:
+		pause_before_interaction()
+	else:
+		resume_after_interaction()
+
+
 # reload options user may have changed while paused.
 func _reload_options():
 	var err = config.load(OptionsConstants.config_file_name)
@@ -379,7 +390,7 @@ func resume() -> void:
 
 
 func on_input(event):
-	if event is InputEventMouseMotion and !is_movement_paused:
+	if event is InputEventMouseMotion and !is_movement_paused and is_mouselook_active:
 		var look_movement: Vector2 = Vector2(0.0,0.0)
 		
 		#If players sitting & look marker is present, use sittable look handling
@@ -405,7 +416,7 @@ func on_input(event):
 
 		
 	# Checking Analog stick input for mouse look
-	if event is InputEventJoypadMotion and !is_movement_paused:
+	if event is InputEventJoypadMotion and !is_movement_paused and is_mouselook_active:
 		if event.get_axis() == 2:
 			joystick_v_event = event
 		if event.get_axis() == 3:

@@ -56,7 +56,7 @@ func _register_project_settings() -> void:
 
 
 func _get_plugin_name():
-	return "Cogito"
+	return "Cogito for Godot"
 
 
 func _get_plugin_icon():

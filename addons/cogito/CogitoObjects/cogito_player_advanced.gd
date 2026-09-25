@@ -1848,7 +1848,7 @@ func _on_ladder_climbing_state_physics_processing(delta: float) -> void:
 			was_in_swimming_state = false
 			if (AUTO_STAND_AFTER_SWIM or not was_in_crouching_state_before_swim) and is_in_crouching_state():
 				try_crouch = false
-				state_chart.send_event("standup")
+				state_chart.send_event("stand_up")
 	else:
 		under_water_effect.visible = true
 		

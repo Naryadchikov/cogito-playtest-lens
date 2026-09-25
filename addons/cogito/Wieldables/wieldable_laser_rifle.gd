@@ -50,7 +50,9 @@ func _physics_process(_delta: float) -> void:
 		firing_cooldown -= _delta
 		
 	if is_firing:
-		if firing_cooldown <= 0:
+		if !Input.is_action_pressed("action_primary"):
+			is_firing = false
+		elif firing_cooldown <= 0:
 			if animation_player.is_playing():
 				return
 			# Gettting camera_collision pos from player interaction component:

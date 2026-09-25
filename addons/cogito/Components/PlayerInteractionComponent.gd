@@ -63,6 +63,7 @@ var is_wielding: bool:
 # Used to auto equip the last, or just selected, wieldable automatically after or while carrying
 var wieldable_item_to_auto_equip: WieldableItemPD = null
 var auto_equip_wieldable_after_carrying: bool = false
+var primary_action_held: bool = false
 
 var player_rid
 # Briefly interrupt quickslot cycling after an interactable is unseen
@@ -90,6 +91,7 @@ func on_input(event: InputEvent) -> void:
 		_handle_interaction(action)
 		
 	if event.is_action_pressed("action_primary"):
+		primary_action_held = true
 		if is_carrying and is_instance_valid(carried_object):
 			_attempt_throw()
 			get_viewport().set_input_as_handled()
@@ -98,6 +100,7 @@ func on_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			
 	elif event.is_action_released("action_primary"):
+		primary_action_held = false
 		if is_wielding and !is_carrying:
 			attempt_action_primary(true)
 			get_viewport().set_input_as_handled()
@@ -243,9 +246,12 @@ func equip_wieldable(wieldable_item: WieldableItemPD):
 		equipped_wieldable_node.set_ammo_type(equipped_wieldable_item.current_ammo_type)
 		equipped_wieldable_node.item_reference = wieldable_item
 		print("PIC: Found ", equipped_wieldable_item.name, " in wieldable node array: ", wieldable_node.name)
-		equipped_wieldable_node.equip(self)
-		await get_tree().create_timer(equipped_wieldable_node.animation_player.current_animation_length).timeout
+		wieldable_node.equip(self)
+		await get_tree().create_timer(wieldable_node.animation_player.current_animation_length).timeout
 		is_changing_wieldables = false
+		if is_instance_valid(wieldable_node) and wieldable_node == equipped_wieldable_node and wieldable_node.animation_player.is_playing():
+			await wieldable_node.animation_player.animation_finished
+		_apply_held_primary_action()
 	else:
 		is_changing_wieldables = false
 
@@ -273,6 +279,11 @@ func attempt_action_primary(is_released: bool):
 		return
 		
 	equipped_wieldable_node.action_primary(equipped_wieldable_item, is_released)
+
+
+func _apply_held_primary_action() -> void:
+	if primary_action_held and Input.is_action_pressed("action_primary") and is_wielding and !is_carrying:
+		attempt_action_primary(false)
 
 
 func attempt_action_secondary(is_released: bool):

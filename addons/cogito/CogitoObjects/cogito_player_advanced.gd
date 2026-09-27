@@ -807,7 +807,8 @@ var was_in_swimming_state : bool = false
 func _initialize_state_chart():
 	state_chart.set_expression_property("on_ladder", on_ladder)
 	state_chart.set_expression_property("is_sitting", is_sitting)
-	
+	state_chart.set_expression_property("is_crouch_shapecast_colliding", false)
+
 	for node_path in no_pause_menu_states:
 		var state = get_node(node_path)
 		state.state_entered.connect(func(): is_in_unpausable_state = true)
@@ -2175,9 +2176,10 @@ func _on_crouching_state_physics_processing(delta: float) -> void:
 	
 	swimming_head_shapecast.global_position = head.global_position
 	
+	# Kept up to date while swimming too: the swimming state sends "stand_up" itself.
+	state_chart.set_expression_property("is_crouch_shapecast_colliding", crouch_shapecast.is_colliding())
+
 	if current_moving_state != MovingState.Swimming:
-		state_chart.set_expression_property("is_crouch_shapecast_colliding", crouch_shapecast.is_colliding())
-		
 		if TOGGLE_CROUCH and Input.is_action_just_pressed("crouch"):
 			try_crouch = !try_crouch
 		elif !TOGGLE_CROUCH:

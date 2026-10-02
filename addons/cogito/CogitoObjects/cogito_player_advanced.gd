@@ -424,6 +424,8 @@ func pause() -> void:
 
 
 func resume() -> void:
+	is_in_unpausable_state = false
+	is_in_interaction_state = true
 	state_chart.send_event("resume")
 
 
@@ -1820,6 +1822,7 @@ func _on_free_fall_state_exited() -> void:
 func _on_free_fall_state_physics_processing(delta: float) -> void:
 	if main_velocity.y <= FREE_FALL_MIN_DIE_VELOCITY:
 		decrease_attribute("health", $HealthAttribute.value_max)
+		state_chart.send_event("pause")
 #endregion
 
 

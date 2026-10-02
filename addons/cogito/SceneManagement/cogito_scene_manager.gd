@@ -433,6 +433,7 @@ func reset_scene_states() -> void:
 
 
 func starting_a_new_game() -> void:
+	get_tree().paused = false
 	CogitoGlobals.debug_log(true, "CSM", "New game. Adding new game start inventory to player inventory...")
 	var temp_item_list = CogitoGlobals.cogito_settings.new_game_starter_items.duplicate_deep(Resource.DeepDuplicateMode.DEEP_DUPLICATE_ALL)
 	for slot_data in temp_item_list:

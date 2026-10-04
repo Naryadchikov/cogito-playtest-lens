@@ -14,7 +14,7 @@ func _ready() -> void:
 		return
 	
 	if not physical_bone_simulator_3d:
-		var physical_bone_simulator_3ds: Array[Node] = skeleton.find_children("", "PhysicalBoneSimulator3D")
+		var physical_bone_simulator_3ds: Array[Node] = skeleton.find_children("", "PhysicalBoneSimulator3D", true, false)
 		if len(physical_bone_simulator_3ds):
 			physical_bone_simulator_3d = physical_bone_simulator_3ds[0]
 

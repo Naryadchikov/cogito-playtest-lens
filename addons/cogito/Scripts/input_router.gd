@@ -63,13 +63,20 @@ func pop() -> Callable:
 		
 	return callable
 	
-## Remove the given method, no matter where it is in the queue.
+## Remove the given method, no matter where it is in the queue. If it was on
+## top, the next method in the stack takes over, like with pop().
 func remove(method: Callable) -> void:
 	if input_stack.is_empty(): return
 	if input_stack.has(method):
+		var was_top: bool = input_stack.back() == method
 		if on_input.is_connected(method):
 			on_input.disconnect(method)
 		input_stack.erase(method)
+		
+		if was_top and !input_stack.is_empty():
+			CogitoGlobals.debug_log(true, "InputRouter", "  - Connecting to previous object on stack")
+			Input.flush_buffered_events()
+			on_input.connect(input_stack.back())
 
 ## Get whether the given node owns the input method that's currently
 ## on the top of the method stack.

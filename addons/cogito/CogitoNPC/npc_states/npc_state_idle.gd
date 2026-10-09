@@ -1,23 +1,13 @@
-extends Node
+extends StateProcessor
 
-# These will be autofilled by the StateMachine
-var Host # is our Character node (parent of StateMachine)
-var States # is the StateMachine itself
-
-@export var idle_animation : String = ""
-
-func _state_enter():
+func _on_idle_state_entered() -> void:
+	super.enter_state()
 	CogitoGlobals.debug_log(true, "npc_state_idle.gd", "Idle state entered")
+	if npc.patrol_path:
+		state_chart.send_event("patrol")
+		state_chart.send_event("body_walk")
 
-	await get_tree().create_timer(3).timeout
-	
-	States.goto("patrol_on_path", null)
 
-
-func _state_exit():
-	States.save_state_as_previous(self.name,null)
+func _on_idle_state_exited() -> void:
+	super.exit_state()
 	CogitoGlobals.debug_log(true, "npc_state_idle.gd", "Idle state exiting")
-
-
-func _physics_process(_delta):
-	pass

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=4 uid="uid://cmqx5jkkx5yas"]
+[gd_scene format=4 uid="uid://cmqx5jkkx5yas"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rpb1a"]
 resource_name = "wood"
@@ -67,14 +67,12 @@ shadow_mesh = SubResource("ArrayMesh_405el")
 [sub_resource type="BoxShape3D" id="BoxShape3D_fplnv"]
 size = Vector3(0.424835, 0.445801, 0.425293)
 
-[node name="cardboardBoxClosed" type="RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.35076, 7.07805e-08, 10.8832)
+[node name="cardboardBoxClosed" type="RigidBody3D" unique_id=1036248333]
 mass = 2.0
 
-[node name="cardboardBoxClosed(Clone)" type="MeshInstance3D" parent="."]
+[node name="cardboardBoxClosed(Clone)" type="MeshInstance3D" parent="." unique_id=1744566818]
 mesh = SubResource("ArrayMesh_kusnw")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1619602025]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.211533, 0.2229, -0.212646)
 shape = SubResource("BoxShape3D_fplnv")

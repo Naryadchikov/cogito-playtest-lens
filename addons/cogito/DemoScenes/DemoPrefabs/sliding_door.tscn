@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://nqyrraqwixxy"]
+[gd_scene format=4 uid="uid://nqyrraqwixxy"]
 
 [ext_resource type="Script" uid="uid://cismjpvxmsbf2" path="res://addons/cogito/CogitoObjects/cogito_door.gd" id="1_fged4"]
 [ext_resource type="AudioStream" uid="uid://wfjccrp1mkra" path="res://addons/cogito/Assets/Audio/squidge316_sliding-door_01.ogg" id="2_n3bjk"]
@@ -98,13 +98,13 @@ shadow_mesh = SubResource("ArrayMesh_xr775")
 [sub_resource type="BoxShape3D" id="BoxShape3D_w6tyf"]
 size = Vector3(0.2, 2.25, 1.5)
 
-[node name="SlidingDoor" type="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.7, 0, -4.75)
+[node name="SlidingDoor" type="Node3D" unique_id=603715853]
 
-[node name="KSI_door_half" type="AnimatableBody3D" parent="."]
+[node name="KSI_door_half" type="AnimatableBody3D" parent="." unique_id=1644470030 node_paths=PackedStringArray("audio_player")]
 collision_layer = 3
 script = ExtResource("1_fged4")
 prompt_pos_mode = 2
+audio_player = NodePath("AudioStreamPlayer3D")
 open_sound = ExtResource("2_n3bjk")
 close_sound = ExtResource("3_bh3rj")
 auto_close_time = 2.0
@@ -112,16 +112,15 @@ door_type = 1
 open_position = Vector3(0, 0, -1.44)
 door_speed = 0.3
 
-[node name="object_029" type="MeshInstance3D" parent="KSI_door_half"]
+[node name="object_029" type="MeshInstance3D" parent="KSI_door_half" unique_id=700350602]
 mesh = SubResource("ArrayMesh_d0li4")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="KSI_door_half"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KSI_door_half" unique_id=408231534]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 1.125, -0.75)
 shape = SubResource("BoxShape3D_w6tyf")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="KSI_door_half"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="KSI_door_half" unique_id=775361362]
 volume_db = -13.0
 bus = &"SFX"
 
-[node name="BasicInteraction" parent="KSI_door_half" instance=ExtResource("4_rvjsd")]
+[node name="BasicInteraction" parent="KSI_door_half" unique_id=447287899 instance=ExtResource("4_rvjsd")]

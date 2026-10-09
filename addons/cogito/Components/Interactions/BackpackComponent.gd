@@ -50,4 +50,4 @@ func give_back_items(_passed_inventory: CogitoInventory) -> void:
 	
 	for item in temp_item_array:
 		inventory.pick_up_slot_data(item)
-		CogitoGlobals.debug_log(true,"BackpackComponent", item.inventory_item.name + " added  back to player inventory.")
+		CogitoGlobals.debug_log(true,"BackpackComponent", item.inventory_item.name + " added back to player inventory.")

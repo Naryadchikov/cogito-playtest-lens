@@ -223,6 +223,7 @@ func _sit_down(play_sound: bool = true):
 		node.hide()
 	
 	is_occupied = true
+	player_sit_down.emit()
 
 
 func _stand_up(play_sound: bool = true):
@@ -255,6 +256,7 @@ func _stand_up(play_sound: bool = true):
 		node.show()
 	
 	is_occupied = false
+	player_stand_up.emit()
 
 
 func switch():
@@ -343,7 +345,7 @@ func interact(player_interaction_component):
 	interact_cooldown = current_time + interact_cooldown_duration
 	
 	if disable_on_crouch == true:
-		if player_node.is_crouching:
+		if player_node.is_in_crouching_state():
 			player_interaction_component.send_hint(null, "I should stand up first")
 			return
 	

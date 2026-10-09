@@ -63,6 +63,7 @@ var is_wielding: bool:
 # Used to auto equip the last, or just selected, wieldable automatically after or while carrying
 var wieldable_item_to_auto_equip: WieldableItemPD = null
 var auto_equip_wieldable_after_carrying: bool = false
+var primary_action_held: bool = false
 
 var player_rid
 # Briefly interrupt quickslot cycling after an interactable is unseen
@@ -84,40 +85,45 @@ func _process(_delta):
 	pass
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func on_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact") or event.is_action_pressed("interact2"):
 		var action: String = "interact" if event.is_action_pressed("interact") else "interact2"
 		_handle_interaction(action)
-	
-	if is_wielding and !get_parent().is_movement_paused and not interactable:
-		if event.is_action_pressed("change_ammo_type"):
-			attempt_change_ammo()
-		if event.is_action_pressed("reload"):
-			attempt_reload()
-
-
-func _input(event: InputEvent) -> void:
-	if is_carrying and !get_parent().is_movement_paused and is_instance_valid(carried_object):
-		if Input.is_action_just_pressed("action_primary"):
+		
+	if event.is_action_pressed("action_primary"):
+		primary_action_held = true
+		if is_carrying and is_instance_valid(carried_object):
 			_attempt_throw()
 			get_viewport().set_input_as_handled()
-
-	# Wieldable primary Action Input
-	if is_wielding and !get_parent().is_movement_paused:
-		if Input.is_action_just_pressed("action_primary"):
+		elif is_wielding:
 			attempt_action_primary(false)
 			get_viewport().set_input_as_handled()
-		if Input.is_action_just_released("action_primary"):
+			
+	elif event.is_action_released("action_primary"):
+		primary_action_held = false
+		if is_wielding and !is_carrying:
 			attempt_action_primary(true)
 			get_viewport().set_input_as_handled()
-		
-		if Input.is_action_just_pressed("action_secondary"):
+			
+	if event.is_action_pressed("action_secondary"):
+		if is_wielding:
 			attempt_action_secondary(false)
 			get_viewport().set_input_as_handled()
-		if Input.is_action_just_released("action_secondary"):
+	elif event.is_action_released("action_secondary"):
+		if is_wielding:
 			attempt_action_secondary(true)
 			get_viewport().set_input_as_handled()
-
+	
+	if event.is_action_pressed("change_ammo_type") and is_wielding:
+		attempt_change_ammo()
+		
+	if event.is_action_pressed("reload") and is_wielding:
+		# The below is a fix to avoid triggering reload when player attempts to interact and both actions are bound to same (gamepad) button
+		if InputHelper.device_index == -1: # If mouse/keyboard
+			attempt_reload()
+		else:
+			if interactable == null:
+				attempt_reload()
 
 func _handle_interaction(action: String) -> void:
 	# if carrying an object, drop it.
@@ -154,6 +160,9 @@ func _handle_interaction(action: String) -> void:
 	if interactable != null and not is_carrying:
 		for node: InteractionComponent in interactable.interaction_nodes:
 			if node.input_map_action == action and not node.is_disabled:
+				if player.get("is_in_interaction_state") and !player.is_in_interaction_state or (!player.is_on_floor() and node.disable_interaction_in_air):
+					return
+					
 				if !node.ignore_open_gui and get_parent().is_showing_ui:
 					return
 				node.interact(self)
@@ -191,7 +200,19 @@ func get_carryable_destination_point(distance_offset: float) -> Vector3:
 		print("PIC: Error, no carryable position reference set!")
 		return self.global_position
 	
-	var destination_point = carryable_position.global_position - distance_offset * get_viewport().get_camera_3d().get_global_transform().basis.z
+	var camera = get_viewport().get_camera_3d()
+	var looking_vector = -camera.global_transform.basis.z.normalized()
+	var pitch = atan2(looking_vector.y, Vector2(looking_vector.x, looking_vector.z).length())
+	var look_down_factor = clamp(pitch, -PI / 2.0, 0.0) / (-PI / 2.0)
+	var safe_distance_offset = look_down_factor
+	
+	var carried_object_parent = carried_object.get_parent()
+	if carried_object_parent and carried_object_parent.has_method("get_aabb"):
+		var aabb = carried_object.get_parent().get_aabb()
+		var biggest_dimension = max(aabb.size.x,max(aabb.size.y, aabb.size.z))
+		safe_distance_offset = biggest_dimension * 0.5 + look_down_factor
+	
+	var destination_point = carryable_position.global_position + (distance_offset + safe_distance_offset) * looking_vector
 	
 	if interaction_raycast.is_colliding():
 		var collision_point = interaction_raycast.get_collision_point()
@@ -222,12 +243,15 @@ func equip_wieldable(wieldable_item: WieldableItemPD):
 		var wieldable_node = wieldable_item.build_wieldable_scene()
 		wieldable_container.add_child(wieldable_node)
 		equipped_wieldable_node = wieldable_node
-		equipped_wieldable_node.change_ammo(equipped_wieldable_item.current_ammo_type)
+		equipped_wieldable_node.set_ammo_type(equipped_wieldable_item.current_ammo_type)
 		equipped_wieldable_node.item_reference = wieldable_item
 		print("PIC: Found ", equipped_wieldable_item.name, " in wieldable node array: ", wieldable_node.name)
-		equipped_wieldable_node.equip(self)
-		await get_tree().create_timer(equipped_wieldable_node.animation_player.current_animation_length).timeout
+		wieldable_node.equip(self)
+		await get_tree().create_timer(wieldable_node.animation_player.current_animation_length).timeout
 		is_changing_wieldables = false
+		if is_instance_valid(wieldable_node) and wieldable_node == equipped_wieldable_node and wieldable_node.animation_player.is_playing():
+			await wieldable_node.animation_player.animation_finished
+		_apply_held_primary_action()
 	else:
 		is_changing_wieldables = false
 
@@ -253,7 +277,13 @@ func attempt_action_primary(is_released: bool):
 	if equipped_wieldable_node == null:
 		print("Nothing equipped, but is_wielding was true. This shouldn't happen!")
 		return
+		
 	equipped_wieldable_node.action_primary(equipped_wieldable_item, is_released)
+
+
+func _apply_held_primary_action() -> void:
+	if primary_action_held and Input.is_action_pressed("action_primary") and is_wielding and !is_carrying:
+		attempt_action_primary(false)
 
 
 func attempt_action_secondary(is_released: bool):
@@ -267,66 +297,11 @@ func attempt_action_secondary(is_released: bool):
 
 
 func attempt_change_ammo():
-	if equipped_wieldable_node.animation_player.is_playing():
-		send_hint(null, tr("HINT_ammo_change_blocked"))
-		return
-	if(equipped_wieldable_item.switch_to_next_ammo_type()):
-		equipped_wieldable_node.change_ammo(equipped_wieldable_item.current_ammo_type)
-		equipped_wieldable_item.update_wieldable_data(self)
-		attempt_reload()
+	if equipped_wieldable_node: equipped_wieldable_node.change_ammo()
 
 
 func attempt_reload():
-	var inventory = get_inventory()
-	# Some safety checks if reload should even be triggered.
-	if inventory == null:
-		print("Player inventory was null!")
-		return
-
-	if equipped_wieldable_node.animation_player.is_playing():
-		print("Can't interrupt current action / animation")
-		return
-
-	# If the item doesn't use reloading, return.
-	if equipped_wieldable_item.no_reload:
-		return
-
-	var ammo_needed: int = abs(equipped_wieldable_item.charge_max - equipped_wieldable_item.charge_current)
-	if ammo_needed <= 0:
-		print("Wieldable is fully charged.")
-		return
-
-	if equipped_wieldable_item.get_item_amount_in_inventory(equipped_wieldable_item.get_current_ammo()) <= 0:
-		CogitoGlobals.debug_log(true,"PIC", "You have no ammo for this wieldable.")
-		return
-
-	if equipped_wieldable_node.animation_player.is_playing(): # Make sure reload isn't interrupting another animation.
-		return
-
-	equipped_wieldable_node.reload()
-
-	for slot: InventorySlotPD in inventory.inventory_slots:
-		if ammo_needed <= 0:
-			break
-		if slot == null or slot.inventory_item.name != equipped_wieldable_item.get_current_ammo().name:
-			continue
-
-		var ammo_used: int
-		var slot_ammo: AmmoItemPD = slot.inventory_item
-		var quantity_needed: int = ceili(float(ammo_needed) / slot_ammo.reload_amount)
-
-		if slot.quantity <= quantity_needed:
-			ammo_used = slot_ammo.reload_amount * slot.quantity
-			inventory.remove_slot_data(slot)
-		elif slot.quantity > quantity_needed:
-			ammo_used = slot_ammo.reload_amount * quantity_needed
-			slot.quantity -= quantity_needed
-
-		equipped_wieldable_item.add(ammo_used)
-		ammo_needed -= ammo_used
-
-	inventory.inventory_updated.emit(inventory)
-	equipped_wieldable_item.update_wieldable_data(self)
+	if equipped_wieldable_node: equipped_wieldable_node.reload()
 
 
 func on_death():
@@ -457,7 +432,7 @@ func _attempt_throw() -> void:
 			return
 		else:
 			player.decrease_attribute(stamina_attribute.attribute_name, throw_stamina_drain)
-
+			
 	carried_object.throw(throw_force)
 
 

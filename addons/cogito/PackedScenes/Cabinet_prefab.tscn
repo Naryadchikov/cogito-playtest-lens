@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dbtarejfetahc"]
+[gd_scene format=3 uid="uid://dbtarejfetahc"]
 
 [ext_resource type="PackedScene" uid="uid://cxwwd4mjnn34w" path="res://addons/cogito/PackedScenes/Shelf.tscn" id="1_g3pr0"]
 [ext_resource type="Script" uid="uid://cismjpvxmsbf2" path="res://addons/cogito/CogitoObjects/cogito_door.gd" id="2_xux4j"]
@@ -31,15 +31,16 @@ size = Vector3(0.546204, 0.499023, 0.0315491)
 [sub_resource type="BoxMesh" id="BoxMesh_2037u"]
 size = Vector3(0.05, 0.1, 0.01)
 
-[node name="Cabinet_Prefab" type="Node3D"]
+[node name="Cabinet_Prefab" type="Node3D" unique_id=1522549810]
 
-[node name="shelf" parent="." instance=ExtResource("1_g3pr0")]
+[node name="shelf" parent="." unique_id=28866085 instance=ExtResource("1_g3pr0")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
-[node name="Drawer" type="AnimatableBody3D" parent="."]
+[node name="Drawer" type="AnimatableBody3D" parent="." unique_id=991303421 node_paths=PackedStringArray("audio_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0.3)
 collision_layer = 3
 script = ExtResource("2_xux4j")
+audio_player = NodePath("AudioStreamPlayer3D")
 open_sound = ExtResource("3_jxcxt")
 close_sound = ExtResource("4_4064u")
 door_type = 1
@@ -47,32 +48,33 @@ closed_position = Vector3(0, 0.04, 0.3)
 open_position = Vector3(0, 0.04, -0.04)
 door_speed = 0.3
 
-[node name="shelf_drawer" parent="Drawer" instance=ExtResource("5_61f6l")]
+[node name="shelf_drawer" parent="Drawer" unique_id=1405428492 instance=ExtResource("5_61f6l")]
 transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, 0.55, 0, -0.5, -2.40413e-08, 0, -0.0124792, -0.102205)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Drawer"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Drawer" unique_id=1105531612]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000432849, 0.0831576, -0.483523)
 shape = SubResource("BoxShape3D_e38y8")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="Drawer"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Drawer" unique_id=1632556541]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.00228627, -0.00572116, -0.283721)
 shape = SubResource("BoxShape3D_vdsrv")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="Drawer"]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Drawer" unique_id=1800087357]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.000883475, 0.0905199, -0.126601)
 shape = SubResource("BoxShape3D_muqxo")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Drawer"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Drawer" unique_id=983839220]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0111207, -0.309505)
 volume_db = -20.0
 bus = &"SFX"
 
-[node name="BasicInteraction" parent="Drawer" instance=ExtResource("6_vb6qn")]
+[node name="BasicInteraction" parent="Drawer" unique_id=2042028233 instance=ExtResource("6_vb6qn")]
 
-[node name="Drawer2" type="AnimatableBody3D" parent="."]
+[node name="Drawer2" type="AnimatableBody3D" parent="." unique_id=21333214 node_paths=PackedStringArray("audio_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.34, 0.3)
 collision_layer = 3
 script = ExtResource("2_xux4j")
+audio_player = NodePath("AudioStreamPlayer3D")
 open_sound = ExtResource("3_jxcxt")
 close_sound = ExtResource("4_4064u")
 door_type = 1
@@ -80,80 +82,80 @@ closed_position = Vector3(0, 0.34, 0.3)
 open_position = Vector3(0, 0.34, -0.04)
 door_speed = 0.3
 
-[node name="shelf_drawer" parent="Drawer2" instance=ExtResource("5_61f6l")]
+[node name="shelf_drawer" parent="Drawer2" unique_id=958289235 instance=ExtResource("5_61f6l")]
 transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, 0.55, 0, -0.5, -2.40413e-08, 0, -0.0124792, -0.102205)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Drawer2"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Drawer2" unique_id=934171867]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000432849, 0.0831576, -0.483523)
 shape = SubResource("BoxShape3D_e38y8")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="Drawer2"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Drawer2" unique_id=1400087934]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.00228627, -0.00572116, -0.283721)
 shape = SubResource("BoxShape3D_vdsrv")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="Drawer2"]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Drawer2" unique_id=925561510]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.000883475, 0.0905199, -0.126601)
 shape = SubResource("BoxShape3D_muqxo")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Drawer2"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Drawer2" unique_id=566926833]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0111207, -0.309505)
 volume_db = -20.0
 bus = &"SFX"
 
-[node name="BasicInteraction" parent="Drawer2" instance=ExtResource("6_vb6qn")]
+[node name="BasicInteraction" parent="Drawer2" unique_id=249220733 instance=ExtResource("6_vb6qn")]
 
-[node name="CabinetDoorA" type="AnimatableBody3D" parent="."]
+[node name="CabinetDoorA" type="AnimatableBody3D" parent="." unique_id=1231618818 node_paths=PackedStringArray("audio_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.550421, -0.550831, -0.191422)
 collision_layer = 3
 script = ExtResource("2_xux4j")
+audio_player = NodePath("AudioStreamPlayer3D")
 open_sound = ExtResource("6_q1lg4")
 close_sound = ExtResource("7_takda")
-open_rotation_deg = -100.0
 open_rotation = Vector3(0, -100, 0)
 door_speed = 3.0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CabinetDoorA"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CabinetDoorA" unique_id=2067947630]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.273755, 0.249783, 0.0143263)
 mesh = SubResource("BoxMesh_0q1yo")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CabinetDoorA"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CabinetDoorA" unique_id=1917713602]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.273786, 0.250271, 0.0140547)
 shape = SubResource("BoxShape3D_tdi5o")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="CabinetDoorA"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="CabinetDoorA" unique_id=1941687849]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.488182, 0.249783, -0.0120107)
 mesh = SubResource("BoxMesh_2037u")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="CabinetDoorA"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="CabinetDoorA" unique_id=590301760]
 volume_db = -20.0
 bus = &"SFX"
 
-[node name="BasicInteraction" parent="CabinetDoorA" instance=ExtResource("6_vb6qn")]
+[node name="BasicInteraction" parent="CabinetDoorA" unique_id=1325714197 instance=ExtResource("6_vb6qn")]
 
-[node name="CabinetDoorB" type="AnimatableBody3D" parent="."]
+[node name="CabinetDoorB" type="AnimatableBody3D" parent="." unique_id=503647233 node_paths=PackedStringArray("audio_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.553214, -0.550831, -0.191422)
 collision_layer = 3
 script = ExtResource("2_xux4j")
+audio_player = NodePath("AudioStreamPlayer3D")
 open_sound = ExtResource("6_q1lg4")
 close_sound = ExtResource("7_takda")
-open_rotation_deg = 100.0
 open_rotation = Vector3(0, 100, 0)
 door_speed = 3.0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CabinetDoorB"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CabinetDoorB" unique_id=791396705]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.276946, 0.249783, 0.0143263)
 mesh = SubResource("BoxMesh_0q1yo")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CabinetDoorB"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CabinetDoorB" unique_id=955422510]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.276915, 0.250271, 0.0140547)
 shape = SubResource("BoxShape3D_tdi5o")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="CabinetDoorB"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="CabinetDoorB" unique_id=1711555695]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.483264, 0.249783, -0.0120107)
 mesh = SubResource("BoxMesh_2037u")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="CabinetDoorB"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="CabinetDoorB" unique_id=2264796]
 volume_db = -20.0
 bus = &"SFX"
 
-[node name="BasicInteraction" parent="CabinetDoorB" instance=ExtResource("6_vb6qn")]
+[node name="BasicInteraction" parent="CabinetDoorB" unique_id=1066241152 instance=ExtResource("6_vb6qn")]

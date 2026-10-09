@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://bqe44f6qeagyx"]
+[gd_scene format=4 uid="uid://bqe44f6qeagyx"]
 
 [ext_resource type="Script" uid="uid://dmeh01c5ccjqc" path="res://addons/cogito/CogitoObjects/cogito_object.gd" id="1_1k4b6"]
 [ext_resource type="PackedScene" uid="uid://m82ivreg3ugd" path="res://addons/cogito/Components/ImpactSounds.tscn" id="2_bkydy"]
@@ -72,22 +72,21 @@ shadow_mesh = SubResource("ArrayMesh_c5gp6")
 height = 0.25
 radius = 0.0890024
 
-[node name="plantSmall2" type="RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.79886, 0.7688, 0.289945)
-max_contacts_reported = 4
+[node name="plantSmall2" type="RigidBody3D" unique_id=2059553397]
 contact_monitor = true
+max_contacts_reported = 4
 script = ExtResource("1_1k4b6")
+cogito_name = ""
 
-[node name="plantSmall2(Clone)" type="MeshInstance3D" parent="."]
+[node name="plantSmall2(Clone)" type="MeshInstance3D" parent="." unique_id=350769450]
 transform = Transform3D(2.98023e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, 2.98023e-08, 0, 0, 0)
 mesh = SubResource("ArrayMesh_bafh4")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1767103861]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0)
 shape = SubResource("CylinderShape3D_qlxaf")
 
-[node name="ImpactSounds" parent="." instance=ExtResource("2_bkydy")]
+[node name="ImpactSounds" parent="." unique_id=162924089 instance=ExtResource("2_bkydy")]
 
-[node name="CarryableComponent" parent="." instance=ExtResource("3_i83ca")]
+[node name="CarryableComponent" parent="." unique_id=1370252448 instance=ExtResource("3_i83ca")]
 carry_distance_offset = -1.0

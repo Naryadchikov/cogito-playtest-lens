@@ -17,21 +17,31 @@ func _ready() -> void:
 	if make_persistent:
 		self.add_to_group("Persist") #Adding object to group for persistence
 	
-	var skeletons: Array[Node] = find_children("", "Skeleton3D")
+	find_ragdoll_nodes()
+	await get_tree().create_timer(0.05, false).timeout
+	start_simulation()
+
+
+## Looks up the skeleton, physical bone simulator and skeleton modifier.
+## Call it again if they were replaced at runtime (e.g. a rebuilt character model).
+func find_ragdoll_nodes() -> void:
+	var skeletons: Array[Node] = find_children("", "Skeleton3D", true, false)
 	if len(skeletons):
 		skeleton = skeletons[0]
 	
-	skeleton.skeleton_updated.connect(_on_skeleton_ragdoll_skeleton_updated)
+	if not skeleton.skeleton_updated.is_connected(_on_skeleton_ragdoll_skeleton_updated):
+		skeleton.skeleton_updated.connect(_on_skeleton_ragdoll_skeleton_updated)
 	
-	var physical_bone_simulator_3ds: Array[Node] = find_children("", "PhysicalBoneSimulator3D")
+	var physical_bone_simulator_3ds: Array[Node] = find_children("", "PhysicalBoneSimulator3D", true, false)
 	if len(physical_bone_simulator_3ds):
 		physical_bone_simulator_3d = physical_bone_simulator_3ds[0]
 	
-	var cogito_ragdoll_skeleton_modifiers: Array[Node] = skeleton.find_children("", "CogitoRagdollSkeletonModifier")
+	var cogito_ragdoll_skeleton_modifiers: Array[Node] = skeleton.find_children("", "CogitoRagdollSkeletonModifier", true, false)
 	if len(cogito_ragdoll_skeleton_modifiers):
 		cogito_ragdoll_skeleton_modifier = cogito_ragdoll_skeleton_modifiers[0]
-		
-	await get_tree().create_timer(0.05, false).timeout
+
+
+func start_simulation() -> void:
 	physical_bone_simulator_3d.active = true
 	physical_bone_simulator_3d.physical_bones_start_simulation()
 

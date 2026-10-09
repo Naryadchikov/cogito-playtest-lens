@@ -35,6 +35,8 @@ signal hide_inventory
 @export var ui_currency_prefab : PackedScene
 ## If you want to have the stamina bar outside of the other attributes, you can set a reference here. This will remove it from the main attribute container
 @export var fixed_stamina_bar : CogitoAttributeUi
+## If you want to have the oxygen bar outside of the other attributes, you can set a reference here. This will remove it from the main attribute container
+@export var fixed_oxygen_bar : CogitoAttributeUi
 @export var default_crosshair : Texture2D
 ## Crosshair that appears when a interactable object is detected. Leave empty if you don't want to use an interaction crosshair.
 @export var interaction_crosshair : Texture2D
@@ -54,7 +56,7 @@ var interaction_texture : Texture2D
 var previous_crosshair_texture : Texture
 
 @onready var damage_overlay = $DamageOverlay
-@onready var inventory_interface = $InventoryInterface
+@onready var inventory_interface: CogitoInventoryInterface = $InventoryInterface
 @onready var wieldable_hud: PanelContainer = $MarginContainer_BottomUI/WieldableHud # Displays wieldable icons and data. Hides when no wieldable equipped.
 @onready var prompt_area: Control = $PromptUI/PromptArea
 @onready var hint_area: Control = $HintArea
@@ -67,9 +69,6 @@ var previous_crosshair_texture : Texture
 
 
 func _ready():
-	# TESTING THIS
-	set_process_unhandled_input(false)
-	
 	# Connect to signal that detects change of input device
 	InputHelper.device_changed.connect(_on_input_device_change)
 	# Calling this function once to set proper input icons
@@ -114,7 +113,6 @@ func connect_to_player_signals():
 	player.player_interaction_component.updated_wieldable_data.connect(_on_update_wieldable_data)
 	player.player_interaction_component.update_crosshair.connect(_on_update_crosshair)
 	player.toggled_interface.connect(_on_external_ui_toggle)
-	player.toggle_inventory_interface.connect(toggle_inventory_interface)
 	player.player_state_loaded.connect(_on_player_state_load)
 
 
@@ -126,6 +124,8 @@ func instantiate_player_attribute_ui():
 	for attribute in player.player_attributes.values():
 		if fixed_stamina_bar and attribute.attribute_name == "stamina":
 			fixed_stamina_bar.initiate_attribute_ui(attribute)
+		elif fixed_oxygen_bar and attribute.attribute_name == "oxygen":
+			fixed_oxygen_bar.initiate_attribute_ui(attribute)
 		else:
 			if attribute.attribute_visibility == 0 or attribute.attribute_visibility == 1: # Only instantiates Attributes that have visibility set to HUD
 				var spawned_attribute_ui = ui_attribute_prefab.instantiate()
@@ -190,10 +190,32 @@ func _on_input_device_change(_device, _device_index):
 	pass
 
 
+func set_inventory_visibility(visible: bool, external_inventory: CogitoContainer = null) -> void:
+	if !inventory_interface: return
+	
+	if visible and !inventory_interface.is_inventory_open:
+		inventory_interface.open_inventory()
+		_on_external_ui_toggle(true)
+		inventory_interface.inventory_open.connect(_on_inventory_toggled)
+		if external_inventory:
+			inventory_interface.set_external_inventory(external_inventory)
+			external_inventory.open()
+		show_inventory.emit()
+	elif !visible and inventory_interface.is_inventory_open:
+		inventory_interface.close_inventory()
+		_on_external_ui_toggle(false)
+		hide_inventory.emit()
+
+func _on_inventory_toggled(is_showing: bool) -> void:
+	if !is_showing:
+		_on_external_ui_toggle(false)
+		inventory_interface.inventory_open.disconnect(_on_inventory_toggled)
+		
 func toggle_inventory_interface(external_inventory_owner = null):
 	if !inventory_interface.is_inventory_open:
 		inventory_interface.open_inventory()
 		_on_external_ui_toggle(true)
+		inventory_interface.inventory_open.connect(on_inventory_visibility_changed)
 		if external_inventory_owner:
 			external_inventory_owner.open()
 		show_inventory.emit()
@@ -209,6 +231,11 @@ func toggle_inventory_interface(external_inventory_owner = null):
 	else:
 		inventory_interface.clear_external_inventory()
 
+func on_inventory_visibility_changed(is_showing: bool):
+	if !is_showing:
+		_on_external_ui_toggle(false)
+		hide_inventory.emit()
+		inventory_interface.inventory_open.disconnect(on_inventory_visibility_changed)
 
 ### Interaction Prompt UI:
 func set_interaction_prompts(passed_interaction_nodes : Array[Node]):
@@ -286,15 +313,11 @@ func set_drop_prompt(_carrying_node):
 
 
 #What happens when an external UI is shown (like inventory, readbale document, keypad, external inventory)
-func _on_external_ui_toggle(is_showing:bool):
+func _on_external_ui_toggle(is_showing: bool):
 	if is_showing:
-		player._on_pause_movement()
-		player.is_showing_ui = true
 		prompt_area.hide()
 		crosshair.hide()
 	else:
-		player._on_resume_movement()
-		player.is_showing_ui = false
 		prompt_area.show()
 		crosshair.show()
 
@@ -343,7 +366,7 @@ func _on_player_damage_taken():
 
 # Function called when player dies.
 func _on_player_death():
-	player._on_pause_movement()
+	# player._on_pause_movement()
 	$DeathScreen.open_death_screen()
 
 

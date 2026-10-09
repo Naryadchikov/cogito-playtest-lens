@@ -45,8 +45,14 @@ func _process(_delta):
 				CogitoGlobals.debug_log(true, "loading_screen.gd", "Attempting to load scene state: " + next_scene_state_filename)
 				CogitoSceneManager.load_scene_state(next_scene_state_filename,"temp") # Loading temp scene state
 				CogitoSceneManager.load_player_state(CogitoSceneManager._current_player_node,"temp") # Loading temp player state.
+			
+			CogitoSceneManager._current_player_node.resume()
 		else:
 			CogitoGlobals.debug_log(true, "loading_screen.gd", "Load mode 2 (RESET), ignoring scene and player states.")
+			if CogitoSceneManager.is_starting_new_game:
+				CogitoSceneManager.starting_a_new_game.call_deferred()
+		
+		shader_precompilation()
 		
 		get_tree().current_scene = new_scene_node # Assigns new scene as current scene
 		
@@ -62,3 +68,13 @@ func _process(_delta):
 		var progress_percentage := remap(progress_value, 0.4, 1.0, 0, 99)
 		progress_percentage = snapped(progress_percentage, 0.1)
 		label_progress.text = str(progress_percentage) + "%"
+		
+		
+func shader_precompilation() -> void:
+	# Iterrating through shaders
+	for shader in CogitoGlobals.cogito_settings.shaders_to_preload:
+		var dummy_material = ShaderMaterial.new()
+		dummy_material.shader = shader
+		CogitoGlobals.debug_log(true, "loading_screen", "Shader cached: " + shader.resource_path)
+		dummy_material = null
+	CogitoGlobals.debug_log(true, "loading_screen", "Shader precompilation complete.")

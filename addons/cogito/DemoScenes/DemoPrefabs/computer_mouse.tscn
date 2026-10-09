@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=4 uid="uid://1erdqt8uhlj5"]
+[gd_scene format=4 uid="uid://1erdqt8uhlj5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2rq71"]
 resource_name = "metalDark"
@@ -40,13 +40,11 @@ shadow_mesh = SubResource("ArrayMesh_ocncn")
 [sub_resource type="BoxShape3D" id="BoxShape3D_2urqs"]
 size = Vector3(0.1, 0.0459961, 0.167944)
 
-[node name="computerMouse" type="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.7004, 0.7688, -0.334117)
+[node name="computerMouse" type="StaticBody3D" unique_id=821564]
 
-[node name="computerMouse(Clone)" type="MeshInstance3D" parent="."]
+[node name="computerMouse(Clone)" type="MeshInstance3D" parent="." unique_id=1777365941]
 mesh = SubResource("ArrayMesh_orw55")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1961483874]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.022998, -0.0834106)
 shape = SubResource("BoxShape3D_2urqs")

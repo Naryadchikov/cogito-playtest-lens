@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://5r8icl42jumy"]
+[gd_scene format=3 uid="uid://5r8icl42jumy"]
 
 [ext_resource type="Script" uid="uid://grn3cqd1mx86" path="res://addons/cogito/Wieldables/wieldable_flashlight.gd" id="1_pak3j"]
 [ext_resource type="AudioStream" uid="uid://dsp8iwkwq2rlu" path="res://addons/cogito/Assets/Audio/Kenney/UiAudio/switch1.ogg" id="2_dm0bj"]
@@ -99,7 +99,7 @@ metallic_specular = 0.2
 use_z_clip_scale = true
 z_clip_scale = 0.6
 
-[node name="Flashlight" type="Node3D" node_paths=PackedStringArray("wieldable_mesh")]
+[node name="Flashlight" type="Node3D" unique_id=1054877033 node_paths=PackedStringArray("wieldable_mesh")]
 transform = Transform3D(-3.61999e-06, 0, 1, 0, 1, 0, -1, 0, -3.61999e-06, 0.325805, -0.279839, -0.531526)
 script = ExtResource("1_pak3j")
 drain_rate = 4.0
@@ -111,56 +111,54 @@ anim_action_primary = "Wieldable_Flashlight/action_primary"
 anim_action_secondary = "Wieldable_Flashlight/action_secondary"
 anim_reload = "Wieldable_Flashlight/reload"
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1556649478]
 bus = &"SFX"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_1250e"),
-&"Wieldable_Flashlight": ExtResource("3_cahdi")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1813835007]
+libraries/ = SubResource("AnimationLibrary_1250e")
+libraries/Wieldable_Flashlight = ExtResource("3_cahdi")
 
-[node name="SpotLight3D" type="SpotLight3D" parent="."]
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=1244199652]
 transform = Transform3D(-4.37114e-08, -4.37114e-08, -1, -1, 1.91069e-15, 4.37114e-08, 0, 1, -4.37114e-08, 0.174371, 0, 0)
 visible = false
 spot_range = 8.0
 spot_angle = 30.0
 
-[node name="Flashlight_Mesh" type="Node3D" parent="."]
+[node name="Flashlight_Mesh" type="Node3D" parent="." unique_id=2080738586]
 
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Flashlight_Mesh"]
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Flashlight_Mesh" unique_id=879894578]
 transform = Transform3D(-4.47035e-08, 1, 0, -1, -4.47035e-08, 0, 0, 2.84217e-14, 1, -0.0541318, 0, -2.98023e-08)
 radius = 0.05
 height = 0.3
 material = SubResource("StandardMaterial3D_mkb6x")
 
-[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Flashlight_Mesh"]
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Flashlight_Mesh" unique_id=22227857]
 transform = Transform3D(-4.47035e-08, 1, 0, -1, -4.47035e-08, 0, 0, 2.84217e-14, 1, 0.145868, 0, 0)
 radius = 0.06
 height = 0.1
 material = SubResource("StandardMaterial3D_jp0qx")
 
-[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="Flashlight_Mesh"]
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="Flashlight_Mesh" unique_id=80102054]
 transform = Transform3D(-4.47035e-08, 1, 0, -1, -4.47035e-08, 0, 0, 2.84217e-14, 1, 0.196543, 0, -2.98023e-08)
 radius = 0.05
 height = 0.01
 material = SubResource("StandardMaterial3D_r4224")
 
-[node name="BatteryMesh" type="Node3D" parent="Flashlight_Mesh"]
+[node name="BatteryMesh" type="Node3D" parent="Flashlight_Mesh" unique_id=2018275439]
 transform = Transform3D(-1.30385e-08, 0.4, -1.45868e-06, -0.4, -1.76951e-08, -1.48267e-06, -1.42306e-06, 1.42772e-06, 0.4, 0, 0, 0)
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Flashlight_Mesh/BatteryMesh"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Flashlight_Mesh/BatteryMesh" unique_id=221700566]
 mesh = SubResource("CylinderMesh_xuu8r")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_utrdi")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="Flashlight_Mesh/BatteryMesh"]
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Flashlight_Mesh/BatteryMesh" unique_id=722135359]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
 mesh = SubResource("CylinderMesh_k065b")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_y88gb")
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="Flashlight_Mesh/BatteryMesh"]
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Flashlight_Mesh/BatteryMesh" unique_id=1241861429]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21, 0)
 mesh = SubResource("CylinderMesh_ibnes")
 skeleton = NodePath("../..")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://b60auyyy0apwb"]
+[gd_scene format=3 uid="uid://b60auyyy0apwb"]
 
 [ext_resource type="Script" uid="uid://dmeh01c5ccjqc" path="res://addons/cogito/CogitoObjects/cogito_object.gd" id="1_jslki"]
 [ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://addons/cogito/Components/Interactions/PickupComponent.tscn" id="2_ys4lp"]
@@ -48,8 +48,6 @@ radius = 0.15
 resource_local_to_scene = true
 script = ExtResource("4_idj1w")
 inventory_item = ExtResource("3_lmeso")
-quantity = 1
-origin_index = -1
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_qu2a1"]
 random_pitch = 1.1
@@ -66,31 +64,32 @@ stream_7/stream = ExtResource("13_qd83w")
 stream_8/stream = ExtResource("14_kxleo")
 stream_9/stream = ExtResource("15_y6ho2")
 
-[node name="HealthExtension" type="RigidBody3D"]
+[node name="HealthExtension" type="RigidBody3D" unique_id=628129270]
 collision_layer = 3
 contact_monitor = true
 max_contacts_reported = 4
 script = ExtResource("1_jslki")
+cogito_name = ""
 custom_aabb = AABB(0, 0, 0, 0.3, 0.5, 0.3)
 
-[node name="CSGMesh3D2" type="CSGMesh3D" parent="."]
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="." unique_id=1443367343]
 transform = Transform3D(0.685, 0, 0, 0, 0.685, 0, 0, 0, 0.685, 0, -0.1043, 0)
 mesh = SubResource("CylinderMesh_jf5x7")
 material = SubResource("StandardMaterial3D_a7u7a")
 
-[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+[node name="CSGMesh3D" type="CSGMesh3D" parent="." unique_id=584711252]
 mesh = SubResource("CylinderMesh_x4wsa")
 material = SubResource("StandardMaterial3D_a6k4s")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=654398640]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0656812, 0)
 visible = false
 shape = SubResource("CylinderShape3D_tvmxx")
 
-[node name="PickupComponent" parent="." instance=ExtResource("2_ys4lp")]
+[node name="PickupComponent" parent="." unique_id=287529128 instance=ExtResource("2_ys4lp")]
 slot_data = SubResource("Resource_wefnc")
 
-[node name="ImpactSounds" parent="." instance=ExtResource("5_k52x1")]
+[node name="ImpactSounds" parent="." unique_id=439497297 instance=ExtResource("5_k52x1")]
 impact_sounds = SubResource("AudioStreamRandomizer_qu2a1")
 
-[node name="CarryableComponent" parent="." instance=ExtResource("16_tsdxc")]
+[node name="CarryableComponent" parent="." unique_id=1575040685 instance=ExtResource("16_tsdxc")]

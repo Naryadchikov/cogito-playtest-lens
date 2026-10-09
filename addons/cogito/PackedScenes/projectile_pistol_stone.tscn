@@ -5,7 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://addons/cogito/Components/Interactions/PickupComponent.tscn" id="3_imd10"]
 [ext_resource type="Resource" uid="uid://b3u14ltegv31j" path="res://addons/cogito/InventoryPD/Items/Cogito_StoneBullets.tres" id="4_gaq6g"]
 [ext_resource type="Script" uid="uid://di15gqemrkk0x" path="res://addons/cogito/InventoryPD/CustomResources/InventorySlotPD.gd" id="5_jyv3n"]
-[ext_resource type="PackedScene" uid="uid://cj0yaeh3yg7tu" path="res://addons/cogito/Components/Properties/CogitoProperties.tscn" id="6_qos63"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sn251"]
 albedo_color = Color(0.23529412, 0.23529412, 0.23529412, 1)
@@ -24,12 +23,12 @@ rings = 1
 height = 0.25
 radius = 0.05
 
-[sub_resource type="Resource" id="Resource_gaq6g"]
+[sub_resource type="Resource" id="Resource_uhu2p"]
 resource_local_to_scene = true
 script = ExtResource("5_jyv3n")
 inventory_item = ExtResource("4_gaq6g")
 
-[node name="projectile_pistol" type="RigidBody3D" unique_id=105584807]
+[node name="projectile_pistol_stone" type="RigidBody3D" unique_id=105584807]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 top_level = true
 collision_layer = 2
@@ -66,8 +65,6 @@ hold_interaction_text = "(HOLD) Reload"
 interaction_text = "Pick up | (HOLD) Reload"
 
 [node name="PickupComponent" parent="." unique_id=527036128 instance=ExtResource("3_imd10")]
-slot_data = SubResource("Resource_gaq6g")
-
-[node name="CogitoProperties" parent="." unique_id=287378381 instance=ExtResource("6_qos63")]
+slot_data = SubResource("Resource_uhu2p")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

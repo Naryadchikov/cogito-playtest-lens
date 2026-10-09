@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cn0bpqb4otng3"]
+[gd_scene format=3 uid="uid://cn0bpqb4otng3"]
 
 [ext_resource type="Texture2D" uid="uid://dyjjiic3lw3os" path="res://addons/cogito/Assets/VFX/Impacts/Textures/Flare00.PNG" id="1_bbpmh"]
 [ext_resource type="Material" uid="uid://c71aysyxsuq0t" path="res://addons/cogito/Assets/VFX/Impacts/Materials/Mat_flare00.tres" id="2_01gq5"]
@@ -73,9 +73,9 @@ alpha_curve = SubResource("CurveTexture_r21wt")
 
 [sub_resource type="QuadMesh" id="QuadMesh_65m0q"]
 
-[node name="WaterImpact" type="Node3D"]
+[node name="WaterImpact" type="Node3D" unique_id=717776508]
 
-[node name="Droplets" type="GPUParticles3D" parent="."]
+[node name="Droplets" type="GPUParticles3D" parent="." unique_id=596707084]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_8dr5u")
 amount = 20
@@ -85,7 +85,7 @@ fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_h14iv")
 draw_pass_1 = SubResource("QuadMesh_q5bm3")
 
-[node name="Steam" type="GPUParticles3D" parent="."]
+[node name="Steam" type="GPUParticles3D" parent="." unique_id=1214749625]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 material_override = ExtResource("2_01gq5")
 amount = 40

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://cgce75ts2twkp"]
+[gd_scene format=4 uid="uid://cgce75ts2twkp"]
 
 [ext_resource type="Script" uid="uid://dmeh01c5ccjqc" path="res://addons/cogito/CogitoObjects/cogito_object.gd" id="1_0ac41"]
 [ext_resource type="PackedScene" uid="uid://m82ivreg3ugd" path="res://addons/cogito/Components/ImpactSounds.tscn" id="2_hpgs1"]
@@ -80,29 +80,26 @@ size = Vector3(0.534586, 0.0714657, 0.0451172)
 resource_local_to_scene = true
 script = ExtResource("5_8rqog")
 inventory_item = ExtResource("4_n8uo2")
-quantity = 1
-origin_index = -1
 
-[node name="Pickup_Pickaxe" type="RigidBody3D"]
+[node name="Pickup_Pickaxe" type="RigidBody3D" unique_id=1396632347]
 collision_layer = 3
 mass = 5.0
 script = ExtResource("1_0ac41")
 cogito_name = ""
 prompt_pos_mode = 2
 
-[node name="toolPickaxe" type="MeshInstance3D" parent="."]
+[node name="toolPickaxe" type="MeshInstance3D" parent="." unique_id=1394913530]
 mesh = SubResource("ArrayMesh_kt5j0")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=623708468]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000933826, 0.361972, 0.0010252)
 shape = SubResource("BoxShape3D_jq0cg")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1750128397]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00171053, 0.659899, 0.00161171)
 shape = SubResource("BoxShape3D_opt4m")
 
-[node name="ImpactSounds" parent="." instance=ExtResource("2_hpgs1")]
+[node name="ImpactSounds" parent="." unique_id=338042837 instance=ExtResource("2_hpgs1")]
 
-[node name="PickupComponent" parent="." instance=ExtResource("3_26kv0")]
+[node name="PickupComponent" parent="." unique_id=290247341 instance=ExtResource("3_26kv0")]
 slot_data = SubResource("Resource_qkmd6")

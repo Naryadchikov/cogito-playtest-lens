@@ -10,7 +10,6 @@ class_name CogitoQuickslots
 @export var quickslot_containers : Array[CogitoQuickslotContainer]
 var player_interaction_component: PlayerInteractionComponent
 
-# var assigned_quickslots : Array[InventorySlotPD]
 @export var inventory_reference : CogitoInventory:
 	set(passed_inventory):
 		inventory_reference = passed_inventory
@@ -19,7 +18,6 @@ var player_interaction_component: PlayerInteractionComponent
 		# Connecting unbind signal from inventory
 		inventory_reference.unbind_quickslot_by_index.connect(on_unbind_quickslot_by_index)
 		inventory_reference.picked_up_new_inventory_item.connect(on_auto_quickslot_new_item)
-		
 		
 		set_inventory_quickslots(inventory_reference)
 		
@@ -92,7 +90,7 @@ func unbind_itemslot_from_quickslots(itemslot_to_unbind: InventorySlotPD):
 			quickslot.clear_this_quickslot()
 
 
-func _unhandled_input(event):
+func on_input(event: InputEvent) -> void:
 	if !self.visible:
 		return
 	

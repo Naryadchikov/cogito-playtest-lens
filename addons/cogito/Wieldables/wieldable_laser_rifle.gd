@@ -9,6 +9,8 @@ extends CogitoWieldable
 @export var laser_ray_prefab : PackedScene
 ## How long laser rays linger in the air
 @export var ray_lifespan : float = 5.0
+## Prefab of bullet_decal
+@export var bullet_decal_prefab : PackedScene
 ## The Field Of View change when aiming down sight. In degrees.
 @export var ads_fov = 65
 ## Default position for tweening from ADS
@@ -31,7 +33,7 @@ var spawn_node : Node
 var is_firing : bool = false
 
 var firing_cooldown : float
-var player_rid : RID
+var wielding_rid : RID
 
 var inventory_item_reference : WieldableItemPD
 
@@ -40,7 +42,7 @@ func _ready():
 	super._ready()
 	wieldable_mesh.hide()
 	firing_cooldown = 0
-	player_rid = CogitoSceneManager._current_player_node.get_rid()
+	wielding_rid = CogitoSceneManager._current_player_node.get_rid()
 
 
 func _physics_process(_delta: float) -> void:
@@ -48,7 +50,9 @@ func _physics_process(_delta: float) -> void:
 		firing_cooldown -= _delta
 		
 	if is_firing:
-		if firing_cooldown <= 0:
+		if !Input.is_action_pressed("action_primary"):
+			is_firing = false
+		elif firing_cooldown <= 0:
 			if animation_player.is_playing():
 				return
 			# Gettting camera_collision pos from player interaction component:
@@ -69,7 +73,7 @@ func _physics_process(_delta: float) -> void:
 			firing_cooldown = firing_delay
 
 
-# This gets called by player interaction compoment when the wieldable is equipped and primary action is pressed
+# This gets called by player interaction component when the wieldable is equipped and primary action is pressed
 func action_primary(_passed_item_reference : InventoryItemPD, _is_released: bool):
 	inventory_item_reference = _passed_item_reference
 	
@@ -104,7 +108,7 @@ func action_secondary(is_released:bool):
 func hit_scan_collision(collision_point:Vector3):
 	var bullet_direction = (collision_point - bullet_point.get_global_transform().origin).normalized()
 	var new_intersection = PhysicsRayQueryParameters3D.create(bullet_point.get_global_transform().origin, collision_point + bullet_direction * 2)
-	new_intersection.exclude = [player_rid]
+	new_intersection.exclude = [wielding_rid]
 	
 	var bullet_collision = get_world_3d().direct_space_state.intersect_ray(new_intersection)
 	
@@ -127,21 +131,28 @@ func hit_scan_collision(collision_point:Vector3):
 			var bullet_collision_normal = bullet_collision.normal
 			var bullet_global_basis = bullet_point.get_global_transform().basis
 			# Spawn bullet decal with collision parameters
-			BulletDecalPool.spawn_bullet_decal(bullet_collision_position, bullet_collision_normal, bullet_collider, bullet_global_basis,decal_texture)
+			BulletDecalPool.spawn_bullet_decal(bullet_decal_prefab, bullet_collision_position, bullet_collision_normal, bullet_collider, bullet_global_basis,decal_texture)
 
 
 func hit_scan_damage(collider, bullet_direction, bullet_position):
+	var damage = item_reference.wieldable_damage
 	if collider.has_signal("damage_received"):
-		collider.damage_received.emit(item_reference.wieldable_damage,bullet_direction,bullet_position)
+		collider.damage_received.emit(damage, self, bullet_direction,bullet_position)
+	elif collider is CogitoPlayer:
+		var player = collider as CogitoPlayer
+		player.decrease_attribute("health", damage)
 
 
 # Function called when wieldable reload is attempted
-func reload():
+func reload() -> bool:
+	if !super.reload(): return false
 	animation_player.play(anim_reload)
 	
 	if audio_stream_player_3d and sound_reload:
 		audio_stream_player_3d.stream = sound_reload
 		audio_stream_player_3d.play()
+		
+	return true
 
 
 # Function called when wieldable is equipped.

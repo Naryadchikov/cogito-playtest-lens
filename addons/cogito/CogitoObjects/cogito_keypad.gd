@@ -52,16 +52,14 @@ enum PromptPositionMode{
 ## If checked, the Cogito Doors will also trigger to open when unlocked.
 @export var open_when_unlocked : bool
 
-
 var interaction_text : String
-var is_open: bool #Used to show/hide ui.
 var is_locked : bool = true #Used to check if unlocked or not.
 var interaction_nodes : Array[Node]
 var cogito_properties : CogitoProperties = null
 var entered_code: String
-var player_interaction_component
-
-var in_focus : bool
+var player: PlayerInteractionComponent
+var can_interact: bool = true
+var is_closed: bool
 
 
 func _ready():
@@ -78,42 +76,41 @@ func _ready():
 		interaction_text = interaction_text_when_locked
 		
 	object_state_updated.emit(interaction_text)
-	get_viewport().connect("gui_focus_changed", self._on_focus_changed)
 
-func _on_focus_changed(control:Control):
-	in_focus = is_open and control.owner == self
-
-func interact(_player_interaction_component):
-	player_interaction_component = _player_interaction_component
-	if is_open:
-		close(_player_interaction_component)
-	else:
-		open(_player_interaction_component)
+func interact(_player: PlayerInteractionComponent):
+	player = _player
+	open(_player)
 
 
-func open(_player_interaction_component):
-	_player_interaction_component.get_parent().toggled_interface.emit(true)
-	_player_interaction_component.get_parent().menu_pressed.connect(close) #Connecting input action menu to close function.
+func open(_player: PlayerInteractionComponent):
+	is_closed = false
+	_player.get_parent().toggled_interface.emit(true)
+	_player.get_parent().menu_pressed.connect(close) #Connecting input action menu to close function.
 	keypad_ui.show()
 	grab_focus_button.grab_focus()
-	in_focus = true
-	is_open = true
+	InputRouter.push(on_input)
+	can_interact = true
 	
+	if InputHelper.device_index == -1:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
-func close(_player_interaction_component):
+func close(_player: PlayerInteractionComponent):
+	is_closed = true
 	keypad_ui.hide()
-	_player_interaction_component.get_parent().menu_pressed.disconnect(close)
-	_player_interaction_component.get_parent().toggled_interface.emit(false)
-	is_open = false
-	in_focus = false
+	_player.get_parent().menu_pressed.disconnect(close)
+	_player.get_parent().toggled_interface.emit(false)
+	InputRouter.pop()
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
+func on_input(event: InputEvent) -> void:
+	if event.is_action_pressed("menu") or event.is_action_pressed("ui_cancel") and can_interact:
+		if is_closed:
+			return
+		close(player)
 
 func _on_button_received(_passed_string:String):
 	if !is_locked:
 		CogitoGlobals.debug_log(true, "cogito_keypad.gd","Already unlocked!")
-		return
-	
-	if !is_open:
 		return
 	
 	match _passed_string:
@@ -137,7 +134,6 @@ func append_to_entered_code(_code_digit:String):
 
 func update_code_display():
 	code_display.text = entered_code
-	
 
 func check_entered_code():
 	if entered_code == passcode and is_locked:
@@ -148,13 +144,13 @@ func check_entered_code():
 		await get_tree().create_timer(unlock_wait_time).timeout
 		clear_entered_code()
 
-
 func unlock_keypad():
 	Audio.play_sound(correct_code_entered_sound)
 	is_locked = false
 	lock_color.modulate = correct_code_color
 	interaction_text = interaction_text_when_unlocked
 	object_state_updated.emit(interaction_text)
+	can_interact = false
 
 	await get_tree().create_timer(unlock_wait_time).timeout
 	
@@ -165,9 +161,11 @@ func unlock_keypad():
 		for door in doors_to_unlock:
 			door.unlock_door()
 			if open_when_unlocked:
-				door.open_door(player_interaction_component)
+				door.open_door(player)
 	
-	close(player_interaction_component)
+	if is_closed:
+		return
+	close(player)
 	
 
 func clear_entered_code():
@@ -187,11 +185,6 @@ func set_state():
 		lock_color.modulate = correct_code_color
 	object_state_updated.emit(interaction_text)
 
-
-
-func _unhandled_input(_event):
-	if in_focus:
-		get_viewport().set_input_as_handled()
 
 
 func save():

@@ -6,12 +6,23 @@ const settings_filename := "CogitoSettings"
 
 ## When this is checked, most Cogito scripts and objects will print messages in the output. Turn this on if you want to track and understand certain behaviors or have issues.
 @export var is_logging: bool = false
+## When this is checked, StateChartDebugger UI will be enabled in player HUD.
+@export var is_state_chart_debugger_enabled: bool = false
 
 @export_group("Game Settings")
+## The scene that gets loaded for the main menu
+@export var main_menu_scene : PackedScene
 ## The scene that gets loaded when player starts a new game
 @export var new_game_start_scene : PackedScene
 ## The world state that sets world state variables on a new game
 @export var new_game_world_state : CogitoWorldState
+
+@export var new_game_starter_items : Array[InventorySlotPD]
+## Quest system settings
+@export_subgroup("Quest System Settings", "quest_")
+@export var quest_start_sound : Resource
+@export var quest_complete_sound : Resource
+@export var quest_failed_sound : Resource
 ## The prefix used in scene state save files, followed by the save slot name. Be aware that changing this will impact if/how Cogito detects existing save files.
 @export var scene_state_prefix : String = "COGITO_scene_state_"
 ## The prefix used in player state save files, followed by the save slot name. Be aware that changing this will impact if/how Cogito detects existing save files.
@@ -21,6 +32,48 @@ const settings_filename := "CogitoSettings"
 
 ## The default fade duration on scene changes.
 @export var default_transition_duration : float = .5
+
+@export var screenshot_scale : float = 0.25
+
+@export_group("Input Map Settings")
+## These entries are used to generate rebindable inputs in the Options Rebind menu. Key is input_map_action, value is localized string to display. Need to be string-string pairs.
+@export var rebind_entries : Dictionary ={
+	"separator_movement": "SEPARATOR_MOVEMENT",
+	"forward": "INPUT_move_forward",
+	"back": "INPUT_move_backward",
+	"left": "INPUT_move_left",
+	"right": "INPUT_move_right",
+	"jump": "INPUT_jump",
+	"crouch": "INPUT_crouch",
+	"separator_actions": "SEPARATOR_ACTIONS",
+	"action_primary": "INPUT_primary_action",
+	"action_secondary": "INPUT_secondary_action",
+	"interact": "INPUT_interact_1",
+	"interact2": "INPUT_interact_2",
+	"reload": "INPUT_reload",
+	"change_ammo_type": "INPUT_change_ammo_type",
+	"quickslot_1": "INPUT_quickslot_1",
+	"quickslot_2": "INPUT_quickslot_2",
+	"quickslot_3": "INPUT_quickslot_3",
+	"quickslot_4": "INPUT_quickslot_4",
+	"quickslot_prev_wieldable": "INPUT_quickslot_prev",
+	"quickslot_next_wieldable": "INPUT_quickslot_next",
+	"separator_inventory": "SEPARATOR_MENUES",
+	"menu": "INPUT_pause",
+	"inventory": "INPUT_inventory",
+	"inventory_use_item": "INPUT_item_use",
+	"inventory_move_item": "INPUT_item_move",
+	"inventory_drop_item": "INPUT_item_quick_drop",
+	"inventory_rotate_item": "INPUT_item_rotate",
+}
+
+@export_group("Cogito Core References")
+## Scene path to Loading Screen scene.
+@export_file_path(".tscn") var loading_screen_scene_path : String
+## List of paths to shaders to get preloaded on loading screen.
+@export var shaders_to_preload : Array[Shader]
+
+#@export var save_slot_container_scene : PackedScene
 
 ## Debug functions of loot component are toggled here.
 @export_group("Loot Component Debug")
@@ -254,6 +307,14 @@ func _on_btn_reset_input_map_pressed() -> void:
 	gamepad_button.device = -1
 	gamepad_button.button_index = JOY_BUTTON_LEFT_SHOULDER
 	save_input_action_to_settings("ui_prev_tab",keyboard_key,gamepad_button)
+	
+	keyboard_key = InputEventKey.new()
+	keyboard_key.physical_keycode = KEY_T
+	gamepad_button = InputEventJoypadButton.new()
+	gamepad_button.device = -1
+	gamepad_button.button_index = JOY_BUTTON_LEFT_SHOULDER
+	save_input_action_to_settings("INPUT_change_ammo_type",keyboard_key,gamepad_button)
+	
 
 
 	

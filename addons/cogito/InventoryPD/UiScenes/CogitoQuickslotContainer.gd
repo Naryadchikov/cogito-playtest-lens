@@ -80,7 +80,7 @@ func update_quickslot_data(slot_data: InventorySlotPD) -> void:
 		item_reference = inventory_slot_reference.inventory_item
 		
 		item_texture.show()
-		item_texture.texture = item_reference.icon
+		item_texture.texture = item_reference.square_icon
 		
 		#Setting stack once here.
 		if inventory_slot_reference.quantity > 1:

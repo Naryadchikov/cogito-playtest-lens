@@ -24,7 +24,9 @@ func add_state_data_to_array(state_data):
 
 
 func write_state(state_slot : String, scene_name : String) -> void:
-	var dir = DirAccess.open(CogitoSceneManager.cogito_state_dir)
+	var dir = DirAccess.open("user://")
+	dir.make_dir(CogitoSceneManager.cogito_state_dir)
+	dir = DirAccess.open(CogitoSceneManager.cogito_state_dir)
 	dir.make_dir(str(state_slot))
 	var scene_state_file = str(CogitoSceneManager.cogito_state_dir + state_slot + "/" + CogitoSceneManager.cogito_scene_state_prefix + scene_name + ".res")
 	ResourceSaver.save(self, scene_state_file, ResourceSaver.FLAG_CHANGE_PATH)

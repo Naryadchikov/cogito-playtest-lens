@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://3rlbofuf3x5s"]
+[gd_scene format=4 uid="uid://3rlbofuf3x5s"]
 
 [ext_resource type="Script" uid="uid://dmeh01c5ccjqc" path="res://addons/cogito/CogitoObjects/cogito_object.gd" id="1_vhspn"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://addons/cogito/Components/Interactions/CarryableComponent.tscn" id="2_ylwww"]
@@ -80,24 +80,23 @@ random_volume_offset_db = 3.0
 streams_count = 1
 stream_0/stream = ExtResource("4_gmdvt")
 
-[node name="trashcan" type="RigidBody3D"]
+[node name="trashcan" type="RigidBody3D" unique_id=396789595]
 collision_layer = 3
 mass = 5.0
 script = ExtResource("1_vhspn")
 cogito_name = ""
 
-[node name="trashcan(Clone)" type="MeshInstance3D" parent="."]
+[node name="trashcan(Clone)" type="MeshInstance3D" parent="." unique_id=631144146]
 transform = Transform3D(2.98023e-08, 0, 0.472031, 0, 0.472031, 0, -0.472031, 0, 2.98023e-08, 0, -0.4, 0)
 mesh = SubResource("ArrayMesh_rjre6")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=992452395]
 transform = Transform3D(1, 0, 1.49012e-07, 0, 1, 0, -1.49012e-07, 0, 1, 0, 0, 0)
 shape = SubResource("CylinderShape3D_k8338")
 
-[node name="CarryableComponent" parent="." instance=ExtResource("2_ylwww")]
+[node name="CarryableComponent" parent="." unique_id=317284373 instance=ExtResource("2_ylwww")]
 transform = Transform3D(1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0, -0.4, 0)
 carry_distance_offset = -1.0
 
-[node name="ImpactSounds" parent="." instance=ExtResource("3_6ab6a")]
+[node name="ImpactSounds" parent="." unique_id=1478313378 instance=ExtResource("3_6ab6a")]
 impact_sounds = SubResource("AudioStreamRandomizer_6ab6a")

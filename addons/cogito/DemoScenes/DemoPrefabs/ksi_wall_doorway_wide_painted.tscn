@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://bwide2wobjajt"]
+[gd_scene format=4 uid="uid://bwide2wobjajt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ndrkc"]
 resource_name = "metalLight"
@@ -108,31 +108,29 @@ size = Vector3(0.4, 0.4, 3)
 [sub_resource type="BoxShape3D" id="BoxShape3D_xvbak"]
 size = Vector3(0.75, 0.75, 3)
 
-[node name="KSI_wall_doorway_wide_painted3" type="StaticBody3D"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6, 0, -10)
+[node name="KSI_wall_doorway_wide_painted3" type="StaticBody3D" unique_id=918061246]
 metadata/_edit_group_ = true
 
-[node name="object_011" type="MeshInstance3D" parent="."]
+[node name="object_011" type="MeshInstance3D" parent="." unique_id=1095087063]
 mesh = SubResource("ArrayMesh_nyggu")
-skeleton = NodePath("")
 surface_material_override/2 = SubResource("StandardMaterial3D_xado3")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=848601981]
 visible = false
 shape = SubResource("ConcavePolygonShape3D_61h2v")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=882619943]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.275, 0.95, -0.2)
 shape = SubResource("BoxShape3D_yb2d6")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="." unique_id=585539205]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.275, 0.95, -2.8)
 shape = SubResource("BoxShape3D_yb2d6")
 
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="." unique_id=182914539]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 2.05, -1.5)
 shape = SubResource("BoxShape3D_bbl8s")
 
-[node name="CollisionShape3D5" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="." unique_id=1909893725]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.375, 2.625, -1.5)
 shape = SubResource("BoxShape3D_xvbak")

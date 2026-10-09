@@ -34,8 +34,7 @@ func interact(_player_interaction_component):
 		was_interacted_with.emit(interaction_text, input_map_action)
 		player_interaction_component = _player_interaction_component
 		
-		var hud_path := NodePath(_player_interaction_component.player.player_hud)
-		var hud = _player_interaction_component.player.get_node(hud_path) as CogitoPlayerHudManager
+		var hud = _player_interaction_component.player.player_hud
 		if !hud.hold_ui.is_holding:
 			hud.hold_ui.start_holding(self)
 
@@ -168,5 +167,5 @@ func attempt_wield(wieldable: WieldableItemPD) -> void:
 		player_interaction_component.interaction_raycast._set_interactable(null)
 		get_parent().queue_free()
 	else:
-		player_interaction_component.send_hint(wieldable.icon, wieldable.name + " couldn't be picked up.")
+		player_interaction_component.send_hint(wieldable.square_icon, wieldable.name + " couldn't be picked up.")
 #endregion

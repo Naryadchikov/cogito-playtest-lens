@@ -1,40 +1,60 @@
 @tool
 extends Node
 
+const DEFAULT_COGITO_SETTINGS_FILEPATH := "res://addons/cogito/CogitoSettings.tres"
+const COGITO_SETTINGS_PROJECT_SETTING := "cogito/settings/settings_file"
+
 var cogito_settings : CogitoSettings
-var cogito_settings_filepath := "res://addons/cogito/CogitoSettings.tres"
+var cogito_settings_filepath := DEFAULT_COGITO_SETTINGS_FILEPATH
 
 ### Cached settings
 var is_logging : bool
 var player_state_prefix : String
 var scene_state_prefix : String
 var default_transition_duration : float = .4
+var screenshot_scale : float = 0.25
 
 ### Debug shape variables
 var _debug_shape_pool : Array[MeshInstance3D]
 var _box_pool := []
 var _box_mesh : Mesh = null
 
-func _ready() -> void:
-	load_cogito_project_settings()
-
 
 func _enter_tree() -> void:
 	load_cogito_project_settings()
 
 
-func load_cogito_project_settings():
-	if ResourceLoader.exists(cogito_settings_filepath):
-		cogito_settings = ResourceLoader.load(cogito_settings_filepath, "", ResourceLoader.CACHE_MODE_IGNORE)
-		print("COGITO: cogito settings loaded: ", cogito_settings_filepath)
+func load_cogito_project_settings() -> void:
+	cogito_settings_filepath = ProjectSettings.get_setting(COGITO_SETTINGS_PROJECT_SETTING, DEFAULT_COGITO_SETTINGS_FILEPATH)
+	
+	if not _load_cogito_settings(cogito_settings_filepath):
+		if cogito_settings_filepath != DEFAULT_COGITO_SETTINGS_FILEPATH:
+			print("COGITO: Project settings file not found: ", cogito_settings_filepath, ". Falling back to default settings.")
 		
-		is_logging = cogito_settings.is_logging
-		player_state_prefix = cogito_settings.player_state_prefix
-		scene_state_prefix = cogito_settings.scene_state_prefix
-		default_transition_duration = cogito_settings.default_transition_duration
-		
-	else:
-		print("COGITO: No cogito settings found.")
+			cogito_settings_filepath = DEFAULT_COGITO_SETTINGS_FILEPATH
+			_load_cogito_settings(cogito_settings_filepath)
+		else:
+			print("COGITO: No cogito settings found.")
+
+
+func _load_cogito_settings(filepath: String) -> bool:
+	if not ResourceLoader.exists(filepath):
+		return false
+	
+	cogito_settings = ResourceLoader.load(filepath, "", ResourceLoader.CACHE_MODE_IGNORE)
+	
+	if cogito_settings == null:
+		return false
+	
+	print("COGITO: cogito settings loaded: ", filepath)
+	
+	is_logging = cogito_settings.is_logging
+	player_state_prefix = cogito_settings.player_state_prefix
+	scene_state_prefix = cogito_settings.scene_state_prefix
+	default_transition_duration = cogito_settings.default_transition_duration
+	screenshot_scale = cogito_settings.screenshot_scale
+	
+	return true
 
 
 func debug_log(log_this: bool, _class: String, _message: String) -> void:
@@ -125,7 +145,6 @@ static func _create_wirecube_mesh(color := Color.WHITE) -> ArrayMesh:
 	var mesh := ArrayMesh.new()
 	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_LINES, arrays)
 	return mesh
-
 
 
 func _on_check_box_print_logs_toggled(toggled_on: bool) -> void:

@@ -1,79 +1,76 @@
-extends Node
+extends StateProcessor
 
-# These will be autofilled by the StateMachine
-var Host # is our Character node (parent of StateMachine)
-var States # is the StateMachine itself
-
+## Which state to move back to once they finish attacking
 @export var state_after_attack : String
+## If the NPC has a ranged weapon can they can immediately attack once in range?
+@export var can_attack_while_moving: bool = false
 
-@export_group("Attack properties")
+@export_group("Unarmed Attack Properties")
+## The collider that checks for the player or is checked by the player
+@export var attack_impact_zone: ImpactZone
 ## How long this attack takes.
-@export var attack_duration : float = 0.5
-## The damage that will be sent to target
-@export var attack_damage : int = 1
-## The stagger/bounce back strength of the attack
-@export var attack_stagger : float = 8.0
+@export var attack_duration : float = 1
 @export var attack_sound : AudioStream
 
 var target : Node3D = null
 var count_down : float = 0
 
 
-func _state_enter():
-	target = Host.attention_target
+func _on_attacking_state_entered() -> void:
+	super.enter_state()
+	target = npc.attention_target
 	
 	if !target:
 		CogitoGlobals.debug_log(true,"NPC State Attack","Target was null, going to previous state...")
-		States.load_previous_state()
+		state_chart.send_event(state_after_attack)
 	else:
 		count_down = attack_duration
-		attempt_attack()
+		if attack_while_moving():
+			attempt_attack()
 
 
-func _state_exit() -> void:
-	pass
+func _on_attacking_state_exited() -> void:
+	super.exit_state()
+	# Disable the collider once the attack finishes
+	attack_impact_zone.set_collision(false)
 
 
-func _physics_process(_delta):
+func _on_attacking_state_physics_processing(delta: float) -> void:
 	# Lerping down the velocity
-	Host.velocity.x = move_toward(Host.velocity.x, 0, _delta * Host.move_speed)
-	Host.velocity.z = move_toward(Host.velocity.z, 0, _delta * Host.move_speed)
-	Host.move_and_slide()
+	npc.velocity.x = move_toward(npc.velocity.x, 0, delta * npc.move_speed)
+	npc.velocity.z = move_toward(npc.velocity.z, 0, delta * npc.move_speed)
+	npc.face_direction(target.global_position)
+	npc.move_and_slide()
 	
-	if count_down <= 0:
+	if count_down <= 0 and attack_while_moving():
 		attempt_attack()
-		States.goto(state_after_attack)
+		state_chart.send_event(state_after_attack)
 	else:
-		count_down -= _delta
+		count_down -= delta
+
+
+func attack_while_moving() -> bool:
+	# NPC can attack while moving if they have a melee weapon or can_attack_while_moving is true
+	if can_attack_while_moving or not npc.weapon:
+		return true
+	return npc.velocity.length_squared() == 0
 
 
 func attempt_attack():
 	count_down = attack_duration
-	# plays animation even if target is not within reach
-	Host.animation_tree.set("parameters/UpperBodyState/RaisedFists/attack/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-	
-	if Host.global_position.distance_to(target.global_position) <= 1.5:
-		attack(target)
-
-
-func attack(target: Node3D):
-	var dir = Host.global_position.direction_to(target.global_position)
-	
-	# Delay to line up damage dealing with animation. GET RID OF MAGIC NUMBER
-	await get_tree().create_timer(0.15).timeout
-	
-	Audio.play_sound_3d(attack_sound).global_position = Host.global_position
-	
-	if target is CogitoPlayer:
-		#TODO This should be done via signals.
-		target.apply_external_force(dir * attack_stagger)
-		CogitoGlobals.debug_log(true,"NPC State Attack","Attacking player. Applying vector " + str(dir * attack_stagger) + " to target. Target.main_velocity = " + str(target.main_velocity) )
-		target.decrease_attribute("health", attack_damage)
-	if target.has_signal("damage_received"):
-		var damage_direction = Host.global_position.direction_to(target.global_position)
-		CogitoGlobals.debug_log(true, "npc_state_attack.gd", self.name + ": dealing damage amount " + str(attack_damage) + " on target " + target.name + " in direction " + str(damage_direction) )
-		target.damage_received.emit(attack_damage,damage_direction)
-		return
+	# play the punching animation if no weapon is equipped
+	if not npc.weapon:
+		state_chart.send_event("ubody_attack")
+		if npc.global_position.distance_to(target.global_position) <= 1.5:
+			punch_attack(target)
 	else:
-		# Apply damage using hitbox container logic...?
-		pass
+		npc.sight_detection.check_if_player_in_los()
+		npc.weapon.npc_do_attack(npc)
+
+
+func punch_attack(target: Node3D):
+	var dir = npc.global_position.direction_to(target.global_position)
+	Audio.play_sound_3d(attack_sound).global_position = npc.global_position
+	
+	# Activate the collider for the attack
+	attack_impact_zone.set_collision(true)

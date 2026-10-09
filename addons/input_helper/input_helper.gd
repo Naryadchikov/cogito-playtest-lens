@@ -59,6 +59,7 @@ func _ready() -> void:
 	if not Engine.has_singleton("InputHelper"):
 		Engine.register_singleton("InputHelper", self)
 
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	Input.joy_connection_changed.connect(func(device_index, is_connected): joypad_changed.emit(device_index, is_connected))
 
 

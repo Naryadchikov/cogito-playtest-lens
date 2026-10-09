@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://co1opmwyvl27"]
+[gd_scene format=4 uid="uid://co1opmwyvl27"]
 
 [ext_resource type="Script" uid="uid://dmeh01c5ccjqc" path="res://addons/cogito/CogitoObjects/cogito_object.gd" id="1_p1u1m"]
 [ext_resource type="PackedScene" uid="uid://k28yrbg3k3pw" path="res://addons/cogito/Components/HitboxComponent.tscn" id="2_lxpj6"]
@@ -87,7 +87,7 @@ random_volume_offset_db = 3.0
 streams_count = 1
 stream_0/stream = ExtResource("12_lny03")
 
-[node name="barrel" type="RigidBody3D"]
+[node name="barrel" type="RigidBody3D" unique_id=2068866694]
 collision_layer = 3
 mass = 10.0
 continuous_cd = true
@@ -95,38 +95,38 @@ contact_monitor = true
 max_contacts_reported = 10
 script = ExtResource("1_p1u1m")
 cogito_name = ""
+noise_magnitude_when_impacting = 5.0
 
-[node name="barrel" type="MeshInstance3D" parent="."]
+[node name="barrel" type="MeshInstance3D" parent="." unique_id=501689330]
 transform = Transform3D(0.43, 0, 0, 0, 0.43, 0, 0, 0, 0.43, 0, -0.5, 0)
 mesh = SubResource("ArrayMesh_2cvk5")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1336315051]
 shape = SubResource("CylinderShape3D_d5f8h")
 
-[node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_attribute") instance=ExtResource("2_lxpj6")]
+[node name="HitboxComponent" parent="." unique_id=1644130890 node_paths=PackedStringArray("health_attribute") instance=ExtResource("2_lxpj6")]
 health_attribute = NodePath("../HealthAttribute")
 
-[node name="HealthAttribute" parent="." instance=ExtResource("3_kqaad")]
+[node name="HealthAttribute" parent="." unique_id=708692408 instance=ExtResource("3_kqaad")]
 sound_on_death = ExtResource("4_6i7eu")
 destroy_on_death = Array[NodePath]([NodePath("..")])
 spawn_on_death = Array[PackedScene]([ExtResource("4_y2b0x"), ExtResource("5_w4syf")])
 value_max = 3.0
 value_start = 3.0
 
-[node name="CarryableComponent" parent="." instance=ExtResource("5_vqdq1")]
+[node name="CarryableComponent" parent="." unique_id=751671573 instance=ExtResource("5_vqdq1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 pick_up_sound = ExtResource("6_wc6qr")
 drop_sound = ExtResource("7_efwiw")
 
-[node name="CogitoProperties" parent="." instance=ExtResource("8_x2mti")]
+[node name="CogitoProperties" parent="." unique_id=2065220689 instance=ExtResource("8_x2mti")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.512641, 0)
 elemental_properties = 2
 
-[node name="ImpactSounds" parent="." instance=ExtResource("11_q2obl")]
+[node name="ImpactSounds" parent="." unique_id=1577145115 instance=ExtResource("11_q2obl")]
 impact_sounds = SubResource("AudioStreamRandomizer_lpphm")
 
-[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="." unique_id=1295131551]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.47422796, 0)
 radius = 0.5
 use_3d_avoidance = true

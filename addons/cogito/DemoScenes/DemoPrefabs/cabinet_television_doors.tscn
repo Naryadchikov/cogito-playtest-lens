@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://bm6px536i18b3"]
+[gd_scene format=4 uid="uid://bm6px536i18b3"]
 
 [ext_resource type="Script" uid="uid://cismjpvxmsbf2" path="res://addons/cogito/CogitoObjects/cogito_door.gd" id="1_oc7nd"]
 [ext_resource type="AudioStream" uid="uid://bipwc8kk30bub" path="res://addons/cogito/Assets/Audio/Kenney/doorOpen_1.ogg" id="2_f5idq"]
@@ -161,71 +161,69 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_angve")
 
-[node name="cabinetTelevisionDoors" type="Node3D"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -5.69226, -4.84288e-08, -8.6563)
+[node name="cabinetTelevisionDoors" type="Node3D" unique_id=43275649]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1287500831]
 collision_layer = 3
 
-[node name="cabinetTelevisionDoors(Clone)" type="MeshInstance3D" parent="StaticBody3D"]
+[node name="cabinetTelevisionDoors(Clone)" type="MeshInstance3D" parent="StaticBody3D" unique_id=1964593905]
 mesh = SubResource("ArrayMesh_aduxv")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1624017555]
 shape = SubResource("ConcavePolygonShape3D_k4xiu")
 
-[node name="LeftDoor" type="AnimatableBody3D" parent="." node_paths=PackedStringArray("prompt_marker")]
+[node name="LeftDoor" type="AnimatableBody3D" parent="." unique_id=267677700 node_paths=PackedStringArray("prompt_marker", "audio_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0799999, 0.16, -0.04)
 collision_layer = 3
 script = ExtResource("1_oc7nd")
 prompt_pos_mode = 1
 prompt_marker = NodePath("PromptMarker")
+audio_player = NodePath("AudioStreamPlayer3D")
 open_sound = ExtResource("2_f5idq")
 close_sound = ExtResource("3_01v55")
 open_rotation = Vector3(0, -85, 0)
 door_speed = 3.0
 
-[node name="doorLeft" type="MeshInstance3D" parent="LeftDoor"]
+[node name="doorLeft" type="MeshInstance3D" parent="LeftDoor" unique_id=86819014]
 mesh = SubResource("ArrayMesh_sacpt")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftDoor"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftDoor" unique_id=95437312]
 transform = Transform3D(0.999998, 0, -8.9407e-08, 0, 1, 0, 8.9407e-08, 0, 0.999998, 0.35885, 0.188435, -0.00141573)
 shape = SubResource("BoxShape3D_fgbqg")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="LeftDoor"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="LeftDoor" unique_id=594054835]
 volume_db = -26.0
 bus = &"SFX"
 
-[node name="BasicInteraction" parent="LeftDoor" instance=ExtResource("2_pg8bu")]
+[node name="BasicInteraction" parent="LeftDoor" unique_id=39963551 instance=ExtResource("2_pg8bu")]
 
-[node name="PromptMarker" type="Marker3D" parent="LeftDoor"]
+[node name="PromptMarker" type="Marker3D" parent="LeftDoor" unique_id=921747926]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.667885, 0.17316, 0.0179253)
 
-[node name="RightDoor" type="AnimatableBody3D" parent="." node_paths=PackedStringArray("prompt_marker")]
+[node name="RightDoor" type="AnimatableBody3D" parent="." unique_id=296625621 node_paths=PackedStringArray("prompt_marker", "audio_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.51822, 0.161296, -0.0388184)
 collision_layer = 3
 script = ExtResource("1_oc7nd")
 prompt_pos_mode = 1
 prompt_marker = NodePath("PromptMarker")
+audio_player = NodePath("AudioStreamPlayer3D")
 open_sound = ExtResource("2_f5idq")
 close_sound = ExtResource("3_01v55")
 open_rotation = Vector3(0, 85, 0)
 door_speed = 3.0
 
-[node name="doorRight" type="MeshInstance3D" parent="RightDoor"]
+[node name="doorRight" type="MeshInstance3D" parent="RightDoor" unique_id=1411500559]
 mesh = SubResource("ArrayMesh_cuhir")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RightDoor"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightDoor" unique_id=1052618037]
 transform = Transform3D(0.999998, 0, -8.9407e-08, 0, 1, 0, 8.9407e-08, 0, 0.999998, -0.359329, 0.189884, 0)
 shape = SubResource("BoxShape3D_fgbqg")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="RightDoor"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="RightDoor" unique_id=1857038775]
 volume_db = -26.0
 bus = &"SFX"
 
-[node name="BasicInteraction" parent="RightDoor" instance=ExtResource("2_pg8bu")]
+[node name="BasicInteraction" parent="RightDoor" unique_id=1156735894 instance=ExtResource("2_pg8bu")]
 
-[node name="PromptMarker" type="Marker3D" parent="RightDoor"]
+[node name="PromptMarker" type="Marker3D" parent="RightDoor" unique_id=914764572]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.670838, 0.171864, 0.0167437)

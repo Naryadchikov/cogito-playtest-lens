@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://diaf8d3vpbiku"]
+[gd_scene format=4 uid="uid://diaf8d3vpbiku"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bwiaa"]
 resource_name = "metalLight"
@@ -99,14 +99,12 @@ emission_enabled = true
 [sub_resource type="BoxShape3D" id="BoxShape3D_gdsoc"]
 size = Vector3(0.56, 3, 3)
 
-[node name="KSI_wall_painted" type="StaticBody3D"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 9, 0, -4)
+[node name="KSI_wall_painted" type="StaticBody3D" unique_id=1462280511]
 
-[node name="object_042" type="MeshInstance3D" parent="."]
+[node name="object_042" type="MeshInstance3D" parent="." unique_id=1238882381]
 mesh = SubResource("ArrayMesh_a2ovj")
-skeleton = NodePath("")
 surface_material_override/2 = SubResource("StandardMaterial3D_uwaxy")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1260049047]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28, 1.5, -1.5)
 shape = SubResource("BoxShape3D_gdsoc")

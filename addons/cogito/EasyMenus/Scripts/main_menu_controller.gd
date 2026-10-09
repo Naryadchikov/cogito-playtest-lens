@@ -1,3 +1,4 @@
+class_name CogitoMainMenuController
 extends Control
 signal start_game_pressed
 
@@ -6,11 +7,12 @@ signal start_game_pressed
 @onready var v_box_container_title: VBoxContainer = %VBoxContainerTitle
 @onready var game_menu: MarginContainer = $ContentMain/GameMenu
 @onready var options_tab_menu: OptionsTabMenu = $ContentMain/OptionsTabMenu
-@onready var options_button: CogitoUiButton = $ContentMain/GameMenu/VBoxContainer/OptionsButton
-
+@onready var options_button: CogitoUiButton = $ContentMain/GameMenu/VBoxContainer/MarginContainer4/OptionsButton
+@onready var save_load_menu: Control = $ContentMain/SaveLoadMenu
 
 var sub_menu : Node
 var is_sub_menu_open : bool = false
+var previously_focused_button : Button = null
 
 #region UI AUDIO
 @export var sound_hover : AudioStream
@@ -52,7 +54,14 @@ func _play_pressed() -> void:
 
 
 func _ready():
-	first_focus_button.grab_focus()
+	var last_saved_slot: String = CogitoSceneManager.get_last_saved_slot()
+	if last_saved_slot:
+		%Continue.disabled = false
+		
+	if not first_focus_button.disabled:
+		first_focus_button.grab_focus()
+	else:
+		%NewGame.grab_focus()
 
 
 func quit():
@@ -66,10 +75,18 @@ func _input(event):
 			return
 		
 		options_tab_menu.hide()
-		options_tab_menu.load_options()
+		CogitoGameConfig.load_options()
 		v_box_container_title.show()
+		CogitoSceneManager.previous_menu_button_pressed = ""
+		save_load_menu.hide()
 		game_menu.show()
 		options_button.grab_focus.call_deferred()
+	
+		var last_saved_slot: String = CogitoSceneManager.get_last_saved_slot()
+		if last_saved_slot:
+			%Continue.disabled = false
+		else:
+			%Continue.disabled = true
 
 
 func open_options_menu():
@@ -88,6 +105,9 @@ func open_options_menu():
 
 
 func _open_sub_menu(credits_scene : PackedScene) -> Node:
+	# Store button the focus was on before submenu.
+	previously_focused_button = get_viewport().gui_get_focus_owner() 
+	
 	is_sub_menu_open = true
 	sub_menu = credits_scene.instantiate()
 	add_child(sub_menu)
@@ -111,6 +131,9 @@ func _close_sub_menu() -> void:
 	await get_tree().create_timer(0.25).timeout
 	v_box_container_title.show()
 	game_menu.show()
+	# When using gamepad, set focus back to previously focused button:
+	if InputHelper.device_index != -1:
+		if previously_focused_button : previously_focused_button.grab_focus()
 
 
 func _on_start_game_button_pressed():
@@ -119,3 +142,39 @@ func _on_start_game_button_pressed():
 
 func _on_credits_button_pressed() -> void:
 	_open_sub_menu(credits_packed_scene)
+
+
+func _on_main_menu_new_game_pressed() -> void:
+	start_new_game()
+
+
+func start_new_game():
+	if CogitoGlobals.cogito_settings.new_game_start_scene:
+		CogitoSceneManager.is_loaded_from_start_new_game = true
+		CogitoSceneManager.is_starting_new_game = true
+		var path_to_scene = CogitoGlobals.cogito_settings.new_game_start_scene.resource_path
+		CogitoSceneManager.load_next_scene(path_to_scene, "", "temp", CogitoSceneManager.CogitoSceneLoadMode.RESET) #Load_mode 2 means there's no attempt to load a state.
+		#Setting new game world state:
+		CogitoSceneManager._current_world_dict = CogitoGlobals.cogito_settings.new_game_world_state.get_world_dict()
+	#if start_game_scene: 
+		#CogitoSceneManager.load_next_scene(start_game_scene, "", "temp", CogitoSceneManager.CogitoSceneLoadMode.RESET) #Load_mode 2 means there's no attempt to load a state.
+	else:
+		print("ISSUE: No start game scene set.")
+
+
+func open_save_load_menu() -> void:
+	save_load_menu.initialize()
+	save_load_menu.show()
+	save_load_menu.focus_slot_on_load()
+	game_menu.hide()
+
+
+func _on_main_menu_continue_pressed() -> void:
+	var last_saved_slot: String = CogitoSceneManager.get_last_saved_slot()
+	
+	CogitoSceneManager.switch_active_slot_to(last_saved_slot)
+	CogitoSceneManager._current_scene_name = get_tree().get_current_scene().get_name()
+	CogitoSceneManager._current_scene_path = get_tree().current_scene.scene_file_path
+	CogitoSceneManager.delete_temp_saves()
+	CogitoSceneManager.copy_slot_saves_to_temp(last_saved_slot)
+	CogitoSceneManager._active_slot = last_saved_slot

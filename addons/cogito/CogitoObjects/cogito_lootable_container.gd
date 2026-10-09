@@ -78,7 +78,7 @@ func _ready() -> void:
 	interaction_nodes = find_children("","InteractionComponent",true)
 	interaction_text = text_when_closed
 	object_state_updated.emit(interaction_text)
-	inventory_data.apply_initial_inventory()
+	#inventory_data.apply_initial_inventory()
 
 
 ## Set up references to player and container in a deferred manner to avoid nulling
@@ -332,6 +332,8 @@ func save():
 	return node_data
 
 func _exit_tree() -> void:
+	if !_player_hud: return
+	
 	if self.toggle_inventory.is_connected(_player_hud.toggle_inventory_interface):
 		self.toggle_inventory.disconnect(_player_hud.toggle_inventory_interface)
 		

@@ -62,7 +62,7 @@ func interact(_player_interaction_component: PlayerInteractionComponent) -> void
 		spawned_lockpick_game.pass_player_attribute(fetched_attribute)
 	
 	# Set the UI to show the lockpick item icon and how many lockpicks the player is carrying:
-	item_icon_texture.texture = required_lockpick_item.icon
+	item_icon_texture.texture = required_lockpick_item.square_icon
 	label_amount_lockpicks.text = str(get_lockpick_amount_in_inventory(required_lockpick_item.name))
 	
 	lockpick_ui.show()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://dkundghktg5ol"]
+[gd_scene format=4 uid="uid://dkundghktg5ol"]
 
 [ext_resource type="Script" uid="uid://b4cfmnk8b7nru" path="res://addons/cogito/CogitoObjects/cogito_switch.gd" id="1_s2xvf"]
 [ext_resource type="AudioStream" uid="uid://0himm415mqex" path="res://addons/cogito/Assets/Audio/Kenney/UiAudio/switch29.ogg" id="2_d5l8n"]
@@ -81,8 +81,7 @@ emission = Color(1, 0.960784, 0.792157, 1)
 [sub_resource type="SphereShape3D" id="SphereShape3D_23qes"]
 radius = 2.0
 
-[node name="lampRoundFloor" type="AnimatableBody3D" node_paths=PackedStringArray("nodes_to_show_when_on", "nodes_to_hide_when_on")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.71507, -4.84288e-08, -9.94791)
+[node name="lampRoundFloor" type="AnimatableBody3D" unique_id=1967035606 node_paths=PackedStringArray("nodes_to_show_when_on", "nodes_to_hide_when_on")]
 collision_layer = 3
 script = ExtResource("1_s2xvf")
 prompt_pos_mode = 2
@@ -91,27 +90,25 @@ nodes_to_show_when_on = [NodePath("lampRoundFloor_on"), NodePath("OmniLight3D2")
 nodes_to_hide_when_on = [NodePath("lampRoundFloor_off")]
 metadata/_edit_group_ = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=109647468]
 shape = SubResource("ConcavePolygonShape3D_n4vu2")
 
-[node name="lampRoundFloor_on" type="MeshInstance3D" parent="."]
+[node name="lampRoundFloor_on" type="MeshInstance3D" parent="." unique_id=666496483]
 visible = false
 mesh = SubResource("ArrayMesh_58tqs")
-skeleton = NodePath("")
 surface_material_override/1 = SubResource("StandardMaterial3D_e0bqy")
 
-[node name="lampRoundFloor_off" type="MeshInstance3D" parent="."]
+[node name="lampRoundFloor_off" type="MeshInstance3D" parent="." unique_id=1863653800]
 mesh = SubResource("ArrayMesh_58tqs")
-skeleton = NodePath("")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1076428090]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.120398, 1.38486, -0.119499)
 visible = false
 shadow_opacity = 0.9
 shadow_blur = 4.0
 omni_range = 3.0
 
-[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+[node name="OmniLight3D2" type="OmniLight3D" parent="." unique_id=333387638]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.116613, 1.37472, 0.0782413)
 visible = false
 light_energy = 0.2
@@ -120,7 +117,7 @@ shadow_opacity = 0.9
 shadow_blur = 4.0
 omni_range = 3.0
 
-[node name="OmniLight3D3" type="OmniLight3D" parent="."]
+[node name="OmniLight3D3" type="OmniLight3D" parent="." unique_id=1836871874]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.120924, 1.37472, -0.439525)
 visible = false
 light_energy = 0.2
@@ -129,7 +126,7 @@ shadow_opacity = 0.9
 shadow_blur = 4.0
 omni_range = 3.0
 
-[node name="OmniLight3D4" type="OmniLight3D" parent="."]
+[node name="OmniLight3D4" type="OmniLight3D" parent="." unique_id=254873803]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.338015, 1.37472, 0.0664816)
 visible = false
 light_energy = 0.2
@@ -138,15 +135,15 @@ shadow_opacity = 0.9
 shadow_blur = 4.0
 omni_range = 3.0
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1821292348]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.101038, 1.11881, -0.152142)
 
-[node name="BasicInteraction" parent="." instance=ExtResource("3_djnni")]
+[node name="BasicInteraction" parent="." unique_id=1067841970 instance=ExtResource("3_djnni")]
 
-[node name="LightzoneComponent" parent="." instance=ExtResource("4_slkbq")]
+[node name="LightzoneComponent" parent="." unique_id=1432403915 instance=ExtResource("4_slkbq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.124129, 1.31385, -0.107545)
 
-[node name="CollisionShape3D" parent="LightzoneComponent" index="0"]
+[node name="CollisionShape3D" parent="LightzoneComponent" index="0" unique_id=1197691800]
 shape = SubResource("SphereShape3D_23qes")
 
 [connection signal="switched" from="." to="LightzoneComponent/LightzoneSwitchComponent" method="_on_switched"]

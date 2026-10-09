@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://3okedyf5glns"]
+[gd_scene format=4 uid="uid://3okedyf5glns"]
 
 [ext_resource type="Script" uid="uid://djpuxgkv8c6ux" path="res://addons/cogito/CogitoObjects/cogito_container.gd" id="1_ubt4v"]
 [ext_resource type="Script" uid="uid://btnha2whsheir" path="res://addons/cogito/InventoryPD/cogito_inventory.gd" id="2_2oue8"]
@@ -17,14 +17,12 @@ origin_index = 0
 [sub_resource type="Resource" id="Resource_mpik5"]
 script = ExtResource("2_hwyxp")
 inventory_item = ExtResource("4_hctmv")
-quantity = 1
 origin_index = 1
 
 [sub_resource type="Resource" id="Resource_sjupa"]
 resource_local_to_scene = true
 script = ExtResource("2_2oue8")
 grid = true
-starter_inventory = Array[ExtResource("2_hwyxp")]([])
 inventory_size = Vector2i(4, 2)
 inventory_slots = Array[ExtResource("2_hwyxp")]([SubResource("Resource_hqpdg"), SubResource("Resource_mpik5")])
 
@@ -193,33 +191,28 @@ _data = {
 &"open": SubResource("Animation_5p7bg")
 }
 
-[node name="container" type="StaticBody3D"]
+[node name="container" type="StaticBody3D" unique_id=697601353]
 collision_layer = 3
 script = ExtResource("1_ubt4v")
-inventory_name = "Chest"
 inventory_data = SubResource("Resource_sjupa")
 uses_animation = true
 open_animation = "open"
 use_reverse_open_as_close_anim = true
 
-[node name="BasicInteraction" parent="." instance=ExtResource("2_m2db3")]
+[node name="BasicInteraction" parent="." unique_id=1769824431 instance=ExtResource("2_m2db3")]
 
-[node name="chest2" type="Node3D" parent="."]
+[node name="chest2" type="Node3D" parent="." unique_id=894502610]
 
-[node name="chest" type="MeshInstance3D" parent="chest2"]
+[node name="chest" type="MeshInstance3D" parent="chest2" unique_id=249992588]
 mesh = SubResource("ArrayMesh_i0w3v")
-skeleton = NodePath("")
 
-[node name="lid" type="MeshInstance3D" parent="chest2/chest"]
+[node name="lid" type="MeshInstance3D" parent="chest2/chest" unique_id=1406007713]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.25)
 mesh = SubResource("ArrayMesh_03ckw")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=864778436]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
 shape = SubResource("BoxShape3D_503ep")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_38epp")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1192683803]
+libraries/ = SubResource("AnimationLibrary_38epp")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cbd2ojah4nun6"]
+[gd_scene format=3 uid="uid://cbd2ojah4nun6"]
 
 [ext_resource type="Script" uid="uid://bcdmwsn7uc6dr" path="res://addons/cogito/Scripts/interaction_raycast.gd" id="1_yf5t7"]
 
@@ -30,23 +30,23 @@ height = 0.05
 radial_segments = 8
 rings = 4
 
-[node name="InteractionRaycast" type="RayCast3D"]
+[node name="InteractionRaycast" type="RayCast3D" unique_id=1089827009]
 target_position = Vector3(0, 0, -2)
 collision_mask = 3
 script = ExtResource("1_yf5t7")
 
-[node name="InteractionShapecast" type="ShapeCast3D" parent="."]
+[node name="InteractionShapecast" type="ShapeCast3D" parent="." unique_id=683607829]
 shape = SubResource("SphereShape3D_e2hxm")
 target_position = Vector3(0, 0, -2)
 margin = 0.08
 max_results = 16
 collision_mask = 3
 
-[node name="ShapecastHotspot" type="Node3D" parent="."]
+[node name="ShapecastHotspot" type="Node3D" parent="." unique_id=1802873465]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
 
-[node name="RaycastHighlighter" type="MeshInstance3D" parent="."]
+[node name="RaycastHighlighter" type="MeshInstance3D" parent="." unique_id=1444396518]
 mesh = SubResource("SphereMesh_1juxf")
 
-[node name="TargetHighlighter" type="MeshInstance3D" parent="."]
+[node name="TargetHighlighter" type="MeshInstance3D" parent="." unique_id=393985378]
 mesh = SubResource("SphereMesh_4320q")

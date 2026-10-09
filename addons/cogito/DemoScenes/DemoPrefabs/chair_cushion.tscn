@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://w6hpf431lt3l"]
+[gd_scene format=4 uid="uid://w6hpf431lt3l"]
 
 [ext_resource type="Script" uid="uid://buphmm2nywggj" path="res://addons/cogito/CogitoObjects/cogito_sittable.gd" id="1_568mv"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://addons/cogito/Components/Interactions/CarryableComponent.tscn" id="2_hi2jy"]
@@ -85,11 +85,10 @@ stream_0/stream = ExtResource("4_vtjpn")
 [sub_resource type="BoxShape3D" id="BoxShape3D_vapcp"]
 size = Vector3(1.40192, 1.05004, 1.21932)
 
-[node name="chairCushion" type="RigidBody3D"]
-transform = Transform3D(-0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, -0.866025, -6.9349, 7.07805e-08, -13.1487)
+[node name="chairCushion" type="RigidBody3D" unique_id=93524143]
 collision_layer = 3
-max_contacts_reported = 6
 contact_monitor = true
+max_contacts_reported = 6
 script = ExtResource("1_568mv")
 physics_sittable = true
 sit_area_behaviour = 2
@@ -102,46 +101,46 @@ look_marker_node_path = NodePath("Look Marker")
 sit_area_node_path = NodePath("sit_area")
 leave_node_path = NodePath("Leave Marker")
 
-[node name="chairCushion(Clone)" type="MeshInstance3D" parent="."]
+[node name="chairCushion(Clone)" type="MeshInstance3D" parent="." unique_id=1433950796]
 mesh = SubResource("ArrayMesh_4ti8p")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=528991548]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.240198, -0.2)
 shape = SubResource("BoxShape3D_6hhu5")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1486508875]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.200001, 0.700603, -0.360058)
 shape = SubResource("BoxShape3D_28niy")
 
-[node name="CarryableComponent" parent="." instance=ExtResource("2_hi2jy")]
+[node name="CarryableComponent" parent="." unique_id=1652960916 instance=ExtResource("2_hi2jy")]
 
-[node name="ImpactSounds" parent="." instance=ExtResource("3_1m0el")]
+[node name="ImpactSounds" parent="." unique_id=183429264 instance=ExtResource("3_1m0el")]
 impact_sounds = SubResource("AudioStreamRandomizer_srayl")
 
-[node name="BasicInteraction" parent="." instance=ExtResource("5_mp0sr")]
+[node name="BasicInteraction" parent="." unique_id=241305216 instance=ExtResource("5_mp0sr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.196674, 0.390145, -0.319466)
 interaction_text = "Sit"
 
-[node name="Sit Marker" type="Marker3D" parent="."]
+[node name="Sit Marker" type="Marker3D" parent="." unique_id=900808949]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.196964, 0.938087, -0.171467)
 
-[node name="Look Marker" type="Marker3D" parent="."]
+[node name="Look Marker" type="Marker3D" parent="." unique_id=1370573432]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.196676, 0.950224, 0.401541)
 
-[node name="Leave Marker" type="Marker3D" parent="."]
+[node name="Leave Marker" type="Marker3D" parent="." unique_id=1611756887]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.898392, 0.714839, 0.00110054)
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=109343736]
 transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0.196674, 0.390145, -0.319466)
 stream = ExtResource("6_jxoog")
 volume_db = -35.0
 pitch_scale = 0.5
 bus = &"SFX"
 
-[node name="sit_area" type="Area3D" parent="."]
+[node name="sit_area" type="Area3D" parent="." unique_id=53012296]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.196674, 0.390145, -0.319466)
+collision_mask = 17
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="sit_area"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="sit_area" unique_id=2108585579]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0179863, -0.188456, 0.380226)
 shape = SubResource("BoxShape3D_vapcp")

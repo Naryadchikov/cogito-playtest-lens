@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://byb1y44thne6i"]
+[gd_scene format=3 uid="uid://byb1y44thne6i"]
 
 [ext_resource type="Script" uid="uid://bchnsbnbrvncb" path="res://addons/cogito/PackedScenes/gravity_zone.gd" id="1_bpbvu"]
 [ext_resource type="FontFile" uid="uid://0n6rmlh8d60u" path="res://addons/cogito/Assets/Fonts/Montserrat/Montserrat-ExtraBold.ttf" id="2_ajo2e"]
@@ -18,21 +18,21 @@ disable_receive_shadows = true
 [sub_resource type="BoxShape3D" id="BoxShape3D_a6jus"]
 size = Vector3(4, 4, 4)
 
-[node name="GravityZone" type="Area3D"]
+[node name="GravityZone" type="Area3D" unique_id=547030504]
+collision_mask = 17
 gravity_space_override = 3
 gravity_point_center = Vector3(0, 1, 0)
 gravity_direction = Vector3(0, 1, 0)
 script = ExtResource("1_bpbvu")
 
-[node name="TransparentBox" type="MeshInstance3D" parent="."]
+[node name="TransparentBox" type="MeshInstance3D" parent="." unique_id=1997027236]
 mesh = SubResource("BoxMesh_kt1ow")
-skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_r8380")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1714227820]
 shape = SubResource("BoxShape3D_a6jus")
 
-[node name="Label3D" type="Label3D" parent="."]
+[node name="Label3D" type="Label3D" parent="." unique_id=210177331]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.05)
 text = "GRAVITY
 ZONE"

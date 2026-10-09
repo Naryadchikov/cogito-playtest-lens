@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://bho0nwh5rlnua"]
+[gd_scene format=4 uid="uid://bho0nwh5rlnua"]
 
 [ext_resource type="PackedScene" uid="uid://cqgg1nng0vvbh" path="res://addons/cogito/Components/Attributes/HealthAttribute.tscn" id="1_c1b02"]
 [ext_resource type="Script" uid="uid://dmeh01c5ccjqc" path="res://addons/cogito/CogitoObjects/cogito_object.gd" id="1_e8c88"]
@@ -59,34 +59,33 @@ shadow_mesh = SubResource("ArrayMesh_4ipiq")
 margin = 0.0
 height = 0.1
 
-[node name="TargetDestructable" type="RigidBody3D"]
+[node name="TargetDestructable" type="RigidBody3D" unique_id=276880349]
 gravity_scale = 0.0
 script = ExtResource("1_e8c88")
 cogito_name = ""
 
-[node name="HealthAttribute" parent="." instance=ExtResource("1_c1b02")]
+[node name="HealthAttribute" parent="." unique_id=1140411292 instance=ExtResource("1_c1b02")]
 sound_on_death = ExtResource("4_k2oo6")
 destroy_on_death = Array[NodePath]([NodePath("..")])
 spawn_on_death = Array[PackedScene]([ExtResource("4_rjxm0")])
 value_max = 1.0
 value_start = 1.0
 
-[node name="generated(Clone)" type="MeshInstance3D" parent="."]
+[node name="generated(Clone)" type="MeshInstance3D" parent="." unique_id=1940613255]
 transform = Transform3D(0.0425, 0, 0, 0, 0.0425, 0, 0, 0, 0.0425, 0, 0, 0)
 mesh = SubResource("ArrayMesh_uf0xr")
-skeleton = NodePath("")
 
-[node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_attribute") instance=ExtResource("3_4xfw8")]
+[node name="HitboxComponent" parent="." unique_id=20070743 node_paths=PackedStringArray("health_attribute") instance=ExtResource("3_4xfw8")]
 health_attribute = NodePath("../HealthAttribute")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2050647754]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 shape = SubResource("CylinderShape3D_wfwft")
 
-[node name="CogitoProperties" parent="." instance=ExtResource("6_3b4ij")]
+[node name="CogitoProperties" parent="." unique_id=866492989 instance=ExtResource("6_3b4ij")]
 material_properties = 1
 
-[node name="LootComponent" type="Node3D" parent="." node_paths=PackedStringArray("health_component_to_monitor")]
+[node name="LootComponent" type="Node3D" parent="." unique_id=1462349543 node_paths=PackedStringArray("health_component_to_monitor")]
 script = ExtResource("7_s82pn")
 spawning_logic = 1
 loot_table = ExtResource("8_ywkh5")
@@ -95,7 +94,7 @@ loot_bag_scene = ExtResource("9_dtbx4")
 health_component_to_monitor = NodePath("../HealthAttribute")
 metadata/_custom_type_script = "uid://d2dr6c2kvr57f"
 
-[node name="QuestUpdater" type="Node3D" parent="."]
+[node name="QuestUpdater" type="Node3D" parent="." unique_id=5035604]
 script = ExtResource("10_dtbx4")
 quest_to_update = ExtResource("11_csi42")
 update_type = 3

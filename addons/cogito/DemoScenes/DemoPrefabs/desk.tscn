@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://drd1xq0u7ua3b"]
+[gd_scene format=4 uid="uid://drd1xq0u7ua3b"]
 
 [ext_resource type="Script" uid="uid://cismjpvxmsbf2" path="res://addons/cogito/CogitoObjects/cogito_door.gd" id="1_ymvqg"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://addons/cogito/Components/Interactions/BasicInteraction.tscn" id="2_1nsh2"]
@@ -121,25 +121,24 @@ data = PackedVector3Array(0, 0.1008, 0, 0, 0.0008, 0, 0.3936, 0.0008, 0, 0.3936,
 margin = 0.01
 size = Vector3(0.39, 0.02, 0.287158)
 
-[node name="desk" type="Node3D"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 6.26102, -4.84288e-08, -1.74617)
+[node name="desk" type="Node3D" unique_id=1057144242]
 metadata/_edit_group_ = true
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1953018584]
 collision_layer = 3
 
-[node name="desk(Clone)" type="MeshInstance3D" parent="StaticBody3D"]
+[node name="desk(Clone)" type="MeshInstance3D" parent="StaticBody3D" unique_id=86592106]
 mesh = SubResource("ArrayMesh_eawek")
-skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_3v3pi")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1820338813]
 shape = SubResource("ConcavePolygonShape3D_h3tnf")
 
-[node name="AnimatableBody3D" type="AnimatableBody3D" parent="."]
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="." unique_id=526572366 node_paths=PackedStringArray("audio_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.235, 0.6, 0)
 collision_layer = 3
 script = ExtResource("1_ymvqg")
+audio_player = NodePath("AudioStreamPlayer3D")
 open_sound = ExtResource("2_jmyy3")
 close_sound = ExtResource("3_b5gei")
 door_type = 1
@@ -147,22 +146,21 @@ closed_position = Vector3(0.235, 0.6, 0)
 open_position = Vector3(0.235, 0.6, 0.284)
 door_speed = 0.2
 
-[node name="drawer" type="MeshInstance3D" parent="AnimatableBody3D"]
+[node name="drawer" type="MeshInstance3D" parent="AnimatableBody3D" unique_id=2129769270]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.155, -0.052, -0.328)
 mesh = SubResource("ArrayMesh_1obfp")
-skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_wvaf2")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D" unique_id=1745740737]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.155, -0.052, -0.328)
 shape = SubResource("ConcavePolygonShape3D_qh2ci")
 
-[node name="BasicInteraction" parent="AnimatableBody3D" instance=ExtResource("2_1nsh2")]
+[node name="BasicInteraction" parent="AnimatableBody3D" unique_id=2060161447 instance=ExtResource("2_1nsh2")]
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="AnimatableBody3D"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="AnimatableBody3D" unique_id=1594281239]
 volume_db = -12.0
 bus = &"SFX"
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="AnimatableBody3D"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="AnimatableBody3D" unique_id=947178529]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.042, -0.041, -0.144)
 shape = SubResource("BoxShape3D_v401u")

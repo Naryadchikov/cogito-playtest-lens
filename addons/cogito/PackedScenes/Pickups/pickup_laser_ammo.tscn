@@ -119,7 +119,6 @@ cogito_name = ""
 
 [node name="clipA" type="MeshInstance3D" parent="." unique_id=525313858]
 mesh = SubResource("ArrayMesh_mvtnv")
-skeleton = NodePath("")
 surface_material_override/2 = SubResource("StandardMaterial3D_cklr6")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=383521860]

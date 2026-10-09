@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=4 uid="uid://blll0724l8foj"]
+[gd_scene format=4 uid="uid://blll0724l8foj"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xdjn8"]
 resource_name = "carpet"
@@ -67,12 +67,10 @@ shadow_mesh = SubResource("ArrayMesh_p4yfr")
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_3wkhw"]
 points = PackedVector3Array(0, 0, -1.84, 0, 0, 0, 0, 0.02, -1.84, 3.14, 0, -1.84, 0, 0.02, 0, 3.14, 0, 0, 3.14, 0.02, -1.84, 3.14, 0.02, 0)
 
-[node name="rugRectangle" type="StaticBody3D"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6.34114, -4.84288e-08, -10.2007)
+[node name="rugRectangle" type="StaticBody3D" unique_id=62354541]
 
-[node name="rugRectangle(Clone)" type="MeshInstance3D" parent="."]
+[node name="rugRectangle(Clone)" type="MeshInstance3D" parent="." unique_id=1602254636]
 mesh = SubResource("ArrayMesh_qhxjw")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=123636384]
 shape = SubResource("ConvexPolygonShape3D_3wkhw")

@@ -45,7 +45,7 @@ func _process(delta):
 		# Drain battery when flashlight is on
 		player_interaction_component.equipped_wieldable_item.subtract(delta * drain_rate)
 		if player_interaction_component.equipped_wieldable_item.charge_current == 0:
-			turn_off()
+			toggle_flashlight(false)
 	
 	# Handle toggle cooldown
 	if not can_toggle:
@@ -56,6 +56,7 @@ func _process(delta):
 
 # Function called when primary action is performed
 func action_primary(_passed_item_reference: InventoryItemPD, is_released: bool):
+	print("Flashlight / Action Primary")
 	if is_released:
 		is_action_pressed = false
 		return
@@ -69,23 +70,24 @@ func action_primary(_passed_item_reference: InventoryItemPD, is_released: bool):
 
 # Function called when wieldable is unequipped
 func equip(_player_interaction_component: PlayerInteractionComponent):
-	animation_player.play(anim_equip)
-	player_interaction_component = _player_interaction_component
+	super.equip(_player_interaction_component)
 
 # Function called when wieldable is equipped
 func unequip():
-	animation_player.play(anim_unequip)
-	if is_on:
-		turn_off()
+	super.unequip()
+	if is_on: toggle_flashlight(false)
+
 
 # Function called when wieldable reload is attempted
-func reload():
+func reload() -> bool:
+	if !super.reload(): return false
 	animation_player.play(anim_reload)
-	play_sound(sound_reload)
+	if audio_stream_player_3d and sound_reload:
+		audio_stream_player_3d.stream = sound_reload
+		audio_stream_player_3d.play()
+		
+	return true
 
-# Function to explicitly turn it off for use when battery is depleted.
-func turn_off():
-	toggle_flashlight(false)
 
 # Function to toggle the flashlight on or off
 func toggle_on_off():

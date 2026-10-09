@@ -47,6 +47,7 @@ size = Vector3(0.8, 3.03359, 0.1)
 
 [node name="Ladder" type="Area3D" unique_id=439370334 node_paths=PackedStringArray("ladder_collision")]
 transform = Transform3D(-2.98023e-08, 0, -1, 0, 1, 0, 1, 0, -2.98023e-08, -18.4395, 1.6, -4.87125)
+collision_mask = 17
 script = ExtResource("1_odht7")
 ladder_collision = NodePath("ladder")
 

@@ -132,6 +132,7 @@ pitch_scale = 0.5
 
 [node name="sit_area" type="Area3D" parent="." unique_id=1517326770]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.431202)
+collision_mask = 17
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="sit_area" unique_id=1847080800]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0179856, -0.188456, 0.380226)

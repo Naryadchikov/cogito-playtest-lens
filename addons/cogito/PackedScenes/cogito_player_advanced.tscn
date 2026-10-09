@@ -17745,6 +17745,8 @@ bind/52/pose = Transform3D(-1, -4.08618e-08, 1.21778e-15, 4.87804e-15, -1.19209e
 
 [node name="CogitoPlayer" type="CharacterBody3D" unique_id=1413948432 node_paths=PackedStringArray("player_hud", "item_drop_shapecast", "ledge_climbing_shapecast") groups=["Player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+collision_layer = 16
+collision_mask = 33
 script = ExtResource("1_87we8")
 pause_menu = ExtResource("22_haksr")
 player_hud = NodePath("GUI/Panel/AspectRatioContainer/Player_HUD")

@@ -189,6 +189,7 @@ var initial_carryable_height #DEPRECATED Used to change carryable position based
 var config = ConfigFile.new()
 var uid: int = -1
 
+var initial_collision_mask: int = 0
 var current_speed : float = 5.0
 var current_lerp_speed : float = LERP_SPEED
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -254,6 +255,9 @@ func _ready():
 	#Some Setup steps
 	if uid == -1:
 		uid = get_instance_id()
+	
+	initial_collision_mask = collision_mask
+	
 	CogitoSceneManager._current_player_node = self
 	player_interaction_component.interaction_raycast = $Body/Neck/Head/Eyes/Camera/InteractionRaycast
 	player_interaction_component.exclude_player(get_rid())
@@ -1533,14 +1537,12 @@ func handle_sitting_look(event):
 
 
 func _sit_down():
-	standing_collision_shape.disabled = true
-	crouching_collision_shape.disabled = true
 	is_ejected = false 
-		
+	
 	var sittable = CogitoSceneManager._current_sittable_node
 	if sittable:
 		is_sitting = true
-		set_physics_process(false)
+		collision_mask = CogitoPhysics.CollisionMask.NONE
 		state_chart.send_event("sit")
 		if sittable.look_marker_node:
 			sittable_look_marker = sittable.look_marker_node.global_transform.origin
@@ -1555,7 +1557,7 @@ func _sit_down():
 		# Check if the sittable is physics-based
 		if sittable.physics_sittable:
 			currently_tweening = true
-			set_physics_process(true)
+			collision_mask = initial_collision_mask
 			#just using same tween for now with less tween time on chair_desk, TODO create a more dynamic 'tween' in physics process
 			var tween = create_tween()
 			tween.tween_property(self, "global_transform", sittable.sit_position_node.global_transform, sittable.tween_duration)
@@ -1572,10 +1574,8 @@ func _sit_down():
 func _sit_down_finished():
 	is_sitting = true
 	crouch_shapecast.enabled = false
-	set_physics_process(true)
+	collision_mask = initial_collision_mask
 	var sittable = CogitoSceneManager._current_sittable_node
-	standing_collision_shape.disabled = true
-	crouching_collision_shape.disabled = true
 	currently_tweening = false
 	if sittable_look_marker:
 		var tween = create_tween()
@@ -1586,9 +1586,7 @@ func _sit_down_finished():
 func _stand_up():
 	var sittable = CogitoSceneManager._current_sittable_node
 	if sittable:
-		
-		#is_sitting = false
-		set_physics_process(false)
+		collision_mask = CogitoPhysics.CollisionMask.NONE
 		state_chart.send_event("grounded")
 		#TODO: Implement crouch handling
 		# Handle player exit placement on stand-up based on the placement_leave_behaviour of the sittable
@@ -1692,12 +1690,10 @@ func _move_to_displacement_position(sittable):
 func _stand_up_finished():
 	is_sitting = false
 	crouch_shapecast.enabled = true
-	set_physics_process(true)
+	collision_mask = initial_collision_mask
 	state_chart.send_event("grounded")
 	try_crouch = false
 	state_chart.send_event("stand_up")
-	standing_collision_shape.disabled = false
-	#crouching_collision_shape.disabled = false
 	self.global_transform.basis = Basis()
 	neck.global_transform.basis = original_neck_basis  
 	currently_tweening = false
@@ -1945,7 +1941,7 @@ func exit_ladder():
 	var ladder_check_shapecast : ShapeCast3D = ShapeCast3D.new()
 	add_child(ladder_check_shapecast)
 	ladder_check_shapecast.add_exception(self)
-	ladder_check_shapecast.collision_mask = 3
+	ladder_check_shapecast.collision_mask = CogitoPhysics.CollisionMask.WATER
 	ladder_check_shapecast.collide_with_areas = true
 	ladder_check_shapecast.position = crouching_collision_shape.position
 	ladder_check_shapecast.target_position = Vector3.ZERO

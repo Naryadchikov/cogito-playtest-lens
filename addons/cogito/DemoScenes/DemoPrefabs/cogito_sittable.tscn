@@ -54,6 +54,7 @@ pitch_scale = 0.5
 bus = &"SFX"
 
 [node name="sit_area" type="Area3D" parent="." unique_id=1278995362]
+collision_mask = 17
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="sit_area" unique_id=163823709]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0179856, -0.0291935, 0.380226)

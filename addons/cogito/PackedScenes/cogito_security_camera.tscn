@@ -47,6 +47,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.173511, 0)
 mesh = SubResource("BoxMesh_uhxk2")
 
 [node name="DetectionArea3D" type="Area3D" parent="CameraMesh" unique_id=1069990740]
+collision_mask = 17
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CameraMesh/DetectionArea3D" unique_id=1248020975]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 2.3)
@@ -61,7 +62,7 @@ light_energy = 0.1
 transform = Transform3D(0.707107, -7.45058e-09, -0.707107, 0.183013, 0.965926, 0.183013, 0.683013, -0.258819, 0.683013, 0.00110061, 0.00171312, 0.312306)
 exclude_parent = false
 target_position = Vector3(0.85, -1.1, 1.94)
-collision_mask = 3
+collision_mask = 19
 hit_back_faces = false
 debug_shape_custom_color = Color(1, 0, 1, 1)
 

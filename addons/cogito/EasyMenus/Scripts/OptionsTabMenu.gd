@@ -332,16 +332,16 @@ func save_keybindings_to_config():
 
 	
 func create_action_remap_items() -> void:
-	for action in CogitoGameConfig.input_actions:
+	for action in CogitoGlobals.cogito_settings.rebind_entries:
 		if action.contains("separator"):
 			var separator = separator_entry.instantiate()
 			bindings_container.add_child(separator)
-			separator.separator_text = CogitoGameConfig.input_actions[action]
+			separator.separator_text = CogitoGlobals.cogito_settings.rebind_entries[action]
 		else:
 			var input_entry = remap_entry.instantiate()
 			input_entry.action = action
 			bindings_container.add_child(input_entry)
-			input_entry.label.text = tr(CogitoGameConfig.input_actions[action])
+			input_entry.label.text = tr(CogitoGlobals.cogito_settings.rebind_entries[action])
 
 
 func _on_apply_changes_pressed() -> void:

@@ -35,6 +35,38 @@ const settings_filename := "CogitoSettings"
 
 @export var screenshot_scale : float = 0.25
 
+@export_group("Input Map Settings")
+## These entries are used to generate rebindable inputs in the Options Rebind menu. Key is input_map_action, value is localized string to display. Need to be string-string pairs.
+@export var rebind_entries : Dictionary ={
+	"separator_movement": "SEPARATOR_MOVEMENT",
+	"forward": "INPUT_move_forward",
+	"back": "INPUT_move_backward",
+	"left": "INPUT_move_left",
+	"right": "INPUT_move_right",
+	"jump": "INPUT_jump",
+	"crouch": "INPUT_crouch",
+	"separator_actions": "SEPARATOR_ACTIONS",
+	"action_primary": "INPUT_primary_action",
+	"action_secondary": "INPUT_secondary_action",
+	"interact": "INPUT_interact_1",
+	"interact2": "INPUT_interact_2",
+	"reload": "INPUT_reload",
+	"change_ammo_type": "INPUT_change_ammo_type",
+	"quickslot_1": "INPUT_quickslot_1",
+	"quickslot_2": "INPUT_quickslot_2",
+	"quickslot_3": "INPUT_quickslot_3",
+	"quickslot_4": "INPUT_quickslot_4",
+	"quickslot_prev_wieldable": "INPUT_quickslot_prev",
+	"quickslot_next_wieldable": "INPUT_quickslot_next",
+	"separator_inventory": "SEPARATOR_MENUES",
+	"menu": "INPUT_pause",
+	"inventory": "INPUT_inventory",
+	"inventory_use_item": "INPUT_item_use",
+	"inventory_move_item": "INPUT_item_move",
+	"inventory_drop_item": "INPUT_item_quick_drop",
+	"inventory_rotate_item": "INPUT_item_rotate",
+}
+
 @export_group("Cogito Core References")
 ## Scene path to Loading Screen scene.
 @export_file_path(".tscn") var loading_screen_scene_path : String
@@ -275,6 +307,14 @@ func _on_btn_reset_input_map_pressed() -> void:
 	gamepad_button.device = -1
 	gamepad_button.button_index = JOY_BUTTON_LEFT_SHOULDER
 	save_input_action_to_settings("ui_prev_tab",keyboard_key,gamepad_button)
+	
+	keyboard_key = InputEventKey.new()
+	keyboard_key.physical_keycode = KEY_T
+	gamepad_button = InputEventJoypadButton.new()
+	gamepad_button.device = -1
+	gamepad_button.button_index = JOY_BUTTON_LEFT_SHOULDER
+	save_input_action_to_settings("INPUT_change_ammo_type",keyboard_key,gamepad_button)
+	
 
 
 	

@@ -5,6 +5,9 @@ class_name CogitoHealthAttribute
 signal damage_taken()
 ## Emitted when health reaches zeor.
 signal death()
+## Emitted for each spawn_on_death object after it's placed, but before it's
+## added to the scene, so listeners can configure it before its _ready().
+signal spawning_on_death(spawned_object: Node)
 
 ## Amount of damage received per second if sanity is zero. Usually only used for Players.
 @export var no_sanity_damage : float
@@ -53,6 +56,7 @@ func on_death(_attribute_name:String, _value_current:float, _value_max:float):
 			var spawned_object = scene.instantiate()
 			spawned_object.position = parent_position
 			spawned_object.rotation = parent_rotation
+			spawning_on_death.emit(spawned_object)
 			get_tree().current_scene.add_child(spawned_object)
 	
 	for nodepath in destroy_on_death:

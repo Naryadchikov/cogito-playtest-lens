@@ -6,6 +6,10 @@ signal fade_finished
 ## Emitted when GUI options changed
 signal update_gui
 
+## Emitted once the first scene of a new game is loaded and the player has
+## received the starter items.
+signal new_game_started
+
 # Used to set active save slot. This could be set/modified, when selecting a save slot from the MainMenu.
 @export var _active_slot : String = "A"
 
@@ -441,6 +445,7 @@ func starting_a_new_game() -> void:
 		
 	fade_in()
 	is_starting_new_game = false
+	new_game_started.emit()
 
 
 func _exit_tree() -> void:

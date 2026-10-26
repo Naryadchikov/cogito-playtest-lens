@@ -4,6 +4,7 @@ extends Node
 
 const _DIR := "user://playtest_lens"
 const _POSITION_USEC := 500_000
+const _StartFlashScript := preload("res://addons/playtest_lens/start_flash.gd")
 
 var log_path := ""
 
@@ -35,6 +36,9 @@ func _ready() -> void:
 		"game_version": String(ProjectSettings.get_setting("application/config/version", "")),
 		"log_path": log_path,
 	})
+	var flash := _StartFlashScript.new()
+	flash.name = "StartFlash"
+	add_child(flash)
 
 
 func _process(_delta: float) -> void:

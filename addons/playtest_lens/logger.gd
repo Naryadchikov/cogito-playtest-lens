@@ -28,7 +28,7 @@ func _ready() -> void:
 	if not _open_log():
 		_running = false
 		return
-	_emit("session_start", {
+	log_event("session_start", {
 		"wall_time": _wall,
 		"godot_version": String(Engine.get_version_info().get("string", "")),
 		"game_name": String(ProjectSettings.get_setting("application/config/name", "")),
@@ -52,9 +52,9 @@ func _log_actions() -> void:
 	for action in InputMap.get_actions():
 		var action_name := StringName(action)
 		if Input.is_action_just_pressed(action_name):
-			_emit("input", {"action": String(action_name), "pressed": true})
+			log_event("input", {"action": String(action_name), "pressed": true})
 		if Input.is_action_just_released(action_name):
-			_emit("input", {"action": String(action_name), "pressed": false})
+			log_event("input", {"action": String(action_name), "pressed": false})
 
 
 func _exit_tree() -> void:
@@ -65,7 +65,7 @@ func end_session() -> void:
 	if not _running or _finished or _file == null:
 		return
 	_finished = true
-	_emit("session_end", {})
+	log_event("session_end", {})
 	_file.flush()
 	_file.close()
 	_file = null
@@ -92,7 +92,7 @@ func _log_scene() -> void:
 	if scene_id == _logged_scene_id:
 		return
 	_logged_scene_id = scene_id
-	_emit("scene", {"scene": scene.scene_file_path})
+	log_event("scene", {"scene": scene.scene_file_path})
 
 
 func _log_position() -> void:
@@ -100,7 +100,7 @@ func _log_position() -> void:
 	if body == null:
 		return
 	var origin := body.global_position
-	_emit("position", {
+	log_event("position", {
 		"x": origin.x,
 		"y": origin.y,
 		"z": origin.z,
@@ -125,7 +125,7 @@ func _find_player() -> Node3D:
 	return null
 
 
-func _emit(event_name: String, fields: Dictionary) -> void:
+func log_event(event_name: String, fields: Dictionary = {}) -> void:
 	if _file == null:
 		return
 	var line := {"t": _seconds(), "event": event_name}
@@ -133,6 +133,7 @@ func _emit(event_name: String, fields: Dictionary) -> void:
 		line[key] = fields[key]
 	_file.store_line(JSON.stringify(line))
 	_file.flush()
+
 
 
 func _seconds() -> float:

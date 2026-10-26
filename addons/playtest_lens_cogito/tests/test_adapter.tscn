@@ -1,0 +1,19 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://addons/playtest_lens_cogito/tests/test_adapter.gd" id="1_test"]
+[ext_resource type="Script" path="res://addons/playtest_lens_cogito/tests/test_player.gd" id="2_player"]
+[ext_resource type="PackedScene" path="res://addons/cogito/PackedScenes/door.tscn" id="3_door"]
+[ext_resource type="PackedScene" path="res://addons/cogito/PackedScenes/keypad_prefab.tscn" id="4_keypad"]
+[ext_resource type="PackedScene" path="res://addons/cogito/PackedScenes/Pickups/pickup_key.tscn" id="5_pickup"]
+
+[node name="TestAdapter" type="Node"]
+script = ExtResource("1_test")
+
+[node name="Player" type="Node3D" parent="."]
+script = ExtResource("2_player")
+
+[node name="Door" parent="." instance=ExtResource("3_door")]
+
+[node name="Keypad" parent="." instance=ExtResource("4_keypad")]
+
+[node name="Pickup" parent="." instance=ExtResource("5_pickup")]

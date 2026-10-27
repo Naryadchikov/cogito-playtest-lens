@@ -48,6 +48,9 @@ func _watch(node: Node) -> void:
 		var button := node as BaseButton
 		if not button.pressed.is_connected(_on_new_game_pressed):
 			button.pressed.connect(_on_new_game_pressed)
+	if node is CogitoHealthAttribute and _is_player_health(node):
+		cared = true
+		node.death.connect(_on_player_death.bind(node))
 	if not cared:
 		return
 	_watched[id] = true
@@ -87,6 +90,30 @@ func _on_new_game_pressed() -> void:
 	var logger := get_node_or_null("/root/PlaytestLensLogger")
 	if logger != null and logger.has_method("sync_flash"):
 		logger.sync_flash("new_game")
+
+
+func _is_player_health(node: Node) -> bool:
+	return String(node.get("attribute_name")) == "health" and _player_ancestor(node) != null
+
+
+func _player_ancestor(node: Node) -> Node:
+	var current := node.get_parent()
+	while current != null:
+		if _is_player(current):
+			return current
+		current = current.get_parent()
+	return null
+
+
+func _on_player_death(attribute: Node) -> void:
+	var fields := {}
+	var body := _player_ancestor(attribute)
+	if body is Node3D:
+		var origin := (body as Node3D).global_position
+		fields["x"] = origin.x
+		fields["y"] = origin.y
+		fields["z"] = origin.z
+	_log("death", fields)
 
 
 func _is_player(node: Node) -> bool:

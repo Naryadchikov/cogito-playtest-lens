@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://nqyrraqwixxy"]
 
 [ext_resource type="Script" uid="uid://cismjpvxmsbf2" path="res://addons/cogito/CogitoObjects/cogito_door.gd" id="1_fged4"]
-[ext_resource type="AudioStream" uid="uid://ftl7je6blfwq" path="res://addons/cogito/Assets/Audio/Kenney/stoneDrag4.ogg" id="2_n3bjk"]
+[ext_resource type="AudioStream" uid="uid://ckp08jq0hmojl" path="res://addons/cogito/Assets/Audio/sliding_door_open.ogg" id="2_n3bjk"]
 [ext_resource type="AudioStream" uid="uid://dapihv4sgdqhw" path="res://addons/cogito/Assets/Audio/Kenney/metalLatch.ogg" id="3_bh3rj"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://addons/cogito/Components/Interactions/BasicInteraction.tscn" id="4_rvjsd"]
 

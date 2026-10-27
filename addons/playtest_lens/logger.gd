@@ -4,7 +4,7 @@ extends Node
 
 const _DIR := "user://playtest_lens"
 const _POSITION_USEC := 500_000
-const _StartFlashScript := preload("res://addons/playtest_lens/start_flash.gd")
+const _SyncFlashScript := preload("res://addons/playtest_lens/sync_flash.gd")
 
 var log_path := ""
 
@@ -15,6 +15,7 @@ var _wall := ""
 var _logged_scene_id := 0
 var _running := false
 var _finished := false
+var _sync: Node
 
 
 func _ready() -> void:
@@ -36,9 +37,9 @@ func _ready() -> void:
 		"game_version": String(ProjectSettings.get_setting("application/config/version", "")),
 		"log_path": log_path,
 	})
-	var flash := _StartFlashScript.new()
-	flash.name = "StartFlash"
-	add_child(flash)
+	_sync = _SyncFlashScript.new()
+	_sync.name = "SyncFlash"
+	add_child(_sync)
 
 
 func _process(_delta: float) -> void:
@@ -97,6 +98,8 @@ func _log_scene() -> void:
 		return
 	_logged_scene_id = scene_id
 	log_event("scene", {"scene": scene.scene_file_path})
+	if _find_player() != null:
+		sync_flash("level_load")
 
 
 func _log_position() -> void:
@@ -127,6 +130,17 @@ func _find_player() -> Node3D:
 	if node is Node3D:
 		return node
 	return null
+
+
+func sync_flash(reason: String) -> bool:
+	if _sync == null or not _sync.has_method("trigger"):
+		return false
+	var extra := {}
+	if reason == "level_load":
+		var scene := get_tree().current_scene
+		if scene != null and scene.scene_file_path != "":
+			extra["scene"] = scene.scene_file_path
+	return bool(_sync.call("trigger", reason, extra))
 
 
 func log_event(event_name: String, fields: Dictionary = {}) -> void:

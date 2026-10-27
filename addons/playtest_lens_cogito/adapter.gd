@@ -43,6 +43,11 @@ func _watch(node: Node) -> void:
 		_attach_inventory(node)
 		if not node.is_node_ready():
 			node.ready.connect(_on_player_ready.bind(node), CONNECT_ONE_SHOT)
+	if _is_new_game_button(node):
+		cared = true
+		var button := node as BaseButton
+		if not button.pressed.is_connected(_on_new_game_pressed):
+			button.pressed.connect(_on_new_game_pressed)
 	if not cared:
 		return
 	_watched[id] = true
@@ -65,6 +70,23 @@ func _connect_quests() -> void:
 	manager.quest_updated.connect(_on_quest.bind("updated"))
 	manager.quest_completed.connect(_on_quest.bind("completed"))
 	manager.quest_failed.connect(_on_quest.bind("failed"))
+
+
+func _is_new_game_button(node: Node) -> bool:
+	if not node is BaseButton or node.name != "NewGame":
+		return false
+	var ancestor := node.get_parent()
+	while ancestor != null:
+		if ancestor is CogitoMainMenuController:
+			return true
+		ancestor = ancestor.get_parent()
+	return false
+
+
+func _on_new_game_pressed() -> void:
+	var logger := get_node_or_null("/root/PlaytestLensLogger")
+	if logger != null and logger.has_method("sync_flash"):
+		logger.sync_flash("new_game")
 
 
 func _is_player(node: Node) -> bool:

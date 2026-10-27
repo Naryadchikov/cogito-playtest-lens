@@ -79,8 +79,9 @@ func end_session() -> void:
 func _open_log() -> bool:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_DIR))
 	# Colons are illegal in Windows file names. wall_time keeps ISO 8601.
+	# user:// so the log does not name the account or the machine.
 	var res_path := "%s/%s.jsonl" % [_DIR, _wall.replace(":", "-")]
-	log_path = ProjectSettings.globalize_path(res_path)
+	log_path = res_path
 	_file = FileAccess.open(res_path, FileAccess.WRITE)
 	if _file == null:
 		printerr("Playtest Lens could not open the log file %s: %s" % [log_path, error_string(FileAccess.get_open_error())])
@@ -107,12 +108,17 @@ func _log_position() -> void:
 	if body == null:
 		return
 	var origin := body.global_position
-	log_event("position", {
+	var fields := {
 		"x": origin.x,
 		"y": origin.y,
 		"z": origin.z,
-		"yaw": body.global_rotation_degrees.y,
-	})
+	}
+	var camera := get_viewport().get_camera_3d()
+	if camera != null:
+		var look := camera.global_rotation_degrees
+		fields["yaw"] = look.y
+		fields["pitch"] = look.x
+	log_event("position", fields)
 
 
 func _find_player() -> Node3D:

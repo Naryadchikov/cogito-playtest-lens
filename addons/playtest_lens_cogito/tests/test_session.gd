@@ -7,6 +7,9 @@ const LEVEL_WAIT_S := 90.0
 const MOVE_S := 3.0
 const OUT_M := 15.0
 const IDLE_S := 41.0
+const LOOK_S := 20.0
+const YAW_SWEEP_DEG := 50.0
+const PITCH_SWEEP_DEG := 25.0
 const AFTER_S := 2.0
 const AFTER_M := 4.0
 const IDLE_MIN_S := 40.0
@@ -68,7 +71,7 @@ func _run() -> void:
 	print("phase=move_back")
 	await _slide(player, Vector3(-OUT_M, 0.0, 0.0), MOVE_S)
 	print("phase=idle")
-	await _wait_seconds(IDLE_S)
+	await _look_then_hold(player)
 	print("phase=kill")
 	if not await _kill(player):
 		_failures.append("health damage did not emit death")
@@ -102,7 +105,7 @@ func _finish(logger: Node) -> void:
 	var events := _read_events(path)
 	_check_sequence(events)
 	if _failures.is_empty():
-		var dest := _checks_dir().path_join("12-session.jsonl")
+		var dest := _checks_dir().path_join("15-session.jsonl")
 		if not _copy_log(path, dest):
 			_failures.append("could not copy log to %s" % dest)
 	if _failures.is_empty():
@@ -142,6 +145,37 @@ func _wait_seconds(seconds: float) -> void:
 	var start := Time.get_ticks_usec()
 	var limit := int(seconds * 1_000_000.0)
 	while Time.get_ticks_usec() - start < limit and not _timed_out():
+		await get_tree().process_frame
+
+
+# Body yaw and head pitch, the same axes COGITO's mouse look uses.
+# Two slow sweeps, then the view stays put for the rest of the stand.
+func _look_then_hold(player: Node3D) -> void:
+	var body := player.get_node_or_null("Body") as Node3D
+	var head := player.get_node_or_null("Body/Neck/Head") as Node3D
+	if body == null or head == null:
+		_failures.append("player body or head missing")
+		await _wait_seconds(IDLE_S)
+		return
+	var yaw0 := body.rotation.y
+	var pitch0 := head.rotation.x
+	var t0 := Time.get_ticks_usec()
+	var look_us := int(LOOK_S * 1_000_000.0)
+	var total_us := int(IDLE_S * 1_000_000.0)
+	var held_pitch := clampf(pitch0 + deg_to_rad(PITCH_SWEEP_DEG), deg_to_rad(-90.0), deg_to_rad(90.0))
+	while not _timed_out():
+		var elapsed := Time.get_ticks_usec() - t0
+		if elapsed >= look_us:
+			body.rotation.y = yaw0
+			head.rotation.x = held_pitch
+		else:
+			var u := float(elapsed) / float(look_us)
+			var yaw_wave := sin(u * TAU * 2.0)
+			var pitch_wave := sin(u * TAU * 2.0 + PI * 0.5)
+			body.rotation.y = yaw0 + deg_to_rad(YAW_SWEEP_DEG * yaw_wave)
+			head.rotation.x = clampf(pitch0 + deg_to_rad(PITCH_SWEEP_DEG * pitch_wave), deg_to_rad(-90.0), deg_to_rad(90.0))
+		if elapsed >= total_us:
+			return
 		await get_tree().process_frame
 
 
@@ -300,6 +334,59 @@ func _check_walk(events: Array[Dictionary], pos_indexes: Array[int], death_at: i
 		if String(events[i].get("event", "")) == "input":
 			_failures.append("input during the stand")
 			return
+	_check_look(events, home_at, death_at)
+
+
+func _check_look(events: Array[Dictionary], home_at: int, death_at: int) -> void:
+	var t0 := float(events[home_at].get("t", 0.0))
+	var t1 := float(events[death_at].get("t", 0.0))
+	var early := _look_samples(events, home_at, death_at, t0, t0 + LOOK_S)
+	var late := _look_samples(events, home_at, death_at, t1 - LOOK_S, t1)
+	if early.size() < 10:
+		_failures.append("first 20s has %d position lines" % early.size())
+		return
+	if late.size() < 10:
+		_failures.append("last 20s has %d position lines" % late.size())
+		return
+	var early_yaw := _angle_span(early, "yaw")
+	var early_pitch := _angle_span(early, "pitch")
+	var late_yaw := _angle_span(late, "yaw")
+	var late_pitch := _angle_span(late, "pitch")
+	print("look first20 yaw_span=%.2f pitch_span=%.2f last20 yaw_span=%.2f pitch_span=%.2f" % [early_yaw, early_pitch, late_yaw, late_pitch])
+	if early_yaw < 15.0 or early_pitch < 15.0:
+		_failures.append("look barely moved in the first 20s")
+	if late_yaw > 0.75 or late_pitch > 0.75:
+		_failures.append("look still moving in the last 20s")
+
+
+func _look_samples(events: Array[Dictionary], from_i: int, to_i: int, start: float, end: float) -> Array[Dictionary]:
+	var found: Array[Dictionary] = []
+	for i in range(maxi(from_i, 0), mini(to_i, events.size())):
+		var line := events[i]
+		if String(line.get("event", "")) != "position":
+			continue
+		var t := float(line.get("t", 0.0))
+		if t < start or t >= end:
+			continue
+		if not _is_angle(line.get("yaw")) or not _is_angle(line.get("pitch")):
+			_failures.append("position missing yaw or pitch at t=%s" % t)
+			continue
+		found.append(line)
+	return found
+
+
+func _is_angle(value: Variant) -> bool:
+	return typeof(value) == TYPE_FLOAT or typeof(value) == TYPE_INT
+
+
+func _angle_span(lines: Array[Dictionary], key: String) -> float:
+	var lo := float(lines[0].get(key, 0.0))
+	var hi := lo
+	for line in lines:
+		var value := float(line.get(key, 0.0))
+		lo = minf(lo, value)
+		hi = maxf(hi, value)
+	return hi - lo
 
 
 func _span(events: Array[Dictionary], indexes: Array[int]) -> float:

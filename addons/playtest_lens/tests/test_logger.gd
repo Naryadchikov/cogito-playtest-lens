@@ -5,10 +5,13 @@ const SCENE_A := "res://addons/playtest_lens/tests/test_logger.tscn"
 const SCENE_B := "res://addons/playtest_lens/tests/scene_b.tscn"
 const POSE_A := Vector3(1.25, 2.5, 3.75)
 const YAW_A := 90.0
+const PITCH_A := -18.0
 const POSE_B := Vector3(-4.5, 0.5, 6.25)
 const YAW_B := -35.0
+const PITCH_B := 27.0
 
 var _player: Node3D
+var _camera: Camera3D
 var _failures: PackedStringArray = PackedStringArray()
 var _scene_did_change := false
 
@@ -16,8 +19,9 @@ var _scene_did_change := false
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_player = get_parent().get_node("Player") as Node3D
+	_camera = get_parent().get_node("Camera") as Camera3D
 	ProjectSettings.set_setting("playtest_lens/player_path", "Player")
-	_apply_pose(POSE_A, YAW_A)
+	_apply_pose(POSE_A, YAW_A, PITCH_A)
 	call_deferred("_detach_and_run")
 
 
@@ -45,7 +49,7 @@ func _run() -> void:
 	await _next_frame()
 	await _hold_forward_stick()
 	await _wait_sec(0.7)
-	_apply_pose(POSE_B, YAW_B)
+	_apply_pose(POSE_B, YAW_B, PITCH_B)
 	await _wait_sec(0.7)
 	get_tree().scene_changed.connect(_on_test_scene_changed)
 	var err := get_tree().change_scene_to_file(SCENE_B)
@@ -74,9 +78,11 @@ func _on_test_scene_changed() -> void:
 	_scene_did_change = true
 
 
-func _apply_pose(origin: Vector3, yaw: float) -> void:
+func _apply_pose(origin: Vector3, yaw: float, pitch: float) -> void:
 	_player.global_position = origin
-	_player.global_rotation_degrees = Vector3(0.0, yaw, 0.0)
+	_player.global_rotation_degrees = Vector3.ZERO
+	_camera.global_rotation_degrees = Vector3(pitch, yaw, 0.0)
+	_camera.current = true
 
 
 func _fire(action: String, pressed: bool) -> void:
@@ -168,8 +174,9 @@ func _check_start(line: Dictionary, path: String) -> void:
 		_failures.append("game_name %s" % line.get("game_name", ""))
 	if String(line.get("game_version", "")) != game_version:
 		_failures.append("game_version %s" % line.get("game_version", ""))
-	if String(line.get("log_path", "")) != path or not path.is_absolute_path():
-		_failures.append("log_path %s" % line.get("log_path", ""))
+	var logged := String(line.get("log_path", ""))
+	if not logged.begins_with("user://") or logged != path:
+		_failures.append("log_path %s" % logged)
 	if path.get_file() != wall.replace(":", "-") + ".jsonl":
 		_failures.append("log file name %s" % path.get_file())
 	if path.get_base_dir().get_file() != "playtest_lens":
@@ -228,23 +235,26 @@ func _check_positions(events: Array[Dictionary]) -> void:
 	for line in events:
 		if String(line.event) != "position":
 			continue
-		if _pose(line, POSE_A, YAW_A):
+		if not line.has("yaw") or not line.has("pitch"):
+			_failures.append("position missing yaw or pitch")
+			continue
+		if _pose(line, POSE_A, YAW_A, PITCH_A):
 			saw_a = true
-		elif _pose(line, POSE_B, YAW_B):
+		elif _pose(line, POSE_B, YAW_B, PITCH_B):
 			if saw_a:
 				saw_b = true
 			else:
 				_failures.append("position B before A")
 		else:
-			_failures.append("unexpected position x=%s y=%s z=%s yaw=%s" % [line.get("x"), line.get("y"), line.get("z"), line.get("yaw")])
+			_failures.append("unexpected position x=%s y=%s z=%s yaw=%s pitch=%s" % [line.get("x"), line.get("y"), line.get("z"), line.get("yaw"), line.get("pitch")])
 	if not saw_a:
 		_failures.append("missing position A")
 	if not saw_b:
 		_failures.append("missing position B")
 
 
-func _pose(line: Dictionary, origin: Vector3, yaw: float) -> bool:
-	return _near(line.get("x"), origin.x) and _near(line.get("y"), origin.y) and _near(line.get("z"), origin.z) and _near(line.get("yaw"), yaw)
+func _pose(line: Dictionary, origin: Vector3, yaw: float, pitch: float) -> bool:
+	return _near(line.get("x"), origin.x) and _near(line.get("y"), origin.y) and _near(line.get("z"), origin.z) and _near(line.get("yaw"), yaw) and _near(line.get("pitch"), pitch)
 
 
 func _near(got: Variant, want: float) -> bool:

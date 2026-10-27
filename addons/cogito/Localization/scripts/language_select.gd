@@ -2,8 +2,8 @@ extends OptionButton
  
 # Define available languages and their properties
 var languages: Array[Dictionary] = [
-	{"code": "en", "icon": preload("res://addons/cogito/Assets/Graphics/Flags/freepik_flag_us.png"), "text": "  English"},
-	{"code": "de", "icon": preload("res://addons/cogito/Assets/Graphics/Flags/freepik_flag_de.png"), "text": "  Deutsch"},
+	{"code": "en", "text": "English"},
+	{"code": "de", "text": "Deutsch"},
 ]
  
 var current_language_index: int = 0

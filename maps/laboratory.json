@@ -1,0 +1,11 @@
+{
+	"convention": "px = (x - world_min_x) / (world_max_x - world_min_x) * px_width; py = (z - world_min_z) / (world_max_z - world_min_z) * px_height; z grows downward in the picture; y is height and is not drawn",
+	"px_height": 2016,
+	"px_width": 2048,
+	"scene": "res://addons/cogito/DemoScenes/COGITO_4_Laboratory.tscn",
+	"world_max_x": 18.0,
+	"world_max_z": 31.0,
+	"world_min_x": -47.0,
+	"world_min_z": -33.0,
+	"y_cutoff": 2.4
+}

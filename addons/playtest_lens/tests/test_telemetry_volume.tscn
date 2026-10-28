@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://addons/playtest_lens/tests/test_telemetry_volume.gd" id="1_test"]
+[ext_resource type="Script" path="res://addons/playtest_lens/telemetry_volume.gd" id="2_vol"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_player"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_zone"]
+size = Vector3(4, 4, 4)
+
+[node name="TestTelemetry" type="Node"]
+
+[node name="Player" type="CharacterBody3D" parent="."]
+collision_layer = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Volume" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+script = ExtResource("2_vol")
+zone = "Puzzle"
+puzzle = "FuseBox"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Volume"]
+shape = SubResource("BoxShape3D_zone")
+
+[node name="Runner" type="Node" parent="."]
+script = ExtResource("1_test")

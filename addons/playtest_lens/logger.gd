@@ -5,6 +5,7 @@ extends Node
 const _DIR := "user://playtest_lens"
 const _POSITION_USEC := 500_000
 const _SyncFlashScript := preload("res://addons/playtest_lens/sync_flash.gd")
+const _VolumeScript := preload("res://addons/playtest_lens/telemetry_volume.gd")
 
 var log_path := ""
 
@@ -16,9 +17,14 @@ var _logged_scene_id := 0
 var _running := false
 var _finished := false
 var _sync: Node
+# Volumes the player is inside, oldest first. The last one stamps later lines.
+var _inside: Array[Dictionary] = []
+var _volume_calls: Dictionary = {}
+var _need_overlap := false
 
 
 func _ready() -> void:
+	set_physics_process(false)
 	if Engine.is_editor_hint() or _running:
 		return
 	_running = true
@@ -51,6 +57,14 @@ func _process(_delta: float) -> void:
 	if now >= _next_position_usec:
 		_next_position_usec = now + _POSITION_USEC
 		_log_position()
+
+
+func _physics_process(_delta: float) -> void:
+	set_physics_process(false)
+	if not _need_overlap:
+		return
+	_need_overlap = false
+	_catch_overlaps()
 
 
 func _log_actions() -> void:
@@ -98,6 +112,7 @@ func _log_scene() -> void:
 	if scene_id == _logged_scene_id:
 		return
 	_logged_scene_id = scene_id
+	_sync_volumes(scene)
 	log_event("scene", {"scene": scene.scene_file_path})
 	if _find_player() != null:
 		sync_flash("level_load")
@@ -153,11 +168,150 @@ func log_event(event_name: String, fields: Dictionary = {}) -> void:
 	if _file == null:
 		return
 	var line := {"t": _seconds(), "event": event_name}
+	# Active zone first. Caller fields win, so an enter or exit names its own volume.
+	if not _inside.is_empty():
+		var active: Dictionary = _inside[-1]
+		line["zone"] = String(active["zone"])
+		line["puzzle"] = String(active["puzzle"])
 	for key in fields:
 		line[key] = fields[key]
 	_file.store_line(JSON.stringify(line))
 	_file.flush()
 
+
+func _sync_volumes(scene: Node) -> void:
+	_leave_all_volumes()
+	_disconnect_volumes()
+	var found := false
+	for node in get_tree().get_nodes_in_group(_VolumeScript.GROUP_NAME):
+		if not node is Area3D:
+			continue
+		if node.get_script() != _VolumeScript:
+			continue
+		if node != scene and not scene.is_ancestor_of(node):
+			continue
+		_connect_volume(node)
+		found = true
+	if found:
+		_need_overlap = true
+		set_physics_process(true)
+
+
+func _connect_volume(volume: Area3D) -> void:
+	var id := volume.get_instance_id()
+	if _volume_calls.has(id):
+		return
+	var entered := _on_volume_body_entered.bind(volume)
+	var exited := _on_volume_body_exited.bind(volume)
+	volume.body_entered.connect(entered)
+	volume.body_exited.connect(exited)
+	_volume_calls[id] = {
+		"volume": volume,
+		"entered": entered,
+		"exited": exited,
+	}
+
+
+func _disconnect_volumes() -> void:
+	for id in _volume_calls.keys():
+		var row: Dictionary = _volume_calls[id]
+		var volume: Object = row.get("volume")
+		if is_instance_valid(volume) and volume is Area3D:
+			var area := volume as Area3D
+			var entered: Callable = row["entered"]
+			var exited: Callable = row["exited"]
+			if area.body_entered.is_connected(entered):
+				area.body_entered.disconnect(entered)
+			if area.body_exited.is_connected(exited):
+				area.body_exited.disconnect(exited)
+	_volume_calls.clear()
+
+
+func _catch_overlaps() -> void:
+	var player := _find_player()
+	if player == null:
+		return
+	for id in _volume_calls.keys():
+		var row: Dictionary = _volume_calls[id]
+		var volume: Object = row.get("volume")
+		if not is_instance_valid(volume) or not volume is Area3D:
+			continue
+		var area := volume as Area3D
+		for body in area.get_overlapping_bodies():
+			if body == player:
+				_enter_volume(area)
+				break
+
+
+func _on_volume_body_entered(body: Node3D, volume: Area3D) -> void:
+	if body != _find_player():
+		return
+	_enter_volume(volume)
+
+
+func _on_volume_body_exited(body: Node3D, volume: Area3D) -> void:
+	if body != _find_player():
+		return
+	_exit_volume(volume)
+
+
+func _enter_volume(volume: Area3D) -> void:
+	if not is_instance_valid(volume):
+		return
+	var id := volume.get_instance_id()
+	for item in _inside:
+		if int(item["id"]) == id:
+			return
+	var names := _volume_names(volume)
+	_inside.append({"id": id, "zone": names["zone"], "puzzle": names["puzzle"]})
+	log_event("zone_enter", {"zone": names["zone"], "puzzle": names["puzzle"]})
+
+
+func _exit_volume(volume: Area3D) -> void:
+	if not is_instance_valid(volume):
+		return
+	var id := volume.get_instance_id()
+	var zone := ""
+	var puzzle := ""
+	var found := false
+	var next: Array[Dictionary] = []
+	for item in _inside:
+		if int(item["id"]) == id:
+			found = true
+			zone = String(item["zone"])
+			puzzle = String(item["puzzle"])
+		else:
+			next.append(item)
+	if not found:
+		return
+	_inside = next
+	log_event("zone_exit", {"zone": zone, "puzzle": puzzle})
+
+
+func _leave_all_volumes() -> void:
+	var leaving: Array[Dictionary] = []
+	leaving.assign(_inside)
+	_inside.clear()
+	leaving.reverse()
+	for item in leaving:
+		log_event("zone_exit", {
+			"zone": String(item["zone"]),
+			"puzzle": String(item["puzzle"]),
+		})
+
+
+func _volume_names(volume: Object) -> Dictionary:
+	return {
+		"zone": _string_prop(volume, "zone"),
+		"puzzle": _string_prop(volume, "puzzle"),
+	}
+
+
+func _string_prop(node: Object, key: String) -> String:
+	var value: Variant = node.get(key)
+	if value == null:
+		return ""
+	return String(value)
 
 
 func _seconds() -> float:

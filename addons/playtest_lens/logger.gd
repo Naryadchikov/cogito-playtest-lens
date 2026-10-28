@@ -4,6 +4,8 @@ extends Node
 
 const _DIR := "user://playtest_lens"
 const _POSITION_USEC := 500_000
+const _PERF_USEC := 1_000_000
+const SCHEMA_VERSION := 1
 const _SyncFlashScript := preload("res://addons/playtest_lens/sync_flash.gd")
 const _VolumeScript := preload("res://addons/playtest_lens/telemetry_volume.gd")
 
@@ -12,6 +14,8 @@ var log_path := ""
 var _file: FileAccess
 var _origin_usec := 0
 var _next_position_usec := 0
+var _next_perf_usec := 0
+var _was_paused := false
 var _wall := ""
 var _logged_scene_id := 0
 var _running := false
@@ -32,15 +36,20 @@ func _ready() -> void:
 	set_process(true)
 	_origin_usec = Time.get_ticks_usec()
 	_next_position_usec = _origin_usec + _POSITION_USEC
+	_next_perf_usec = _origin_usec + _PERF_USEC
 	_wall = _utc_iso()
 	if not _open_log():
 		_running = false
 		return
 	log_event("session_start", {
+		"schema": SCHEMA_VERSION,
+		"session_id": "%s-%d" % [_wall.replace(":", "-"), OS.get_process_id()],
 		"wall_time": _wall,
 		"godot_version": String(Engine.get_version_info().get("string", "")),
 		"game_name": String(ProjectSettings.get_setting("application/config/name", "")),
 		"game_version": String(ProjectSettings.get_setting("application/config/version", "")),
+		"os": OS.get_name(),
+		"renderer": String(ProjectSettings.get_setting("rendering/renderer/rendering_method", "")),
 		"log_path": log_path,
 	})
 	_sync = _SyncFlashScript.new()
@@ -51,12 +60,38 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if not _running or _file == null:
 		return
+	_log_pause()
 	_log_scene()
 	_log_actions()
 	var now := Time.get_ticks_usec()
 	if now >= _next_position_usec:
 		_next_position_usec = now + _POSITION_USEC
 		_log_position()
+	if now >= _next_perf_usec:
+		_next_perf_usec = now + _PERF_USEC
+		log_event("perf", {
+			"fps": Engine.get_frames_per_second(),
+			"frame_ms": snappedf(_delta * 1000.0, 0.01),
+		})
+
+
+# This node runs while the tree is paused, so it sees both edges.
+func _log_pause() -> void:
+	var paused := get_tree().paused
+	if paused == _was_paused:
+		return
+	_was_paused = paused
+	log_event("pause" if paused else "resume", {})
+
+
+# F9 marks a moment for the analyst. Listening only: never handled.
+func _input(event: InputEvent) -> void:
+	if not _running or _file == null:
+		return
+	if event is InputEventKey:
+		var key := event as InputEventKey
+		if key.pressed and not key.echo and key.keycode == KEY_F9:
+			log_event("marker", {})
 
 
 func _physics_process(_delta: float) -> void:
@@ -77,14 +112,14 @@ func _log_actions() -> void:
 
 
 func _exit_tree() -> void:
-	end_session()
+	end_session("quit")
 
 
-func end_session() -> void:
+func end_session(reason := "quit") -> void:
 	if not _running or _finished or _file == null:
 		return
 	_finished = true
-	log_event("session_end", {})
+	log_event("session_end", {"reason": reason})
 	_file.flush()
 	_file.close()
 	_file = null

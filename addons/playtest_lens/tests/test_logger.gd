@@ -49,6 +49,15 @@ func _run() -> void:
 	await _next_frame()
 	await _hold_forward_stick()
 	await _wait_sec(0.7)
+	get_tree().paused = true
+	await _wait_sec(0.3)
+	get_tree().paused = false
+	await _next_frame()
+	var mark := InputEventKey.new()
+	mark.keycode = KEY_F9
+	mark.pressed = true
+	Input.parse_input_event(mark)
+	await _next_frame()
 	_apply_pose(POSE_B, YAW_B, PITCH_B)
 	await _wait_sec(0.7)
 	get_tree().scene_changed.connect(_on_test_scene_changed)
@@ -154,6 +163,9 @@ func _check(path: String) -> void:
 	_check_start(events[0], path)
 	if String(events[-1].event) != "session_end":
 		_failures.append("last event is %s" % events[-1].event)
+	if String(events[-1].get("reason", "")) != "quit":
+		_failures.append("session_end reason %s" % events[-1].get("reason", ""))
+	_check_session_events(events)
 	_check_inputs(events)
 	_check_scene(events)
 	_check_positions(events)
@@ -174,6 +186,12 @@ func _check_start(line: Dictionary, path: String) -> void:
 		_failures.append("game_name %s" % line.get("game_name", ""))
 	if String(line.get("game_version", "")) != game_version:
 		_failures.append("game_version %s" % line.get("game_version", ""))
+	if int(line.get("schema", 0)) != 1:
+		_failures.append("schema %s" % line.get("schema", ""))
+	if String(line.get("session_id", "")).is_empty():
+		_failures.append("session_id is empty")
+	if String(line.get("os", "")).is_empty():
+		_failures.append("os is empty")
 	var logged := String(line.get("log_path", ""))
 	if not logged.begins_with("user://") or logged != path:
 		_failures.append("log_path %s" % logged)
@@ -181,6 +199,18 @@ func _check_start(line: Dictionary, path: String) -> void:
 		_failures.append("log file name %s" % path.get_file())
 	if path.get_base_dir().get_file() != "playtest_lens":
 		_failures.append("log directory %s" % path.get_base_dir())
+
+
+func _check_session_events(events: Array[Dictionary]) -> void:
+	var counts := {}
+	for line in events:
+		var name := String(line.event)
+		counts[name] = int(counts.get(name, 0)) + 1
+		if name == "perf" and not line.has("fps"):
+			_failures.append("perf line missing fps")
+	for name in ["pause", "resume", "marker", "perf"]:
+		if int(counts.get(name, 0)) < 1:
+			_failures.append("missing %s event" % name)
 
 
 func _check_inputs(events: Array[Dictionary]) -> void:

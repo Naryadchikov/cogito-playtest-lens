@@ -72,6 +72,8 @@ func _run() -> void:
 		if not _scene_did_change:
 			_failures.append("scene did not change")
 	await _next_frame()
+	# Long enough for the first perf line, which waits for a warm frame counter.
+	await _wait_sec(1.3)
 	logger.end_session()
 	_check(logger.log_path)
 	if _failures.is_empty():
@@ -169,6 +171,7 @@ func _check(path: String) -> void:
 	_check_inputs(events)
 	_check_scene(events)
 	_check_positions(events)
+	_check_perf(events)
 
 
 func _check_start(line: Dictionary, path: String) -> void:
@@ -211,6 +214,22 @@ func _check_session_events(events: Array[Dictionary]) -> void:
 	for name in ["pause", "resume", "marker", "perf"]:
 		if int(counts.get(name, 0)) < 1:
 			_failures.append("missing %s event" % name)
+
+
+# No perf line from a cold frame counter: fps 0 or 1 before 2 s must not appear.
+func _check_perf(events: Array[Dictionary]) -> void:
+	var seen := 0
+	for line in events:
+		if String(line.event) != "perf":
+			continue
+		seen += 1
+		var fps := float(line.get("fps", 0.0))
+		if fps <= 1.0 and float(line.t) < 2.0:
+			_failures.append("cold perf line at t=%s fps=%s" % [line.t, fps])
+		if not line.has("frame_ms"):
+			_failures.append("perf line missing frame_ms")
+	if seen == 0:
+		_failures.append("no perf line after warm-up")
 
 
 func _check_inputs(events: Array[Dictionary]) -> void:

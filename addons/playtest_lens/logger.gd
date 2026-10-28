@@ -5,6 +5,9 @@ extends Node
 const _DIR := "user://playtest_lens"
 const _POSITION_USEC := 500_000
 const _PERF_USEC := 1_000_000
+# Engine.get_frames_per_second() reads 0 or 1 until its first full second. Skip those samples while the session is younger than this.
+const _PERF_WARM_FPS := 1
+const _PERF_WARM_USEC := 2_000_000
 const SCHEMA_VERSION := 1
 const _SyncFlashScript := preload("res://addons/playtest_lens/sync_flash.gd")
 const _VolumeScript := preload("res://addons/playtest_lens/telemetry_volume.gd")
@@ -69,10 +72,18 @@ func _process(_delta: float) -> void:
 		_log_position()
 	if now >= _next_perf_usec:
 		_next_perf_usec = now + _PERF_USEC
-		log_event("perf", {
-			"fps": Engine.get_frames_per_second(),
-			"frame_ms": snappedf(_delta * 1000.0, 0.01),
-		})
+		_log_perf(now, _delta)
+
+
+# A cold frame counter would read as a hitch, so no perf line until it is warm.
+func _log_perf(now: int, delta: float) -> void:
+	var fps := Engine.get_frames_per_second()
+	if fps <= _PERF_WARM_FPS and now - _origin_usec < _PERF_WARM_USEC:
+		return
+	log_event("perf", {
+		"fps": fps,
+		"frame_ms": snappedf(delta * 1000.0, 0.01),
+	})
 
 
 # This node runs while the tree is paused, so it sees both edges.

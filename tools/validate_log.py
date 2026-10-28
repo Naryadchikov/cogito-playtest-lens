@@ -6,6 +6,7 @@ Exit code 0 when no problem is found, 1 otherwise.
 """
 
 import json
+import math
 import sys
 
 NUM = "number"
@@ -41,7 +42,8 @@ def kind_of(value):
     if isinstance(value, bool):
         return BOOL
     if isinstance(value, (int, float)):
-        return NUM
+        # NaN and infinity (Godot writes NaN for a non-finite float) are not numbers.
+        return NUM if math.isfinite(value) else "non-finite number"
     if isinstance(value, str):
         return STR
     return type(value).__name__

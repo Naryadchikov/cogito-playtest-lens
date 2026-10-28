@@ -5,8 +5,8 @@ Branch bot/work, from playtest-lens at dc8c771. Godot 4.7.2 stable (standard bui
 ## Package A: schema nits
 
 - `where` on `marker` lines is test scaffolding: `addons/playtest_lens/tests/test_telemetry_volume.gd` calls `logger.log_event("marker", {"where": "outside"})` (also "inside", "after") to label phases. The logger itself emits `marker` with no fields (F9 in `_input`). Left as is.
-- `logger.gd`: new `_log_perf`. No perf line while `Engine.get_frames_per_second() <= 1` and the session is under 2 s old. The 1 s timer still ticks, so a cold start delays the first perf line to about 2 s.
-- `test_logger.gd`: waits 1.3 s more before ending the session (so a warm perf line exists) and has `_check_perf` (no cold perf line, at least one perf line, `frame_ms` present).
+- `logger.gd`: new `_log_perf`. No perf line while the session is under 2 s old, so the first perf line is at about t=2.0. First try skipped only fps <= 1, but this box read 25 to 36 fps at t=1.0 (partial first window), so the rule is now age only.
+- `test_logger.gd`: waits 1.3 s more before ending the session (so a warm perf line exists) and has `_check_perf` (no perf before t=2.0, fps above 1, at least one perf line, `frame_ms` present).
 - Commands: `godot --headless --path . res://addons/playtest_lens/tests/test_logger.tscn` and the five other test scenes. All exit 0.
 
 ## Package B: top-down map export
@@ -28,8 +28,15 @@ Branch bot/work, from playtest-lens at dc8c771. Godot 4.7.2 stable (standard bui
 - Console wrapper must be 2 (debug and release). Value 1 only wrapped debug exports and the first release export had no `.console.exe`.
 - Export templates 4.7.2.stable were installed from the official godot-builds release after checking the SHA-512 from SHA512-SUMS.txt (editor zip and export templates tpz both OK). Standard build, not Mono.
 - Command: `godot --headless --path . --export-release "Windows Desktop" build/PlaytestBuild.exe` (exit 0, about 6 s).
-- Output: PlaytestBuild.exe 109268480 B, PlaytestBuild.console.exe 188928 B, PlaytestBuild.pck 44791836 B. The exe was not run (Windows only, no Wine).
+- Output: PlaytestBuild.exe 109268480 B, PlaytestBuild.console.exe 188928 B, PlaytestBuild.pck 44763968 B (final build, after the perf change). The exe was not run (Windows only, no Wine).
 - PCK listing: `godot --headless --main-pack build/PlaytestBuild.pck --script /tmp/listpck.gd` walked res:// (2065 files). Scripts are exported as compiled `.gdc` plus `.gd.remap` (default script export mode), so `logger.gd` appears as `addons/playtest_lens/logger.gd.remap` and `logger.gdc`; same for `adapter.gd`. Both demo scenes are present as `.tscn`. `project.binary` contains `autoload/PlaytestLensLogger`, `autoload/PlaytestLensCogito` and `playtest_lens/player_path`.
 - No home path baked in: `strings` on the PCK and `grep -a` on the three files find no `/home/`, `/workspace`, `/Users/`, `C:\Users`.
 - Log path on Windows: `%APPDATA%\Godot\app_userdata\Cogito\playtest_lens\<UTC wall time with colons as dashes>.jsonl`, for example `2026-10-28T15-44-06Z.jsonl`. `config/name` is "Cogito" and there is no custom user dir, and the preset's product name does not change it.
-- Zip: `/workspace/ptl-bot/out/PlaytestBuild-windows.zip`, not committed.
+- Zip: `/workspace/ptl-bot/out/PlaytestBuild-windows.zip` (62297284 B, sha256 c2f53f066b0a79c426d265c4179ea9280a7b63b826a11f0cb98be24ff5897fd6), not committed.
+
+## Package D: log validator
+
+- `tools/validate_log.py` (stdlib only; exit 0 or 1) and `tools/test_validate_log.py` (`python3 tools/test_validate_log.py`, exit 0, 10 corruptions caught).
+- Checks: valid JSON object per line, numeric `t` that never decreases, string `event`, first line `session_start` with schema 1, required fields and types per known event, zone stamping (stack of open zones, none outside), pause and resume alternate, no `/Users/`, `/home/`, `C:\Users\` or `@` in any string value. Unknown events are counted. Extra fields on known events are printed as notes, not failures.
+- Ran it on 30 logs written by the six headless tests: all PASS, so the logger does not leak a home path. Notes: `sync_flash` carries `beep_hz` and `duration_s`, and the telemetry test's markers carry `where`.
+- Three hand-corrupted copies of the telemetry log (time goes back, zone missing inside a volume, home path in `log_path`) each fail with the right line number. The test's telemetry log is copied by the test to `<repo parent>/runs/checks/18-telemetry.jsonl`, outside the repo.

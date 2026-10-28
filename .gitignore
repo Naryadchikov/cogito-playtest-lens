@@ -20,3 +20,4 @@ dialogeManager
 
 # Windows export output
 build/
+__pycache__/

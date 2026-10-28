@@ -5,8 +5,7 @@ extends Node
 const _DIR := "user://playtest_lens"
 const _POSITION_USEC := 500_000
 const _PERF_USEC := 1_000_000
-# Engine.get_frames_per_second() reads 0 or 1 until its first full second. Skip those samples while the session is younger than this.
-const _PERF_WARM_FPS := 1
+# Engine.get_frames_per_second() is only whole after its first full second, so no perf line before this age.
 const _PERF_WARM_USEC := 2_000_000
 const SCHEMA_VERSION := 1
 const _SyncFlashScript := preload("res://addons/playtest_lens/sync_flash.gd")
@@ -77,11 +76,10 @@ func _process(_delta: float) -> void:
 
 # A cold frame counter would read as a hitch, so no perf line until it is warm.
 func _log_perf(now: int, delta: float) -> void:
-	var fps := Engine.get_frames_per_second()
-	if fps <= _PERF_WARM_FPS and now - _origin_usec < _PERF_WARM_USEC:
+	if now - _origin_usec < _PERF_WARM_USEC:
 		return
 	log_event("perf", {
-		"fps": fps,
+		"fps": Engine.get_frames_per_second(),
 		"frame_ms": snappedf(delta * 1000.0, 0.01),
 	})
 

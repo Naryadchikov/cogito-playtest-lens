@@ -216,7 +216,7 @@ func _check_session_events(events: Array[Dictionary]) -> void:
 			_failures.append("missing %s event" % name)
 
 
-# No perf line from a cold frame counter: fps 0 or 1 before 2 s must not appear.
+# No perf line from a cold frame counter: none before 2 s, and a real fps after.
 func _check_perf(events: Array[Dictionary]) -> void:
 	var seen := 0
 	for line in events:
@@ -224,8 +224,10 @@ func _check_perf(events: Array[Dictionary]) -> void:
 			continue
 		seen += 1
 		var fps := float(line.get("fps", 0.0))
-		if fps <= 1.0 and float(line.t) < 2.0:
+		if float(line.t) < 2.0:
 			_failures.append("cold perf line at t=%s fps=%s" % [line.t, fps])
+		if fps <= 1.0:
+			_failures.append("perf fps %s at t=%s" % [fps, line.t])
 		if not line.has("frame_ms"):
 			_failures.append("perf line missing frame_ms")
 	if seen == 0:

@@ -183,6 +183,52 @@ static func _walk(level: Node, node: Node, out: Array) -> void:
 		_walk(level, child, out)
 
 
+# Every PlaytestLensTelemetryVolume node of a level.
+static func find_volumes(node: Node) -> Array:
+	var out := []
+	if script_chain(node).has(VOLUME_CLASS) and node is Node3D:
+		out.append(node)
+	for child in node.get_children():
+		out.append_array(find_volumes(child))
+	return out
+
+
+# World-space box of a volume from its BoxShape3D children: {has_box, min, max, rotated}.
+# A rotated transform gives the axis-aligned bounds of the rotated box. Non-box shapes are ignored.
+static func volume_box(volume: Node3D) -> Dictionary:
+	var has_box := false
+	var rotated := false
+	var lo := Vector3.ZERO
+	var hi := Vector3.ZERO
+	for child in volume.get_children():
+		if not (child is CollisionShape3D):
+			continue
+		var box := (child as CollisionShape3D).shape as BoxShape3D
+		if box == null:
+			continue
+		var t := world_transform(child as Node3D)
+		for row in [t.basis.x, t.basis.y, t.basis.z]:
+			var nonzero := 0
+			for k in 3:
+				if absf(row[k]) > 0.001:
+					nonzero += 1
+			if nonzero != 1:
+				rotated = true
+		var half := box.size * 0.5
+		for sx in [-1.0, 1.0]:
+			for sy in [-1.0, 1.0]:
+				for sz in [-1.0, 1.0]:
+					var corner := t * Vector3(half.x * sx, half.y * sy, half.z * sz)
+					if not has_box:
+						lo = corner
+						hi = corner
+						has_box = true
+					else:
+						lo = lo.min(corner)
+						hi = hi.max(corner)
+	return {"has_box": has_box, "min": lo, "max": hi, "rotated": rotated}
+
+
 # Map description from <prefix>.json. Returns an empty dictionary on failure.
 static func load_map(prefix: String) -> Dictionary:
 	var file := FileAccess.open(prefix + ".json", FileAccess.READ)

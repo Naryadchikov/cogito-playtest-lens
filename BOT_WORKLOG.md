@@ -70,3 +70,19 @@ Start check: `git fetch origin`, `git checkout -B bot/work2 origin/playtest-lens
 - Counts: lobby 130 objects, laboratory 66 objects.
 - Path check: `grep -lE "/home|/workspace|/Users|C:\\\\" maps/*_objects.json maps/*_annotated.svg` finds nothing.
 - Tests after E: all six headless tests exit 0 (project.godot unchanged, not in the commit).
+
+## Package F: volume report
+
+- Files: `tools/volume_report.gd`, `tools/test_volume_report.py`, and two helpers added to `tools/inventory_lib.gd` (`find_volumes`, `volume_box`).
+- Command (repo root, always exit 0 for findings; exit 2 only if the scene or map JSON cannot be loaded or arguments are missing):
+  `godot --headless --path . --script tools/volume_report.gd -- res://addons/cogito/DemoScenes/COGITO_3_Lobby.tscn res://maps/lobby`
+  Optional third argument: map prefix when it differs from the output prefix (used by the test, whose copy lives under `build/`). Writes `<prefix>_volumes.svg`. With the real scenes today it reports `volumes: 0` and writes `maps/lobby_volumes.svg` with the note "no telemetry volumes in this scene" (I deleted that file, it is not committed).
+- Box: each `BoxShape3D` child of a volume, transformed by the shape's global transform (volume transform, parents and scale included). If the basis is not axis-aligned (any row with more than one non-zero entry) the box is reported as axis-aligned bounds of the rotated box, with the text "(rotated, axis-aligned bounds)". Several box shapes are merged into one bounds. A volume with no BoxShape3D is warned about.
+- "Inside" means the origin of the object lies within the box on all three axes. The player start's origin is at y about 0.91 in the Lobby, so a volume needs min y at or below 0.9 to contain the start.
+- Warnings printed after the per-volume list: empty or blank zone; two volumes whose zone and puzzle match after lowercasing and removing spaces but differ as typed; overlaps with size in x, y, z and m3; thin in x or z (below 1.6 m); low in y (below 1.8 m); the player start's volume(s) or "none"; interactables in no volume (first 60 listed).
+- Test: `GODOT=<path to godot> python3 tools/test_volume_report.py` (exit 0, prints ok lines and PASS). It writes throwaway copies `build/vr_test_one.tscn` and `build/vr_test_two.tscn` (the Lobby text with the header uid removed, one ext_resource for the volume script, sub_resources before the first node, volume nodes before the first connection; all other ext_resources stay `res://`), runs the tool on them, checks stdout, and deletes only the copies and their SVGs. `build/` is git-ignored and loadable (no .gdignore).
+  - Scenario 1 (the brief): VolFine (Entrance/Hall, 8x3x6 around the start), VolThin (1.0 m wide), VolOverlap (Entrance/Hall, shifted 3 m east). Result: exactly two warning lines, `volume 2 (VolThin) is thin in x: 1.00 m, below 1.6 m` and `volumes 1 and 3 overlap by 4.00 x 3.00 x 6.00 m (72.00 m3)`; the fine volume gets none; player start volume: 1 and 3.
+  - Scenario 2: an empty zone, a case and spacing typo pair ("Fuse Box / Puzzle A" vs "fuse  box / puzzle a"), a 1.5 m high volume, and a volume rotated 30 degrees: each reported as expected.
+  - Output of the last run is in `/workspace/ptl-bot/out2/volumes_test_output.txt`; a render of scenario 1's `_volumes.svg` over the Lobby map is `/workspace/ptl-bot/out2/volumes_test_lobby.png` (rectangles match the boxes, start inside).
+- Not tested: a volume under a rotated or scaled parent node, a volume with several shapes, a Laboratory copy.
+- Tests after F: all six headless tests exit 0 (project.godot unchanged, not in the commit).

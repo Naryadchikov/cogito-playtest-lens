@@ -76,6 +76,15 @@ func _run() -> void:
 		_failures.append("no zone_exit at %s" % _player.global_position)
 	logger.log_event("marker", {"where": "after"})
 	await _wait_sec(0.7)
+	# Same order as COGITO's loading screen: free the old level, then make
+	# the next one current. The logger used to error here on a freed volume.
+	var old_scene := get_tree().current_scene
+	var next := Node3D.new()
+	next.name = "NextRoom"
+	get_tree().root.add_child(next)
+	old_scene.free()
+	get_tree().current_scene = next
+	await _wait_sec(0.3)
 	_finish(logger)
 
 

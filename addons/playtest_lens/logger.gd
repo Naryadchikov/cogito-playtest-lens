@@ -249,8 +249,10 @@ func _connect_volume(volume: Area3D) -> void:
 	var exited := _on_volume_body_exited.bind(volume)
 	volume.body_entered.connect(entered)
 	volume.body_exited.connect(exited)
+	# The node is not stored. The loading screen frees the old level before
+	# the next one is current, and reading that stored node assigns a freed
+	# instance, which aborts the scene change.
 	_volume_calls[id] = {
-		"volume": volume,
 		"entered": entered,
 		"exited": exited,
 	}
@@ -259,16 +261,24 @@ func _connect_volume(volume: Area3D) -> void:
 func _disconnect_volumes() -> void:
 	for id in _volume_calls.keys():
 		var row: Dictionary = _volume_calls[id]
-		var volume: Object = row.get("volume")
-		if is_instance_valid(volume) and volume is Area3D:
-			var area := volume as Area3D
-			var entered: Callable = row["entered"]
-			var exited: Callable = row["exited"]
-			if area.body_entered.is_connected(entered):
-				area.body_entered.disconnect(entered)
-			if area.body_exited.is_connected(exited):
-				area.body_exited.disconnect(exited)
+		var volume := _volume_by_id(id)
+		if volume == null:
+			continue
+		var entered: Callable = row["entered"]
+		var exited: Callable = row["exited"]
+		if volume.body_entered.is_connected(entered):
+			volume.body_entered.disconnect(entered)
+		if volume.body_exited.is_connected(exited):
+			volume.body_exited.disconnect(exited)
 	_volume_calls.clear()
+
+
+# Null once the level that owned the volume has been freed.
+func _volume_by_id(id: int) -> Area3D:
+	var node: Object = instance_from_id(id)
+	if node is Area3D and (node as Area3D).is_inside_tree():
+		return node as Area3D
+	return null
 
 
 func _catch_overlaps() -> void:
@@ -276,14 +286,12 @@ func _catch_overlaps() -> void:
 	if player == null:
 		return
 	for id in _volume_calls.keys():
-		var row: Dictionary = _volume_calls[id]
-		var volume: Object = row.get("volume")
-		if not is_instance_valid(volume) or not volume is Area3D:
+		var volume := _volume_by_id(int(id))
+		if volume == null:
 			continue
-		var area := volume as Area3D
-		for body in area.get_overlapping_bodies():
+		for body in volume.get_overlapping_bodies():
 			if body == player:
-				_enter_volume(area)
+				_enter_volume(volume)
 				break
 
 

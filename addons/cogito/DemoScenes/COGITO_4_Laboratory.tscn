@@ -80,6 +80,7 @@
 [ext_resource type="PackedScene" uid="uid://byb1y44thne6i" path="res://addons/cogito/PackedScenes/gravity_zone.tscn" id="68_kt1ow"]
 [ext_resource type="Shader" uid="uid://bqurxcbvm4a7a" path="res://addons/cogito/Assets/Shader/water_and_under.gdshader" id="68_r8380"]
 [ext_resource type="PackedScene" uid="uid://b2cccsfb5tikx" path="res://addons/cogito/CogitoNPC/cogito_npc.tscn" id="68_wxy0x"]
+[ext_resource type="Script" uid="uid://b7pit6ap51elj" path="res://addons/playtest_lens/telemetry_volume.gd" id="81_dckl7"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_wjbty"]
 panorama = ExtResource("2_akrjl")
@@ -106,7 +107,7 @@ volumetric_fog_ambient_inject = 0.1
 volumetric_fog_sky_affect = 0.1
 volumetric_fog_temporal_reprojection_amount = 0.85
 
-[sub_resource type="Resource" id="Resource_gg4s8"]
+[sub_resource type="Resource" id="Resource_p1ri8"]
 resource_local_to_scene = true
 script = ExtResource("5_fhmwi")
 grid = true
@@ -448,6 +449,18 @@ size = Vector3(1, 0.05, 1)
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_r8380"]
 data = PackedVector3Array(-0.5, 0.025, 0.5, 0.5, 0.025, 0.5, -0.5, -0.025, 0.5, 0.5, 0.025, 0.5, 0.5, -0.025, 0.5, -0.5, -0.025, 0.5, 0.5, 0.025, -0.5, -0.5, 0.025, -0.5, 0.5, -0.025, -0.5, -0.5, 0.025, -0.5, -0.5, -0.025, -0.5, 0.5, -0.025, -0.5, 0.5, 0.025, 0.5, 0.5, 0.025, -0.5, 0.5, -0.025, 0.5, 0.5, 0.025, -0.5, 0.5, -0.025, -0.5, 0.5, -0.025, 0.5, -0.5, 0.025, -0.5, -0.5, 0.025, 0.5, -0.5, -0.025, -0.5, -0.5, 0.025, 0.5, -0.5, -0.025, 0.5, -0.5, -0.025, -0.5, 0.5, 0.025, 0.5, -0.5, 0.025, 0.5, 0.5, 0.025, -0.5, -0.5, 0.025, 0.5, -0.5, 0.025, -0.5, 0.5, 0.025, -0.5, -0.5, -0.025, 0.5, 0.5, -0.025, 0.5, -0.5, -0.025, -0.5, 0.5, -0.025, 0.5, 0.5, -0.025, -0.5, -0.5, -0.025, -0.5)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_v0uas"]
+size = Vector3(17.25055, 5.7981415, 19.99179)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dckl7"]
+size = Vector3(2.1074562, 5.7981415, 15.935741)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5g5t0"]
+size = Vector3(17.393862, 5.7981415, 21.114307)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_p1ri8"]
+size = Vector3(17.898712, 2.3818476, 1.7757797)
+
 [node name="Cogito04Laboratory" type="Node3D" unique_id=514933480 node_paths=PackedStringArray("connectors")]
 script = ExtResource("1_kxi7f")
 connectors = [NodePath("CONNECTOR_TO_LOBBY/ConnectorFromLobby")]
@@ -463,7 +476,7 @@ environment = SubResource("Environment_bftoa")
 
 [node name="Player" parent="." unique_id=2025047440 instance=ExtResource("3_ea58p")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.13854, 0.8, -5.43073)
-inventory_data = SubResource("Resource_gg4s8")
+inventory_data = SubResource("Resource_p1ri8")
 
 [node name="CONNECTOR_TO_LOBBY" type="Node3D" parent="." unique_id=1182780152]
 
@@ -5130,6 +5143,61 @@ skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LedgeClimbingTests/MeshInstance3D2/StaticBody3D" unique_id=102480684]
 shape = SubResource("ConcavePolygonShape3D_r8380")
+
+[node name="PlaytestLensTelemetryVolume_ShootingRange" type="Area3D" parent="." unique_id=1803699099]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06864071, 0, -15.998832)
+script = ExtResource("81_dckl7")
+zone = "Shooting Range"
+metadata/_custom_type_script = "uid://b7pit6ap51elj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlaytestLensTelemetryVolume_ShootingRange" unique_id=122266805]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0042419434, 2.3990707, -4.5811014)
+shape = SubResource("BoxShape3D_v0uas")
+debug_color = Color(0.8352941, 0.3882353, 0, 1)
+
+[node name="PlaytestLensTelemetryVolume_WIP_Mechanics" type="Area3D" parent="." unique_id=230210720]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.728727, 0, -20.575806)
+script = ExtResource("81_dckl7")
+zone = "WIP Mechanics"
+metadata/_custom_type_script = "uid://b7pit6ap51elj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlaytestLensTelemetryVolume_WIP_Mechanics" unique_id=619798744]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0042419434, 2.3990707, -2.4942856)
+shape = SubResource("BoxShape3D_dckl7")
+debug_color = Color(0.8352941, 0.3882353, 0, 1)
+
+[node name="PlaytestLensTelemetryVolume_RouteToVentilation" type="Area3D" parent="." unique_id=641306266]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.720812, 0, -3.3969307)
+script = ExtResource("81_dckl7")
+zone = "Route to Ventilation"
+metadata/_custom_type_script = "uid://b7pit6ap51elj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlaytestLensTelemetryVolume_RouteToVentilation" unique_id=1108291755]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4315052, 2.3990707, -2.9558086)
+shape = SubResource("BoxShape3D_dckl7")
+debug_color = Color(0.8352941, 0.3882353, 0, 1)
+
+[node name="PlaytestLensTelemetryVolume_EnemyArea" type="Area3D" parent="." unique_id=503879730]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.089243, 0, 18.486528)
+script = ExtResource("81_dckl7")
+zone = "Enemy Area"
+metadata/_custom_type_script = "uid://b7pit6ap51elj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlaytestLensTelemetryVolume_EnemyArea" unique_id=646441677]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15944862, 2.3990707, -0.010959625)
+shape = SubResource("BoxShape3D_5g5t0")
+debug_color = Color(0.8352941, 0.3882353, 0, 1)
+
+[node name="PlaytestLensTelemetryVolume_Ventilation" type="Area3D" parent="." unique_id=1446613104]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.082443, 0, -1.856504)
+script = ExtResource("81_dckl7")
+zone = "Ventilation"
+metadata/_custom_type_script = "uid://b7pit6ap51elj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlaytestLensTelemetryVolume_Ventilation" unique_id=1997494481]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.31983948, 4.107218, 4.526905)
+shape = SubResource("BoxShape3D_p1ri8")
+debug_color = Color(0.8352941, 0.3882353, 0, 1)
 
 [connection signal="spin_clockwise" from="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/CogitoSpinner/SpinnerInteraction" to="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/MeterDisplay" method="increase_value"]
 [connection signal="spin_counterclockwise" from="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/CogitoSpinner/SpinnerInteraction" to="NavigationRegion3D/ROOM_SYSTEMIC_PROPERTIES/KSI_console_spinner/MeterDisplay" method="decrease_value"]

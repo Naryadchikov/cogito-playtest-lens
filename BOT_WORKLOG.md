@@ -40,3 +40,33 @@ Branch bot/work, from playtest-lens at dc8c771. Godot 4.7.2 stable (standard bui
 - Checks: valid JSON object per line, numeric `t` that never decreases, string `event`, first line `session_start` with schema 1, required fields and types per known event, zone stamping (stack of open zones, none outside), pause and resume alternate, no `/Users/`, `/home/`, `C:\Users\` or `@` in any string value. Unknown events are counted. Extra fields on known events are printed as notes, not failures.
 - Ran it on 30 logs written by the six headless tests: all PASS, so the logger does not leak a home path. Notes: `sync_flash` carries `beep_hz` and `duration_s`, and the telemetry test's markers carry `where`.
 - Three hand-corrupted copies of the telemetry log (time goes back, zone missing inside a volume, home path in `log_path`) each fail with the right line number. The test's telemetry log is copied by the test to `<repo parent>/runs/checks/18-telemetry.jsonl`, outside the repo.
+
+# Work package 2 (branch bot/work2, from origin/playtest-lens at b0a52cf)
+
+Start check: `git fetch origin`, `git checkout -B bot/work2 origin/playtest-lens`, `git log` contains b0a52cf, and BOT_WORKLOG.md, tools/map_export.gd, tools/validate_log.py, maps/ are present. Six headless tests before: all exit 0 (`bash runtests.sh before`, a loop over the six scenes with `godot --headless --path . res://<scene>.tscn`).
+
+## Package E: scene inventory with an annotated map
+
+- Files: `tools/scene_inventory.gd` (SceneTree script), `tools/inventory_lib.gd` (shared helpers, also used by package F), outputs `maps/lobby_objects.json`, `maps/lobby_annotated.svg`, `maps/laboratory_objects.json`, `maps/laboratory_annotated.svg`.
+- Commands (repo root, exit 0 each, about 2 s):
+  `godot --headless --path . --script tools/scene_inventory.gd -- res://addons/cogito/DemoScenes/COGITO_3_Lobby.tscn res://maps/lobby`
+  `godot --headless --path . --script tools/scene_inventory.gd -- res://addons/cogito/DemoScenes/COGITO_4_Laboratory.tscn res://maps/laboratory`
+  No display is needed. The scene is instantiated but NOT added to the tree, so no COGITO script runs (no `_ready`, no saves) and global positions are computed by multiplying the parent Node3D transforms. The tool waits one frame first (autoloads), as the brief asks.
+- Map mapping uses `maps/<name>.json` only (`Lib.to_px`). The SVG embeds `<image href="<name>.png" xlink:href="<name>.png">` (relative).
+- Classification reads the script chain of each node (global class name, else script file name), most derived first. Matched, and why (all read in `addons/cogito/`):
+  - `CogitoDoor` (door), `CogitoSwitch` (switch), `CogitoButton` (button), `CogitoKeypad` (keypad): the classes COGITO's interaction ray acts on; each adds itself to group `interactable` in `_ready`.
+  - `CogitoContainer` and its subclasses `LootableContainer`, `LootDropContainer` (container); `CogitoSittable` (seat) and `CogitoVehicle` (vehicle); `CogitoStaticInteractable` and `cogito_vendor.gd` (interactable).
+  - Puzzle pieces: `CogitoSnapSlot`, `CogitoPressureplate`, `cogito_turnwheel.gd` (puzzle).
+  - `CogitoNPC` (npc), because the player can shoot or talk to it.
+  - `CogitoObject` (the base of prefab props) is listed only when it has a child `InteractionComponent`; kind by the component: `PickupComponent` with `slot_data.inventory_item` of class `KeyItemPD` (key), `CurrencyItemPD` (token), anything else (pickup); else `ReadableComponent` (readable); else any component other than `CogitoCarryableComponent` (interactable); else (carryable). Objects with no component are inert props and are skipped. `CogitoProjectile` (ammo props) is a CogitoObject and follows the same rule.
+  - Place markers (kind trigger): `CogitoCutsceneTrigger`, `scene_transition_zone.gd`, `cogito_spawnzone.gd`, `Ladder`, and `CogitoQuestUpdater` only when it is an Area3D (the Node3D ones sit on objects and would duplicate them). COGITO has no checkpoint class (grep for "checkpoint" in addons/cogito finds nothing), so these zones are the closest thing.
+  - connector: the Node3D nodes in `CogitoScene.connectors` (where the player enters from another scene).
+  - player_start: the node whose script chain has `CogitoPlayerAdvanced`, `CogitoPlayerSimple` or `CogitoPlayer`. Its subtree (HUD, interaction ray, wieldables) is not walked.
+  - volume: `PlaytestLensTelemetryVolume` (none in the scenes today).
+  - Not listed: InteractionComponent children, attributes, state-chart nodes, lights, hazard and gravity zones, security cameras.
+- JSON entries carry the required `name`, `class`, `script`, `x`, `y`, `z`, `parent_path` plus two extra string keys `kind` and `detail` (item name or trigger type). `parent_path` starts with the scene root name, never a machine path. Sorted by name then parent_path.
+- SVG: numbered colored markers (number = index in the sorted JSON array plus 1), a short label next to a marker only when no other marker is within 40 px and the label box does not touch another label or marker; other numbers go to the legend column on the right (number, name, kind). Nodes that kept an engine name (for example AnimatableBody3D) are shown as `<parent>.<name>`.
+- Render check: `cairosvg` in a venv under the home directory (`python3 -m venv ~/ptl-venv; ~/ptl-venv/bin/pip install cairosvg`; `svg2png(..., unsafe=True)` so the relative PNG loads), then viewed. Lobby start sits on the dark floor of the entrance corridor, laboratory start sits inside a room; numbered objects sit inside rooms. Renders are in `/workspace/ptl-bot/out2/` and not committed.
+- Counts: lobby 130 objects, laboratory 66 objects.
+- Path check: `grep -lE "/home|/workspace|/Users|C:\\\\" maps/*_objects.json maps/*_annotated.svg` finds nothing.
+- Tests after E: all six headless tests exit 0 (project.godot unchanged, not in the commit).

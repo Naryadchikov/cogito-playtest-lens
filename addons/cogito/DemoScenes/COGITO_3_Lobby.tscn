@@ -7999,7 +7999,7 @@ debug_color = Color(0.8352941, 0.3882353, 0, 1)
 [node name="PlaytestLensTelemetryVolume_MeetingRoom" type="Area3D" parent="." unique_id=472955012]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.9351416, 0, 15.03725)
 script = ExtResource("116_gxiae")
-zone = "Metting Room"
+zone = "Meeting Room"
 metadata/_custom_type_script = "uid://b7pit6ap51elj"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlaytestLensTelemetryVolume_MeetingRoom" unique_id=2026379108]

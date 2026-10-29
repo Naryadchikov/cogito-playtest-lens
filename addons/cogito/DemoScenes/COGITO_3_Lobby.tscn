@@ -146,7 +146,7 @@ volumetric_fog_temporal_reprojection_amount = 0.85
 density = 0.04
 albedo = Color(0.694118, 0.694118, 0.694118, 1)
 
-[sub_resource type="Resource" id="Resource_gn4sq"]
+[sub_resource type="Resource" id="Resource_gxiae"]
 resource_local_to_scene = true
 script = ExtResource("4_0kggm")
 grid = true
@@ -2532,7 +2532,7 @@ shadow_mesh = SubResource("ArrayMesh_3ecdw")
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_upcaa"]
 data = PackedVector3Array(0.6928, 0.0903, -1.6, 0, 0.0903, -1.2, 0.6128, 0.0903, -0.88, 0.6128, 0.0903, -0.88, 0.7728, 0.0903, -0.88, 0.6928, 0.0903, -1.6, 0.7728, 0.0903, -0.88, 1.3856, 0.0903, -1.2, 0.6928, 0.0903, -1.6, 0.7728, 0.0903, -0.88, 0.7728, 0.0903, -0.72, 1.3856, 0.0903, -1.2, 0.6128, 0.0903, -0.72, 0.6128, 0.0903, -0.88, 0, 0.0903, -1.2, 0.6928, 0.0903, 0, 0.6128, 0.0903, -0.72, 0, 0.0903, -1.2, 0.6928, 0.0903, 0, 0.7728, 0.0903, -0.72, 0.6128, 0.0903, -0.72, 0, 0.0903, -0.4, 0.6928, 0.0903, 0, 0, 0.0903, -1.2, 0, 0.0903, -1.2, 0, 0.0903, -0.8, 0, 0.0903, -0.4, 0.6928, 0.0903, 0, 1.3856, 0.0903, -0.4, 0.7728, 0.0903, -0.72, 1.3856, 0.0903, -0.4, 1.3856, 0.0903, -1.2, 0.7728, 0.0903, -0.72, 1.3856, 0.0903, -0.4, 1.3856, 0.0903, -0.8, 1.3856, 0.0903, -1.2, 0.6928, 0.1935, 0, 0, 0.1935, -0.4, 0, 0.1935, -1.2, 0, 0.1935, -1.2, 0.6928, 0.1935, -1.6, 0.6928, 0.1935, 0, 0.6928, 0.1935, -1.6, 1.3856, 0.1935, -0.4, 0.6928, 0.1935, 0, 0.6928, 0.1935, -1.6, 1.3856, 0.1935, -1.2, 1.3856, 0.1935, -0.4, 0.6928, 0.1935, -1.6, 0.6928, 0.0903, -1.6, 1.3856, 0.0903, -1.2, 1.3856, 0.0903, -1.2, 1.3856, 0.1935, -1.2, 0.6928, 0.1935, -1.6, 1.3856, 0.0903, -0.8, 1.3856, 0.0903, -0.4, 1.3856, 0.1935, -0.4, 1.3856, 0.1935, -0.4, 1.3856, 0.1935, -1.2, 1.3856, 0.0903, -0.8, 1.3856, 0.1935, -1.2, 1.3856, 0.0903, -1.2, 1.3856, 0.0903, -0.8, 1.3856, 0.1935, -0.4, 1.3856, 0.0903, -0.4, 0.6928, 0.0903, 0, 0.6928, 0.0903, 0, 0.6928, 0.1935, 0, 1.3856, 0.1935, -0.4, 0.6928, 0.1935, 0, 0.6928, 0.0903, 0, 0, 0.0903, -0.4, 0, 0.0903, -0.4, 0, 0.1935, -0.4, 0.6928, 0.1935, 0, 0, 0.1935, -1.2, 0, 0.1935, -0.4, 0, 0.0903, -0.4, 0, 0.0903, -0.4, 0, 0.0903, -0.8, 0, 0.1935, -1.2, 0, 0.0903, -0.8, 0, 0.0903, -1.2, 0, 0.1935, -1.2, 0, 0.1935, -1.2, 0, 0.0903, -1.2, 0.6928, 0.0903, -1.6, 0.6928, 0.0903, -1.6, 0.6928, 0.1935, -1.6, 0, 0.1935, -1.2, 0.7728, 0.0903, -0.72, 0.7728, -0.4, -0.72, 0.6128, -0.4, -0.72, 0.6128, -0.4, -0.72, 0.6128, 0.0903, -0.72, 0.7728, 0.0903, -0.72, 0.6128, 0.0903, -0.88, 0.6128, 0.0903, -0.72, 0.6128, -0.4, -0.72, 0.6128, -0.4, -0.72, 0.6128, -0.4, -0.88, 0.6128, 0.0903, -0.88, 0.6128, 0.0903, -0.88, 0.6128, -0.4, -0.88, 0.7728, -0.4, -0.88, 0.7728, -0.4, -0.88, 0.7728, 0.0903, -0.88, 0.6128, 0.0903, -0.88, 0.7728, -0.4, -0.88, 0.7728, -0.4, -0.72, 0.7728, 0.0903, -0.72, 0.7728, 0.0903, -0.72, 0.7728, 0.0903, -0.88, 0.7728, -0.4, -0.88, 0.8128, -0.4, -0.68, 0.8128, -0.44, -0.68, 0.5728, -0.44, -0.68, 0.5728, -0.44, -0.68, 0.5728, -0.4, -0.68, 0.8128, -0.4, -0.68, 0.5728, -0.4, -0.92, 0.5728, -0.4, -0.68, 0.5728, -0.44, -0.68, 0.5728, -0.44, -0.68, 0.5728, -0.44, -0.92, 0.5728, -0.4, -0.92, 0.8128, -0.44, -0.92, 0.8128, -0.44, -0.68, 0.8128, -0.4, -0.68, 0.8128, -0.4, -0.68, 0.8128, -0.4, -0.92, 0.8128, -0.44, -0.92, 0.5728, -0.4, -0.68, 0.5728, -0.4, -0.92, 0.6128, -0.4, -0.72, 0.6128, -0.4, -0.72, 0.8128, -0.4, -0.68, 0.5728, -0.4, -0.68, 0.6128, -0.4, -0.72, 0.7728, -0.4, -0.72, 0.8128, -0.4, -0.68, 0.7728, -0.4, -0.72, 0.7728, -0.4, -0.88, 0.8128, -0.4, -0.68, 0.6128, -0.4, -0.88, 0.6128, -0.4, -0.72, 0.5728, -0.4, -0.92, 0.5728, -0.4, -0.92, 0.8128, -0.4, -0.92, 0.6128, -0.4, -0.88, 0.8128, -0.4, -0.92, 0.7728, -0.4, -0.88, 0.6128, -0.4, -0.88, 0.8128, -0.4, -0.92, 0.8128, -0.4, -0.68, 0.7728, -0.4, -0.88, 0.4928, -0.44, -1, 0.4928, -0.44, -0.6, 0.4928, -0.5, -0.6, 0.4928, -0.5, -0.6, 0.4928, -0.5, -1, 0.4928, -0.44, -1, 0.4928, -0.44, -1, 0.4928, -0.5, -1, 0.8928, -0.5, -1, 0.8928, -0.5, -1, 0.8928, -0.44, -1, 0.4928, -0.44, -1, 0.8928, -0.44, -0.6, 0.8928, -0.5, -0.6, 0.4928, -0.5, -0.6, 0.4928, -0.5, -0.6, 0.4928, -0.44, -0.6, 0.8928, -0.44, -0.6, 0.8928, -0.5, -1, 0.8928, -0.5, -0.6, 0.8928, -0.44, -0.6, 0.8928, -0.44, -0.6, 0.8928, -0.44, -1, 0.8928, -0.5, -1, 0.4928, -0.44, -0.6, 0.4928, -0.44, -1, 0.5728, -0.44, -0.68, 0.5728, -0.44, -0.68, 0.8928, -0.44, -0.6, 0.4928, -0.44, -0.6, 0.5728, -0.44, -0.68, 0.8128, -0.44, -0.68, 0.8928, -0.44, -0.6, 0.8128, -0.44, -0.68, 0.8128, -0.44, -0.92, 0.8928, -0.44, -0.6, 0.5728, -0.44, -0.92, 0.5728, -0.44, -0.68, 0.4928, -0.44, -1, 0.4928, -0.44, -1, 0.8928, -0.44, -1, 0.5728, -0.44, -0.92, 0.8928, -0.44, -1, 0.8128, -0.44, -0.92, 0.5728, -0.44, -0.92, 0.8928, -0.44, -1, 0.8928, -0.44, -0.6, 0.8128, -0.44, -0.92, 0.9128, -0.54, -1.02, 0.4728, -0.54, -1.02, 0.4728, -0.54, -0.58, 0.4728, -0.54, -0.58, 0.9128, -0.54, -0.58, 0.9128, -0.54, -1.02, 0.4928, -0.5, -1, 0.4728, -0.54, -1.02, 0.9128, -0.54, -1.02, 0.9128, -0.54, -1.02, 0.8928, -0.5, -1, 0.4928, -0.5, -1, 0.9128, -0.54, -1.02, 0.9128, -0.54, -0.58, 0.8928, -0.5, -0.6, 0.8928, -0.5, -0.6, 0.8928, -0.5, -1, 0.9128, -0.54, -1.02, 0.8928, -0.5, -0.6, 0.9128, -0.54, -0.58, 0.4728, -0.54, -0.58, 0.4728, -0.54, -0.58, 0.4928, -0.5, -0.6, 0.8928, -0.5, -0.6, 0.4928, -0.5, -0.6, 0.4728, -0.54, -0.58, 0.4728, -0.54, -1.02, 0.4728, -0.54, -1.02, 0.4928, -0.5, -1, 0.4928, -0.5, -0.6, 0.5728, -0.4, -0.92, 0.5728, -0.44, -0.92, 0.8128, -0.44, -0.92, 0.8128, -0.44, -0.92, 0.8128, -0.4, -0.92, 0.5728, -0.4, -0.92)
 
-[sub_resource type="Resource" id="Resource_ibw55"]
+[sub_resource type="Resource" id="Resource_gn4sq"]
 resource_local_to_scene = true
 script = ExtResource("4_0kggm")
 grid = true
@@ -3348,11 +3348,26 @@ size = Vector3(2, 2, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_wk200"]
 size = Vector3(7.805908, 2.8580017, 7.9886475)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_fvvwt"]
+size = Vector3(7.614563, 2.8580017, 3.908432)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ivr2c"]
+size = Vector3(2.699646, 2.8580017, 3.9520721)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_gxiae"]
 size = Vector3(7.805908, 2.8580017, 7.9886475)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_es0ef"]
+size = Vector3(7.805908, 2.8580017, 8.219757)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_4kogt"]
-size = Vector3(5.883789, 2.6466064, 3.9649658)
+size = Vector3(5.0268555, 2.6466064, 3.9649658)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ibw55"]
+size = Vector3(5.8343506, 2.6466064, 1.8599243)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gn4sq"]
+size = Vector3(0.81884766, 2.6466064, 3.9649658)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s3w17"]
 size = Vector3(1.3726254, 2.9457397, 2.4231567)
@@ -3386,7 +3401,7 @@ material = SubResource("FogMaterial_4avjx")
 
 [node name="Player" parent="." unique_id=537958483 instance=ExtResource("3_mgle8")]
 transform = Transform3D(-1, 0, 7.45058e-07, 0, 1, 0, -7.45058e-07, 0, -1, 3.03073, 0.905039, -17.9321)
-inventory_data = SubResource("Resource_gn4sq")
+inventory_data = SubResource("Resource_gxiae")
 step_height_camera_lerp = 1.5
 
 [node name="QUESTS" type="Node3D" parent="." unique_id=1019805407]
@@ -7017,7 +7032,7 @@ shape = SubResource("ConcavePolygonShape3D_upcaa")
 [node name="kitchenFridgeContainer2" parent="BREAK_ROOM" unique_id=1059783529 instance=ExtResource("57_fdyfl")]
 transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 3.65301, -4.84288e-08, 6.17191)
 display_name = "Fridge"
-inventory_data = SubResource("Resource_ibw55")
+inventory_data = SubResource("Resource_gn4sq")
 
 [node name="kitchenMicrowave2" parent="BREAK_ROOM" unique_id=1343950105 instance=ExtResource("61_1x4um")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.98491, 0.84, 6.39503)
@@ -7253,7 +7268,6 @@ collision_layer = 3
 script = ExtResource("13_5x4ip")
 prompt_pos_mode = 2
 audio_player = NodePath("AudioStreamPlayer3D")
-is_locked = true
 open_rotation = Vector3(0, 92, 0)
 door_speed = 2.0
 
@@ -7982,15 +7996,48 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.060424805, 0.92900085, 1.4
 shape = SubResource("BoxShape3D_wk200")
 debug_color = Color(0.8352941, 0.3882353, 0, 1)
 
+[node name="PlaytestLensTelemetryVolume_MeetingRoom" type="Area3D" parent="." unique_id=472955012]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.9351416, 0, 15.03725)
+script = ExtResource("116_gxiae")
+zone = "Metting Room"
+metadata/_custom_type_script = "uid://b7pit6ap51elj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlaytestLensTelemetryVolume_MeetingRoom" unique_id=2026379108]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1098938, 0.92900085, -1.0823431)
+shape = SubResource("BoxShape3D_fvvwt")
+debug_color = Color(0.8352941, 0.3882353, 0, 1)
+
+[node name="PlaytestLensTelemetryVolume_ArchiveToilet" type="Area3D" parent="." unique_id=1414332170]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.6996994, 0, 6.525038)
+script = ExtResource("116_gxiae")
+zone = "Archive Toilet"
+metadata/_custom_type_script = "uid://b7pit6ap51elj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlaytestLensTelemetryVolume_ArchiveToilet" unique_id=527634817]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19717407, 0.92900085, -0.6012039)
+shape = SubResource("BoxShape3D_ivr2c")
+debug_color = Color(0.8352941, 0.3882353, 0, 1)
+
 [node name="PlaytestLensTelemetryVolume_BreakRoom" type="Area3D" parent="." unique_id=521591323]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.9447508, 0, -13.450969)
 script = ExtResource("116_gxiae")
-zone = "Archive"
+zone = "Break Room"
 metadata/_custom_type_script = "uid://b7pit6ap51elj"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlaytestLensTelemetryVolume_BreakRoom" unique_id=1466740960]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.060424805, 0.92900085, 1.4204712)
 shape = SubResource("BoxShape3D_gxiae")
+debug_color = Color(0.8352941, 0.3882353, 0, 1)
+
+[node name="PlaytestLensTelemetryVolume_Lobby" type="Area3D" parent="." unique_id=963456872]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.08569, 0.35642052, -13.450969)
+script = ExtResource("116_gxiae")
+zone = "Lobby"
+metadata/_custom_type_script = "uid://b7pit6ap51elj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlaytestLensTelemetryVolume_Lobby" unique_id=1068086839]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.060424805, 0.92900085, 1.3973846)
+shape = SubResource("BoxShape3D_es0ef")
 debug_color = Color(0.8352941, 0.3882353, 0, 1)
 
 [node name="PlaytestLensTelemetryVolume_Office" type="Area3D" parent="." unique_id=1954031119]
@@ -8000,8 +8047,31 @@ zone = "CEO Office"
 metadata/_custom_type_script = "uid://b7pit6ap51elj"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlaytestLensTelemetryVolume_Office" unique_id=2098227251]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9992676, 0.8233032, 0.5210571)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5708008, 0.8233032, 0.5210571)
 shape = SubResource("BoxShape3D_4kogt")
+debug_color = Color(0.8352941, 0.3882353, 0, 1)
+
+[node name="PlaytestLensTelemetryVolume_OfficeHidden" type="Area3D" parent="." unique_id=1743022444]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.9447508, 3.139513, -16.545824)
+script = ExtResource("116_gxiae")
+zone = "CEO Office Hidden Room"
+metadata/_custom_type_script = "uid://b7pit6ap51elj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlaytestLensTelemetryVolume_OfficeHidden" unique_id=1634424032]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.97454834, 0.8233032, 1.5735779)
+shape = SubResource("BoxShape3D_ibw55")
+debug_color = Color(0.8352941, 0.3882353, 0, 1)
+
+[node name="PlaytestLensTelemetryVolume_OfficePuzzle" type="Area3D" parent="." unique_id=2121005833]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.09051, 3.139513, -12.522231)
+script = ExtResource("116_gxiae")
+zone = "CEO Office"
+puzzle = "Head"
+metadata/_custom_type_script = "uid://b7pit6ap51elj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlaytestLensTelemetryVolume_OfficePuzzle" unique_id=458262201]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6052246, 0.8233032, 0.5210571)
+shape = SubResource("BoxShape3D_gn4sq")
 debug_color = Color(0.8352941, 0.3882353, 0, 1)
 
 [node name="PlaytestLensTelemetryVolume_ArchiveLock" type="Area3D" parent="." unique_id=2018748283]

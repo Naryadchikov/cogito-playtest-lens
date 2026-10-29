@@ -107,7 +107,7 @@ volumetric_fog_ambient_inject = 0.1
 volumetric_fog_sky_affect = 0.1
 volumetric_fog_temporal_reprojection_amount = 0.85
 
-[sub_resource type="Resource" id="Resource_p1ri8"]
+[sub_resource type="Resource" id="Resource_dckl7"]
 resource_local_to_scene = true
 script = ExtResource("5_fhmwi")
 grid = true
@@ -452,11 +452,17 @@ data = PackedVector3Array(-0.5, 0.025, 0.5, 0.5, 0.025, 0.5, -0.5, -0.025, 0.5, 
 [sub_resource type="BoxShape3D" id="BoxShape3D_v0uas"]
 size = Vector3(17.25055, 5.7981415, 19.99179)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_nf5bb"]
+size = Vector3(17.62183, 5.7981415, 15.935741)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_dckl7"]
 size = Vector3(2.1074562, 5.7981415, 15.935741)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5g5t0"]
 size = Vector3(17.393862, 5.7981415, 21.114307)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r3w0o"]
+size = Vector3(17.393862, 9.1573715, 21.114307)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_p1ri8"]
 size = Vector3(17.898712, 2.3818476, 1.7757797)
@@ -476,7 +482,7 @@ environment = SubResource("Environment_bftoa")
 
 [node name="Player" parent="." unique_id=2025047440 instance=ExtResource("3_ea58p")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.13854, 0.8, -5.43073)
-inventory_data = SubResource("Resource_p1ri8")
+inventory_data = SubResource("Resource_dckl7")
 
 [node name="CONNECTOR_TO_LOBBY" type="Node3D" parent="." unique_id=1182780152]
 
@@ -5162,8 +5168,8 @@ zone = "WIP Mechanics"
 metadata/_custom_type_script = "uid://b7pit6ap51elj"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlaytestLensTelemetryVolume_WIP_Mechanics" unique_id=619798744]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0042419434, 2.3990707, -2.4942856)
-shape = SubResource("BoxShape3D_dckl7")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.52542305, 2.3990707, -2.4942856)
+shape = SubResource("BoxShape3D_nf5bb")
 debug_color = Color(0.8352941, 0.3882353, 0, 1)
 
 [node name="PlaytestLensTelemetryVolume_RouteToVentilation" type="Area3D" parent="." unique_id=641306266]
@@ -5186,6 +5192,17 @@ metadata/_custom_type_script = "uid://b7pit6ap51elj"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlaytestLensTelemetryVolume_EnemyArea" unique_id=646441677]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15944862, 2.3990707, -0.010959625)
 shape = SubResource("BoxShape3D_5g5t0")
+debug_color = Color(0.8352941, 0.3882353, 0, 1)
+
+[node name="PlaytestLensTelemetryVolume_SwimmingPool" type="Area3D" parent="." unique_id=1050304954]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.222908, 0, 18.486528)
+script = ExtResource("81_dckl7")
+zone = "Swimming Pool"
+metadata/_custom_type_script = "uid://b7pit6ap51elj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlaytestLensTelemetryVolume_SwimmingPool" unique_id=1372745845]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15944672, 0.7194557, -0.010959625)
+shape = SubResource("BoxShape3D_r3w0o")
 debug_color = Color(0.8352941, 0.3882353, 0, 1)
 
 [node name="PlaytestLensTelemetryVolume_Ventilation" type="Area3D" parent="." unique_id=1446613104]

@@ -8066,7 +8066,7 @@ debug_color = Color(0.8352941, 0.3882353, 0, 1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.09051, 3.139513, -12.522231)
 script = ExtResource("116_gxiae")
 zone = "CEO Office"
-puzzle = "Head"
+puzzle = "Bear Head"
 metadata/_custom_type_script = "uid://b7pit6ap51elj"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlaytestLensTelemetryVolume_OfficePuzzle" unique_id=458262201]

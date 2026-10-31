@@ -1,5 +1,8 @@
 extends SceneTree
-# Usage: godot --path . --script tools/map_export.gd -- <res://scene.tscn> <out_prefix> [y_cutoff]
+# Usage: godot --path . --script tools/map_export.gd -- <res://scene.tscn> <out_prefix> [y_cutoff] [--floor-min=Y] [--box=min_x,max_x,min_z,max_z] [--hide=node/path,...]
+# One floor per run. --floor-min hides whole objects that end at or below Y (the floor beneath) and colours heights from Y.
+# --box fixes the world box, so every floor of a level shares one picture-to-world mapping.
+# --hide hides named nodes (paths from the scene root), such as ceilings at the height of an upper floor.
 
 const MAX_SIDE := 2048
 const DEFAULT_CUTOFF := 2.4
@@ -10,10 +13,11 @@ const HEIGHT_SHADER := """
 shader_type spatial;
 render_mode unshaded, cull_disabled;
 uniform float cutoff = 2.4;
+uniform float base = 0.0;
 varying float h;
 void vertex() { h = (MODEL_MATRIX * vec4(VERTEX, 1.0)).y; }
 void fragment() {
-	float k = clamp(h / cutoff, 0.0, 1.0);
+	float k = clamp((h - base) / (cutoff - base), 0.0, 1.0);
 	ALBEDO = mix(vec3(0.10, 0.16, 0.30), vec3(0.97, 0.93, 0.78), pow(k, 0.7));
 }
 """
@@ -27,14 +31,28 @@ func _initialize() -> void:
 		quit(2)
 		return
 	var cutoff := DEFAULT_CUTOFF
-	if args.size() > 2:
-		cutoff = float(args[2])
+	var opts := {}
+	for arg in args.slice(2):
+		if arg.begins_with("--") and "=" in arg:
+			opts[arg.substr(2, arg.find("=") - 2)] = arg.substr(arg.find("=") + 1)
+		else:
+			cutoff = float(arg)
+	var floor_min := float(opts["floor-min"]) if opts.has("floor-min") else -INF
+	var box_fixed := PackedFloat64Array()
+	if opts.has("box"):
+		for part in String(opts["box"]).split(","):
+			box_fixed.append(float(part))
+		if box_fixed.size() != 4:
+			printerr("--box needs min_x,max_x,min_z,max_z")
+			quit(2)
+			return
+	var hide: PackedStringArray = String(opts.get("hide", "")).split(",", false)
 	# Autoloads and the tree are ready after one frame.
 	await process_frame
-	await _run(args[0], args[1], cutoff)
+	await _run(args[0], args[1], cutoff, floor_min, box_fixed, hide)
 
 
-func _run(scene_path: String, prefix: String, cutoff: float) -> void:
+func _run(scene_path: String, prefix: String, cutoff: float, floor_min: float, box_fixed: PackedFloat64Array, hide: PackedStringArray) -> void:
 	var packed := load(scene_path) as PackedScene
 	if packed == null:
 		printerr("cannot load %s" % scene_path)
@@ -53,6 +71,15 @@ func _run(scene_path: String, prefix: String, cutoff: float) -> void:
 	var start := _take_player_start(level)
 	_drop_non_geometry(level)
 	_hide_above(level, cutoff)
+	if is_finite(floor_min):
+		_hide_below(level, floor_min)
+	for path in hide:
+		var node := level.get_node_or_null(NodePath(path)) as Node3D
+		if node == null:
+			printerr("--hide: no node %s" % path)
+			quit(2)
+			return
+		node.visible = false
 	var box := _visible_bounds(level)
 	if box.size == Vector3.ZERO:
 		printerr("no geometry below the cutoff")
@@ -62,6 +89,11 @@ func _run(scene_path: String, prefix: String, cutoff: float) -> void:
 	var max_x := ceilf(box.end.x + PAD)
 	var min_z := floorf(box.position.z - PAD)
 	var max_z := ceilf(box.end.z + PAD)
+	if box_fixed.size() == 4:
+		min_x = box_fixed[0]
+		max_x = box_fixed[1]
+		min_z = box_fixed[2]
+		max_z = box_fixed[3]
 	var w := max_x - min_x
 	var h := max_z - min_z
 	var scale_px := float(MAX_SIDE) / maxf(w, h)
@@ -82,7 +114,7 @@ func _run(scene_path: String, prefix: String, cutoff: float) -> void:
 	cam.environment = env
 	view.add_child(cam)
 	cam.current = true
-	_apply_height_look(level, cutoff)
+	_apply_height_look(level, cutoff, floor_min if is_finite(floor_min) else 0.0)
 	for _i in 6:
 		await process_frame
 	var image := view.get_texture().get_image()
@@ -102,6 +134,7 @@ func _run(scene_path: String, prefix: String, cutoff: float) -> void:
 		"px_width": px_w,
 		"px_height": px_h,
 		"y_cutoff": cutoff,
+		"y_floor_min": floor_min if is_finite(floor_min) else null,
 		"convention": "px = (x - world_min_x) / (world_max_x - world_min_x) * px_width; py = (z - world_min_z) / (world_max_z - world_min_z) * px_height; z grows downward in the picture; y is height and is not drawn",
 	}
 	var f := FileAccess.open(prefix + ".json", FileAccess.WRITE)
@@ -155,12 +188,13 @@ func _collect(node: Node, out: Array[Node]) -> void:
 
 
 # Every surface is drawn unlit and coloured by its world height: floors dark, wall tops and tall things light.
-func _apply_height_look(level: Node, cutoff: float) -> void:
+func _apply_height_look(level: Node, cutoff: float, base: float) -> void:
 	var shader := Shader.new()
 	shader.code = HEIGHT_SHADER
 	var mat := ShaderMaterial.new()
 	mat.shader = shader
 	mat.set_shader_parameter("cutoff", cutoff)
+	mat.set_shader_parameter("base", base)
 	for node in level.find_children("*", "GeometryInstance3D", true, false):
 		(node as GeometryInstance3D).material_override = mat
 
@@ -175,6 +209,14 @@ func _hide_above(level: Node, cutoff: float) -> void:
 		var item := node as GeometryInstance3D
 		var box := _world_box(item)
 		if box.position.y >= cutoff:
+			item.visible = false
+
+
+# Hide whole-object geometry that ends at or below the floor beneath (that floor's furniture, walls and slabs).
+func _hide_below(level: Node, floor_min: float) -> void:
+	for node in level.find_children("*", "GeometryInstance3D", true, false):
+		var item := node as GeometryInstance3D
+		if _world_box(item).end.y <= floor_min:
 			item.visible = false
 
 

@@ -21,8 +21,24 @@ func _ready() -> void:
 	_player = get_parent().get_node("Player") as Node3D
 	_camera = get_parent().get_node("Camera") as Camera3D
 	ProjectSettings.set_setting("playtest_lens/player_path", "Player")
+	_ensure_actions()
 	_apply_pose(POSE_A, YAW_A, PITCH_A)
 	call_deferred("_detach_and_run")
+
+
+# The logger logs whatever actions the game's input map has. A game that
+# lacks the ones this test fires gets them here, so the test runs in any
+# project, not only in COGITO, which already has all three.
+func _ensure_actions() -> void:
+	for action in ["jump", "interact"]:
+		if not InputMap.has_action(action):
+			InputMap.add_action(action)
+	if not InputMap.has_action("forward"):
+		InputMap.add_action("forward")
+		var stick := InputEventJoypadMotion.new()
+		stick.axis = JOY_AXIS_LEFT_Y
+		stick.axis_value = -1.0
+		InputMap.action_add_event("forward", stick)
 
 
 func _detach_and_run() -> void:

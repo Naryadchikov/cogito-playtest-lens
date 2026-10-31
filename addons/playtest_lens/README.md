@@ -138,7 +138,7 @@ report("quest", {"quest": "restore_power", "step": "completed"})
 report("death", {})
 ```
 
-These names and fields match what the analyzer already knows:
+These names and fields match what the analyzer already reads. Every line goes into the check's log slice; the report's event list shows doors, locks, pickups and quest steps (not keypads or deaths yet):
 
 | Event | Fields |
 |---|---|

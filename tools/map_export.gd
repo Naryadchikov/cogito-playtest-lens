@@ -27,7 +27,7 @@ const DROP_CLASSES := ["CanvasItem", "CanvasLayer", "Viewport", "Light3D", "Worl
 func _initialize() -> void:
 	var args := OS.get_cmdline_user_args()
 	if args.size() < 2:
-		printerr("usage: --script tools/map_export.gd -- <res://scene.tscn> <out_prefix> [y_cutoff]")
+		printerr("usage: --script tools/map_export.gd -- <res://scene.tscn> <out_prefix> [y_cutoff] [--floor-min=Y] [--box=min_x,max_x,min_z,max_z] [--hide=node/path,...]")
 		quit(2)
 		return
 	var cutoff := DEFAULT_CUTOFF
@@ -35,15 +35,27 @@ func _initialize() -> void:
 	for arg in args.slice(2):
 		if arg.begins_with("--") and "=" in arg:
 			opts[arg.substr(2, arg.find("=") - 2)] = arg.substr(arg.find("=") + 1)
-		else:
+		elif arg.is_valid_float():
 			cutoff = float(arg)
-	var floor_min := float(opts["floor-min"]) if opts.has("floor-min") else -INF
+		else:
+			printerr("y_cutoff must be a number, got %s" % arg)
+			quit(2)
+			return
+	var floor_min := -INF
+	if opts.has("floor-min"):
+		if not String(opts["floor-min"]).is_valid_float():
+			printerr("--floor-min must be a number, got %s" % opts["floor-min"])
+			quit(2)
+			return
+		floor_min = float(opts["floor-min"])
 	var box_fixed := PackedFloat64Array()
 	if opts.has("box"):
-		for part in String(opts["box"]).split(","):
-			box_fixed.append(float(part))
-		if box_fixed.size() != 4:
-			printerr("--box needs min_x,max_x,min_z,max_z")
+		var parts := String(opts["box"]).split(",")
+		for part in parts:
+			if part.is_valid_float():
+				box_fixed.append(float(part))
+		if parts.size() != 4 or box_fixed.size() != 4 or box_fixed[0] >= box_fixed[1] or box_fixed[2] >= box_fixed[3]:
+			printerr("--box needs four numbers min_x,max_x,min_z,max_z with min below max, got %s" % opts["box"])
 			quit(2)
 			return
 	var hide: PackedStringArray = String(opts.get("hide", "")).split(",", false)
@@ -135,6 +147,7 @@ func _run(scene_path: String, prefix: String, cutoff: float, floor_min: float, b
 		"px_height": px_h,
 		"y_cutoff": cutoff,
 		"y_floor_min": floor_min if is_finite(floor_min) else null,
+		"hidden_nodes": Array(hide),
 		"convention": "px = (x - world_min_x) / (world_max_x - world_min_x) * px_width; py = (z - world_min_z) / (world_max_z - world_min_z) * px_height; z grows downward in the picture; y is height and is not drawn",
 	}
 	var f := FileAccess.open(prefix + ".json", FileAccess.WRITE)

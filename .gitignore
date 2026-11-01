@@ -21,3 +21,6 @@ dialogeManager
 # Windows export output
 build/
 __pycache__/
+
+# Local playtest recordings: never committed.
+recordings/

@@ -1,3 +1,8 @@
+**This is a fork of COGITO for [Playtest Lens](https://github.com/Naryadchikov/playtest-lens),** a playtest analyst built for the Meta Global AI Developer Hackathon 2026. The `playtest-lens` branch adds the Playtest Lens logging add-on, its COGITO adapter and telemetry volumes in the demo levels. `main` is upstream COGITO at 676be6d, unchanged. COGITO is by Phazorknight (MIT); everything below is its original README.
+
+<details>
+<summary><b>COGITO's original README</b></summary>
+
 ![COGITO_banner](addons/cogito/COGITO_banner.jpg)
 # COGITO
 [![GodotEngine](https://img.shields.io/badge/Godot_4.6.3_stable-blue?logo=godotengine&logoColor=white)](https://godotengine.org/) [![COGITO](https://img.shields.io/badge/version_1.2.0-35A1D7?label=COGITO&labelColor=0E887A)](https://codeberg.org/Phazorknight/Cogito)
@@ -63,3 +68,5 @@ The structure of this template always tries to adhere to the following principle
 > COGITO v1.2 is not 100% bug-free. While most features are set, be aware that this open source software is offered "as is". Use at your own risk and check Issues and Discussion pages for more information.
 
 [Credits, Contributors and License](https://codeberg.org/Phazorknight/Cogito/wiki/Credits%2C-Contributors%2C-License)
+
+</details>

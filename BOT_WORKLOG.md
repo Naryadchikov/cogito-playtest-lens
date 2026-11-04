@@ -1,5 +1,7 @@
 # Bot worklog
 
+The branches named below, `bot/work` and `bot/work2`, were merged into `playtest-lens` and deleted on 2026-11-04. Their commits are on `playtest-lens`.
+
 Branch bot/work, from playtest-lens at dc8c771. Godot 4.7.2 stable (standard build, Linux x86_64).
 
 ## Package A: schema nits
